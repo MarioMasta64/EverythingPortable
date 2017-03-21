@@ -1,0 +1,6 @@
+MinecraftPortable
+0
+SteamPortable
+0
+OBSPortable
+0
