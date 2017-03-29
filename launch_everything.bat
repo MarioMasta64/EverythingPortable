@@ -140,13 +140,18 @@ for /f "DELIMS=" %%i in (version.txt) do (
     if "!num!"=="2" (set /a counter+=1&set "line_!counter!=%%i"&set num=0)
 )
 if exist version.txt del version.txt
-echo if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this system wouldnt work
+set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 exit /b
 
 :DOWNLOAD
-:: download launchers.txt here and run get_launchers on version.txt and get every odd line
 
+:: put this somewhere else
 .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+
+cls
+title PORTABLE MINECRAFT LAUNCHER - DOWNLOAD LAUNCHER
+echo %NAG%
+set nag=SELECTION TIME!
 call :GET_DOWNLOADS
 :: first number is which line to start second number is how many lines to count by
 For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
@@ -164,3 +169,5 @@ pause
 goto LAUNCHERCHECK
 
 :LAUNCHERCHECK
+cls
+if not
