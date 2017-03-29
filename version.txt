@@ -1,8 +1,8 @@
-EverythingPortable
+everything
 0
-MinecraftPortable
+minecraft
 0
-SteamPortable
+steam
 0
-OBSPortable
+obs
 0
