@@ -136,9 +136,11 @@ set "num=1"
 set "counter=0"
 for /f "DELIMS=" %%i in (version.txt) do (
     set /a num+=1
+:: this line says if num is equal to blah execute this. basically it counts by this many lines it also resets the counter on completion
     if "!num!"=="2" (set /a counter+=1&set "line_!counter!=%%i"&set num=0)
 )
 if exist version.txt del version.txt
+echo if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this system wouldnt work
 exit /b
 
 :DOWNLOAD
@@ -160,3 +162,5 @@ echo %launcher%
 pause
 
 goto LAUNCHERCHECK
+
+:LAUNCHERCHECK
