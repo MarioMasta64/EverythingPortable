@@ -1,6 +1,6 @@
 # EverythingPortable
 
-release v2 yay
+release v1 yay
 
 allows downloading binaries from my repositories (all things ive released)
 
