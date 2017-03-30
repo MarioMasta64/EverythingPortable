@@ -135,9 +135,9 @@ exit /b
 cls
 echo. > .\bin\extractobs.vbs
 echo 'The location of the zip file. >> .\bin\extractobs.vbs
-echo ZipFile="%folder%\extra\OBS-Studio-18.0.1-Full.zip" >> .\bin\extractobs.vbs
+echo ZipFile="%CD%\extra\OBS-Studio-18.0.1-Full.zip" >> .\bin\extractobs.vbs
 echo 'The folder the contents should be extracted to. >> .\bin\extractobs.vbs
-echo ExtractTo="%folder%\bin\obs\" >> .\bin\extractobs.vbs
+echo ExtractTo="%CD%\bin\obs\" >> .\bin\extractobs.vbs
 echo. >> .\bin\extractobs.vbs
 echo 'If the extraction location does not exist create it. >> .\bin\extractobs.vbs
 echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractobs.vbs
