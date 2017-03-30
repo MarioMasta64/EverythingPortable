@@ -184,6 +184,24 @@ if "%CHOICE%"=="default" goto DEFAULT
 start %launcher%
 exit
 
+:DELETE
+cls
+title PORTABLE EVERYTHING LAUNCHER - DELETE LAUNCHER
+echo %NAG%
+set nag=SELECTION TIME!
+echo KEEP IN MIND AT THE MOMENT I DONT HAVE A SYSTEM TO DELETE A LAUNCHERS FILES
+echo IF YOU WOULD LIKE TO HELP I NEED A WAY TO CALL A LABEL IN ANOTHER BATCH FILE
+echo btw CALL TEST.BAT :LABEL doesnt work
+call :GET_LAUNCHERS
+For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
+echo type menu to return to the main menu
+set /p choice="launcher to launch: "
+set launcher=!Line_%CHOICE%!
+if "%CHOICE%"=="menu" goto MENU
+if "%CHOICE%"=="default" goto DEFAULT
+del %launcher%
+goto MENU
+
 :UPDATECHECK
 cls
 echo. > checkupdate.txt
