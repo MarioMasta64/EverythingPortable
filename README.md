@@ -22,4 +22,4 @@ Exa:
 
 %CD%\bin\test > test.vbs
 
-will write (drive):\\\\bin\test to test.vbs which will NOT work (i have workarounds but i honestly dont see a reason for these to be ran from a root of a drive)
+will write \<drive\>:\\\\bin\test to test.vbs which will NOT work (i have workarounds but i honestly dont see a reason for these to be ran from a root of a drive)
