@@ -5,6 +5,6 @@ minecraft
 steam
 2
 obs
-2
+3
 kaerusetup
 2
