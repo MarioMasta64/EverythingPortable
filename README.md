@@ -31,3 +31,7 @@ Reason:
 but %CD% sees root as F:\\
 
 the extra \\ at the end messes it up
+
+Example:
+
+version.txt isnt read from suite (easy fix)
