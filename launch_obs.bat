@@ -132,8 +132,6 @@ move wget.exe .\bin\
 exit /b
 
 :EXTRACTOBS
-set folder=%CD%
-if %CD%==%~d0\ set folder=%CD:~0,2%
 cls
 echo. > .\bin\extractobs.vbs
 echo 'The location of the zip file. >> .\bin\extractobs.vbs
