@@ -1,10 +1,10 @@
 everything
 1
 minecraft
-1
+2
 steam
-1
+2
 obs
-1
+2
 kaerusetup
-1
+2
