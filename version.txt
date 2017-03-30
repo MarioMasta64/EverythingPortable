@@ -1,8 +1,10 @@
 everything
-0
+9999
 minecraft
-0
+9999
 steam
-0
+9999
 obs
-0
+9999
+kaerusetup
+9999
