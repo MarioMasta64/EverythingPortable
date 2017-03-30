@@ -1,10 +1,10 @@
 everything
-9999
+1
 minecraft
-9999
+1
 steam
-9999
+1
 obs
-9999
+1
 kaerusetup
-9999
+1
