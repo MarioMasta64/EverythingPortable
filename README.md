@@ -13,3 +13,7 @@ all binaries are now easier to use
 binaries now have options to download needed .dll files (specificly for obs portable)
 
 now includes downloader option in all my other projects
+
+Known Issues:
+
+these are not meant to be ran from the root of your drive as %CD% will break when written to .vbs files
