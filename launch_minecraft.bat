@@ -127,6 +127,8 @@ echo 5. update
 echo 6. about
 echo 7. exit
 echo.
+echo b. download other projects
+echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%CHOICE%"=="1" goto NEW
 if "%CHOICE%"=="2" goto DEFAULT
@@ -135,6 +137,7 @@ if "%CHOICE%"=="4" goto DELETE
 if "%CHOICE%"=="5" goto UPDATECHECK
 if "%CHOICE%"=="6" goto ABOUT
 if "%CHOICE%"=="7" exit
+if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
 set nag="PLEASE SELECT A CHOICE 1-6"
 goto MENU
 
@@ -384,6 +387,13 @@ exit
 cls
 del .\doc\minecraft_license.txt
 start launch_minecraft.bat
+exit
+
+:PORTABLEEVERYTHING
+cls
+if not exist .\bin\wget.exe call :DOWNLOADWGET
+if not exist launch_everything.bat .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_minecraft.bat
+start launch_everything.bat
 exit
 
 :ERROROFFLINE

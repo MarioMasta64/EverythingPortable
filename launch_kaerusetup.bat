@@ -117,14 +117,15 @@ echo 4. exit
 echo.
 echo a. write the original work and launch it
 echo.
+echo b. download other projects
+echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%choice%"=="1" goto KAERUCIA
 if "%choice%"=="2" goto KAERUHANS
 if "%choice%"=="3" goto KAERUNTR
 if "%choice%"=="4" exit
-
 if "%choice%"=="a" goto original
-
+if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
 set nag="PLEASE SELECT A CHOICE 1-3"
 goto MENU
 
@@ -305,13 +306,12 @@ echo.
 pause
 exit
 
-
-
-
-
-
-
-
+:PORTABLEEVERYTHING
+cls
+if not exist .\bin\wget.exe call :DOWNLOADWGET
+if not exist launch_everything.bat .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_minecraft.bat
+start launch_everything.bat
+exit
 
 :ORIGINAL
 echo @echo off > ProjectKaeruSetup.bat
