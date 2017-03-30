@@ -23,3 +23,9 @@ Exa:
 %CD%\bin\test > test.vbs
 
 will write \<drive\>:\\\\bin\test to test.vbs which will NOT work (i have workarounds but i honestly dont see a reason for these to be ran from a root of a drive)
+
+reason %CD% sees a longpath as F:\\test\\test
+
+but %CD% sees root as F:\\
+
+the extra \\ at the end messes it up
