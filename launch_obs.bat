@@ -6,6 +6,7 @@ title PORTABLE OBS LAUNCHER
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE
 if exist replacer.bat del replacer.bat
+if exist checkupdate.txt goto version
 
 :FOLDERCHECK
 cls
@@ -14,12 +15,15 @@ if not exist .\dll\ mkdir .\dll\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\data\obs\ mkdir .\data\obs\
+call :VERSION
+goto CREDITS
 
 :VERSION
 cls
 echo 1 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
+exit /b
 
 :CREDITS
 cls
@@ -156,7 +160,7 @@ exit /b
 cls
 title PORTABLE OBS LAUNCHER - MAIN MENU
 echo %NAG%
-set nag=SELECTION TIME!
+set nag="SELECTION TIME!"
 echo 1. reinstall obs [not a feature yet]
 echo 2. launch obs
 echo 3. reset obs [not a feature yet]
@@ -244,7 +248,7 @@ exit
 cls
 title PORTABLE OBS LAUNCHER - OLD BUILD D:
 echo %NAG%
-set nag=SELECTION TIME!
+set nag="SELECTION TIME!"
 echo you are using an older version
 echo enter yes or no
 echo Current Version: v%current_version%

@@ -6,6 +6,7 @@ title PORTABLE STEAM LAUNCHER
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE
 if exist replacer.bat del replacer.bat
+if exist checkupdate.txt goto version
 
 :FOLDERCHECK
 cls
@@ -14,12 +15,15 @@ if not exist .\dll\ mkdir .\dll\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\data\appdata\ mkdir .\data\appdata\
+call :VERSION
+goto CREDITS
 
 :VERSION
 cls
 echo 1 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
+exit /b
 
 :CREDITS
 cls
