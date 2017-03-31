@@ -36,4 +36,4 @@ Example:
 
 version.txt isnt read from suite (easy fix)
 
-updates on mobile (hard)
+Just Update From Within The App (Minus The Suite)
