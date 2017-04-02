@@ -9,14 +9,14 @@ if exist replacer.bat del replacer.bat
 
 :FOLDERCHECK
 cls
-if not exist .\bin\cemu_1.7.3\ mkdir .\bin\cemu_1.7.3.zip\
+if not exist .\bin\ mkdir .\bin\
 if not exist .\dll\ mkdir .\dll\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 
 :VERSION
 cls
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -125,7 +125,7 @@ if %CD%==%~d0\ set folder=%CD:~0,2%
 cls
 echo. > .\bin\extractcemu.vbs
 echo 'The location of the zip file. >> .\bin\extractcemu.vbs
-echo ZipFile="%folder%\extra\cemu_%cemuver:~0,5%.zip" >> .\bin\extractcemu.vbs
+echo ZipFile="%folder%\extra\cemu_1.7.3.zip" >> .\bin\extractcemu.vbs
 echo 'The folder the contents should be extracted to. >> .\bin\extractcemu.vbs
 echo ExtractTo="%folder%\bin\" >> .\bin\extractcemu.vbs
 echo. >> .\bin\extractcemu.vbs
