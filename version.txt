@@ -3,7 +3,7 @@ everything
 minecraft
 2
 steam
-1
+2
 obs
 3
 kaerusetup
