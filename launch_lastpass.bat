@@ -2,66 +2,95 @@
 setlocal enabledelayedexpansion
 Color 0A
 cls
-title PORTABLE CEMU LAUNCHER
+title PORTABLE LASTPASS LAUNCHER
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE
 if exist replacer.bat del replacer.bat
 
 :FOLDERCHECK
 cls
-if not exist .\bin\ mkdir .\bin\
-if not exist .\dll\ mkdir .\dll\
+if not exist .\bin\lastpass\ mkdir .\bin\lastpass\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
+if not exist .\data\appdata\ mkdir .\data\appdata\
 
 :VERSION
 cls
-echo 3 > .\doc\version.txt
+echo 1 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
 :CREDITS
 cls
-if exist .\doc\cemu_license.txt goto CEMUCHECK
-echo ================================================== > .\doc\cemu_license.txt
-echo =              Script by MarioMasta64            = >> .\doc\cemu_license.txt
+if exist .\doc\lastpass_license.txt goto ARCHCHECK
+echo ================================================== > .\doc\lastpass_license.txt
+echo =              Script by MarioMasta64            = >> .\doc\lastpass_license.txt
 :: REMOVE SPACE AFTER VERSION HITS DOUBLE DIGITS
-echo =           Script Version: v%current_version%- release         = >> .\doc\cemu_license.txt
-echo ================================================== >> .\doc\cemu_license.txt
-echo =You may Modify this WITH consent of the original= >> .\doc\cemu_license.txt
-echo = creator, as long as you include a copy of this = >> .\doc\cemu_license.txt
-echo =      as you include a copy of the License      = >> .\doc\cemu_license.txt
-echo ================================================== >> .\doc\cemu_license.txt
-echo =    You may also modify this script without     = >> .\doc\cemu_license.txt
-echo =         consent for PERSONAL USE ONLY          = >> .\doc\cemu_license.txt
-echo ================================================== >> .\doc\cemu_license.txt
+echo =           Script Version: v%current_version%- release         = >> .\doc\lastpass_license.txt
+echo ================================================== >> .\doc\lastpass_license.txt
+echo =You may Modify this WITH consent of the original= >> .\doc\lastpass_license.txt
+echo = creator, as long as you include a copy of this = >> .\doc\lastpass_license.txt
+echo =      as you include a copy of the License      = >> .\doc\lastpass_license.txt
+echo ================================================== >> .\doc\lastpass_license.txt
+echo =    You may also modify this script without     = >> .\doc\lastpass_license.txt
+echo =         consent for PERSONAL USE ONLY          = >> .\doc\lastpass_license.txt
+echo ================================================== >> .\doc\lastpass_license.txt
 
 :CREDITSREAD
 cls
-title PORTABLE CEMU LAUNCHER - ABOUT
-for /f "DELIMS=" %%i in (.\doc\cemu_license.txt) do (echo %%i)
+title PORTABLE LASTPASS LAUNCHER - ABOUT
+for /f "DELIMS=" %%i in (.\doc\lastpass_license.txt) do (echo %%i)
 pause
 
-:CEMUCHECK
+:ARCHCHECK
 cls
-if not exist .\bin\cemu_1.7.3d\Cemu.exe goto FILECHECK
+set arch=
+if exist "%PROGRAMFILES(X86)%" set "arch=_x64" & goto LASTPASSCHECK
+
+:LASTPASSCHECK
+cls
+if not exist .\bin\lastpass\lastapp%arch%.exe goto FILECHECK
+if not exist .\bin\lastpass\lastapphook%arch%.dll goto FILECHECK
 goto WGETUPDATE
 
 :FILECHECK
-if not exist .\extra\cemu_1.7.3.zip goto DOWNLOADCEMU
-call :EXTRACTCEMU
-goto CEMUCHECK
-
-:DOWNLOADCEMU
 cls
-if exist cemu_1.7.3.zip goto MOVECEMU
+if not exist .\extra\lastappinstall%arch%.exe goto DOWNLOADLASTPASS
+if not exist .\bin\7-ZipPortable\7-ZipPortable.exe goto 7ZIPINSTALLERCHECK
+.\bin\7-ZipPortable\App\7-Zip%arch:~2,2%\7z.exe e .\extra\lastappinstall%arch%.exe lastapp%arch%.exe lastapphook%arch%.dll -o.\bin\lastpass\
+goto LASTPASSCHECK
+
+:DOWNLOADLASTPASS
+cls
+if exist lastappinstall%arch%.exe goto MOVELASTPASS
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe http://cemu.info/releases/cemu_1.7.3.zip
+.\bin\wget.exe https://lastpass.com/download/cdn/lastappinstall%arch%.exe
 
-:MOVECEMU
+:MOVELASTPASS
 cls
-move cemu_1.7.3.zip .\extra\cemu_1.7.3.zip
-goto CEMUCHECK
+move lastappinstall%arch%.exe .\extra\lastappinstall%arch%.exe
+goto FILECHECK
+
+:7ZIPINSTALLERCHECK
+if not exist .\extra\7-ZipPortable_16.04.paf.exe goto DOWNLOAD7ZIP
+start .\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
+:: maybe a different approach of bringing this to the front
+cls
+title READMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADME
+echo go through the install directions as it says then press enter to continue
+pause
+goto FILECHECK
+
+:DOWNLOAD7ZIP
+cls
+if exist 7-ZipPortable_16.04.paf.exe goto MOVE7ZIP
+if not exist .\bin\wget.exe call :DOWNLOADWGET
+.\bin\wget.exe http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
+
+:MOVE7ZIP
+cls
+move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
+goto FILECHECK
 
 :WGETUPDATE
 cls
@@ -114,52 +143,23 @@ exit /b
 
 :EXECUTEWGETDOWNLOADER
 cls
-title PORTABLE CEMU LAUNCHER - DOWNLOAD WGET
+title PORTABLE LASTPASS LAUNCHER - DOWNLOAD WGET
 cscript.exe .\bin\downloadwget.vbs
 move wget.exe .\bin\
 exit /b
 
-:EXTRACTCEMU
-set folder=%CD%
-if %CD%==%~d0\ set folder=%CD:~0,2%
-cls
-echo. > .\bin\extractcemu.vbs
-echo 'The location of the zip file. >> .\bin\extractcemu.vbs
-echo ZipFile="%folder%\extra\cemu_1.7.3.zip" >> .\bin\extractcemu.vbs
-echo 'The folder the contents should be extracted to. >> .\bin\extractcemu.vbs
-echo ExtractTo="%folder%\bin\" >> .\bin\extractcemu.vbs
-echo. >> .\bin\extractcemu.vbs
-echo 'If the extraction location does not exist create it. >> .\bin\extractcemu.vbs
-echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractcemu.vbs
-echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extractcemu.vbs
-echo    fso.CreateFolder(ExtractTo) >> .\bin\extractcemu.vbs
-echo End If >> .\bin\extractcemu.vbs
-echo. >> .\bin\extractcemu.vbs
-echo 'Extract the contants of the zip file. >> .\bin\extractcemu.vbs
-echo set objShell = CreateObject("Shell.Application") >> .\bin\extractcemu.vbs
-echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extractcemu.vbs
-echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractcemu.vbs
-echo Set fso = Nothing >> .\bin\extractcemu.vbs
-echo Set objShell = Nothing >> .\bin\extractcemu.vbs
-echo. >> .\bin\extractcemu.vbs
-title PORTABLE CEMU LAUNCHER - EXTRACT ZIP
-cscript.exe .\bin\extractcemu.vbs
-exit /b
-
 :MENU
 cls
-title PORTABLE CEMU LAUNCHER - MAIN MENU
+title PORTABLE LASTPASS LAUNCHER - MAIN MENU
 echo %NAG%
-set nag="SELECTION TIME!"
-echo 1. reinstall cemu [not a feature yet]
-echo 2. launch cemu
-echo 3. reset cemu [not a feature yet]
-echo 4. uninstall cemu [not a feature yet]
+set nag=SELECTION TIME!
+echo 1. reinstall lastpass [not a feature yet]
+echo 2. launch lastpass
+echo 3. reset lastpass [not a feature yet]
+echo 4. uninstall lastpass [not a feature yet]
 echo 5. update program
 echo 6. about
 echo 7. exit
-echo.
-echo a. download dll's
 echo.
 echo b. download other projects
 echo.
@@ -171,21 +171,9 @@ if "%choice%"=="4" goto DELETE
 if "%choice%"=="5" goto UPDATECHECK
 if "%choice%"=="6" goto ABOUT
 if "%choice%"=="7" goto EXIT
-if "%choice%"=="a" goto DLLDOWNLOADERCHECK
 if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
 set nag="PLEASE SELECT A CHOICE 1-7 or a"
 goto MENU
-
-:DLLDOWNLOADERCHECK
-if not exist launch_dlldownloader.bat goto DOWNLOADDLLDOWNLOADER
-start launch_dlldownloader.bat
-goto MENU
-
-:DOWNLOADDLLDOWNLOADER
-cls
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat
-goto DLLDOWNLOADERCHECK
 
 :NULL
 cls
@@ -193,19 +181,32 @@ set nag="NOT A FEATURE YET!"
 goto MENU
 
 :NEW
+cls
 goto NULL
 
 :DEFAULT
 cls
-title DO NOT CLOSE
-set path=%PATH%;%CD%\dll\;
+title DO NOT CLOSE - Steam is Running
+xcopy /q ".\data\appdata\locallow\lastpass\*" "%userprofile%\appdata\locallow\lastpass\" /e /i /y
+set LOCALAPPDATA=.\data\appdata\local
+set APPDATA=.\data\appdata\roaming
 cls
-echo CEMU IS RUNNING
-cd bin\cemu*
-start Cemu.exe
-exit
+echo LASTPASS IS RUNNING
+.\bin\lastpass\lastapp_x64.exe
+goto EXIT
 
 :SELECT
+cls
+title PORTABLE LASTPASS LAUNCHER - RESET LASTPASS
+echo %NAG%
+set nag=SELECTION TIME!
+echo type "yes" to reset lastpass
+echo or anything else to cancel
+set /p choice="are you sure: "
+if "%choice%"=="yes" goto NOWRESETTING
+goto MENU
+
+:NOWRESETTING
 goto NULL
 
 :DELETE
@@ -218,7 +219,7 @@ if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
-set new_version=%Line_12%
+set new_version=%Line_14%
 if %new_version%==OFFLINE goto ERROROFFLINE
 if %current_version% EQU %new_version% goto LATEST
 if %current_version% LSS %new_version% goto NEWUPDATE
@@ -227,19 +228,19 @@ goto ERROROFFLINE
 
 :LATEST
 cls
-title PORTABLE CEMU LAUNCHER - LATEST BUILD :D
+title PORTABLE LASTPASS LAUNCHER - LATEST BUILD :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
+echo ENTER TO CONTINUE
 pause
-start launch_cemu.bat
-exit
+goto MENU
 
 :NEWUPDATE
 cls
-title PORTABLE CEMU LAUNCHER - OLD BUILD D:
+title PORTABLE LASTPASS LAUNCHER - OLD BUILD D:
 echo %NAG%
-set nag="SELECTION TIME!"
+set nag=SELECTION TIME!
 echo you are using an older version
 echo enter yes or no
 echo Current Version: v%current_version%
@@ -253,40 +254,36 @@ goto NEWUPDATE
 :UPDATE
 cls
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_cemu.bat
-if exist launch_cemu.bat.1 goto REPLACERCREATE
+.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_lastpass.bat
+if exist launch_lastpass.bat.1 goto REPLACERCREATE
 goto ERROROFFLINE
 
 :REPLACERCREATE
 cls
-echo del launch_cemu.bat >> replacer.bat
-echo rename launch_cemu.bat.1 launch_cemu.bat >> replacer.bat
-echo start launch_cemu.bat >> replacer.bat
+echo del launch_lastpass.bat >> replacer.bat
+echo rename launch_lastpass.bat.1 launch_lastpass.bat >> replacer.bat
+echo start launch_lastpass.bat >> replacer.bat
+echo exit >> replacer.bat
 start replacer.bat
 exit
 
 :NEWEST
 cls
-title PORTABLE CEMU LAUNCHER - TEST BUILD :0
+title PORTABLE LASTPASS LAUNCHER - TEST BUILD :0
 echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE
 pause
-start launch_cemu.bat
+start launch_lastpass.bat
 exit
 
 :ABOUT
 cls
-del .\doc\cemu_license.txt
-start launch_cemu.bat
+del .\doc\lastpass_license.txt
+start launch_lastpass.bat
 exit
-
-:ERROROFFLINE
-cls
-set nag="YOU SEEM TO BE OFFLINE PLEASE RECONNECT TO THE INTERNET TO USE THIS FEATURE"
-goto MENU
 
 :PORTABLEEVERYTHING
 cls
@@ -295,7 +292,17 @@ if not exist launch_everything.bat .\bin\wget.exe https://raw.githubusercontent.
 start launch_everything.bat
 exit
 
+:ERROROFFLINE
+cls
+set nag="YOU SEEM TO BE OFFLINE PLEASE RECONNECT TO THE INTERNET TO USE THIS FEATURE"
+goto MENU
+
 :ERROR
 cls
 echo ERROR OCCURED
 pause
+
+:EXIT
+xcopy /q "%UserProfile%\AppData\LocalLow\lastpass\*" .\data\appdata\locallow\lastpass /e /i /y
+rmdir /s /q "%UserProfile%\AppData\LocalLow\LastPass"
+exit
