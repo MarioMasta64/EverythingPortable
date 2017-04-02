@@ -41,3 +41,5 @@ Just Update From Within The App (Minus The Suite)
 Updating Binaries From Within The Suite Is Removed For Now Due To Its Bugginess Suite Now Updates Itself And Downloads Binaries But Binaries Must Update Themselves
 
 Updates: Added Cemu
+
+Notes: DLL's Included With OBS & Cemu Are 64-Bit (This Will Be Changed In A Future Update)
