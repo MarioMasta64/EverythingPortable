@@ -10,7 +10,7 @@ all binaries can coexist in harmony
 
 all binaries are now easier to use
 
-binaries now have options to download needed .dll files (specificly for obs portable)
+binaries now have options to download needed .dll files (specificly for obs portable and cemu portable)
 
 now includes downloader option in all my other projects
 
