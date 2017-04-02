@@ -14,7 +14,7 @@ if not exist .\doc\ mkdir .\doc\
 
 :VERSION
 cls
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -273,6 +273,6 @@ exit
 
 :ABOUT
 cls
-del .\doc\minecraft_license.txt
-start launch_minecraft.bat
+del .\doc\everything_license.txt
+start launch_everything.bat
 exit
