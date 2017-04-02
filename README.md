@@ -26,4 +26,4 @@ Updating Binaries From Within The Suite Is Removed For Now Due To Its Bugginess 
 
 Updates: Added Cemu
 
-Notes: DLL's Included With OBS & Cemu Are 64-Bit (This Will Be Changed In A Future Update)
+Notes: DLL's Included With OBS & Cemu Are 64-Bit (OS Checker Will Be Added In A Future Update)
