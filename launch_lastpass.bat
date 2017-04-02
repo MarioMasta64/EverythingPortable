@@ -187,7 +187,7 @@ goto NULL
 :DEFAULT
 cls
 title DO NOT CLOSE - Steam is Running
-xcopy /q ".\data\appdata\locallow\lastpass\*" "%userprofile%\appdata\locallow\lastpass\" /e /i /y
+xcopy ".\data\appdata\locallow\lastpass\*" "%userprofile%\appdata\locallow\lastpass\" /e /i /y
 set LOCALAPPDATA=.\data\appdata\local
 set APPDATA=.\data\appdata\roaming
 cls
@@ -303,6 +303,6 @@ echo ERROR OCCURED
 pause
 
 :EXIT
-xcopy /q "%UserProfile%\AppData\LocalLow\lastpass\*" .\data\appdata\locallow\lastpass /e /i /y
+xcopy "%UserProfile%\AppData\LocalLow\lastpass\*" .\data\appdata\locallow\lastpass /e /i /y
 rmdir /s /q "%UserProfile%\AppData\LocalLow\LastPass"
 exit
