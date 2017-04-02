@@ -9,4 +9,6 @@ obs
 kaerusetup
 2
 cemu
-2
+3
+lastpass
+1
