@@ -11,15 +11,12 @@ if exist replacer.bat del replacer.bat
 cls
 if not exist .\bin\ mkdir .\bin\
 if not exist .\doc\ mkdir .\doc\
-call :VERSION
-goto CREDITS
 
 :VERSION
 cls
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
-exit /b
 
 :CREDITS
 cls
@@ -107,19 +104,21 @@ cls
 title PORTABLE EVERYTHING LAUNCHER - MAIN MENU
 echo %NAG%
 set nag=SELECTION TIME!
-echo 1. download a program (or update it)
+echo 1. download a program
 echo 2. launch a program
-echo 3. delete a program
+echo 3. update the suite
+echo 4. delete a program
 echo 5. about
 echo 6. exit
 echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%CHOICE%"=="1" goto DOWNLOAD
 if "%CHOICE%"=="2" goto LAUNCH
-if "%CHOICE%"=="3" goto DELETE
+if "%CHOICE%"=="3" goto UPDATECHECK
+if "%CHOICE%"=="4" goto DELETE
 if "%CHOICE%"=="5" goto ABOUT
 if "%CHOICE%"=="6" exit
-set nag="PLEASE SELECT A CHOICE 1-6"
+set nag="PLEASE SELECT A CHOICE 1-5"
 goto MENU
 
 :GET_LAUNCHERS
@@ -167,7 +166,8 @@ cls
 title PORTABLE EVERYTHING LAUNCHER - CHECK LAUNCHER
 set /a verline = %CHOICE% * 2
 if not exist launch_%launcher%.bat goto UPDATE
-goto UPDATECHECK
+set nag="Launcher launch_%launcher%.bat Exists"
+goto MENU
 
 :LAUNCH
 cls
@@ -204,15 +204,13 @@ goto MENU
 
 :UPDATECHECK
 cls
-echo. > checkupdate.txt
-call launch_%launcher%.bat
-del checkupdate.txt
+set launcher=everything
 if exist version.txt del version.txt
 if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
-set new_version=!Line_%verline%!
+set new_version=%Line_2%
 if %new_version%==OFFLINE goto ERROROFFLINE
 if %current_version% EQU %new_version% goto LATEST
 if %current_version% LSS %new_version% goto NEWUPDATE
@@ -271,4 +269,10 @@ echo New Version: v%new_version%
 echo ENTER TO CONTINUE
 pause
 start launch_everything.bat
+exit
+
+:ABOUT
+cls
+del .\doc\minecraft_license.txt
+start launch_minecraft.bat
 exit

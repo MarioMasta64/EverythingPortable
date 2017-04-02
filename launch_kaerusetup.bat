@@ -6,22 +6,18 @@ title PORTABLE KAERUSETUP LAUNCHER
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE
 if exist replacer.bat del replacer.bat
-if exist checkupdate.txt goto version
 
 :FOLDERCHECK
 cls
 if not exist .\bin\ mkdir .\bin\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\data\sd\ mkdir .\data\sd\
-call :VERSION
-goto CREDITS
 
 :VERSION
 cls
 echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
-exit /b
 
 :CREDITS
 cls
@@ -117,15 +113,14 @@ echo 4. exit
 echo.
 echo a. write the original work and launch it
 echo.
-echo b. download other projects
-echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%choice%"=="1" goto KAERUCIA
 if "%choice%"=="2" goto KAERUHANS
 if "%choice%"=="3" goto KAERUNTR
 if "%choice%"=="4" exit
+
 if "%choice%"=="a" goto original
-if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
+
 set nag="PLEASE SELECT A CHOICE 1-3"
 goto MENU
 
@@ -170,7 +165,6 @@ set /p region="enter a number and press enter to confirm: "
 if "%region%"=="USA" goto KAERU%type%CHECK
 if "%region%"=="EUR" goto KAERU%type%CHECK
 if "%region%"=="JPN" goto KAERU%type%CHECK
-if "%region%"=="4" goto CFWSETUP
 if "%region%"=="menu" goto MENU
 set nag="PLEASE SELECT A CHOICE FROM THE LIST TYPE IN UPPERCASE"
 goto KAERUMENU
@@ -304,13 +298,6 @@ echo Then click the box that says Project Kaeru.
 echo Congrats, you have now joined Project Kaeru!
 echo.
 pause
-exit
-
-:PORTABLEEVERYTHING
-cls
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-if not exist launch_everything.bat .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
-start launch_everything.bat
 exit
 
 :ORIGINAL

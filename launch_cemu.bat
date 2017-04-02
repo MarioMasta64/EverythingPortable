@@ -2,73 +2,66 @@
 setlocal enabledelayedexpansion
 Color 0A
 cls
-title PORTABLE OBS LAUNCHER
+title PORTABLE CEMU LAUNCHER
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE
 if exist replacer.bat del replacer.bat
 
 :FOLDERCHECK
 cls
-if not exist .\bin\obs\ mkdir .\bin\obs\
+if not exist .\bin\cemu_1.7.3\ mkdir .\bin\cemu_1.7.3.zip\
 if not exist .\dll\ mkdir .\dll\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
-if not exist .\data\obs\ mkdir .\data\obs\
 
 :VERSION
 cls
-echo 3 > .\doc\version.txt
+echo 1 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
 :CREDITS
 cls
-if exist .\doc\obs_license.txt goto ARCHCHECK
-echo ================================================== > .\doc\obs_license.txt
-echo =              Script by MarioMasta64            = >> .\doc\obs_license.txt
+if exist .\doc\cemu_license.txt goto CEMUCHECK
+echo ================================================== > .\doc\cemu_license.txt
+echo =              Script by MarioMasta64            = >> .\doc\cemu_license.txt
 :: REMOVE SPACE AFTER VERSION HITS DOUBLE DIGITS
-echo =           Script Version: v%current_version%- release         = >> .\doc\obs_license.txt
-echo ================================================== >> .\doc\obs_license.txt
-echo =You may Modify this WITH consent of the original= >> .\doc\obs_license.txt
-echo = creator, as long as you include a copy of this = >> .\doc\obs_license.txt
-echo =      as you include a copy of the License      = >> .\doc\obs_license.txt
-echo ================================================== >> .\doc\obs_license.txt
-echo =    You may also modify this script without     = >> .\doc\obs_license.txt
-echo =         consent for PERSONAL USE ONLY          = >> .\doc\obs_license.txt
-echo ================================================== >> .\doc\obs_license.txt
+echo =           Script Version: v%current_version%- release         = >> .\doc\cemu_license.txt
+echo ================================================== >> .\doc\cemu_license.txt
+echo =You may Modify this WITH consent of the original= >> .\doc\cemu_license.txt
+echo = creator, as long as you include a copy of this = >> .\doc\cemu_license.txt
+echo =      as you include a copy of the License      = >> .\doc\cemu_license.txt
+echo ================================================== >> .\doc\cemu_license.txt
+echo =    You may also modify this script without     = >> .\doc\cemu_license.txt
+echo =         consent for PERSONAL USE ONLY          = >> .\doc\cemu_license.txt
+echo ================================================== >> .\doc\cemu_license.txt
 
 :CREDITSREAD
 cls
-title PORTABLE OBS LAUNCHER - ABOUT
-for /f "DELIMS=" %%i in (.\doc\obs_license.txt) do (echo %%i)
+title PORTABLE CEMU LAUNCHER - ABOUT
+for /f "DELIMS=" %%i in (.\doc\cemu_license.txt) do (echo %%i)
 pause
 
-:ARCHCHECK
+:CEMUCHECK
 cls
-if exist "%PROGRAMFILES(X86)%" set "arch=64" & goto OBSCHECK
-set arch=32
-
-:OBSCHECK
-cls
-if not exist .\bin\obs\bin\%arch%bit\obs%arch%.exe goto FILECHECK
+if not exist .\bin\cemu_1.7.3d\Cemu.exe goto FILECHECK
 goto WGETUPDATE
 
 :FILECHECK
-cls
-if not exist .\extra\OBS-Studio-18.0.1-Full.zip goto DOWNLOADOBS
-call :EXTRACTOBS
-goto OBSCHECK
+if not exist .\extra\cemu_1.7.3.zip goto DOWNLOADCEMU
+call :EXTRACTCEMU
+goto CEMUCHECK
 
-:DOWNLOADOBS
+:DOWNLOADCEMU
 cls
-if exist OBS-Studio-18.0.1-Full.zip goto MOVEOBS
+if exist cemu_1.7.3.zip goto MOVECEMU
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://github.com/jp9000/obs-studio/releases/download/18.0.1/OBS-Studio-18.0.1-Full.zip
+.\bin\wget.exe http://cemu.info/releases/cemu_1.7.3.zip
 
-:MOVEOBS
+:MOVECEMU
 cls
-move OBS-Studio-18.0.1-Full.zip .\extra\OBS-Studio-18.0.1-Full.zip
-goto FILECHECK
+move cemu_1.7.3.zip .\extra\cemu_1.7.3.zip
+goto CEMUCHECK
 
 :WGETUPDATE
 cls
@@ -121,47 +114,47 @@ exit /b
 
 :EXECUTEWGETDOWNLOADER
 cls
-title PORTABLE OBS LAUNCHER - DOWNLOAD WGET
+title PORTABLE CEMU LAUNCHER - DOWNLOAD WGET
 cscript.exe .\bin\downloadwget.vbs
 move wget.exe .\bin\
 exit /b
 
-:EXTRACTOBS
+:EXTRACTCEMU
 set folder=%CD%
 if %CD%==%~d0\ set folder=%CD:~0,2%
 cls
-echo. > .\bin\extractobs.vbs
-echo 'The location of the zip file. >> .\bin\extractobs.vbs
-echo ZipFile="%folder%\extra\OBS-Studio-18.0.1-Full.zip" >> .\bin\extractobs.vbs
-echo 'The folder the contents should be extracted to. >> .\bin\extractobs.vbs
-echo ExtractTo="%folder%\bin\obs\" >> .\bin\extractobs.vbs
-echo. >> .\bin\extractobs.vbs
-echo 'If the extraction location does not exist create it. >> .\bin\extractobs.vbs
-echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractobs.vbs
-echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extractobs.vbs
-echo    fso.CreateFolder(ExtractTo) >> .\bin\extractobs.vbs
-echo End If >> .\bin\extractobs.vbs
-echo. >> .\bin\extractobs.vbs
-echo 'Extract the contants of the zip file. >> .\bin\extractobs.vbs
-echo set objShell = CreateObject("Shell.Application") >> .\bin\extractobs.vbs
-echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extractobs.vbs
-echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractobs.vbs
-echo Set fso = Nothing >> .\bin\extractobs.vbs
-echo Set objShell = Nothing >> .\bin\extractobs.vbs
-echo. >> .\bin\extractobs.vbs
-title PORTABLE OBS LAUNCHER - EXTRACT ZIP
-cscript.exe .\bin\extractobs.vbs
+echo. > .\bin\extractcemu.vbs
+echo 'The location of the zip file. >> .\bin\extractcemu.vbs
+echo ZipFile="%folder%\extra\cemu_%cemuver:~0,5%.zip" >> .\bin\extractcemu.vbs
+echo 'The folder the contents should be extracted to. >> .\bin\extractcemu.vbs
+echo ExtractTo="%folder%\bin\" >> .\bin\extractcemu.vbs
+echo. >> .\bin\extractcemu.vbs
+echo 'If the extraction location does not exist create it. >> .\bin\extractcemu.vbs
+echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractcemu.vbs
+echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extractcemu.vbs
+echo    fso.CreateFolder(ExtractTo) >> .\bin\extractcemu.vbs
+echo End If >> .\bin\extractcemu.vbs
+echo. >> .\bin\extractcemu.vbs
+echo 'Extract the contants of the zip file. >> .\bin\extractcemu.vbs
+echo set objShell = CreateObject("Shell.Application") >> .\bin\extractcemu.vbs
+echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extractcemu.vbs
+echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractcemu.vbs
+echo Set fso = Nothing >> .\bin\extractcemu.vbs
+echo Set objShell = Nothing >> .\bin\extractcemu.vbs
+echo. >> .\bin\extractcemu.vbs
+title PORTABLE CEMU LAUNCHER - EXTRACT ZIP
+cscript.exe .\bin\extractcemu.vbs
 exit /b
 
 :MENU
 cls
-title PORTABLE OBS LAUNCHER - MAIN MENU
+title PORTABLE CEMU LAUNCHER - MAIN MENU
 echo %NAG%
 set nag="SELECTION TIME!"
-echo 1. reinstall obs [not a feature yet]
-echo 2. launch obs
-echo 3. reset obs [not a feature yet]
-echo 4. uninstall obs [not a feature yet]
+echo 1. reinstall cemu [not a feature yet]
+echo 2. launch cemu
+echo 3. reset cemu [not a feature yet]
+echo 4. uninstall cemu [not a feature yet]
 echo 5. update program
 echo 6. about
 echo 7. exit
@@ -206,13 +199,11 @@ goto NULL
 cls
 title DO NOT CLOSE
 set path=%PATH%;%CD%\dll\;
-xcopy .\data\obs\* %appdata%\obs-studio\ /e /i /y
-rmdir /s /q .\data\obs\
 cls
-echo OBS IS RUNNING
-cd .\bin\obs\bin\64bit\
-obs64.exe -portable
-goto EXIT
+echo CEMU IS RUNNING
+cd bin\cemu*
+start Cemu.exe
+exit
 
 :SELECT
 goto NULL
@@ -227,7 +218,7 @@ if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
-set new_version=%Line_8%
+set new_version=%Line_10%
 if %new_version%==OFFLINE goto ERROROFFLINE
 if %current_version% EQU %new_version% goto LATEST
 if %current_version% LSS %new_version% goto NEWUPDATE
@@ -236,17 +227,17 @@ goto ERROROFFLINE
 
 :LATEST
 cls
-title PORTABLE OBS LAUNCHER - LATEST BUILD :D
+title PORTABLE CEMU LAUNCHER - LATEST BUILD :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 pause
-start launch_obs.bat
+start launch_cemu.bat
 exit
 
 :NEWUPDATE
 cls
-title PORTABLE OBS LAUNCHER - OLD BUILD D:
+title PORTABLE CEMU LAUNCHER - OLD BUILD D:
 echo %NAG%
 set nag="SELECTION TIME!"
 echo you are using an older version
@@ -262,34 +253,34 @@ goto NEWUPDATE
 :UPDATE
 cls
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_obs.bat
-if exist launch_obs.bat.1 goto REPLACERCREATE
+.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_cemu.bat
+if exist launch_cemu.bat.1 goto REPLACERCREATE
 goto ERROROFFLINE
 
 :REPLACERCREATE
 cls
-echo del launch_obs.bat >> replacer.bat
-echo rename launch_obs.bat.1 launch_obs.bat >> replacer.bat
-echo start launch_obs.bat >> replacer.bat
+echo del launch_cemu.bat >> replacer.bat
+echo rename launch_cemu.bat.1 launch_cemu.bat >> replacer.bat
+echo start launch_cemu.bat >> replacer.bat
 start replacer.bat
 exit
 
 :NEWEST
 cls
-title PORTABLE OBS LAUNCHER - TEST BUILD :0
+title PORTABLE CEMU LAUNCHER - TEST BUILD :0
 echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE
 pause
-start launch_obs.bat
+start launch_cemu.bat
 exit
 
 :ABOUT
 cls
-del .\doc\obs_license.txt
-start launch_obs.bat
+del .\doc\cemu_license.txt
+start launch_cemu.bat
 exit
 
 :ERROROFFLINE
@@ -308,12 +299,3 @@ exit
 cls
 echo ERROR OCCURED
 pause
-
-:EXIT
-cd ..
-cd ..
-cd ..
-cd ..
-xcopy %appdata%\obs-studio\* .\data\obs\ /e /i /y
-rmdir /s /q %appdata%\obs-studio
-exit

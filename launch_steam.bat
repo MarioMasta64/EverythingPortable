@@ -6,7 +6,6 @@ title PORTABLE STEAM LAUNCHER
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE
 if exist replacer.bat del replacer.bat
-if exist checkupdate.txt goto version
 
 :FOLDERCHECK
 cls
@@ -15,15 +14,12 @@ if not exist .\dll\ mkdir .\dll\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\data\appdata\ mkdir .\data\appdata\
-call :VERSION
-goto CREDITS
 
 :VERSION
 cls
-echo 2 > .\doc\version.txt
+echo 1 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
-exit /b
 
 :CREDITS
 cls
@@ -167,8 +163,6 @@ echo 7. exit
 echo.
 echo a. download dll's
 echo.
-echo b. download other projects
-echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%choice%"=="1" goto NEW
 if "%choice%"=="2" goto DEFAULT
@@ -178,7 +172,6 @@ if "%choice%"=="5" goto UPDATECHECK
 if "%choice%"=="6" goto ABOUT
 if "%choice%"=="7" goto EXIT
 if "%choice%"=="a" goto DLLDOWNLOADERCHECK
-if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
 set nag="PLEASE SELECT A CHOICE 1-7 or a"
 goto MENU
 
@@ -309,13 +302,6 @@ exit
 cls
 set nag="YOU SEEM TO BE OFFLINE PLEASE RECONNECT TO THE INTERNET TO USE THIS FEATURE"
 goto MENU
-
-:PORTABLEEVERYTHING
-cls
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-if not exist launch_everything.bat .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
-start launch_everything.bat
-exit
 
 :ERROR
 cls
