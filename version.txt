@@ -12,3 +12,5 @@ cemu
 3
 lastpass
 1
+qtemu
+1
