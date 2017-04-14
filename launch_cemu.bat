@@ -10,13 +10,14 @@ if exist replacer.bat del replacer.bat
 :FOLDERCHECK
 cls
 if not exist .\bin\ mkdir .\bin\
+if not exist .\data\cemu\ mkdir .\data\cemu\
 if not exist .\dll\ mkdir .\dll\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 
 :VERSION
 cls
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -26,6 +27,7 @@ if exist .\doc\cemu_license.txt goto CEMUCHECK
 echo ================================================== > .\doc\cemu_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\cemu_license.txt
 :: REMOVE SPACE AFTER VERSION HITS DOUBLE DIGITS
+:: PREVIEW BUILD
 echo =           Script Version: v%current_version%- release         = >> .\doc\cemu_license.txt
 echo ================================================== >> .\doc\cemu_license.txt
 echo =You may Modify this WITH consent of the original= >> .\doc\cemu_license.txt
@@ -44,23 +46,23 @@ pause
 
 :CEMUCHECK
 cls
-if not exist .\bin\cemu_1.7.3d\Cemu.exe goto FILECHECK
+if not exist .\bin\cemu_1.7.4d\Cemu.exe goto FILECHECK
 goto WGETUPDATE
 
 :FILECHECK
-if not exist .\extra\cemu_1.7.3.zip goto DOWNLOADCEMU
+if not exist .\extra\cemu_1.7.4.zip goto DOWNLOADCEMU
 call :EXTRACTCEMU
 goto CEMUCHECK
 
 :DOWNLOADCEMU
 cls
-if exist cemu_1.7.3.zip goto MOVECEMU
+if exist cemu_1.7.4.zip goto MOVECEMU
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe http://cemu.info/releases/cemu_1.7.3.zip
+.\bin\wget.exe http://cemu.info/releases/cemu_1.7.4.zip
 
 :MOVECEMU
 cls
-move cemu_1.7.3.zip .\extra\cemu_1.7.3.zip
+move cemu_1.7.4.zip .\extra\cemu_1.7.4.zip
 goto CEMUCHECK
 
 :WGETUPDATE
@@ -125,8 +127,9 @@ if %CD%==%~d0\ set folder=%CD:~0,2%
 cls
 echo. > .\bin\extractcemu.vbs
 echo 'The location of the zip file. >> .\bin\extractcemu.vbs
-echo ZipFile="%folder%\extra\cemu_1.7.3.zip" >> .\bin\extractcemu.vbs
+echo ZipFile="%folder%\extra\cemu_1.7.4.zip" >> .\bin\extractcemu.vbs
 echo 'The folder the contents should be extracted to. >> .\bin\extractcemu.vbs
+:: change to %folder%\bin\ on regular builds (ones that dont have a folder inside the zip)
 echo ExtractTo="%folder%\bin\" >> .\bin\extractcemu.vbs
 echo. >> .\bin\extractcemu.vbs
 echo 'If the extraction location does not exist create it. >> .\bin\extractcemu.vbs
@@ -144,6 +147,14 @@ echo Set objShell = Nothing >> .\bin\extractcemu.vbs
 echo. >> .\bin\extractcemu.vbs
 title PORTABLE CEMU LAUNCHER - EXTRACT ZIP
 cscript.exe .\bin\extractcemu.vbs
+
+set root="%CD%"
+cd bin\cemu*
+if exist "%root%\temp\usr\" xcopy "%root%\temp\*" .\mlc01\ /e /i /y
+cd "%root%"
+echo %CD%
+rmdir /s /q .\temp\
+
 exit /b
 
 :MENU
@@ -156,8 +167,9 @@ echo 2. launch cemu
 echo 3. reset cemu [not a feature yet]
 echo 4. uninstall cemu [not a feature yet]
 echo 5. update program
-echo 6. about
-echo 7. exit
+echo 6. upgrade cemu
+echo 7. about
+echo 8. exit
 echo.
 echo a. download dll's
 echo.
@@ -169,11 +181,12 @@ if "%choice%"=="2" goto DEFAULT
 if "%choice%"=="3" goto SELECT
 if "%choice%"=="4" goto DELETE
 if "%choice%"=="5" goto UPDATECHECK
-if "%choice%"=="6" goto ABOUT
-if "%choice%"=="7" goto EXIT
+if "%choice%"=="6" goto UPGRADE
+if "%choice%"=="7" goto ABOUT
+if "%choice%"=="8" goto EXIT
 if "%choice%"=="a" goto DLLDOWNLOADERCHECK
 if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
-set nag="PLEASE SELECT A CHOICE 1-7 or a"
+set nag="PLEASE SELECT A CHOICE 1-8 or a/b"
 goto MENU
 
 :DLLDOWNLOADERCHECK
@@ -210,6 +223,18 @@ goto NULL
 
 :DELETE
 goto NULL
+
+:UPGRADE
+cls
+set root="%CD%"
+cd bin\cemu*
+xcopy /q .\mlc01\* "%root%\temp" /e /i /y
+cd ..
+rmdir /s /q cemu
+rmdir /s /q cemu_1.7.3d
+rmdir /s /q cemu_1.7.4d
+cd "%root%"
+goto CEMUCHECK
 
 :UPDATECHECK
 cls
