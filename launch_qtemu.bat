@@ -14,7 +14,7 @@ if not exist .\data\qtemu\ mkdir .\data\qtemu\
 
 :VERSION
 cls
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -64,7 +64,7 @@ goto QTEMUCHECK
 :DOWNLOADQTEMU
 cls
 if exist qtemu-1.0.5.exe goto MOVEQTEMU
-if not exist .\bin\wget call :DOWNLOADWGET
+if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe https://downloads.sourceforge.net/project/qtemu/qtemu/1.0.5/qtemu-1.0.5.exe
 
 :MOVEQTEMU
