@@ -14,3 +14,5 @@ lastpass
 1
 qtemu
 1
+tor
+1
