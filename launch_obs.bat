@@ -17,7 +17,7 @@ if not exist .\data\obs\ mkdir .\data\obs\
 
 :VERSION
 cls
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -170,6 +170,8 @@ echo a. download dll's
 echo.
 echo b. download other projects
 echo.
+echo c. write a quicklauncher
+echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%choice%"=="1" goto NEW
 if "%choice%"=="2" goto DEFAULT
@@ -180,7 +182,8 @@ if "%choice%"=="6" goto ABOUT
 if "%choice%"=="7" goto EXIT
 if "%choice%"=="a" goto DLLDOWNLOADERCHECK
 if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
-set nag="PLEASE SELECT A CHOICE 1-7 or a"
+if "%CHOICE%"=="c" goto QUICKLAUNCHERCHECK
+set nag="PLEASE SELECT A CHOICE 1-7 or a/b/c"
 goto MENU
 
 :DLLDOWNLOADERCHECK
@@ -290,6 +293,18 @@ exit
 cls
 del .\doc\obs_license.txt
 start launch_obs.bat
+exit
+
+:QUICKLAUNCHERCHECK
+cls
+title PORTABLE CEMU LAUNCHER - QUICKLAUNCHER WRITER
+
+:: PUT WRITER CODE HERE (USE KAERU ORIGINAL WRITER AS SOURCE)
+
+echo wip
+
+echo THE QUICK LAUNCHER HAS BEEN WRITTEN
+pause
 exit
 
 :ERROROFFLINE

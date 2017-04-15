@@ -17,7 +17,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :VERSION
 cls
-echo 4 > .\doc\version.txt
+echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -175,6 +175,8 @@ echo a. download dll's
 echo.
 echo b. download other projects
 echo.
+echo c. write a quicklauncher
+echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%choice%"=="1" goto NEW
 if "%choice%"=="2" goto DEFAULT
@@ -186,7 +188,8 @@ if "%choice%"=="7" goto ABOUT
 if "%choice%"=="8" goto EXIT
 if "%choice%"=="a" goto DLLDOWNLOADERCHECK
 if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
-set nag="PLEASE SELECT A CHOICE 1-8 or a/b"
+if "%CHOICE%"=="c" goto QUICKLAUNCHERCHECK
+set nag="PLEASE SELECT A CHOICE 1-8 or a/b/c"
 goto MENU
 
 :DLLDOWNLOADERCHECK
@@ -318,6 +321,18 @@ cls
 if not exist .\bin\wget.exe call :DOWNLOADWGET
 if not exist launch_everything.bat .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
 start launch_everything.bat
+exit
+
+:QUICKLAUNCHERCHECK
+cls
+title PORTABLE CEMU LAUNCHER - QUICKLAUNCHER WRITER
+
+:: PUT WRITER CODE HERE (USE KAERU ORIGINAL WRITER AS SOURCE)
+
+echo wip
+
+echo THE QUICK LAUNCHER HAS BEEN WRITTEN
+pause
 exit
 
 :ERROR

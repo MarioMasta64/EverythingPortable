@@ -16,7 +16,7 @@ if not exist .\data\minecraft\profiles\ mkdir .\data\minecraft\profiles\
 
 :VERSION
 cls
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -125,6 +125,8 @@ echo 7. exit
 echo.
 echo b. download other projects
 echo.
+echo c. write a quicklauncher
+echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%CHOICE%"=="1" goto NEW
 if "%CHOICE%"=="2" goto DEFAULT
@@ -134,7 +136,8 @@ if "%CHOICE%"=="5" goto UPDATECHECK
 if "%CHOICE%"=="6" goto ABOUT
 if "%CHOICE%"=="7" exit
 if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
-set nag="PLEASE SELECT A CHOICE 1-6"
+if "%CHOICE%"=="c" goto QUICKLAUNCHERCHECK
+set nag="PLEASE SELECT A CHOICE 1-6 or b/c"
 goto MENU
 
 :GET_PROFILES
@@ -390,6 +393,18 @@ cls
 if not exist .\bin\wget.exe call :DOWNLOADWGET
 if not exist launch_everything.bat .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
 start launch_everything.bat
+exit
+
+:QUICKLAUNCHERCHECK
+cls
+title PORTABLE CEMU LAUNCHER - QUICKLAUNCHER WRITER
+
+:: PUT WRITER CODE HERE (USE KAERU ORIGINAL WRITER AS SOURCE)
+
+echo wip
+
+echo THE QUICK LAUNCHER HAS BEEN WRITTEN
+pause
 exit
 
 :ERROROFFLINE
