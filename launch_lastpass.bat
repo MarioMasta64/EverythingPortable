@@ -16,7 +16,7 @@ if not exist .\data\appdata\ mkdir .\data\appdata\
 
 :VERSION
 cls
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -297,13 +297,20 @@ exit
 
 :QUICKLAUNCHERCHECK
 cls
-title PORTABLE CEMU LAUNCHER - QUICKLAUNCHER WRITER
-
-:: PUT WRITER CODE HERE (USE KAERU ORIGINAL WRITER AS SOURCE)
-
-echo wip
-
-echo THE QUICK LAUNCHER HAS BEEN WRITTEN
+title PORTABLE LASTPASS LAUNCHER - QUICKLAUNCHER WRITER
+echo @echo off > quicklaunch_lastpass.bat
+echo Color 0A >> quicklaunch_lastpass.bat
+echo title DO NOT CLOSE >> quicklaunch_lastpass.bat
+echo set path="%%path%%";.\dll >> quicklaunch_lastpass.bat
+echo xcopy /q "%%CD%%\data\citra\*" "%%appdata%%\Citra\" /e /i /y >> quicklaunch_lastpass.bat
+echo cls >> quicklaunch_lastpass.bat
+echo echo CITRA IS RUNNING >> quicklaunch_lastpass.bat
+echo "%%CD%%\bin\citra\citra-qt.exe" >> quicklaunch_lastpass.bat
+echo xcopy /q "%%appdata%%\Citra\*" "%%CD%%\data\citra\" /e /i /y >> quicklaunch_lastpass.bat
+echo cls >> quicklaunch_lastpass.bat
+echo rmdir /s /q "%%appdata%%\Citra\" >> quicklaunch_lastpass.bat
+echo exit >> quicklaunch_lastpass.bat
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_lastpass.bat
 pause
 exit
 

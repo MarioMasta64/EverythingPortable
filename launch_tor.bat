@@ -13,7 +13,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :VERSION
 cls
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -277,13 +277,13 @@ exit
 
 :QUICKLAUNCHERCHECK
 cls
-title PORTABLE CEMU LAUNCHER - QUICKLAUNCHER WRITER
-
-:: PUT WRITER CODE HERE (USE KAERU ORIGINAL WRITER AS SOURCE)
-
-echo wip
-
-echo THE QUICK LAUNCHER HAS BEEN WRITTEN
+title PORTABLE TOR LAUNCHER - QUICKLAUNCHER WRITER
+echo @echo off > quicklaunch_tor.bat
+echo Color 0A >> quicklaunch_tor.bat
+echo cls >> quicklaunch_tor.bat
+echo start .\bin\tor\firefox.exe >> quicklaunch_tor.bat
+echo exit >> quicklaunch_tor.bat
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_steam.bat
 pause
 exit
 

@@ -17,7 +17,7 @@ if not exist .\data\obs\ mkdir .\data\obs\
 
 :VERSION
 cls
-echo 4 > .\doc\version.txt
+echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -297,13 +297,26 @@ exit
 
 :QUICKLAUNCHERCHECK
 cls
-title PORTABLE CEMU LAUNCHER - QUICKLAUNCHER WRITER
-
-:: PUT WRITER CODE HERE (USE KAERU ORIGINAL WRITER AS SOURCE)
-
-echo wip
-
-echo THE QUICK LAUNCHER HAS BEEN WRITTEN
+title PORTABLE OBS LAUNCHER - QUICKLAUNCHER WRITER
+echo @echo off > quicklaunch_obs.bat
+echo Color 0A >> quicklaunch_obs.bat
+echo cls >> quicklaunch_obs.bat
+echo title DO NOT CLOSE >> quicklaunch_obs.bat
+echo set path="%%PATH%%";"%%CD%%\dll\"; >> quicklaunch_obs.bat
+echo xcopy .\data\obs\* "%%appdata%%\obs-studio\" /e /i /y >> quicklaunch_obs.bat
+echo rmdir /s /q .\data\obs\ >> quicklaunch_obs.bat
+echo cls >> quicklaunch_obs.bat
+echo echo OBS IS RUNNING >> quicklaunch_obs.bat
+echo cd .\bin\obs\bin\64bit\ >> quicklaunch_obs.bat
+echo obs64.exe -portable >> quicklaunch_obs.bat
+echo cd .. >> quicklaunch_obs.bat
+echo cd .. >> quicklaunch_obs.bat
+echo cd .. >> quicklaunch_obs.bat
+echo cd .. >> quicklaunch_obs.bat
+echo xcopy "%%appdata%%\obs-studio\*" .\data\obs\ /e /i /y >> quicklaunch_obs.bat
+echo rmdir /s /q "%%appdata%%\obs-studio" >> quicklaunch_obs.bat
+echo exit >> quicklaunch_obs.bat
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_obs.bat
 pause
 exit
 

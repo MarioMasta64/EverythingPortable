@@ -16,7 +16,7 @@ if not exist .\data\minecraft\profiles\ mkdir .\data\minecraft\profiles\
 
 :VERSION
 cls
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -397,13 +397,14 @@ exit
 
 :QUICKLAUNCHERCHECK
 cls
-title PORTABLE CEMU LAUNCHER - QUICKLAUNCHER WRITER
-
-:: PUT WRITER CODE HERE (USE KAERU ORIGINAL WRITER AS SOURCE)
-
-echo wip
-
-echo THE QUICK LAUNCHER HAS BEEN WRITTEN
+title PORTABLE MINECRAFT LAUNCHER - QUICKLAUNCHER WRITER
+echo @echo off > quicklaunch_minecraft.bat
+echo Color 0A >> quicklaunch_minecraft.bat
+echo cls >> quicklaunch_minecraft.bat
+echo set APPDATA=.\data\minecraft >> quicklaunch_minecraft.bat
+echo start "" .\bin\commonfiles\java64\bin\javaw.exe -jar .\bin\Minecraft.jar >> quicklaunch_minecraft.bat
+echo exit >> quicklaunch_minecraft.bat
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_minecraft.bat
 pause
 exit
 

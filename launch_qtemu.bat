@@ -14,7 +14,7 @@ if not exist .\data\qtemu\ mkdir .\data\qtemu\
 
 :VERSION
 cls
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -281,13 +281,13 @@ exit
 
 :QUICKLAUNCHERCHECK
 cls
-title PORTABLE CEMU LAUNCHER - QUICKLAUNCHER WRITER
-
-:: PUT WRITER CODE HERE (USE KAERU ORIGINAL WRITER AS SOURCE)
-
-echo wip
-
-echo THE QUICK LAUNCHER HAS BEEN WRITTEN
+title PORTABLE QTEMU LAUNCHER - QUICKLAUNCHER WRITER
+echo @echo off > quicklaunch_qtemu.bat
+echo Color 0A >> quicklaunch_qtemu.bat
+echo cls >> quicklaunch_qtemu.bat
+echo start .\bin\qtemu\qtemu.exe >> quicklaunch_qtemu.bat
+echo exit >> quicklaunch_qtemu.bat
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_qtemu.bat
 pause
 exit
 

@@ -17,7 +17,7 @@ if not exist .\data\appdata\ mkdir .\data\appdata\
 
 :VERSION
 cls
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -313,13 +313,23 @@ exit
 
 :QUICKLAUNCHERCHECK
 cls
-title PORTABLE CEMU LAUNCHER - QUICKLAUNCHER WRITER
-
-:: PUT WRITER CODE HERE (USE KAERU ORIGINAL WRITER AS SOURCE)
-
-echo wip
-
-echo THE QUICK LAUNCHER HAS BEEN WRITTEN
+title PORTABLE STEAM LAUNCHER - QUICKLAUNCHER WRITER
+echo @echo off > quicklaunch_steam.bat
+echo Color 0A >> quicklaunch_steam.bat
+echo cls >> quicklaunch_steam.bat
+echo title DO NOT CLOSE - Steam is Running >> quicklaunch_steam.bat
+echo xcopy /q ".\data\appdata\locallow\*" "%%UserProfile%%\AppData\LocalLow" /e /i /y >> quicklaunch_steam.bat
+echo set path="%%PATH%%";"%%CD%%\dll\" >> quicklaunch_steam.bat
+echo set COMMONPROGRAMFILES(X86)=.\bin\commonfiles\ >> quicklaunch_steam.bat
+echo set LOCALAPPDATA=.\data\appdata\local >> quicklaunch_steam.bat
+echo set APPDATA=.\data\appdata\roaming >> quicklaunch_steam.bat
+echo cls >> quicklaunch_steam.bat
+echo echo STEAM IS RUNNING >> quicklaunch_steam.bat
+echo .\bin\steam\steam.exe >> quicklaunch_steam.bat
+echo xcopy /q "%%UserProfile%%\AppData\LocalLow\*" .\data\appdata\locallow /e /i /y >> quicklaunch_steam.bat
+echo rmdir /s /q "%%UserProfile%%\AppData\LocalLow" >> quicklaunch_steam.bat
+echo exit >> quicklaunch_steam.bat
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_steam.bat
 pause
 exit
 

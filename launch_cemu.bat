@@ -17,7 +17,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :VERSION
 cls
-echo 5 > .\doc\version.txt
+echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -326,12 +326,17 @@ exit
 :QUICKLAUNCHERCHECK
 cls
 title PORTABLE CEMU LAUNCHER - QUICKLAUNCHER WRITER
-
-:: PUT WRITER CODE HERE (USE KAERU ORIGINAL WRITER AS SOURCE)
-
-echo wip
-
-echo THE QUICK LAUNCHER HAS BEEN WRITTEN
+echo @echo off > quicklaunch_cemu.bat
+echo Color 0A >> quicklaunch_cemu.bat
+echo cls >> quicklaunch_cemu.bat
+echo title DO NOT CLOSE >> quicklaunch_cemu.bat
+echo set path=%%PATH%%;%%CD%%\dll\; >> quicklaunch_cemu.bat
+echo cls >> quicklaunch_cemu.bat
+echo echo CEMU IS RUNNING >> quicklaunch_cemu.bat
+echo cd bin\cemu* >> quicklaunch_cemu.bat
+echo start Cemu.exe >> quicklaunch_cemu.bat
+echo exit >> quicklaunch_cemu.bat
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_cemu.bat
 pause
 exit
 
