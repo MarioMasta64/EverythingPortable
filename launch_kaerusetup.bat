@@ -173,7 +173,7 @@ echo USA (for all USA versions)
 echo EUR (for all EURope versions)
 echo JPN (for all JaPaNese versions)
 echo type menu to return to the kaeru setup menu
-set /p region="enter a number and press enter to confirm: "
+set /p region="type your region and press enter to confirm: "
 if "%region%"=="USA" goto KAERU%type%CHECK
 if "%region%"=="EUR" goto KAERU%type%CHECK
 if "%region%"=="JPN" goto KAERU%type%CHECK
