@@ -4,19 +4,23 @@ Color 0A
 cls
 title PORTABLE EVERYTHING LAUNCHER
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
-set new_version=OFFLINE
+set new_version=OFFLINE_OR_NO_UPDATES
 if exist replacer.bat del replacer.bat
+if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 
 :FOLDERCHECK
 cls
 if not exist .\bin\ mkdir .\bin\
 if not exist .\doc\ mkdir .\doc\
+call :VERSION
+goto CREDITS
 
 :VERSION
 cls
-echo 4 > .\doc\version.txt
+echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
+exit /b
 
 :CREDITS
 cls
@@ -94,7 +98,7 @@ exit /b
 
 :EXECUTEWGETDOWNLOADER
 cls
-title PORTABLE OBS LAUNCHER - DOWNLOAD WGET
+title PORTABLE EVERYTHING LAUNCHER - DOWNLOAD WGET
 cscript.exe .\bin\downloadwget.vbs
 move wget.exe .\bin\
 exit /b
@@ -106,18 +110,20 @@ echo %NAG%
 set nag=SELECTION TIME!
 echo 1. download a program
 echo 2. launch a program
-echo 3. update the suite
-echo 4. delete a program
-echo 5. about
-echo 6. exit
+echo 3. update a launcher
+echo 4. update the suite
+echo 5. delete a program
+echo 6. about
+echo 7. exit
 echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%CHOICE%"=="1" goto DOWNLOAD
 if "%CHOICE%"=="2" goto LAUNCH
-if "%CHOICE%"=="3" goto UPDATECHECK
-if "%CHOICE%"=="4" goto DELETE
-if "%CHOICE%"=="5" goto ABOUT
-if "%CHOICE%"=="6" exit
+if "%CHOICE%"=="3" goto UPDATE
+if "%CHOICE%"=="4" (set launcher=launch_everything.bat & goto UPDATECHECK)
+if "%CHOICE%"=="5" goto DELETE
+if "%CHOICE%"=="6" goto ABOUT
+if "%CHOICE%"=="7" exit
 set nag="PLEASE SELECT A CHOICE 1-5"
 goto MENU
 
@@ -157,7 +163,6 @@ echo type menu to return to the main menu
 set /p choice="launcher to download: "
 set launcher=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto MENU
-if "%CHOICE%"=="default" goto DEFAULT
 :: cap output somehow
 goto LAUNCHERCHECK
 
@@ -165,8 +170,9 @@ goto LAUNCHERCHECK
 cls
 title PORTABLE EVERYTHING LAUNCHER - CHECK LAUNCHER
 set /a verline = %CHOICE% * 2
-if not exist launch_%launcher%.bat goto UPDATE
+if not exist launch_%launcher%.bat (set launcher="launch_%launcher%.bat" & goto UPDATENOW)
 set nag="Launcher launch_%launcher%.bat Exists"
+:: ask if they wish to update it
 goto MENU
 
 :LAUNCH
@@ -180,7 +186,6 @@ echo type menu to return to the main menu
 set /p choice="launcher to launch: "
 set launcher=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto MENU
-if "%CHOICE%"=="default" goto DEFAULT
 start %launcher%
 exit
 
@@ -189,28 +194,45 @@ cls
 title PORTABLE EVERYTHING LAUNCHER - DELETE LAUNCHER
 echo %NAG%
 set nag=SELECTION TIME!
-echo KEEP IN MIND AT THE MOMENT I DONT HAVE A SYSTEM TO DELETE A LAUNCHERS FILES
-echo IF YOU WOULD LIKE TO HELP I NEED A WAY TO CALL A LABEL IN ANOTHER BATCH FILE
-echo btw CALL TEST.BAT :LABEL doesnt work
 call :GET_LAUNCHERS
 For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
 echo type menu to return to the main menu
-set /p choice="launcher to launch: "
+set /p choice="launcher to delete: "
 set launcher=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto MENU
-if "%CHOICE%"=="default" goto DEFAULT
 del %launcher%
 goto MENU
 
+:UPDATE
+cls
+title PORTABLE EVERYTHING LAUNCHER - UPDATE LAUNCHER
+echo %NAG%
+set nag=SELECTION TIME!
+call :GET_LAUNCHERS
+For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
+echo type menu to return to the main menu
+set /p choice="launcher to update: "
+set launcher=!Line_%CHOICE%!
+if "%CHOICE%"=="menu" goto MENU
+
 :UPDATECHECK
 cls
-set launcher=everything
+call %launcher% VERSION
+set current_version=!errorlevel!
 if exist version.txt del version.txt
 if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
-set new_version=%Line_2%
+if "%launcher%"=="launch_everything.bat" set new_version=%Line_2%
+if "%launcher%"=="launch_minecraft.bat" set new_version=%Line_4%
+if "%launcher%"=="launch_steam.bat" set new_version=%Line_6%
+if "%launcher%"=="launch_obs.bat" set new_version=%Line_8%
+if "%launcher%"=="launch_kaerusetup.bat" set new_version=%Line_10%
+if "%launcher%"=="launch_cemu.bat" set new_version=%Line_12%
+if "%launcher%"=="launch_lastpass.bat" set new_version=%Line_14%
+if "%launcher%"=="launch_qtemu.bat" set new_version=%Line_16%
+if "%launcher%"=="launch_tor.bat" set new_version=%Line_18%
 if %new_version%==OFFLINE goto ERROROFFLINE
 if %current_version% EQU %new_version% goto LATEST
 if %current_version% LSS %new_version% goto NEWUPDATE
@@ -237,23 +259,27 @@ echo enter yes or no
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 set /p choice="Update?: "
-if "%CHOICE%"=="yes" goto UPDATE
+if "%CHOICE%"=="yes" goto UPDATENOW
 if "%CHOICE%"=="no" goto MENU
 set nag="please enter YES or NO"
 goto NEWUPDATE
 
-:UPDATE
+:UPDATENOW
 cls
+echo %launcher%
+pause
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_%launcher%.bat
-if exist launch_%launcher%.bat.1 goto REPLACERCREATE
-if exist launch_%launcher%.bat goto MENU
+.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/%launcher%
+if exist %launcher%.1 goto REPLACERCREATE
+if exist %launcher% goto MENU
 goto ERROROFFLINE
 
 :REPLACERCREATE
 cls
-echo del launch_%launcher%.bat >> replacer.bat
-echo rename launch_%launcher%.bat.1 launch_%launcher%.bat >> replacer.bat
+echo @echo off > replacer.bat
+echo Color 0A >> replacer.bat
+echo del %launcher% >> replacer.bat
+echo rename %launcher%.1 %launcher% >> replacer.bat
 echo start launch_everything.bat >> replacer.bat
 echo exit >> replacer.bat
 start replacer.bat

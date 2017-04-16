@@ -6,16 +6,22 @@ title PORTABLE TOR LAUNCHER
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE
 if exist replacer.bat del replacer.bat
+if "%~1" neq "" (call :%~1 & exit check /b !current_version!)
 
+:FOLDERCHECK
+cls
 if not exist .\bin\tor\ mkdir .\bin\tor\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
+call :VERSION
+goto CREDITS
 
 :VERSION
 cls
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
+exit /b
 
 :CREDITS
 cls
@@ -243,6 +249,8 @@ goto ERROROFFLINE
 
 :REPLACERCREATE
 cls
+echo @echo off > replacer.bat
+echo Color 0A >> replacer.bat
 echo del launch_tor.bat >> replacer.bat
 echo rename launch_tor.bat.1 launch_tor.bat >> replacer.bat
 echo start launch_tor.bat >> replacer.bat
