@@ -266,8 +266,6 @@ goto NEWUPDATE
 
 :UPDATENOW
 cls
-echo %launcher%
-pause
 if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/%launcher%
 if exist %launcher%.1 goto REPLACERCREATE

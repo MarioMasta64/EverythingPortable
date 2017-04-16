@@ -16,6 +16,8 @@ now includes downloader option in all my other projects
 
 option to write quicklaunchers
 
+suite can now update launchers ! (any old launchers must be updated manually first as the old launchers dont have "hooks" to the new suites updater)
+
 Known Issues:
 none?
 
