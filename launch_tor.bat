@@ -6,7 +6,7 @@ title PORTABLE TOR LAUNCHER
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE
 if exist replacer.bat del replacer.bat
-if "%~1" neq "" (call :%~1 & exit check /b !current_version!)
+if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 
 :FOLDERCHECK
 cls
