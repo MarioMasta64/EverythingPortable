@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 4 > .\doc\version.txt
+echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -111,15 +111,15 @@ cls
 title PORTABLE KAERU SETUP - JOIN TYPE
 echo %NAG%
 set nag=SELECTION TIME!
-echo 1. CIA (choose this if you have cfw installed)
-echo 2. HANS (choose this if you dont have cfw or are unsure)
-echo 3. NTR (choose this if you have cfw but dont wish to modify the original)
-echo 4. IPS (for luma v7 users the better patch :^) )
-echo 5. exit
+echo 1. CIA (Choose this if you have CFW installed)
+echo 2. HANS (Choose this if you dont have CFW or are unsure)
+echo 3. NTR (Choose this if you have cfw but dont wish to modify the original)
+echo 4. IPS (For Luma v7 users the better patch :^) )
+echo 5. Exit
 echo.
-echo a. write the original work and launch it
+echo a. Write the original work and launch it
 echo.
-set /p choice="enter a number and press enter to confirm: "
+set /p choice="Enter a number and press enter to confirm: "
 if "%choice%"=="1" goto KAERUCIA
 if "%choice%"=="2" goto KAERUHANS
 if "%choice%"=="3" goto KAERUNTR
@@ -128,7 +128,7 @@ if "%choice%"=="5" exit
 
 if "%choice%"=="a" goto original
 
-set nag="PLEASE SELECT A CHOICE 1-3"
+set nag="PLEASE SELECT A CHOICE 1-5"
 goto MENU
 
 :NULL
@@ -177,7 +177,7 @@ echo USA (for all USA versions)
 echo EUR (for all EURope versions)
 echo JPN (for all JaPaNese versions)
 echo type menu to return to the kaeru setup menu
-set /p region="type your region and press enter to confirm: "
+set /p region="Type your region and press enter to confirm: "
 if "%region%"=="USA" goto KAERU%type%CHECK
 if "%region%"=="EUR" goto KAERU%type%CHECK
 if "%region%"=="JPN" goto KAERU%type%CHECK
@@ -316,17 +316,20 @@ goto KAERUSDSET
 cls
 title PORTABLE KAERU SETUP - %type% SETUP - MOVE2SD
 echo ================================================
-echo =Instert your 3DS SDCARD into the computer now =
+echo =Insert your 3DS SDCARD into the computer now  =
 echo ================================================
-echo =Please instert you 3DS SDCARD into your       =
+echo =Please insert your 3DS's SDCARD into your     =
 echo =computer now. When it has been mounted, type  =
-echo =the drive letter at the prompt, them press    =
+echo =the drive letter at the prompt, then press    =
 echo =enter. Ensure that the drive letter is in     =
 echo =UPPERCASE and thet you don't include the ":"  =
 echo ================================================
-echo setup sd card for homebrew coming soon(tm)
+echo =Setup sd card for homebrew coming soon(tm)    =
+echo ================================================
+echo.
 set /P driveletter="What is the drive letter:"
 echo Are you sure this is the right drive: %driveletter%:
+echo.
 set /P choice="Is this the right drive (y/n):"
 if %choice%==y goto MOVEFILES
 if %choice%==n goto KAERUSDSET
@@ -334,34 +337,39 @@ goto KAERUSDSET
 
 :MOVEFILES
 xcopy ".\data\sd\%type%\*" "%driveletter%:\%type%\" /e /i /y
-goto SETUPCOMPLETE
 
 :SETUPCOMPLETE
 cls
 title PORTABLE KAERU SETUP - %type% SETUP - ALMOST DONE!
 echo Almost done!
-echo Remove your SDCARD from the PC and re-insert it in your 3DS
+echo Remove your SDCARD from the PC and re-insert it into your 3DS
 echo.
-echo For CIA:
-echo Turn on your 3DS and open FBI
-echo Click SD
-echo Using the arrow keys and the A button navigate to the cia folder
-echo When you are in this folder hit A while <current directory> is highlighted
-echo Then hit Install all CIAs and say yes to any prompts.
-echo Now exit FBI, and Flipnote Studio 3D should appear on your homemenu
-echo.
-echo For HANS:
-echo im to lazy and have never used hans...
-echo.
-echo For NTR:
-echo im to lazy and have never used ntr...
-echo.
-echo To access Project Kaeru open Flipnote Studio 3D and hit the right arrow
-echo Then click the box that says Project Kaeru.
-echo Congrats, you have now joined Project Kaeru!
-echo.
-echo For IPS:
-echo if you have Luma v7 you dont need to do anything ! just launch Flipnote Studio 3D
+if "%type%"=="CIA" echo For CIA:
+if "%type%"=="CIA" echo Turn on your 3DS and open FBI
+if "%type%"=="CIA" echo Click SD
+if "%type%"=="CIA" echo Using the arrow keys and the A button navigate to the cia folder
+if "%type%"=="CIA" echo When you are in this folder hit A while <current directory> is highlighted
+if "%type%"=="CIA" echo Then hit Install all CIAs and say yes to any prompts.
+if "%type%"=="CIA" echo Now exit FBI, and Flipnote Studio 3D should appear on your homemenu
+if "%type%"=="CIA" echo.
+if "%type%"=="HANS" echo For HANS:
+if "%type%"=="HANS" echo Open the Homebrew Lsiuncher thriugh your desired entrypoing and select
+if "%type%"=="HANS" echo HANS from the list. Using the left and right fpad buttons select Flipnote
+if "%type%"=="HANS" echo Studio 3D from the list. Ensure both the ROMFS and CODE options are set
+if "%type%"=="HANS" echo to yes.
+if "%type%"=="HANS" echo.
+if "%type%"=="NTR" echo For NTR:
+if "%type%"=="NTR" echo Ensure you have NTR installed and setup. Launch the NTR app from the homebrew
+if "%type%"=="NTR" echo menu and wait for it to load. Then open Flipnote Studio 3D from the homemenu.
+if "%type%"=="NTR" echo.
+if "%type%"=="IPS" echo For IPS:
+if "%type%"=="IPS" echo Ensure you have the Luma3DS CFW installed. While booting the 3DS press and hold
+if "%type%"=="IPS" echo Select until the configuration menu appears. Ensure you are running Luma v7.0 or
+if "%type%"=="IPS" echo later. Using the up/down dpad buttons select Enable game patching. Press A untill
+if "%type%"=="IPS" echo the "x" is in the parenthesis. It should look like this:
+if "%type%"=="IPS" echo (x) Enable game patching.
+if "%type%"=="IPS" echo Press Start to save the settings and boot the 3DS. Now launch Flipnote Studio 3DS
+if "%type%"=="IPS" echo from the homemenu.
 pause
 exit
 
