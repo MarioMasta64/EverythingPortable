@@ -1,7 +1,7 @@
 everything
 4
 minecraft
-9999999999999999
+4
 steam
 4
 obs
