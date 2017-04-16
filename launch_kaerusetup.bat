@@ -285,27 +285,27 @@ cls
 set folder=%CD%
 if %CD%==%~d0\ set folder=%CD:~0,2%
 cls
-echo. > .\bin\extractkaeru.vbs
-echo 'The location of the zip file. >> .\bin\extractkaeru.vbs
-echo ZipFile="%folder%\extra\ips.zip" >> .\bin\extractkaeru.vbs
-echo 'The folder the contents should be extracted to. >> .\bin\extractkaeru.vbs
-echo ExtractTo="%folder%\data\sd\" >> .\bin\extractkaeru.vbs
-echo. >> .\bin\extractkaeru.vbs
-echo 'If the extraction location does not exist create it. >> .\bin\extractkaeru.vbs
-echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractkaeru.vbs
-echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extractkaeru.vbs
-echo    fso.CreateFolder(ExtractTo) >> .\bin\extractkaeru.vbs
-echo End If >> .\bin\extractkaeru.vbs
-echo. >> .\bin\extractkaeru.vbs
-echo 'Extract the contants of the zip file. >> .\bin\extractkaeru.vbs
-echo set objShell = CreateObject("Shell.Application") >> .\bin\extractkaeru.vbs
-echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extractkaeru.vbs
-echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractkaeru.vbs
-echo Set fso = Nothing >> .\bin\extractkaeru.vbs
-echo Set objShell = Nothing >> .\bin\extractkaeru.vbs
-echo. >> .\bin\extractkaeru.vbs
+echo. > .\bin\extractkaeruzip.vbs
+echo 'The location of the zip file. >> .\bin\extractkaeruzip.vbs
+echo ZipFile="%folder%\extra\ips.zip" >> .\bin\extractkaeruzip.vbs
+echo 'The folder the contents should be extracted to. >> .\bin\extractkaeruzip.vbs
+echo ExtractTo="%folder%\data\sd\" >> .\bin\extractkaeruzip.vbs
+echo. >> .\bin\extractkaeruzip.vbs
+echo 'If the extraction location does not exist create it. >> .\bin\extractkaeruzip.vbs
+echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractkaeruzip.vbs
+echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extractkaeruzip.vbs
+echo    fso.CreateFolder(ExtractTo) >> .\bin\extractkaeruzip.vbs
+echo End If >> .\bin\extractkaeruzip.vbs
+echo. >> .\bin\extractkaeruzip.vbs
+echo 'Extract the contants of the zip file. >> .\bin\extractkaeruzip.vbs
+echo set objShell = CreateObject("Shell.Application") >> .\bin\extractkaeruzip.vbs
+echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extractkaeruzip.vbs
+echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractkaeruzip.vbs
+echo Set fso = Nothing >> .\bin\extractkaeruzip.vbs
+echo Set objShell = Nothing >> .\bin\extractkaeruzip.vbs
+echo. >> .\bin\extractkaeruzip.vbs
 title PORTABLE KAERU SETUP LAUNCHER - EXTRACT ZIP
-cscript.exe .\bin\extractkaeru.vbs
+cscript.exe .\bin\extractkaeruzip.vbs
 goto KAERUSDSET
 
 :KAERUSDSET
