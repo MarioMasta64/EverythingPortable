@@ -15,7 +15,7 @@ if not exist .\data\sd\ mkdir .\data\sd\
 
 :VERSION
 cls
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 
@@ -109,7 +109,8 @@ set nag=SELECTION TIME!
 echo 1. CIA (choose this if you have cfw installed)
 echo 2. HANS (choose this if you dont have cfw or are unsure)
 echo 3. NTR (choose this if you have cfw but dont wish to modify the original)
-echo 4. exit
+echo 4. IPS (for luma v7 users the better patch :^) )
+echo 5. exit
 echo.
 echo a. write the original work and launch it
 echo.
@@ -117,7 +118,8 @@ set /p choice="enter a number and press enter to confirm: "
 if "%choice%"=="1" goto KAERUCIA
 if "%choice%"=="2" goto KAERUHANS
 if "%choice%"=="3" goto KAERUNTR
-if "%choice%"=="4" exit
+if "%choice%"=="4" goto KAERUIPS
+if "%choice%"=="5" exit
 
 if "%choice%"=="a" goto original
 
@@ -149,6 +151,15 @@ goto KAERUMENU
 :KAERUNTR
 cls
 set type=NTR
+set nag="PLEASE CHOOSE YOUR REGION"
+goto KAERUMENU
+
+:KAERUIPS
+cls
+:: intercepted bitch :^)
+goto KAERUIPSCHECK
+:: end intercept
+set type=IPS
 set nag="PLEASE CHOOSE YOUR REGION"
 goto KAERUMENU
 
@@ -249,6 +260,54 @@ move SystemMessage.blz .\data\sd\%titleid%\messageData\%shortcode%_English\
 move layeredfs.plg .\data\sd\plugin\%titleid%\
 goto KAERUNTRCHECK
 
+:KAERUIPSCHECK
+call :KAERUIPSREGION
+if "%region%"=="JPN" call :NULL
+if "%region%"=="JPN" goto KAERUMENU
+cls
+if not exist .\data\sd\luma\titles\00040000000c6600\romfs\messageData\US_English\LayoutMessage.blz goto DOWNLOADKAERUIPS
+if not exist .\data\sd\luma\titles\00040000000c6600\romfs\messageData\US_English\SystemMessage.blz goto DOWNLOADKAERUIPS
+if not exist .\data\sd\luma\titles\00040000000c6600\code.ips goto DOWNLOADKAERUIPS
+if not exist .\data\sd\luma\titles\00040000000c6700\romfs\messageData\UE_English\LayoutMessage.blz goto DOWNLOADKAERUIPS
+if not exist .\data\sd\luma\titles\00040000000c6700\romfs\messageData\UE_English\SystemMessage.blz goto DOWNLOADKAERUIPS
+if not exist .\data\sd\luma\titles\00040000000c6700\code.ips goto DOWNLOADKAERUIPS
+goto KAERUSDSET
+
+:DOWNLOADKAERUIPS
+cls
+if exist  .\data\sd\luma\titles\00040000000c6600\romfs\messageData\US_English\LayoutMessage.blz goto MOVEKAERUIPS
+if not exist .\bin\wget.exe call :DOWNLOADWGET
+.\bin\wget.exe http://dl.projectkaeru.xyz/ips.zip
+
+:EXTRACTKAERUIPS
+cls
+set folder=%CD%
+if %CD%==%~d0\ set folder=%CD:~0,2%
+cls
+echo. > .\bin\extractkaeru.vbs
+echo 'The location of the zip file. >> .\bin\extractkaeru.vbs
+echo ZipFile="%folder%\extra\OBS-Studio-18.0.1-Full.zip" >> .\bin\extractkaeru.vbs
+echo 'The folder the contents should be extracted to. >> .\bin\extractkaeru.vbs
+echo ExtractTo="%folder%\bin\obs\" >> .\bin\extractkaeru.vbs
+echo. >> .\bin\extractkaeru.vbs
+echo 'If the extraction location does not exist create it. >> .\bin\extractkaeru.vbs
+echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractkaeru.vbs
+echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extractkaeru.vbs
+echo    fso.CreateFolder(ExtractTo) >> .\bin\extractkaeru.vbs
+echo End If >> .\bin\extractkaeru.vbs
+echo. >> .\bin\extractkaeru.vbs
+echo 'Extract the contants of the zip file. >> .\bin\extractkaeru.vbs
+echo set objShell = CreateObject("Shell.Application") >> .\bin\extractkaeru.vbs
+echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extractkaeru.vbs
+echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractkaeru.vbs
+echo Set fso = Nothing >> .\bin\extractkaeru.vbs
+echo Set objShell = Nothing >> .\bin\extractkaeru.vbs
+echo. >> .\bin\extractkaeru.vbs
+title PORTABLE KAERU SETUP LAUNCHER - EXTRACT ZIP
+cscript.exe .\bin\extractkaeru.vbs
+exit /b
+goto KAERUIPSCHECK
+
 :KAERUSDSET
 cls
 title PORTABLE KAERU SETUP - %type% SETUP - MOVE2SD
@@ -291,12 +350,14 @@ echo For HANS:
 echo im to lazy and have never used hans...
 echo.
 echo For NTR:
-echo im to lazy and have never used hans...
+echo im to lazy and have never used ntr...
 echo.
 echo To access Project Kaeru open Flipnote Studio 3D and hit the right arrow
 echo Then click the box that says Project Kaeru.
 echo Congrats, you have now joined Project Kaeru!
 echo.
+echo For IPS:
+echo if you have Luma v7 you dont need to do anything ! just launch Flipnote Studio 3D
 pause
 exit
 

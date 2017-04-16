@@ -14,6 +14,8 @@ binaries now have options to download needed .dll files (specificly for obs port
 
 now includes downloader option in all my other projects
 
+option to write quicklaunchers
+
 Known Issues:
 none?
 
