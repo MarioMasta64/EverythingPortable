@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 5 > .\doc\version.txt
+echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b

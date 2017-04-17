@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 4 > .\doc\version.txt
+echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -298,6 +298,7 @@ exit
 cls
 if not exist .\bin\wget.exe call :DOWNLOADWGET
 if not exist launch_everything.bat .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
+cls
 start launch_everything.bat
 exit
 
