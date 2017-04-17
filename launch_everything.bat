@@ -297,8 +297,8 @@ goto INFO
 
 :MOREINFO
 cls
-title PORTABLE "%launchername%" LAUNCHER - MORE INFO
 call :GET_INFO
+title PORTABLE "%launchername%" LAUNCHER - MORE INFO
 pause
 goto INFO
 
