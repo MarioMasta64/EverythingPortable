@@ -17,7 +17,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 5 > .\doc\version.txt
+echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -137,9 +137,22 @@ for /f "DELIMS=" %%i in ('type .\doc\launchers.txt') do (
 if exist .\doc\launchers.txt del .\doc\launchers.txt
 exit /b
 
+:GET_INFO
+if not exist .\bin\wget.exe call :DOWNLOADWGET
+if exist %launchername%.txt del %launchername%.txt
+.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/info/%launchername%.txt
+cls
+for /f "DELIMS=" %%i in ('type %launchername%.txt') do (
+    echo %%i
+)
+if not exist %launchername%.txt cls & echo you seem to be offline or there is a problem with the github
+if exist %launchername%.txt del %launchername%.txt
+exit /b
+
 :GET_DOWNLOADS
 if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+cls
 set "num=1"
 set "counter=0"
 for /f "DELIMS=" %%i in (version.txt) do (
@@ -161,7 +174,7 @@ set nag=SELECTION TIME!
 For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
 echo type menu to return to the main menu
 set /p choice="launcher to download: "
-set launcher=!Line_%CHOICE%!
+set launchername=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto MENU
 :: cap output somehow
 goto LAUNCHERCHECK
@@ -170,7 +183,7 @@ goto LAUNCHERCHECK
 cls
 title PORTABLE EVERYTHING LAUNCHER - CHECK LAUNCHER
 set /a verline = %CHOICE% * 2
-if not exist launch_%launcher%.bat (set launcher="launch_%launcher%.bat" & goto UPDATENOW)
+if not exist launch_%launchername%.bat (set launcher="launch_%launchername%.bat" & goto INFO)
 set nag="Launcher launch_%launcher%.bat Exists"
 :: ask if they wish to update it
 goto MENU
@@ -222,6 +235,7 @@ set current_version=!errorlevel!
 if exist version.txt del version.txt
 if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+cls
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
 if "%launcher%"=="launch_everything.bat" set new_version=%Line_2%
@@ -264,10 +278,35 @@ if "%CHOICE%"=="no" goto MENU
 set nag="please enter YES or NO"
 goto NEWUPDATE
 
+:INFO
+cls
+title PORTABLE EVERYTHING LAUNCHER - "%launchername%" MENU
+echo %NAG%
+set nag=SELECTION TIME!
+echo what would you like to do?
+echo 1. Download Launcher
+echo 2. View More Info
+echo back to go back or menu to go back to the menu
+set /p choice="action: "
+if "%CHOICE%"=="1" goto UPDATENOW
+if "%CHOICE%"=="2" goto MOREINFO
+if "%CHOICE%"=="back" goto DOWNLOAD
+if "%CHOICE%"=="menu" goto MENU
+set nag="please enter 1 or 2"
+goto INFO
+
+:MOREINFO
+cls
+title PORTABLE "%launchername%" LAUNCHER - MORE INFO
+call :GET_INFO
+pause
+goto INFO
+
 :UPDATENOW
 cls
 if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/%launcher%
+cls
 if exist %launcher%.1 goto REPLACERCREATE
 if exist %launcher% goto MENU
 goto ERROROFFLINE
