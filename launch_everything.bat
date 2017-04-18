@@ -112,17 +112,17 @@ set nag=SELECTION TIME!
 echo 1. download a program
 echo 2. launch a program
 echo 3. update a launcher
-echo 5. delete a program
-echo 6. about
-echo 7. exit
+echo 4. delete a program
+echo 5. about
+echo 6. exit
 echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%CHOICE%"=="1" goto DOWNLOAD
 if "%CHOICE%"=="2" goto LAUNCH
 if "%CHOICE%"=="3" goto UPDATE
-if "%CHOICE%"=="5" goto DELETE
-if "%CHOICE%"=="6" goto ABOUT
-if "%CHOICE%"=="7" exit
+if "%CHOICE%"=="4" goto DELETE
+if "%CHOICE%"=="5" goto ABOUT
+if "%CHOICE%"=="6" exit
 set nag="PLEASE SELECT A CHOICE 1-5"
 goto MENU
 
@@ -237,8 +237,6 @@ if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
-echo %launcher%
-pause
 if "%launcher%"=="launch_everything.bat" set new_version=%Line_2%
 if "%launcher%"=="launch_minecraft.bat" set new_version=%Line_4%
 if "%launcher%"=="launch_steam.bat" set new_version=%Line_6%
