@@ -17,7 +17,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -176,17 +176,18 @@ For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
 echo type menu to return to the main menu
 set /p choice="launcher to download: "
 set launchername=!Line_%CHOICE%!
+set launcher=launch_%launchername%.bat
 if "%CHOICE%"=="menu" goto MENU
 :: cap output somehow
-goto LAUNCHERCHECK
+goto INFO
 
 :LAUNCHERCHECK
 cls
 title PORTABLE EVERYTHING LAUNCHER - CHECK LAUNCHER
 set /a verline = %CHOICE% * 2
-if not exist launch_%launchername%.bat (set launcher="launch_%launchername%.bat" & goto INFO)
-set nag="Launcher launch_%launcher%.bat Exists"
-:: ask if they wish to update it
+if not exist launch_%launchername%.bat goto UPDATENOW
+set nag="Launcher %launcher% Exists"
+goto UPDATECHECK
 goto MENU
 
 :LAUNCH
@@ -236,9 +237,10 @@ set current_version=!errorlevel!
 if exist version.txt del version.txt
 if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
-cls
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
+echo %launcher%
+pause
 if "%launcher%"=="launch_everything.bat" set new_version=%Line_2%
 if "%launcher%"=="launch_minecraft.bat" set new_version=%Line_4%
 if "%launcher%"=="launch_steam.bat" set new_version=%Line_6%
@@ -257,6 +259,8 @@ goto ERROROFFLINE
 :LATEST
 cls
 title PORTABLE EVERYTHING LAUNCHER - LATEST BUILD :D
+echo %NAG%
+set nag=SELECTION TIME!
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
@@ -289,7 +293,7 @@ echo 1. Download Launcher
 echo 2. View More Info
 echo back to go back or menu to go back to the menu
 set /p choice="action: "
-if "%CHOICE%"=="1" goto UPDATENOW
+if "%CHOICE%"=="1" goto LAUNCHERCHECK
 if "%CHOICE%"=="2" goto MOREINFO
 if "%CHOICE%"=="back" goto DOWNLOAD
 if "%CHOICE%"=="menu" goto MENU
@@ -340,3 +344,9 @@ cls
 del .\doc\everything_license.txt
 start launch_everything.bat
 exit
+
+:ERROROFFLINE
+cls
+echo an error occured
+pause
+goto MENU
