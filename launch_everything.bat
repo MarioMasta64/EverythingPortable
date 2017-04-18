@@ -121,7 +121,7 @@ set /p choice="enter a number and press enter to confirm: "
 if "%CHOICE%"=="1" goto DOWNLOAD
 if "%CHOICE%"=="2" goto LAUNCH
 if "%CHOICE%"=="3" goto UPDATE
-if "%CHOICE%"=="4" (set launcher=launch_everything.bat & goto UPDATECHECK)
+if "%CHOICE%"=="4" (set launcher="launch_everything.bat" & goto UPDATECHECK)
 if "%CHOICE%"=="5" goto DELETE
 if "%CHOICE%"=="6" goto ABOUT
 if "%CHOICE%"=="7" exit
