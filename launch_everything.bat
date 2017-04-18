@@ -112,7 +112,6 @@ set nag=SELECTION TIME!
 echo 1. download a program
 echo 2. launch a program
 echo 3. update a launcher
-echo 4. update the suite
 echo 5. delete a program
 echo 6. about
 echo 7. exit
@@ -121,7 +120,6 @@ set /p choice="enter a number and press enter to confirm: "
 if "%CHOICE%"=="1" goto DOWNLOAD
 if "%CHOICE%"=="2" goto LAUNCH
 if "%CHOICE%"=="3" goto UPDATE
-if "%CHOICE%"=="4" (set launcher="launch_everything.bat" & goto UPDATECHECK)
 if "%CHOICE%"=="5" goto DELETE
 if "%CHOICE%"=="6" goto ABOUT
 if "%CHOICE%"=="7" exit
