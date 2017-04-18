@@ -107,6 +107,7 @@ exit /b
 cls
 title PORTABLE EVERYTHING LAUNCHER - MAIN MENU
 echo %NAG%
+echo dont worry bugs will be fixed soon !
 set nag=SELECTION TIME!
 echo 1. download a program
 echo 2. launch a program
