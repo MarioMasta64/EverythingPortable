@@ -20,7 +20,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 7 > .\doc\version.txt
+echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -214,7 +214,7 @@ goto NULL
 cls
 title DO NOT CLOSE
 set path=%PATH%;%CD%\dll\;
-xcopy .\data\obs\* %appdata%\obs-studio\ /e /i /y
+xcopy .\data\obs\* "%appdata%\obs-studio\" /e /i /y
 rmdir /s /q .\data\obs\
 cls
 echo OBS IS RUNNING
@@ -353,6 +353,6 @@ cd ..
 cd ..
 cd ..
 cd ..
-xcopy %appdata%\obs-studio\* .\data\obs\ /e /i /y
-rmdir /s /q %appdata%\obs-studio
+xcopy "%appdata%\obs-studio\*" .\data\obs\ /e /i /y
+rmdir /s /q "%appdata%\obs-studio"
 exit

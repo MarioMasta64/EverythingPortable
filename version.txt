@@ -1,11 +1,11 @@
 everything
 7
 minecraft
-6
-steam
-6
-obs
 7
+steam
+7
+obs
+8
 kaerusetup
 6
 cemu

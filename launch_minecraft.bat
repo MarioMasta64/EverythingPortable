@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -233,12 +233,12 @@ goto CREATE
 
 :LAUNCH
 cls
-set "APPDATA=.\data\minecraft\profiles\%PROFILE%\"
+set "APPDATA"="%CD%\data\minecraft\profiles\%PROFILE%\"
 goto OSCHECK
 
 :DEFAULT
 cls
-set APPDATA=.\data\minecraft
+set "APPDATA"="%CD%\data\minecraft"
 goto OSCHECK
 
 :DELETE

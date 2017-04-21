@@ -20,7 +20,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -211,9 +211,9 @@ cls
 title DO NOT CLOSE - Steam is Running
 xcopy /q ".\data\appdata\locallow\*" "%UserProfile%\AppData\LocalLow" /e /i /y
 set path="%PATH%;%CD%\dll\"
-set COMMONPROGRAMFILES(X86)=.\bin\commonfiles\
-set LOCALAPPDATA=.\data\appdata\local
-set APPDATA=.\data\appdata\roaming
+set "COMMONPROGRAMFILES(X86)"="%CD%\bin\commonfiles\"
+set "LOCALAPPDATA"="%CD%\data\appdata\local"
+set "APPDATA"="%CD%\data\appdata\roaming"
 cls
 echo STEAM IS RUNNING
 .\bin\steam\steam.exe
