@@ -1,6 +1,3 @@
-20172104
-yyyymmdd
 head
-top note
 foot
-bottom note
+date
