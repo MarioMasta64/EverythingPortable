@@ -17,7 +17,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 7 > .\doc\version.txt
+echo 9 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -130,8 +130,10 @@ goto MENU
 dir /b /a-d launch_*.bat > .\doc\launchers.txt
 set Counter=0
 for /f "DELIMS=" %%i in ('type .\doc\launchers.txt') do (
-    set /a Counter+=1
-    set "Line_!Counter!=%%i"
+    if "%%i"=="launch_dlldownloader.bat" echo test & pause
+	if "%%i" NEQ "launch_dlldownloader.bat" (
+		set /a Counter+=1 & set "Line_!Counter!=%%i"
+	)
 )
 if exist .\doc\launchers.txt del .\doc\launchers.txt
 exit /b
