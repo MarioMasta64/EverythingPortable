@@ -130,7 +130,6 @@ goto MENU
 dir /b /a-d launch_*.bat > .\doc\launchers.txt
 set Counter=0
 for /f "DELIMS=" %%i in ('type .\doc\launchers.txt') do (
-    if "%%i"=="launch_dlldownloader.bat" echo test & pause
 	if "%%i" NEQ "launch_dlldownloader.bat" (
 		set /a Counter+=1 & set "Line_!Counter!=%%i"
 	)
