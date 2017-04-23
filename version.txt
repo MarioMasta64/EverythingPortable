@@ -9,7 +9,7 @@ obs
 kaerusetup
 7
 cemu
-9
+10
 lastpass
 7
 qtemu
