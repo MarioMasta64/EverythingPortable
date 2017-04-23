@@ -9,9 +9,9 @@ obs
 kaerusetup
 7
 cemu
-10
+9
 lastpass
-7
+8
 qtemu
 7
 tor
