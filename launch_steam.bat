@@ -20,7 +20,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 7 > .\doc\version.txt
+echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -66,9 +66,10 @@ goto STEAMCHECK
 
 :DOWNLOADSTEAM
 cls
+title PORTABLE STEAM LAUNCHER - DOWNLOAD STEAM
 if exist SteamSetup.exe goto MOVESTEAM
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe
+.\bin\wget.exe -q --show-progress https://steamcdn-a.akamaihd.net/client/installer/SteamSetup.exe
 
 :MOVESTEAM
 cls
@@ -87,9 +88,10 @@ goto FILECHECK
 
 :DOWNLOAD7ZIP
 cls
+title PORTABLE STEAM LAUNCHER - DOWNLOAD 7ZIP
 if exist 7-ZipPortable_16.04.paf.exe goto MOVE7ZIP
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
+.\bin\wget.exe -q --show-progress http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
 
 :MOVE7ZIP
 cls
@@ -98,6 +100,7 @@ goto FILECHECK
 
 :WGETUPDATE
 cls
+title PORTABLE STEAM LAUNCHER - UPDATE WGET
 wget https://eternallybored.org/misc/wget/current/wget.exe
 move wget.exe .\bin\
 goto MENU
@@ -192,8 +195,9 @@ goto MENU
 
 :DOWNLOADDLLDOWNLOADER
 cls
+title PORTABLE STEAM LAUNCHER - DOWNLOAD DLL DOWNLOADER
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat
 cls
 goto DLLDOWNLOADERCHECK
 
@@ -240,7 +244,7 @@ goto NULL
 cls
 if exist version.txt del version.txt
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 cls
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
@@ -279,7 +283,7 @@ goto NEWUPDATE
 :UPDATE
 cls
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_steam.bat
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_steam.bat
 cls
 if exist launch_steam.bat.1 goto REPLACERCREATE
 goto ERROROFFLINE
@@ -315,8 +319,9 @@ exit
 
 :PORTABLEEVERYTHING
 cls
+title PORTABLE STEAM LAUNCHER - DOWNLOAD SUITE
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-if not exist launch_everything.bat .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
+if not exist launch_everything.bat .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
 cls
 start launch_everything.bat
 exit
@@ -328,11 +333,11 @@ echo @echo off > quicklaunch_steam.bat
 echo Color 0A >> quicklaunch_steam.bat
 echo cls >> quicklaunch_steam.bat
 echo title DO NOT CLOSE - Steam is Running >> quicklaunch_steam.bat
-echo xcopy /q ".\data\appdata\locallow\*" "%%UserProfile%%\AppData\LocalLow" /e /i /y >> quicklaunch_steam.bat
+echo xcopy /q ".\data\appdata\locallow\*" "%%sUserProfile%%\AppData\LocalLow" /e /i /y >> quicklaunch_steam.bat
 echo set path="%%PATH%%";"%%CD%%\dll\" >> quicklaunch_steam.bat
-echo set COMMONPROGRAMFILES(X86)=.\bin\commonfiles\ >> quicklaunch_steam.bat
-echo set LOCALAPPDATA=.\data\appdata\local >> quicklaunch_steam.bat
-echo set APPDATA=.\data\appdata\roaming >> quicklaunch_steam.bat
+echo set COMMONPROGRAMFILES(X86)="%CD%\bin\commonfiles\">> quicklaunch_steam.bat
+echo set LOCALAPPDATA="%CD%\data\appdata\local\" >> quicklaunch_steam.bat
+echo set APPDATA="%CD%\data\appdata\roaming\" >> quicklaunch_steam.bat
 echo cls >> quicklaunch_steam.bat
 echo echo STEAM IS RUNNING >> quicklaunch_steam.bat
 echo .\bin\steam\steam.exe >> quicklaunch_steam.bat

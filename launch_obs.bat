@@ -20,7 +20,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 8 > .\doc\version.txt
+echo 9 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -65,9 +65,10 @@ goto OBSCHECK
 
 :DOWNLOADOBS
 cls
+title PORTABLE OBS LAUNCHER - DOWNLOAD OBS
 if exist OBS-Studio-18.0.1-Full.zip goto MOVEOBS
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://github.com/jp9000/obs-studio/releases/download/18.0.1/OBS-Studio-18.0.1-Full.zip
+.\bin\wget.exe -q --show-progress https://github.com/jp9000/obs-studio/releases/download/18.0.1/OBS-Studio-18.0.1-Full.zip
 
 :MOVEOBS
 cls
@@ -76,6 +77,7 @@ goto FILECHECK
 
 :WGETUPDATE
 cls
+title PORTABLE OBS LAUNCHER - UPDATE WGET
 wget https://eternallybored.org/misc/wget/current/wget.exe
 move wget.exe .\bin\
 goto MENU
@@ -131,6 +133,8 @@ move wget.exe .\bin\
 exit /b
 
 :EXTRACTOBS
+cls
+title PORTABLE OBS LAUNCHER - EXTRACT OBS
 set folder=%CD%
 if %CD%==%~d0\ set folder=%CD:~0,2%
 cls
@@ -197,8 +201,9 @@ goto MENU
 
 :DOWNLOADDLLDOWNLOADER
 cls
+title PORTABLE OBS LAUNCHER - DOWNLOAD DLL DOWNLOADER
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat
 cls
 goto DLLDOWNLOADERCHECK
 
@@ -232,7 +237,7 @@ goto NULL
 cls
 if exist version.txt del version.txt
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 cls
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
@@ -271,7 +276,7 @@ goto NEWUPDATE
 :UPDATE
 cls
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_obs.bat
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_obs.bat
 cls
 if exist launch_obs.bat.1 goto REPLACERCREATE
 goto ERROROFFLINE
@@ -305,6 +310,20 @@ del .\doc\obs_license.txt
 start launch_obs.bat
 exit
 
+:ERROROFFLINE
+cls
+set nag="YOU SEEM TO BE OFFLINE PLEASE RECONNECT TO THE INTERNET TO USE THIS FEATURE"
+goto MENU
+
+:PORTABLEEVERYTHING
+cls
+title PORTABLE OBS LAUNCHER - DOWNLOAD SUITE
+if not exist .\bin\wget.exe call :DOWNLOADWGET
+if not exist launch_everything.bat .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
+cls
+start launch_everything.bat
+exit
+
 :QUICKLAUNCHERCHECK
 cls
 title PORTABLE OBS LAUNCHER - QUICKLAUNCHER WRITER
@@ -328,19 +347,6 @@ echo rmdir /s /q "%%appdata%%\obs-studio" >> quicklaunch_obs.bat
 echo exit >> quicklaunch_obs.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_obs.bat
 pause
-exit
-
-:ERROROFFLINE
-cls
-set nag="YOU SEEM TO BE OFFLINE PLEASE RECONNECT TO THE INTERNET TO USE THIS FEATURE"
-goto MENU
-
-:PORTABLEEVERYTHING
-cls
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-if not exist launch_everything.bat .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
-cls
-start launch_everything.bat
 exit
 
 :ERROR

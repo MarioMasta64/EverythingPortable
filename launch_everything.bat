@@ -17,7 +17,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 9 > .\doc\version.txt
+echo 10 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -49,6 +49,7 @@ cls
 
 :WGETUPDATE
 cls
+title PORTABLE EVERYTHING LAUNCHER - UPDATE WGET
 wget https://eternallybored.org/misc/wget/current/wget.exe
 move wget.exe .\bin\
 goto MENU
@@ -140,7 +141,7 @@ exit /b
 :GET_INFO
 if not exist .\bin\wget.exe call :DOWNLOADWGET
 if exist %launchername%.txt del %launchername%.txt
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/info/%launchername%.txt
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/info/%launchername%.txt
 cls
 for /f "DELIMS=" %%i in ('type %launchername%.txt') do (
     echo %%i
@@ -151,7 +152,7 @@ exit /b
 
 :GET_DOWNLOADS
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 cls
 set "num=1"
 set "counter=0"
@@ -235,7 +236,7 @@ call %launcher% VERSION
 set current_version=!errorlevel!
 if exist version.txt del version.txt
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
 if "%launcher%"=="launch_everything.bat" set new_version=%Line_2%
@@ -307,7 +308,7 @@ goto INFO
 :UPDATENOW
 cls
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/%launcher%
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/%launcher%
 cls
 if exist %launcher%.1 goto REPLACERCREATE
 if exist %launcher% goto MENU

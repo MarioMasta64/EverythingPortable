@@ -18,7 +18,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 5 > .\doc\version.txt
+echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -65,9 +65,10 @@ goto TORCHECK
 
 :DOWNLOADTOR
 cls
+title PORTABLE TOR LAUNCHER - DOWNLOAD TOR
 if exist torbrowser-install-6.5.1_en-US.exe goto MOVETOR
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://github.com/TheTorProject/gettorbrowser/releases/download/v6.5.1/torbrowser-install-6.5.1_en-US.exe
+.\bin\wget.exe -q --show-progress https://github.com/TheTorProject/gettorbrowser/releases/download/v6.5.1/torbrowser-install-6.5.1_en-US.exe
 
 :MOVETOR
 cls
@@ -86,9 +87,10 @@ goto FILECHECK
 
 :DOWNLOAD7ZIP
 cls
+title PORTABLE TOR LAUNCHER - DOWNLOAD 7ZIP
 if exist 7-ZipPortable_16.04.paf.exe goto MOVE7ZIP
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
+.\bin\wget.exe -q --show-progress http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
 
 :MOVE7ZIP
 cls
@@ -97,6 +99,7 @@ goto FILECHECK
 
 :WGETUPDATE
 cls
+title PORTABLE TOR LAUNCHER - UPDATE WGET
 wget https://eternallybored.org/misc/wget/current/wget.exe
 move wget.exe .\bin\
 goto MENU
@@ -205,7 +208,7 @@ goto NULL
 cls
 if exist version.txt del version.txt
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 cls
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
@@ -244,7 +247,7 @@ goto NEWUPDATE
 :UPDATE
 cls
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_tor.bat
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_tor.bat
 cls
 if exist launch_tor.bat.1 goto REPLACERCREATE
 goto ERROROFFLINE
@@ -280,8 +283,9 @@ exit
 
 :PORTABLEEVERYTHING
 cls
+title PORTABLE TOR LAUNCHER - DOWNLOAD SUITE
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-if not exist launch_everything.bat .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
+if not exist launch_everything.bat .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
 cls
 start launch_everything.bat
 exit

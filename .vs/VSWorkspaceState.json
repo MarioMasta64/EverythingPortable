@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\info"
+    "\\info",
+    "\\note"
   ],
-  "SelectedNode": "\\launch_everything.bat",
+  "SelectedNode": "\\version.txt",
   "PreviewInSolutionExplorer": false
 }

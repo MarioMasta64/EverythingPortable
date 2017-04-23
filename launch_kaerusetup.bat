@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -52,6 +52,7 @@ cls
 
 :WGETUPDATE
 cls
+title PORTABLE KAERU SETUP LAUNCHER - DOWNLOAD KAERU SETUP
 wget https://eternallybored.org/misc/wget/current/wget.exe
 move wget.exe .\bin\
 goto MENU
@@ -195,7 +196,7 @@ cls
 if "%region%"=="JPN" call :NULL & goto KAERUMENU
 if exist %region%.cia goto MOVEKAERUCIA
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe http://dl.projectkaeru.xyz/cia/%region%.cia
+.\bin\wget.exe -q --show-progress http://dl.projectkaeru.xyz/cia/%region%.cia
 
 :MOVEKAERUCIA
 cls
@@ -221,8 +222,8 @@ goto KAERUSDSET
 cls
 if exist %titleid%.code goto MOVEKAERUHANS
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe http://dl.projectkaeru.xyz/hans/hans/%titleid%.code
-.\bin\wget.exe http://dl.projectkaeru.xyz/hans/hans/%titleid%.romfs
+.\bin\wget.exe -q --show-progress http://dl.projectkaeru.xyz/hans/hans/%titleid%.code
+.\bin\wget.exe -q --show-progress http://dl.projectkaeru.xyz/hans/hans/%titleid%.romfs
 
 :MOVEKAERUHANS
 cls
@@ -254,9 +255,9 @@ goto KAERUSDSET
 cls
 if exist %titleid%.code goto MOVEKAERUNTR
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe http://dl.projectkaeru.xyz/ntr/%region%/%titleid%/messageData/%shortcode%_English/LayoutMessage.blz
-.\bin\wget.exe http://dl.projectkaeru.xyz/ntr/%region%/%titleid%/messageData/%shortcode%_English/SystemMessage.blz
-.\bin\wget.exe http://dl.projectkaeru.xyz/ntr/%region%/plugin/%titleid%/layeredfs.plg
+.\bin\wget.exe -q --show-progress http://dl.projectkaeru.xyz/ntr/%region%/%titleid%/messageData/%shortcode%_English/LayoutMessage.blz
+.\bin\wget.exe -q --show-progress http://dl.projectkaeru.xyz/ntr/%region%/%titleid%/messageData/%shortcode%_English/SystemMessage.blz
+.\bin\wget.exe -q --show-progress http://dl.projectkaeru.xyz/ntr/%region%/plugin/%titleid%/layeredfs.plg
 
 :MOVEKAERUNTR
 cls
@@ -277,7 +278,7 @@ goto EXTRACTKAERUIPS
 cls
 if exist  ips.zip goto MOVEKAERUIPS
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe http://dl.projectkaeru.xyz/ips.zip
+.\bin\wget.exe -q --show-progress http://dl.projectkaeru.xyz/ips.zip
 
 :MOVEKAERUIPS
 cls

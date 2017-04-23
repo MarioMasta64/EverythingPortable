@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -66,9 +66,10 @@ goto LASTPASSCHECK
 
 :DOWNLOADLASTPASS
 cls
+title PORTABLE LASTPASS LAUNCHER - DOWNLOAD LASTPASS
 if exist lastappinstall%arch%.exe goto MOVELASTPASS
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://lastpass.com/download/cdn/lastappinstall%arch%.exe
+.\bin\wget.exe -q --show-progress https://lastpass.com/download/cdn/lastappinstall%arch%.exe
 
 :MOVELASTPASS
 cls
@@ -87,9 +88,10 @@ goto FILECHECK
 
 :DOWNLOAD7ZIP
 cls
+title PORTABLE LASTPASS LAUNCHER - DOWNLOAD 7ZIP
 if exist 7-ZipPortable_16.04.paf.exe goto MOVE7ZIP
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
+.\bin\wget.exe -q --show-progress http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
 
 :MOVE7ZIP
 cls
@@ -98,6 +100,7 @@ goto FILECHECK
 
 :WGETUPDATE
 cls
+title PORTABLE LASTPASS LAUNCHER - UPDATE WGET
 wget https://eternallybored.org/misc/wget/current/wget.exe
 move wget.exe .\bin\
 goto MENU
@@ -223,7 +226,7 @@ goto NULL
 cls
 if exist version.txt del version.txt
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
 set new_version=%Line_14%
@@ -261,7 +264,7 @@ goto NEWUPDATE
 :UPDATE
 cls
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_lastpass.bat
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_lastpass.bat
 if exist launch_lastpass.bat.1 goto REPLACERCREATE
 goto ERROROFFLINE
 
@@ -296,8 +299,9 @@ exit
 
 :PORTABLEEVERYTHING
 cls
+title PORTABLE LASTPASS LAUNCHER - DOWNLOAD SUITE
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-if not exist launch_everything.bat .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
+if not exist launch_everything.bat .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
 cls
 start launch_everything.bat
 exit
@@ -308,14 +312,11 @@ title PORTABLE LASTPASS LAUNCHER - QUICKLAUNCHER WRITER
 echo @echo off > quicklaunch_lastpass.bat
 echo Color 0A >> quicklaunch_lastpass.bat
 echo title DO NOT CLOSE >> quicklaunch_lastpass.bat
-echo set path="%%path%%";.\dll >> quicklaunch_lastpass.bat
-echo xcopy /q "%%CD%%\data\citra\*" "%%appdata%%\Citra\" /e /i /y >> quicklaunch_lastpass.bat
-echo cls >> quicklaunch_lastpass.bat
-echo echo CITRA IS RUNNING >> quicklaunch_lastpass.bat
-echo "%%CD%%\bin\citra\citra-qt.exe" >> quicklaunch_lastpass.bat
-echo xcopy /q "%%appdata%%\Citra\*" "%%CD%%\data\citra\" /e /i /y >> quicklaunch_lastpass.bat
-echo cls >> quicklaunch_lastpass.bat
-echo rmdir /s /q "%%appdata%%\Citra\" >> quicklaunch_lastpass.bat
+echo xcopy ".\data\appdata\locallow\lastpass\*" "%userprofile%\appdata\locallow\lastpass\" /e /i /y >> quicklaunch_lastpass.bat
+echo set LOCALAPPDATA="%CD%\data\appdata\local\" >> quicklaunch_lastpass.bat
+echo set APPDATA="%CD%\data\appdata\roaming\" >> quicklaunch_lastpass.bat
+echo echo LASTPASS IS RUNNING >> quicklaunch_lastpass.bat
+echo ".\bin\lastpass\lastapp_x64.exe" >> quicklaunch_lastpass.bat
 echo exit >> quicklaunch_lastpass.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_lastpass.bat
 pause

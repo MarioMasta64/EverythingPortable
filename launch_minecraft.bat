@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 7 > .\doc\version.txt
+echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -53,14 +53,16 @@ if not exist .\data\minecraft\.minecraft\launcher.pack.lzma set nag=COPY "%APPDA
 
 :WGETUPDATE
 cls
+title PORTABLE MINECRAFT LAUNCHER - UPDATE WGET
 wget https://eternallybored.org/misc/wget/current/wget.exe
 move wget.exe .\bin\
 goto MENU
 
 :DOWNLOADMINECRAFT
 cls
+title PORTABLE MINECRAFT LAUNCHER - DOWNLOAD MINECRAFT
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe http://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.jar
+.\bin\wget.exe -q --show-progress http://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.jar
 cls
 move Minecraft.jar .\bin\
 goto FILECHECK
@@ -311,9 +313,10 @@ goto JAVACHECK
 
 :DOWNLOADJAVA
 cls
+title PORTABLE MINECRAFT LAUNCHER - DOWNLOAD JAVA
 if exist jPortable%arch%_8_Update_121.paf.exe goto MOVEJAVA
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe http://downloads.sourceforge.net/portableapps/jPortable%arch%_8_Update_121.paf.exe
+.\bin\wget.exe -q --show-progress http://downloads.sourceforge.net/portableapps/jPortable%arch%_8_Update_121.paf.exe
 
 :MOVEJAVA
 cls
@@ -324,7 +327,7 @@ goto JAVAINSTALLERCHECK
 cls
 if exist version.txt del version.txt
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 cls
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
@@ -363,7 +366,7 @@ goto NEWUPDATE
 :UPDATE
 cls
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_minecraft.bat
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_minecraft.bat
 cls
 if exist launch_minecraft.bat.1 goto REPLACERCREATE
 goto ERROROFFLINE
@@ -399,8 +402,9 @@ exit
 
 :PORTABLEEVERYTHING
 cls
+title PORTABLE MINECRAFT LAUNCHER - DOWNLOAD SUITE
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-if not exist launch_everything.bat .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
+if not exist launch_everything.bat .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
 cls
 start launch_everything.bat
 exit
@@ -411,7 +415,7 @@ title PORTABLE MINECRAFT LAUNCHER - QUICKLAUNCHER WRITER
 echo @echo off > quicklaunch_minecraft.bat
 echo Color 0A >> quicklaunch_minecraft.bat
 echo cls >> quicklaunch_minecraft.bat
-echo set APPDATA=.\data\minecraft >> quicklaunch_minecraft.bat
+echo set APPDATA="%CD%\data\minecraft\" >> quicklaunch_minecraft.bat
 echo start "" .\bin\commonfiles\java64\bin\javaw.exe -jar .\bin\Minecraft.jar >> quicklaunch_minecraft.bat
 echo exit >> quicklaunch_minecraft.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_minecraft.bat
