@@ -11,7 +11,7 @@ kaerusetup
 cemu
 9
 lastpass
-8
+7
 qtemu
 7
 tor
