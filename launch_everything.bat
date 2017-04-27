@@ -17,7 +17,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 11 > .\doc\version.txt
+echo 12 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -27,8 +27,7 @@ cls
 if exist .\doc\everything_license.txt goto FILECHECK
 echo ================================================== > .\doc\everything_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\everything_license.txt
-:: remove space when version reaches 2 digits
-echo =           Script Version: v%current_version%- release         = >> .\doc\everything_license.txt
+echo =           Script Version: v%current_version%- release        = >> .\doc\everything_license.txt
 echo ================================================== >> .\doc\everything_license.txt
 echo =You may Modify this WITH consent of the original= >> .\doc\everything_license.txt
 echo = creator, as long as you include a copy of this = >> .\doc\everything_license.txt
