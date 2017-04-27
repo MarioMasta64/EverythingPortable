@@ -7,7 +7,6 @@ set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE_OR_NO_UPDATES
 if exist replacer.bat del replacer.bat
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
-:: temp
 
 :FOLDERCHECK
 cls
