@@ -14,13 +14,15 @@ if not exist .\bin\steam\ mkdir .\bin\steam\
 if not exist .\dll\ mkdir .\dll\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
-if not exist .\data\appdata\ mkdir .\data\appdata\
+if not exist .\data\AppData\ mkdir .\data\AppData\
+if not exist .\data\AppData\Local\ mkdir .\data\AppData\Local\
+if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
 call :VERSION
 goto CREDITS
 
 :VERSION
 cls
-echo 8 > .\doc\version.txt
+echo 9 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -213,11 +215,11 @@ goto NULL
 :DEFAULT
 cls
 title DO NOT CLOSE - Steam is Running
-xcopy /q ".\data\appdata\locallow\*" "%UserProfile%\AppData\LocalLow" /e /i /y
+xcopy /q ".\data\AppData\locallow\*" "%UserProfile%\data\AppData\LocalLow" /e /i /y
 set path="%PATH%;%CD%\dll\"
-set "COMMONPROGRAMFILES(X86)"="%CD%\bin\commonfiles\"
-set "LOCALAPPDATA"="%CD%\data\appdata\local"
-set "APPDATA"="%CD%\data\appdata\roaming"
+set "COMMONPROGRAMFILES(X86)"="%CD%\bin\CommonFiles\"
+set "LOCALAPPDATA"="%CD%\data\AppData\Local"
+set "APPDATA"="%CD%\data\AppData\Roaming"
 cls
 echo STEAM IS RUNNING
 .\bin\steam\steam.exe
@@ -333,16 +335,16 @@ echo @echo off > quicklaunch_steam.bat
 echo Color 0A >> quicklaunch_steam.bat
 echo cls >> quicklaunch_steam.bat
 echo title DO NOT CLOSE - Steam is Running >> quicklaunch_steam.bat
-echo xcopy /q ".\data\appdata\locallow\*" "%%sUserProfile%%\AppData\LocalLow" /e /i /y >> quicklaunch_steam.bat
+echo xcopy /q ".\data\AppData\locallow\*" "%%sUserProfile%%\data\AppData\LocalLow" /e /i /y >> quicklaunch_steam.bat
 echo set path="%%PATH%%";"%%CD%%\dll\" >> quicklaunch_steam.bat
 echo set COMMONPROGRAMFILES(X86)="%CD%\bin\commonfiles\">> quicklaunch_steam.bat
-echo set LOCALAPPDATA="%CD%\data\appdata\local\" >> quicklaunch_steam.bat
-echo set APPDATA="%CD%\data\appdata\roaming\" >> quicklaunch_steam.bat
+echo set LOCALAPPDATA="%CD%\data\AppData\local\" >> quicklaunch_steam.bat
+echo set APPDATA="%CD%\data\AppData\roaming\" >> quicklaunch_steam.bat
 echo cls >> quicklaunch_steam.bat
 echo echo STEAM IS RUNNING >> quicklaunch_steam.bat
 echo .\bin\steam\steam.exe >> quicklaunch_steam.bat
-echo xcopy /q "%%UserProfile%%\AppData\LocalLow\*" .\data\appdata\locallow /e /i /y >> quicklaunch_steam.bat
-echo rmdir /s /q "%%UserProfile%%\AppData\LocalLow" >> quicklaunch_steam.bat
+echo xcopy /q "%%UserProfile%%\data\data\AppData\LocalLow\*" .\data\AppData\locallow /e /i /y >> quicklaunch_steam.bat
+echo rmdir /s /q "%%UserProfile%%\data\AppData\LocalLow" >> quicklaunch_steam.bat
 echo exit >> quicklaunch_steam.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_steam.bat
 pause
@@ -359,6 +361,6 @@ echo ERROR OCCURED
 pause
 
 :EXIT
-xcopy /q "%UserProfile%\AppData\LocalLow\*" .\data\appdata\locallow /e /i /y
-rmdir /s /q "%UserProfile%\AppData\LocalLow"
+xcopy /q "%UserProfile%\data\AppData\LocalLow\*" .\data\AppData\LocalLow /e /i /y
+rmdir /s /q "%UserProfile%\data\AppData\LocalLow"
 exit
