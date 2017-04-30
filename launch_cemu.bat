@@ -253,8 +253,8 @@ rmdir /s /q cemu_1.7.4d
 cd ..
 cd bin\cemu*
 :: youre useless too >:(
-xcopy /q "%root%\temp\" .\mlc01\* /e /i /y
-xcopy /q "%root%\temp\"  .\hfiomlc01\* /e /i /y
+xcopy "%root%\temp\*" .\mlc01\ /e /i /y
+xcopy "%root%\temp\*"  .\hfiomlc01\ /e /i /y
 cd "%root%"
 pause
 :: at least you work...
@@ -264,8 +264,8 @@ goto CEMUCHECK
 :COPYBACK
 cls
 cd bin\cemu*
-xcopy /q "%root%\temp\" .\ /e /i /y
-xcopy /q "%root%\temp\" .\ /e /i /y
+xcopy /q "%root%\temp\*" .\ /e /i /y
+xcopy /q "%root%\temp\*" .\ /e /i /y
 exit /b
 
 :UPDATECHECK
