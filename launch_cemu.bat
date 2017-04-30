@@ -7,6 +7,7 @@ set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE
 if exist replacer.bat del replacer.bat
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
+set upgrade=0
 
 :FOLDERCHECK
 cls
@@ -20,7 +21,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 9 > .\doc\version.txt
+echo 11 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -238,21 +239,34 @@ goto NULL
 goto NULL
 
 :UPGRADE
+@echo on
 cls
-set root="%CD%"
+set "root"="%CD%"
 cd bin\cemu*
 :: maybe check the 6-10 digits and compare them as a value? using first digit the second then third?
+:: copy directories stupid code!!! D:<
 xcopy /q .\mlc01\* "%root%\temp\mlc01\" /e /i /y
 xcopy /q .\hfiomlc01\* "%root%\temp\hfiomlc01\" /e /i /y
 cd ..
 rmdir /s /q cemu_1.7.3d
 rmdir /s /q cemu_1.7.4d
+cd ..
 cd bin\cemu*
-set cemudir="%CD%"
-xcopy /q .\mlc01\* "%root%\temp\" /e /i /y
-xcopy /q .\hfiomlc01\* "%root%\temp\" /e /i /y
+:: youre useless too >:(
+xcopy /q "%root%\temp\" .\mlc01\* /e /i /y
+xcopy /q "%root%\temp\"  .\hfiomlc01\* /e /i /y
 cd "%root%"
+pause
+:: at least you work...
+rmdir /s /q .\temp\
 goto CEMUCHECK
+
+:COPYBACK
+cls
+cd bin\cemu*
+xcopy /q "%root%\temp\" .\ /e /i /y
+xcopy /q "%root%\temp\" .\ /e /i /y
+exit /b
 
 :UPDATECHECK
 cls
