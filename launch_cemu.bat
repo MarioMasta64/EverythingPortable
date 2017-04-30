@@ -50,24 +50,24 @@ pause
 
 :CEMUCHECK
 cls
-if not exist .\bin\cemu_1.7.4d\Cemu.exe goto FILECHECK
+if not exist .\bin\cemu_1.7.5\Cemu.exe goto FILECHECK
 goto WGETUPDATE
 
 :FILECHECK
-if not exist .\extra\cemu_1.7.4.zip goto DOWNLOADCEMU
+if not exist .\extra\cemu_1.7.5.zip goto DOWNLOADCEMU
 call :EXTRACTCEMU
 goto CEMUCHECK
 
 :DOWNLOADCEMU
 cls
 title PORTABLE CEMU LAUNCHER - DOWNLOAD CEMU
-if exist cemu_1.7.4.zip goto MOVECEMU
+if exist cemu_1.7.5.zip goto MOVECEMU
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress http://cemu.info/releases/cemu_1.7.4.zip
+.\bin\wget.exe -q --show-progress http://cemu.info/releases/cemu_1.7.5.zip
 
 :MOVECEMU
 cls
-move cemu_1.7.4.zip .\extra\cemu_1.7.4.zip
+move cemu_1.7.5.zip .\extra\cemu_1.7.5.zip
 goto CEMUCHECK
 
 :WGETUPDATE
@@ -135,7 +135,7 @@ if %CD%==%~d0\ set folder=%CD:~0,2%
 cls
 echo. > .\bin\extractcemu.vbs
 echo 'The location of the zip file. >> .\bin\extractcemu.vbs
-echo ZipFile="%folder%\extra\cemu_1.7.4.zip" >> .\bin\extractcemu.vbs
+echo ZipFile="%folder%\extra\cemu_1.7.5.zip" >> .\bin\extractcemu.vbs
 echo 'The folder the contents should be extracted to. >> .\bin\extractcemu.vbs
 :: change to %folder%\bin\ on regular builds (ones that dont have a folder inside the zip)
 echo ExtractTo="%folder%\bin\" >> .\bin\extractcemu.vbs
@@ -175,7 +175,7 @@ echo 2. launch cemu
 echo 3. reset cemu [not a feature yet]
 echo 4. uninstall cemu [not a feature yet]
 echo 5. update program
-echo 6. upgrade cemu
+echo 6. upgrade cemu [broken]
 echo 7. about
 echo 8. exit
 echo.
@@ -241,11 +241,16 @@ goto NULL
 cls
 set root="%CD%"
 cd bin\cemu*
-xcopy /q .\mlc01\* "%root%\temp" /e /i /y
+:: maybe check the 6-10 digits and compare them as a value? using first digit the second then third?
+xcopy /q .\mlc01\* "%root%\temp\mlc01\" /e /i /y
+xcopy /q .\hfiomlc01\* "%root%\temp\hfiomlc01\" /e /i /y
 cd ..
-rmdir /s /q cemu
 rmdir /s /q cemu_1.7.3d
 rmdir /s /q cemu_1.7.4d
+cd bin\cemu*
+set cemudir="%CD%"
+xcopy /q .\mlc01\* "%root%\temp\" /e /i /y
+xcopy /q .\hfiomlc01\* "%root%\temp\" /e /i /y
 cd "%root%"
 goto CEMUCHECK
 
