@@ -7,8 +7,12 @@ input.txt to be read in. (i need to figure out how to start and stop reading at 
     Color 0A
     cls
     setlocal enabledelayedexpansion
+    
     :: read in input and set @ as start reading into a temp variable and set variable to %<input code>% with value of <begin command> i know how to read a line into a variable so i basically want to read all this from a variable %line%
+    
+    :: this portion will be handled each time the interpreter goes through a line of text
     echo %<input code>%. #<choice response>#
+    
     set /p choice="choice: "
     if "%choice%"=="<input code>" then !%choice%!
 
