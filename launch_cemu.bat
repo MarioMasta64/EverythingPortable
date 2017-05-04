@@ -21,7 +21,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 12 > .\doc\version.txt
+echo 13 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -159,6 +159,7 @@ set "root=%CD%"
 cd bin\cemu*
 if exist "%root%\temp\mlc01\" xcopy "%root%\temp\mlc01\*" "%CD%\mlc01\" /e /i /y
 if exist "%root%\temp\hfiomlc01\" xcopy "%root%\temp\hfiomlc01\*" "%CD%\hfiomlc01\" /e /i /y
+cd %root%
 rmdir /s /q .\temp\
 exit /b
 
@@ -244,9 +245,7 @@ cd bin\cemu*
 xcopy /q .\mlc01\* "%root%\temp\mlc01\" /e /i /y
 xcopy /q .\hfiomlc01\* "%root%\temp\hfiomlc01\" /e /i /y
 cd ..
-rmdir /s /q cemu_1.7.3d
-rmdir /s /q cemu_1.7.4d
-rmdir /s /q cemu_1.7.5
+rmdir /s /q cemu*
 cd "%root%"
 goto CEMUCHECK
 
