@@ -26,3 +26,11 @@ d. Open In Browser
 message will be a temp variable as it will be read in as the menu progresses through each line of text
 
 i know i can make new lines but i need someway for my interpreter to tell between display code and menu code
+
+
+alternate idea
+    :: read in each line of code
+    if "%line%" == "<codeword>" then call :readmenu
+    continue reading other lines into menu
+    :readmenu
+    :: read in next three lines of code
