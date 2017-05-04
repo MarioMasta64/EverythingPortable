@@ -22,7 +22,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 9 > .\doc\version.txt
+echo 10 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -32,8 +32,7 @@ cls
 if exist .\doc\steam_license.txt goto STEAMCHECK
 echo ================================================== > .\doc\steam_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\steam_license.txt
-:: REMOVE SPACE AFTER VERSION HITS DOUBLE DIGITS
-echo =           Script Version: v%current_version%- release         = >> .\doc\steam_license.txt
+echo =           Script Version: v%current_version%- release        = >> .\doc\steam_license.txt
 echo ================================================== >> .\doc\steam_license.txt
 echo =You may Modify this WITH consent of the original= >> .\doc\steam_license.txt
 echo = creator, as long as you include a copy of this = >> .\doc\steam_license.txt
@@ -217,9 +216,9 @@ cls
 title DO NOT CLOSE - Steam is Running
 xcopy /q ".\data\AppData\locallow\*" "%UserProfile%\data\AppData\LocalLow" /e /i /y
 set path="%PATH%;%CD%\dll\"
-set "COMMONPROGRAMFILES(X86)"="%CD%\bin\CommonFiles\"
-set "LOCALAPPDATA"="%CD%\data\AppData\Local"
-set "APPDATA"="%CD%\data\AppData\Roaming"
+set "COMMONPROGRAMFILES(X86)=%CD%\bin\CommonFiles\"
+set "LOCALAPPDATA=%CD%\data\AppData\Local"
+set "APPDATA=%CD%\data\AppData\Roaming"
 cls
 echo STEAM IS RUNNING
 .\bin\steam\steam.exe
