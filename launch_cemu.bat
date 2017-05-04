@@ -21,7 +21,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 11 > .\doc\version.txt
+echo 12 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -31,9 +31,7 @@ cls
 if exist .\doc\cemu_license.txt goto CEMUCHECK
 echo ================================================== > .\doc\cemu_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\cemu_license.txt
-:: REMOVE SPACE AFTER VERSION HITS DOUBLE DIGITS
-:: PREVIEW BUILD
-echo =           Script Version: v%current_version%- release         = >> .\doc\cemu_license.txt
+echo =           Script Version: v%current_version%- release        = >> .\doc\cemu_license.txt
 echo ================================================== >> .\doc\cemu_license.txt
 echo =You may Modify this WITH consent of the original= >> .\doc\cemu_license.txt
 echo = creator, as long as you include a copy of this = >> .\doc\cemu_license.txt
@@ -157,13 +155,11 @@ echo. >> .\bin\extractcemu.vbs
 title PORTABLE CEMU LAUNCHER - EXTRACT ZIP
 cscript.exe .\bin\extractcemu.vbs
 
-set root="%CD%"
+set "root=%CD%"
 cd bin\cemu*
-if exist "%root%\temp\usr\" xcopy "%root%\temp\*" .\mlc01\ /e /i /y
-cd "%root%"
-echo %CD%
+if exist "%root%\temp\mlc01\" xcopy "%root%\temp\mlc01\*" "%CD%\mlc01\" /e /i /y
+if exist "%root%\temp\hfiomlc01\" xcopy "%root%\temp\hfiomlc01\*" "%CD%\hfiomlc01\" /e /i /y
 rmdir /s /q .\temp\
-
 exit /b
 
 :MENU
@@ -176,7 +172,7 @@ echo 2. launch cemu
 echo 3. reset cemu [not a feature yet]
 echo 4. uninstall cemu [not a feature yet]
 echo 5. update program
-echo 6. upgrade cemu [broken]
+echo 6. upgrade cemu
 echo 7. about
 echo 8. exit
 echo.
@@ -239,9 +235,9 @@ goto NULL
 goto NULL
 
 :UPGRADE
-@echo on
 cls
-set "root"="%CD%"
+set "root=%CD%"
+mkdir .\temp\
 cd bin\cemu*
 :: maybe check the 6-10 digits and compare them as a value? using first digit the second then third?
 :: copy directories stupid code!!! D:<
@@ -250,15 +246,8 @@ xcopy /q .\hfiomlc01\* "%root%\temp\hfiomlc01\" /e /i /y
 cd ..
 rmdir /s /q cemu_1.7.3d
 rmdir /s /q cemu_1.7.4d
-cd ..
-cd bin\cemu*
-:: youre useless too >:(
-xcopy "%root%\temp\*" .\mlc01\ /e /i /y
-xcopy "%root%\temp\*"  .\hfiomlc01\ /e /i /y
+rmdir /s /q cemu_1.7.5
 cd "%root%"
-pause
-:: at least you work...
-rmdir /s /q .\temp\
 goto CEMUCHECK
 
 :COPYBACK
