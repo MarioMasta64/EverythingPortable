@@ -20,7 +20,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 9 > .\doc\version.txt
+echo 10 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -238,7 +238,6 @@ goto NULL
 :UPGRADE
 cls
 rmdir /s /q .\bin\obs\
-pause
 goto OBSCHECK
 
 :UPDATECHECK
