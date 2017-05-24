@@ -30,8 +30,7 @@ cls
 if exist .\doc\obs_license.txt goto ARCHCHECK
 echo ================================================== > .\doc\obs_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\obs_license.txt
-:: REMOVE SPACE AFTER VERSION HITS DOUBLE DIGITS
-echo =           Script Version: v%current_version%- release         = >> .\doc\obs_license.txt
+echo =           Script Version: v%current_version%- release        = >> .\doc\obs_license.txt
 echo ================================================== >> .\doc\obs_license.txt
 echo =You may Modify this WITH consent of the original= >> .\doc\obs_license.txt
 echo = creator, as long as you include a copy of this = >> .\doc\obs_license.txt
