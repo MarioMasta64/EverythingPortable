@@ -59,20 +59,20 @@ goto WGETUPDATE
 
 :FILECHECK
 cls
-if not exist .\extra\OBS-Studio-18.0.1-Full.zip goto DOWNLOADOBS
+if not exist .\extra\OBS-Studio-19.0.2-Full.zip goto DOWNLOADOBS
 call :EXTRACTOBS
 goto OBSCHECK
 
 :DOWNLOADOBS
 cls
 title PORTABLE OBS LAUNCHER - DOWNLOAD OBS
-if exist OBS-Studio-18.0.1-Full.zip goto MOVEOBS
+if exist OBS-Studio-19.0.2-Full.zip goto MOVEOBS
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://github.com/jp9000/obs-studio/releases/download/18.0.1/OBS-Studio-18.0.1-Full.zip
+.\bin\wget.exe -q --show-progress https://github.com/jp9000/obs-studio/releases/download/19.0.2/OBS-Studio-19.0.2-Full.zip
 
 :MOVEOBS
 cls
-move OBS-Studio-18.0.1-Full.zip .\extra\OBS-Studio-18.0.1-Full.zip
+move OBS-Studio-19.0.2-Full.zip .\extra\OBS-Studio-19.0.2-Full.zip
 goto FILECHECK
 
 :WGETUPDATE
@@ -140,7 +140,7 @@ if %CD%==%~d0\ set folder=%CD:~0,2%
 cls
 echo. > .\bin\extractobs.vbs
 echo 'The location of the zip file. >> .\bin\extractobs.vbs
-echo ZipFile="%folder%\extra\OBS-Studio-18.0.1-Full.zip" >> .\bin\extractobs.vbs
+echo ZipFile="%folder%\extra\OBS-Studio-19.0.2-Full.zip" >> .\bin\extractobs.vbs
 echo 'The folder the contents should be extracted to. >> .\bin\extractobs.vbs
 echo ExtractTo="%folder%\bin\obs\" >> .\bin\extractobs.vbs
 echo. >> .\bin\extractobs.vbs
@@ -171,8 +171,9 @@ echo 2. launch obs
 echo 3. reset obs [not a feature yet]
 echo 4. uninstall obs [not a feature yet]
 echo 5. update program
-echo 6. about
-echo 7. exit
+echo 6. upgrade [use after update]
+echo 7. about
+echo 8. exit
 echo.
 echo a. download dll's
 echo.
@@ -186,12 +187,13 @@ if "%choice%"=="2" goto DEFAULT
 if "%choice%"=="3" goto SELECT
 if "%choice%"=="4" goto DELETE
 if "%choice%"=="5" goto UPDATECHECK
-if "%choice%"=="6" goto ABOUT
-if "%choice%"=="7" goto EXIT
+if "%choice%"=="6" goto UPGRADE
+if "%choice%"=="7" goto ABOUT
+if "%choice%"=="8" goto EXIT
 if "%choice%"=="a" goto DLLDOWNLOADERCHECK
 if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
 if "%CHOICE%"=="c" goto QUICKLAUNCHERCHECK
-set nag="PLEASE SELECT A CHOICE 1-7 or a/b/c"
+set nag="PLEASE SELECT A CHOICE 1-8 or a/b/c"
 goto MENU
 
 :DLLDOWNLOADERCHECK
@@ -232,6 +234,12 @@ goto NULL
 
 :DELETE
 goto NULL
+
+:UPGRADE
+cls
+rmdir /s /q .\bin\obs\
+pause
+goto OBSCHECK
 
 :UPDATECHECK
 cls
