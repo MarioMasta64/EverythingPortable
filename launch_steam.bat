@@ -22,7 +22,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 10 > .\doc\version.txt
+echo 11 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -336,9 +336,9 @@ echo cls >> quicklaunch_steam.bat
 echo title DO NOT CLOSE - Steam is Running >> quicklaunch_steam.bat
 echo xcopy /q ".\data\AppData\locallow\*" "%%sUserProfile%%\data\AppData\LocalLow" /e /i /y >> quicklaunch_steam.bat
 echo set path="%%PATH%%";"%%CD%%\dll\" >> quicklaunch_steam.bat
-echo set COMMONPROGRAMFILES(X86)="%CD%\bin\commonfiles\">> quicklaunch_steam.bat
-echo set LOCALAPPDATA="%CD%\data\AppData\local\" >> quicklaunch_steam.bat
-echo set APPDATA="%CD%\data\AppData\roaming\" >> quicklaunch_steam.bat
+echo set "COMMONPROGRAMFILES(X86)=%CD%\bin\commonfiles\">> quicklaunch_steam.bat
+echo set "LOCALAPPDATA=%CD%\data\AppData\local\" >> quicklaunch_steam.bat
+echo set "APPDATA=%CD%\data\AppData\roaming\" >> quicklaunch_steam.bat
 echo cls >> quicklaunch_steam.bat
 echo echo STEAM IS RUNNING >> quicklaunch_steam.bat
 echo .\bin\steam\steam.exe >> quicklaunch_steam.bat

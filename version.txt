@@ -1,9 +1,9 @@
 everything
 12
 minecraft
-8
+9
 steam
-10
+11
 obs
 10
 kaerusetup
@@ -11,7 +11,7 @@ kaerusetup
 cemu
 14
 lastpass
-7
+8
 qtemu
 7
 tor

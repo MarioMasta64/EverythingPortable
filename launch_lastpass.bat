@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 7 > .\doc\version.txt
+echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -198,8 +198,8 @@ goto NULL
 cls
 title DO NOT CLOSE - Steam is Running
 xcopy ".\data\appdata\locallow\lastpass\*" "%userprofile%\appdata\locallow\lastpass\" /e /i /y
-set LOCALAPPDATA=.\data\appdata\local
-set APPDATA=.\data\appdata\roaming
+set "LOCALAPPDATA=%CD%\data\appdata\local"
+set "APPDATA=%CD%\data\appdata\roaming"
 cls
 echo LASTPASS IS RUNNING
 .\bin\lastpass\lastapp_x64.exe
