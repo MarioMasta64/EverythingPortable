@@ -22,7 +22,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 11 > .\doc\version.txt
+echo 12 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -353,11 +353,6 @@ exit
 cls
 set nag="YOU SEEM TO BE OFFLINE PLEASE RECONNECT TO THE INTERNET TO USE THIS FEATURE"
 goto MENU
-
-:ERROR
-cls
-echo ERROR OCCURED
-pause
 
 :EXIT
 xcopy /q "%UserProfile%\data\AppData\LocalLow\*" .\data\AppData\LocalLow /e /i /y

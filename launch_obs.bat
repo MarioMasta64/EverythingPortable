@@ -20,7 +20,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 10 > .\doc\version.txt
+echo 11 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -354,11 +354,6 @@ echo exit >> quicklaunch_obs.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_obs.bat
 pause
 exit
-
-:ERROR
-cls
-echo ERROR OCCURED
-pause
 
 :EXIT
 cd ..

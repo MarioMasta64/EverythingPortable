@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 9 > .\doc\version.txt
+echo 10 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -29,8 +29,7 @@ cls
 if exist .\doc\minecraft_license.txt goto FILECHECK
 echo ================================================== > .\doc\minecraft_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\minecraft_license.txt
-:: remove space when version reaches 2 digits
-echo =           Script Version: v%current_version%- release         = >> .\doc\minecraft_license.txt
+echo =           Script Version: v%current_version%- release        = >> .\doc\minecraft_license.txt
 echo ================================================== >> .\doc\minecraft_license.txt
 echo =You may Modify this WITH consent of the original= >> .\doc\minecraft_license.txt
 echo = creator, as long as you include a copy of this = >> .\doc\minecraft_license.txt
@@ -426,9 +425,3 @@ exit
 cls
 set nag="YOU SEEM TO BE OFFLINE PLEASE RECONNECT TO THE INTERNET TO USE THIS FEATURE"
 goto MENU
-
-:ERROR
-cls
-echo ERROR OCCURED
-pause
-exit

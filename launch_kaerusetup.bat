@@ -8,6 +8,8 @@ set new_version=OFFLINE
 if exist replacer.bat del replacer.bat
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 
+:: I AM A VERY BROKEN LAUNCHER
+
 :FOLDERCHECK
 cls
 if not exist .\bin\ mkdir .\bin\

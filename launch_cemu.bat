@@ -21,7 +21,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 14 > .\doc\version.txt
+echo 15 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -242,6 +242,7 @@ mkdir .\temp\
 cd bin\cemu*
 :: maybe check the 6-10 digits and compare them as a value? using first digit the second then third?
 :: copy directories stupid code!!! D:<
+:: i fixed it btw
 xcopy /q .\mlc01\* "%root%\temp\mlc01\" /e /i /y
 xcopy /q .\hfiomlc01\* "%root%\temp\hfiomlc01\" /e /i /y
 cd ..
@@ -365,8 +366,3 @@ echo exit >> quicklaunch_cemu.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_cemu.bat
 pause
 exit
-
-:ERROR
-cls
-echo ERROR OCCURED
-pause
