@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 9 > .\doc\version.txt
+echo 10 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -30,8 +30,7 @@ if exist .\doc\kaerusetup_license.txt goto FILECHECK
 echo ================================================== > .\doc\kaerusetup_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\kaerusetup_license.txt
 echo =         Most of the code by MikeModder007      = >> .\doc\kaerusetup_license.txt
-:: REMOVE SPACE AFTER VERSION HITS DOUBLE DIGITS
-echo =            Script Version: v%current_version%- beta          = >> .\doc\kaerusetup_license.txt
+echo =            Script Version: v%current_version%- beta         = >> .\doc\kaerusetup_license.txt
 echo ================================================== >> .\doc\kaerusetup_license.txt
 echo =You may Modify this WITH consent of the original= >> .\doc\kaerusetup_license.txt
 echo = creator, as long as you include a copy of this = >> .\doc\kaerusetup_license.txt
@@ -189,6 +188,7 @@ goto KAERUMENU
 :KAERUCIACHECK
 cls
 if not exist .\data\sd\cia\%region%.cia goto DOWNLOADKAERUCIA
+:: this command crashes... what the actual fuck?
 goto KAERUSDSET
 
 :DOWNLOADKAERUCIA
@@ -196,7 +196,8 @@ cls
 if "%region%"=="JPN" call :NULL & goto KAERUMENU
 if exist %region%.cia goto MOVEKAERUCIA
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress http://dl.projectkaeru.xyz/cia/%region%.cia
+:: by putting .\bin\wget.exe -q --show-progress here
+.\bin\wget.exe http://dl.projectkaeru.xyz/cia/%region%.cia
 
 :MOVEKAERUCIA
 cls
@@ -222,6 +223,7 @@ goto KAERUSDSET
 cls
 if exist %titleid%.code goto MOVEKAERUHANS
 if not exist .\bin\wget.exe call :DOWNLOADWGET
+:: YET THIS IS FLIPPING UNAFFECTED ;-;
 .\bin\wget.exe -q --show-progress http://dl.projectkaeru.xyz/hans/hans/%titleid%.code
 .\bin\wget.exe -q --show-progress http://dl.projectkaeru.xyz/hans/hans/%titleid%.romfs
 
