@@ -1,15 +1,36 @@
 @echo off
 color 0A
-if not exist .\bin\ mkdir .\bin\
+if not exist .\bin\vscode\ mkdir .\bin\vscode\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\data\ mkdir .\data\
 if not exist .\data\appdata\local\ mkdir .\data\appdata\local\
 if not exist .\data\.vscode\ mkdir .\data\.vscode\
 
 echo "l" to launch vscode
+echo "u" to update the file paths
 echo "d" to download vscode
 set /p goto="choice: "
 goto %goto%
+
+:U
+copy .\bin\*.pak .\bin\vscode\
+copy .\bin\*.dll .\bin\vscode\
+copy .\bin\*.dat .\bin\vscode\
+copy .\bin\*.bin .\bin\vscode\
+copy .\bin\Code.exe .\bin\vscode\
+xcopy .\bin\bin\* .\bin\vscode\bin\ /e /i /y
+xcopy .\bin\locales\* .\bin\vscode\locales\ /e /i /y
+xcopy .\bin\resources\* .\bin\vscode\resources\ /e /i /y
+del .\bin\*.pak
+del .\bin\*.dll
+del .\bin\*.dat
+del .\bin\*.bin
+del .\bin\Code.exe
+rmdir /s /q .\bin\bin\
+rmdir /s /q .\bin\locales\
+rmdir /s /q .\bin\resources\
+pause
+exit
 
 :D
 echo WARNING DO NOT RUN ME IN A DIRECTORY THAT HAS AN index.html* File
@@ -54,7 +75,7 @@ echo. > .\bin\extractvscode.vbs
 echo 'The location of the zip file. >> .\bin\extractvscode.vbs
 echo ZipFile="%folder%\extra\vscode.zip" >> .\bin\extractvscode.vbs
 echo 'The folder the contents should be extracted to. >> .\bin\extractvscode.vbs
-echo ExtractTo="%folder%\bin\" >> .\bin\extractvscode.vbs
+echo ExtractTo="%folder%\bin\vscode\" >> .\bin\extractvscode.vbs
 echo. >> .\bin\extractvscode.vbs
 echo 'If the extraction location does not exist create it. >> .\bin\extractvscode.vbs
 echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractvscode.vbs
@@ -72,6 +93,9 @@ echo. >> .\bin\extractvscode.vbs
 title PORTABLE VSCODE LAUNCHER - EXTRACT ZIP
 cscript.exe .\bin\extractvscode.vbs
 set userprofile=%CD%\data\userprofile
+echo RELAUNCH ME AND CHOOSE L THIS TIME
+pause
+exit
 :L
 title DO NOT CLOSE VSCODE IS RUNNING
 xcopy .\data\.vscode\* "%userprofile%\.vscode\" /e /i /y
