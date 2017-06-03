@@ -8,8 +8,6 @@ set new_version=OFFLINE
 if exist replacer.bat del replacer.bat
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 
-:: I AM A VERY BROKEN LAUNCHER
-
 :FOLDERCHECK
 cls
 if not exist .\bin\ mkdir .\bin\
@@ -21,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 7 > .\doc\version.txt
+echo 9 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -380,16 +378,16 @@ exit
 echo @echo off > ProjectKaeruSetup.bat
 echo del *.cia >> ProjectKaeruSetup.bat
 echo :disclaimer >> ProjectKaeruSetup.bat
-echo title Project Kaeru Guided Setup >> ProjectKaeruSetup.bat
+echo title Kaeru World Guided Setup >> ProjectKaeruSetup.bat
 echo cls >> ProjectKaeruSetup.bat
 echo echo ============================================================= >> ProjectKaeruSetup.bat
-echo echo =Project Kaeru is a free alternitave to the Japan Exclusive = >> ProjectKaeruSetup.bat
+echo echo =Kaeru World is a free alternitave to the Japan Exclusive   = >> ProjectKaeruSetup.bat
 echo echo =Flipnote Gallery World. This service allows users of the   = >> ProjectKaeruSetup.bat
 echo echo =Flipnote Studio 3D application to upload their creations   = >> ProjectKaeruSetup.bat
-echo echo =for other users of Project Kaeru to see.                   = >> ProjectKaeruSetup.bat
+echo echo =for other users of Kaeru World to see.                     = >> ProjectKaeruSetup.bat
 echo echo ============================================================= >> ProjectKaeruSetup.bat
 echo echo =The author of this program (MikeModder007) does not claim  = >> ProjectKaeruSetup.bat
-echo echo =any rights to the Project Kaeru name or any of its assets. = >> ProjectKaeruSetup.bat
+echo echo =any rights to the Kaeru World name or any of its assets.   = >> ProjectKaeruSetup.bat
 echo echo ============================================================= >> ProjectKaeruSetup.bat
 echo echo =This program is provided as-is. The author of this program = >> ProjectKaeruSetup.bat
 echo echo =will not be held responsible for any damanges cause to any = >> ProjectKaeruSetup.bat
@@ -411,7 +409,7 @@ echo :jointype >> ProjectKaeruSetup.bat
 echo cls >> ProjectKaeruSetup.bat
 echo. >> ProjectKaeruSetup.bat
 echo echo ============================================================== >> ProjectKaeruSetup.bat
-echo echo =How will you be accessing Project Kaeru?                    = >> ProjectKaeruSetup.bat
+echo echo =How will you be accessing Kaeru World?                      = >> ProjectKaeruSetup.bat
 echo echo ============================================================== >> ProjectKaeruSetup.bat
 echo echo =1)CIA (Use only if you have a CFW)                          = >> ProjectKaeruSetup.bat
 echo echo =2)HANS (Can be used without CFW via Homebrew)               = >> ProjectKaeruSetup.bat
@@ -538,9 +536,9 @@ echo echo Using the arrow keys and the A button navigate to the ProjectKaeru fol
 echo echo When you are in this folder hit A while ^<current directory^> is highlighted >> ProjectKaeruSetup.bat
 echo echo Then hit Install all CIAs and say yes to any prompts. >> ProjectKaeruSetup.bat
 echo echo Now exit FBI, and Flipnote Studio 3D should appear on your homemenu >> ProjectKaeruSetup.bat
-echo echo To acess Project Kaeru open Flipnote Studio 3D and hit the right arrow >> ProjectKaeruSetup.bat
-echo echo Then click the box that says Project Kaeru. >> ProjectKaeruSetup.bat
-echo echo Congrats, you have now joined Project Kaeru! >> ProjectKaeruSetup.bat
+echo echo To acess Kaeru World open Flipnote Studio 3D and hit the right arrow >> ProjectKaeruSetup.bat
+echo echo Then click the box that says Kaeru World. >> ProjectKaeruSetup.bat
+echo echo Congrats, you have now joined Kaeru World! >> ProjectKaeruSetup.bat
 echo echo. >> ProjectKaeruSetup.bat
 echo echo To exit, hit the X button on the window. >> ProjectKaeruSetup.bat
 echo. >> ProjectKaeruSetup.bat
