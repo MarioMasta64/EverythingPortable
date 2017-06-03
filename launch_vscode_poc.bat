@@ -103,7 +103,7 @@ rmdir /s /q .\data\.vscode\
 set appdata=%CD%\data\appdata\local\
 cls
 echo DO NOT CLOSE VSCODE IS RUNNING
-.\bin\Code.exe
+.\bin\vscode\Code.exe
 xcopy "%userprofile%\.vscode\*" .\data\.vscode\ /e /i /y
 rmdir /s /q "%userprofile%\.vscode\"
 exit
