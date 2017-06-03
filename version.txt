@@ -1,5 +1,5 @@
 everything
-13
+12
 minecraft
 10
 steam
@@ -17,4 +17,4 @@ qtemu
 tor
 7
 vscode_poc
-0
+1
