@@ -111,7 +111,7 @@ cls
 title PORTABLE KAERU SETUP - JOIN TYPE
 echo %NAG%
 set nag=SELECTION TIME!
-echo 1. CIA (Choose this if you have CFW installed)
+echo 1. CIA (Not recommended anymore, use another method)
 echo 2. HANS (Choose this if you dont have CFW or are unsure)
 echo 3. NTR (Choose this if you have cfw but dont wish to modify the original)
 echo 4. IPS (For Luma v7 users the better patch :^) )
