@@ -15,6 +15,6 @@ lastpass
 qtemu
 8
 tor
-7
+6
 vscode_poc
 0
