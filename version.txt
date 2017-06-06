@@ -18,3 +18,7 @@ tor
 6
 vscode_poc
 0
+teamviewer_poc
+0
+teamviewer_host_poc
+0
