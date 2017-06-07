@@ -47,7 +47,7 @@ move wget.exe .\bin\wget.exe
 .\bin\wget.exe https://download.teamviewer.com/download/TeamViewer_Host_Setup.exe
 move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
 move TeamViewer_Host_Setup.exe .\extra\TeamViewer_Host_Setup.exe
-start .\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
+.\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
 if not exist .\temp\ mkdir .\temp\
 :: is not required to be set. will be set in release
 .\bin\7-ZipPortable\App\7-Zip%arch%\7z.exe x .\extra\TeamViewer_Host_Setup.exe * -o.\temp\
