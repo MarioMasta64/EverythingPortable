@@ -3,7 +3,7 @@ everything
 minecraft
 10
 steam
-12
+13
 obs
 11
 kaerusetup
@@ -11,11 +11,11 @@ kaerusetup
 cemu
 16
 lastpass
-9
+10
 qtemu
-8
+9
 tor
-6
+7
 vscode_poc
 0
 teamviewer_poc
@@ -23,4 +23,6 @@ teamviewer_poc
 teamviewer_host_poc
 0
 opera_poc
+0
+qbittorent_poc
 0
