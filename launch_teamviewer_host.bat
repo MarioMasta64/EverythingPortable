@@ -281,7 +281,7 @@ exit
 
 :ABOUT
 cls
-del .\doc\qtemu_license.txt
+del .\doc\teamviewer_host_license.txt
 start launch_teamviewer_host.bat
 exit
 
