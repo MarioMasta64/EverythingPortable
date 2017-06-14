@@ -18,7 +18,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -77,12 +77,8 @@ goto FILECHECK
 
 :7ZIPINSTALLERCHECK
 if not exist .\extra\7-ZipPortable_16.04.paf.exe goto DOWNLOAD7ZIP
-start .\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
-:: maybe a different approach of bringing this to the front
-cls
-title READMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADME
-echo go through the install directions as it says then press enter to continue
-pause
+title PORTABLE TOR LAUNCHER - RUNNING 7ZIP INSTALLER
+.\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
 goto FILECHECK
 
 :DOWNLOAD7ZIP

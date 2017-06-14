@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 9 > .\doc\version.txt
+echo 10 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -29,8 +29,7 @@ cls
 if exist .\doc\lastpass_license.txt goto ARCHCHECK
 echo ================================================== > .\doc\lastpass_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\lastpass_license.txt
-:: REMOVE SPACE AFTER VERSION HITS DOUBLE DIGITS
-echo =           Script Version: v%current_version%- release         = >> .\doc\lastpass_license.txt
+echo =           Script Version: v%current_version%- release        = >> .\doc\lastpass_license.txt
 echo ================================================== >> .\doc\lastpass_license.txt
 echo =You may Modify this WITH consent of the original= >> .\doc\lastpass_license.txt
 echo = creator, as long as you include a copy of this = >> .\doc\lastpass_license.txt
@@ -78,12 +77,8 @@ goto FILECHECK
 
 :7ZIPINSTALLERCHECK
 if not exist .\extra\7-ZipPortable_16.04.paf.exe goto DOWNLOAD7ZIP
-start .\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
-:: maybe a different approach of bringing this to the front
-cls
-title READMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADMEREADME
-echo go through the install directions as it says then press enter to continue
-pause
+title PORTABLE LASTPASS LAUNCHER - RUNNING 7ZIP INSTALLER
+.\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
 goto FILECHECK
 
 :DOWNLOAD7ZIP
