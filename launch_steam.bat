@@ -22,7 +22,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 13 > .\doc\version.txt
+echo 14 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -246,7 +246,7 @@ cls
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
 set new_version=%Line_6%
-if %new_version%==OFFLINE goto ERROROFFLINE
+if "%new_version%"=="OFFLINE" goto ERROROFFLINE
 if %current_version% EQU %new_version% goto LATEST
 if %current_version% LSS %new_version% goto NEWUPDATE
 if %current_version% GTR %new_version% goto NEWEST

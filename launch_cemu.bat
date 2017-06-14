@@ -12,7 +12,6 @@ set upgrade=0
 :FOLDERCHECK
 cls
 if not exist .\bin\ mkdir .\bin\
-if not exist .\data\cemu\ mkdir .\data\cemu\
 if not exist .\dll\ mkdir .\dll\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
@@ -21,7 +20,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -269,7 +268,7 @@ cls
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
 set new_version=%Line_12%
-if %new_version%==OFFLINE goto ERROROFFLINE
+if "%new_version%"=="OFFLINE" goto ERROROFFLINE
 if %current_version% EQU %new_version% goto LATEST
 if %current_version% LSS %new_version% goto NEWUPDATE
 if %current_version% GTR %new_version% goto NEWEST

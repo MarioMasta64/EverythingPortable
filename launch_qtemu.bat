@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 9 > .\doc\version.txt
+echo 10 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -29,8 +29,7 @@ cls
 if exist .\doc\qtemu_license.txt goto QTEMUCHECK
 echo ================================================== > .\doc\qtemu_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\qtemu_license.txt
-:: REMOVE SPACE AFTER VERSION HITS DOUBLE DIGITS
-echo =           Script Version: v%current_version%- release         = >> .\doc\qtemu_license.txt
+echo =           Script Version: v%current_version%- release        = >> .\doc\qtemu_license.txt
 echo ================================================== >> .\doc\qtemu_license.txt
 echo =You may Modify this WITH consent of the original= >> .\doc\qtemu_license.txt
 echo = creator, as long as you include a copy of this = >> .\doc\qtemu_license.txt
@@ -213,7 +212,7 @@ cls
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
 set new_version=%Line_16%
-if %new_version%==OFFLINE goto ERROROFFLINE
+if "%new_version%"=="OFFLINE" goto ERROROFFLINE
 if %current_version% EQU %new_version% goto LATEST
 if %current_version% LSS %new_version% goto NEWUPDATE
 if %current_version% GTR %new_version% goto NEWEST

@@ -17,7 +17,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 12 > .\doc\version.txt
+echo 14 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -248,7 +248,7 @@ if "%launcher%"=="launch_cemu.bat" set new_version=%Line_12%
 if "%launcher%"=="launch_lastpass.bat" set new_version=%Line_14%
 if "%launcher%"=="launch_qtemu.bat" set new_version=%Line_16%
 if "%launcher%"=="launch_tor.bat" set new_version=%Line_18%
-if %new_version%==OFFLINE goto ERROROFFLINE
+if "%new_version%"=="OFFLINE" goto ERROROFFLINE
 if %current_version% EQU %new_version% goto LATEST
 if %current_version% LSS %new_version% goto NEWUPDATE
 if %current_version% GTR %new_version% goto NEWEST
