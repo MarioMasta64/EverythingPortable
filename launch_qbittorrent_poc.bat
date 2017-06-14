@@ -3,7 +3,6 @@ cls
 Color 0A
 
 if not exist .\bin\qBittorrent\ mkdir .\bin\qBittorrent\
-if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
 if not exist .\extra\ mkdir .\extra\
 
 echo "l" to launch qBittorrent
