@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -77,7 +77,7 @@ if exist TeamViewer_Host_Setup.exe goto MOVETEAMVIEWERHOST
 if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe -q --show-progress https://download.teamviewer.com/download/TeamViewer_Host_Setup.exe
 
-:MOVEQTEMU
+:MOVETEAMVIEWERHOST
 cls
 move TeamViewer_Host_Setup.exe .\extra\TeamViewer_Host_Setup.exe
 goto FILECHECK
