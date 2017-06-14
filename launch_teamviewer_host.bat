@@ -181,7 +181,7 @@ if "%choice%"=="3" goto SELECT
 if "%choice%"=="4" goto DELETE
 if "%choice%"=="5" goto UPDATECHECK
 if "%choice%"=="6" goto ABOUT
-if "%choice%"=="7" goto EXIT
+if "%choice%"=="7" exit
 if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
 if "%CHOICE%"=="c" goto QUICKLAUNCHERCHECK
 set nag="PLEASE SELECT A CHOICE 1-7 or b/c"
