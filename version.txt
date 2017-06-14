@@ -9,13 +9,13 @@ obs
 kaerusetup
 10
 cemu
-16
+17
 lastpass
-10
+11
 qtemu
-9
+10
 tor
-7
+8
 teamviewer_host
 2
 teamviewer
