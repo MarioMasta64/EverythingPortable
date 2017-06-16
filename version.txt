@@ -26,3 +26,5 @@ opera_poc
 0
 qbittorrent_poc
 0
+discord_poc
+0
