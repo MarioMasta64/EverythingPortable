@@ -11,7 +11,8 @@ if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 :FOLDERCHECK
 cls
 if not exist .\bin\obs\ mkdir .\bin\obs\
-if not exist .\dll\ mkdir .\dll\
+if not exist .\dll\32\ mkdir .\dll\32\
+if not exist .\dll\64\ mkdir .\dll\64\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\data\obs\ mkdir .\data\obs\
@@ -219,7 +220,9 @@ goto NULL
 :DEFAULT
 cls
 title DO NOT CLOSE
-set path=%PATH%;%CD%\dll\;
+set "arch=32"
+if exist "%PROGRAMFILES(X86)%" set "arch=64"
+set "path=%PATH%;%CD%\dll\%arch%\;"
 xcopy .\data\obs\* "%appdata%\obs-studio\" /e /i /y
 rmdir /s /q .\data\obs\
 cls
@@ -337,7 +340,7 @@ echo @echo off > quicklaunch_obs.bat
 echo Color 0A >> quicklaunch_obs.bat
 echo cls >> quicklaunch_obs.bat
 echo title DO NOT CLOSE >> quicklaunch_obs.bat
-echo set path="%%PATH%%";"%%CD%%\dll\"; >> quicklaunch_obs.bat
+echo set path="%%PATH%%";"%%CD%%\dll\64\;"; >> quicklaunch_obs.bat
 echo xcopy .\data\obs\* "%%appdata%%\obs-studio\" /e /i /y >> quicklaunch_obs.bat
 echo rmdir /s /q .\data\obs\ >> quicklaunch_obs.bat
 echo cls >> quicklaunch_obs.bat

@@ -12,7 +12,7 @@ set upgrade=0
 :FOLDERCHECK
 cls
 if not exist .\bin\ mkdir .\bin\
-if not exist .\dll\ mkdir .\dll\
+if not exist .\dll\64\ mkdir .\dll\64\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 call :VERSION
@@ -20,7 +20,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 17 > .\doc\version.txt
+echo 18 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -221,7 +221,7 @@ goto NULL
 :DEFAULT
 cls
 title DO NOT CLOSE
-set path=%PATH%;%CD%\dll\;
+set "path=%PATH%;%CD%\dll\64\;"
 cls
 echo CEMU IS RUNNING
 cd bin\cemu*
@@ -357,7 +357,7 @@ echo @echo off > quicklaunch_cemu.bat
 echo Color 0A >> quicklaunch_cemu.bat
 echo cls >> quicklaunch_cemu.bat
 echo title DO NOT CLOSE >> quicklaunch_cemu.bat
-echo set path="%%PATH%%;%%CD%%\dll\;" >> quicklaunch_cemu.bat
+echo set path="%%PATH%%;%%CD%%\dll\64\;" >> quicklaunch_cemu.bat
 echo cls >> quicklaunch_cemu.bat
 echo echo CEMU IS RUNNING >> quicklaunch_cemu.bat
 echo cd bin\cemu* >> quicklaunch_cemu.bat

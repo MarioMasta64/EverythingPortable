@@ -11,7 +11,7 @@ if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 :FOLDERCHECK
 cls
 if not exist .\bin\steam\ mkdir .\bin\steam\
-if not exist .\dll\ mkdir .\dll\
+if not exist .\dll\32\ mkdir .\dll\32\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\data\AppData\ mkdir .\data\AppData\
@@ -211,7 +211,7 @@ goto NULL
 cls
 title DO NOT CLOSE - Steam is Running
 xcopy /q ".\data\AppData\locallow\*" "%UserProfile%\data\AppData\LocalLow" /e /i /y
-set path="%PATH%;%CD%\dll\"
+set path="%PATH%;%CD%\dll\32\;"
 set "COMMONPROGRAMFILES(X86)=%CD%\bin\CommonFiles\"
 set "LOCALAPPDATA=%CD%\data\AppData\Local"
 set "APPDATA=%CD%\data\AppData\Roaming"
@@ -331,7 +331,7 @@ echo Color 0A >> quicklaunch_steam.bat
 echo cls >> quicklaunch_steam.bat
 echo title DO NOT CLOSE - Steam is Running >> quicklaunch_steam.bat
 echo xcopy /q ".\data\AppData\locallow\*" "%%sUserProfile%%\data\AppData\LocalLow" /e /i /y >> quicklaunch_steam.bat
-echo set path="%%PATH%%";"%%CD%%\dll\" >> quicklaunch_steam.bat
+echo set path="%%PATH%%";"%%CD%%\dll\32\;" >> quicklaunch_steam.bat
 echo set "COMMONPROGRAMFILES(X86)=%CD%\bin\commonfiles\">> quicklaunch_steam.bat
 echo set "LOCALAPPDATA=%CD%\data\AppData\local\" >> quicklaunch_steam.bat
 echo set "APPDATA=%CD%\data\AppData\roaming\" >> quicklaunch_steam.bat
