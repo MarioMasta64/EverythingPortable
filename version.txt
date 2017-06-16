@@ -28,5 +28,7 @@ qbittorrent_poc
 0
 discord_poc
 0
+discord_canary_poc
+0
 ntlite_poc
 0
