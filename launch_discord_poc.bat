@@ -1,7 +1,6 @@
 @echo off
 cls
 Color 0A
-goto test
 
 if not exist .\bin\discord\ mkdir .\bin\discord\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
@@ -53,7 +52,6 @@ move discord.exe .\extra\discord.exe
 .\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
 if not exist .\temp\ mkdir .\temp\
 :: is not required to be set. will be set in release
-:test
 .\bin\7-ZipPortable\App\7-Zip%arch%\7z.exe x .\extra\discord.exe * -o.\temp\
 del .\temp\RELEASES
 del .\temp\Update.exe
