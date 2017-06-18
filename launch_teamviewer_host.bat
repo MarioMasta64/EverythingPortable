@@ -6,6 +6,7 @@ title PORTABLE TEAMVIEWER HOST LAUNCHER
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE
 if exist replacer.bat del replacer.bat
+if exist launch_teamviewer_host_poc.bat del launch_teamviewer_host_poc.bat
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 
 :FOLDERCHECK
@@ -19,7 +20,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
