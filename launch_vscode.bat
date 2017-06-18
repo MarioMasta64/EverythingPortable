@@ -199,7 +199,6 @@ exit /b
 taskkill /f /im Code.exe
 xcopy .\data\AppData\Local\Code\* .\data\AppData\Roaming\Code\ /e /i /y
 rmdir /s /q .\data\AppData\Local\Code\
-pause
 exit /b
 
 :MENU
