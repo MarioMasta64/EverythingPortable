@@ -176,6 +176,7 @@ cscript.exe .\bin\extractvscode.vbs
 exit /b
 
 :PoCv1Upgrade
+taskkill /f /im Code.exe
 xcopy .\bin\*.pak .\bin\vscode\ /e /i /y
 xcopy .\bin\*.dll .\bin\vscode\ /e /i /y
 xcopy .\bin\*.dat .\bin\vscode\ /e /i /y
@@ -195,6 +196,7 @@ rmdir /s /q .\bin\resources\
 exit /b
 
 :PoCv2Upgrade
+taskkill /f /im Code.exe
 xcopy .\data\AppData\Local\Code\* .\data\AppData\Roaming\Code\ /e /i /y
 rmdir /s /q .\data\AppData\Local\Code\
 pause
