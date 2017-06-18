@@ -32,3 +32,5 @@ discord_canary_poc
 0
 ntlite_poc
 0
+kodi_poc
+0
