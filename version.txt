@@ -17,11 +17,11 @@ qtemu
 tor
 8
 teamviewer_host
-2
+3
 teamviewer
-1
+2
 vscode
-1
+2
 opera_poc
 0
 qbittorrent_poc
