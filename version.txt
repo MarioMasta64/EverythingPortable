@@ -20,8 +20,8 @@ teamviewer_host
 2
 teamviewer
 1
-vscode_poc
-0
+vscode
+1
 opera_poc
 0
 qbittorrent_poc
