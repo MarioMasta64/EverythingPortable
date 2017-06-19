@@ -22,7 +22,7 @@ teamviewer
 2
 vscode
 2
-kodi_poc
+kodi
 1
 opera_poc
 0
