@@ -22,6 +22,8 @@ teamviewer
 2
 vscode
 2
+kodi_poc
+1
 opera_poc
 0
 qbittorrent_poc
@@ -31,6 +33,4 @@ discord_poc
 discord_canary_poc
 0
 ntlite_poc
-0
-kodi_poc
 0
