@@ -317,6 +317,7 @@ echo set "path=%path%;%CD%\dll\32\;" >> quicklaunch_kodi.bat
 echo set "appdata=%CD%\data\AppData\Roaming\" >> quicklaunch_kodi.bat
 echo start .\bin\kodi\kodi.exe -p >> quicklaunch_kodi.bat
 echo exit >> quicklaunch_kodi.bat
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_kodi.bat
 pause
 exit
 
