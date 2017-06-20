@@ -24,6 +24,8 @@ vscode
 2
 kodi
 1
+ppsspp
+1
 opera_poc
 0
 qbittorrent_poc
