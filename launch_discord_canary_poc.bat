@@ -63,6 +63,6 @@ del .\bin\discord_canary\Squirrel.exe
 
 :l
 cls
-set "AppData=%CD%\data\AppData\Roaming"
+set "UserProfile=%CD%\data"
 start .\bin\discord_canary\DiscordCanary.exe
 exit

@@ -63,6 +63,6 @@ del .\bin\discord\Squirrel.exe
 
 :l
 cls
-set "AppData=%CD%\data\AppData\Roaming"
+set "UserProfile=%CD%\data"
 start .\bin\discord\Discord.exe
 exit
