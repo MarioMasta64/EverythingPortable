@@ -20,5 +20,3 @@ suite can now update launchers ! (any old launchers must be updated manually fir
 
 Known Issues:
 none?
-
-Notes: DLL's Included With OBS & Cemu Are 64-Bit (OS Checker Will Be Added In A Future Update)
