@@ -22,7 +22,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -155,8 +155,7 @@ echo. > .\bin\extractvscode.vbs
 echo 'The location of the zip file. >> .\bin\extractvscode.vbs
 echo ZipFile="%folder%\extra\vscode.zip" >> .\bin\extractvscode.vbs
 echo 'The folder the contents should be extracted to. >> .\bin\extractvscode.vbs
-:: change to %folder%\bin\ on regular builds (ones that dont have a folder inside the zip)
-echo ExtractTo="%folder%\temp\" >> .\bin\extractvscode.vbs
+echo ExtractTo="%folder%\bin\vscode\" >> .\bin\extractvscode.vbs
 echo. >> .\bin\extractvscode.vbs
 echo 'If the extraction location does not exist create it. >> .\bin\extractvscode.vbs
 echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractvscode.vbs
@@ -172,7 +171,6 @@ echo Set fso = Nothing >> .\bin\extractvscode.vbs
 echo Set objShell = Nothing >> .\bin\extractvscode.vbs
 echo. >> .\bin\extractvscode.vbs
 title PORTABLE VSCODE LAUNCHER - EXTRACT ZIP
-if not exist .\temp\ mkdir .\temp\
 cscript.exe .\bin\extractvscode.vbs
 exit /b
 
