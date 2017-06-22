@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -188,6 +188,15 @@ set nag="PLEASE SELECT A CHOICE 1-8 or b/c"
 goto MENU
 
 :LIST_DRIVES
+cls
+set Counter=0
+for /f "DELIMS=" %%i in ('type .\temp\memsticks.txt') do (
+    set /a Counter+=1
+    set "Line_!Counter!=%%i"
+)
+if exist .\temp\memsticks.txt del .\temp\memsticks.txt
+exit /b
+
 :NULL
 cls
 set nag="NOT A FEATURE YET!"
@@ -353,7 +362,7 @@ echo for /F "tokens=1*" %%%%a in ('fsutil fsinfo drives') do ( >> quicklaunch_pp
 echo    for %%%%c in (%%%%b) do ( >> quicklaunch_ppsspp.bat
 echo       for /F "tokens=3" %%%%d in ('fsutil fsinfo drivetype %%%%c') do ( >> quicklaunch_ppsspp.bat
 echo          if %%%%d equ Removable ( >> quicklaunch_ppsspp.bat
-echo             if exist "%%c\PSP\" echo %%c> .\bin\ppsspp\installed.txt >> quicklaunch_ppsspp.bat
+echo             if exist "%%c\PSP\" echo %%%%c^> .\bin\ppsspp\installed.txt >> quicklaunch_ppsspp.bat
 echo          ) >> quicklaunch_ppsspp.bat
 echo       ) >> quicklaunch_ppsspp.bat
 echo    ) >> quicklaunch_ppsspp.bat
@@ -361,7 +370,7 @@ echo ) >> quicklaunch_ppsspp.bat
 echo if exist .\bin\ppsspp\installed.txt goto :launch >> quicklaunch_ppsspp.bat
 echo. >> quicklaunch_ppsspp.bat
 echo :default >> quicklaunch_ppsspp.bat
-echo echo %CD%\data\ppsspp> .\bin\ppsspp\installed.txt >> quicklaunch_ppsspp.bat
+echo echo %%CD%%\data\ppsspp> .\bin\ppsspp\installed.txt >> quicklaunch_ppsspp.bat
 echo goto launch >> quicklaunch_ppsspp.bat
 echo. >> quicklaunch_ppsspp.bat
 echo :launch >> quicklaunch_ppsspp.bat
