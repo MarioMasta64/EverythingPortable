@@ -38,3 +38,5 @@ ntlite_poc
 0
 dolphin_poc
 0
+skype_poc
+0
