@@ -21,7 +21,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 12 > .\doc\version.txt
+echo 13 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -59,20 +59,20 @@ goto WGETUPDATE
 
 :FILECHECK
 cls
-if not exist .\extra\OBS-Studio-19.0.2-Full.zip goto DOWNLOADOBS
+if not exist .\extra\OBS-Studio-19.0.3-Full.zip goto DOWNLOADOBS
 call :EXTRACTOBS
 goto OBSCHECK
 
 :DOWNLOADOBS
 cls
 title PORTABLE OBS LAUNCHER - DOWNLOAD OBS
-if exist OBS-Studio-19.0.2-Full.zip goto MOVEOBS
+if exist OBS-Studio-19.0.3-Full.zip goto MOVEOBS
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://github.com/jp9000/obs-studio/releases/download/19.0.2/OBS-Studio-19.0.2-Full.zip
+.\bin\wget.exe -q --show-progress https://github.com/jp9000/obs-studio/releases/download/19.0.2/OBS-Studio-19.0.3-Full.zip
 
 :MOVEOBS
 cls
-move OBS-Studio-19.0.2-Full.zip .\extra\OBS-Studio-19.0.2-Full.zip
+move OBS-Studio-19.0.3-Full.zip .\extra\OBS-Studio-19.0.3-Full.zip
 goto FILECHECK
 
 :WGETUPDATE
@@ -140,7 +140,7 @@ if %CD%==%~d0\ set folder=%CD:~0,2%
 cls
 echo. > .\bin\extractobs.vbs
 echo 'The location of the zip file. >> .\bin\extractobs.vbs
-echo ZipFile="%folder%\extra\OBS-Studio-19.0.2-Full.zip" >> .\bin\extractobs.vbs
+echo ZipFile="%folder%\extra\OBS-Studio-19.0.3-Full.zip" >> .\bin\extractobs.vbs
 echo 'The folder the contents should be extracted to. >> .\bin\extractobs.vbs
 echo ExtractTo="%folder%\bin\obs\" >> .\bin\extractobs.vbs
 echo. >> .\bin\extractobs.vbs
