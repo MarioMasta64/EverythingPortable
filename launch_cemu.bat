@@ -100,7 +100,7 @@ if exist version.txt del version.txt
 if not exist .\bin\wget.exe call :Download-Wget
 cls
 title Portable Cemu Launcher - Experimental Edition - Checking For Update
-.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/raw/master/version.txt
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
 set new_version=%Line_12%
