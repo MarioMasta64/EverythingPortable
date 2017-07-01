@@ -130,7 +130,7 @@ echo ===========================================================================
 echo =                             Cemu Launcher - v19                         = >> .\doc\cemu_changelog.txt
 echo =                          Experimental Code Edition                      = >> .\doc\cemu_changelog.txt
 echo =========================================================================== >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Upgraded To Cemu v1.8.1                                         = >> .\doc\cemu_changelog.txt
+echo = (ﾉ◕ヮ◕)ﾉ Upgraded To Cemu v1.8.1b                                        = >> .\doc\cemu_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ Automaticly Upgrade Cemu No More Need For Manual Upgrade        = >> .\doc\cemu_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ Type Any Labels Name To Goto It (Useful For Debugging)          = >> .\doc\cemu_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ Updater Now Hides Itself And Deletes Itself On Completion       = >> .\doc\cemu_changelog.txt
@@ -138,6 +138,14 @@ echo = (ﾉ◕ヮ◕)ﾉ (goto) 2^>nul                                          
 echo = (ﾉ◕ヮ◕)ﾉ Made It Easier To Set Cemu Versions For Faster Deployement      = >> .\doc\cemu_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ Made Code Slightly Cleaner But Kinda Not                        = >> .\doc\cemu_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ Maybe Other Stuff I Forgot To Mention                           = >> .\doc\cemu_changelog.txt
+echo =========================================================================== >> .\doc\cemu_changelog.txt
+echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\cemu_changelog.txt
+echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\cemu_changelog.txt
+echo =========================================================================== >> .\doc\cemu_changelog.txt
+echo. >> .\doc\cemu_changelog.txt
+echo =========================================================================== >> .\doc\cemu_changelog.txt
+echo =                             Cemu Launcher - v20                         = >> .\doc\cemu_changelog.txt
+echo =                          Experimental Code Edition                      = >> .\doc\cemu_changelog.txt
 echo =========================================================================== >> .\doc\cemu_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\cemu_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\cemu_changelog.txt
@@ -150,7 +158,8 @@ exit /b 2
 :DLL-Downloader-Check
 cls & title Portable Cemu Launcher - Experimental Edition - Download Dll Downloader
 cls & if not exist .\bin\wget.exe call :Download-Wget
-cls & if not exist launch_dlldownloader.bat .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/raw/master/launch_dlldownloader.bat
+cls & .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat
+cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
 exit /b 2
 
@@ -158,7 +167,8 @@ exit /b 2
 :Portable-Everything
 cls & title Portable Cemu Launcher - Experimental Edition - Download Suite
 cls & if not exist .\bin\wget.exe call :Download-Wget
-cls & if not exist launch_everything.bat .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/raw/master/launch_everything.bat
+cls & .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
+cls & if exist launch_everything.bat.1 del launch_everything.bat & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
 exit /b 2
 
@@ -169,12 +179,9 @@ title Portable Cemu Launcher - Experimental Edition - Quicklauncher Writer
 echo @echo off > quicklaunch_cemu.bat
 echo Color 0A >> quicklaunch_cemu.bat
 echo cls >> quicklaunch_cemu.bat
-echo title DO NOT CLOSE >> quicklaunch_cemu.bat
 echo set path="%%PATH%%;%%CD%%\dll\64\;" >> quicklaunch_cemu.bat
 echo cls >> quicklaunch_cemu.bat
-echo echo CEMU IS RUNNING >> quicklaunch_cemu.bat
-echo cd bin\cemu* >> quicklaunch_cemu.bat
-echo start Cemu.exe >> quicklaunch_cemu.bat
+echo start .\bin\cemu\Cemu.exe >> quicklaunch_cemu.bat
 echo exit >> quicklaunch_cemu.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_cemu.bat
 pause>nul:
@@ -208,7 +215,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 19 > .\doc\version.txt
+echo 20 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -597,5 +604,7 @@ add raw before raw/master in everything
 maybe add option to open mod folder?
 add new launchers to update check in everything portable
 the better link: https://raw.githubusercontent.com/MarioMasta64/ModDownloaderPortable/master/mod_list.txt
+apparently raw is bad before master but only sometimes?
+raw is perfect for text links tho
 
 ########################################################################

@@ -17,7 +17,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 14 > .\doc\version.txt
+echo 15 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -159,14 +159,35 @@ set "counter=0"
 for /f "DELIMS=" %%i in (version.txt) do (
     set /a num+=1
 :: this line says if num is equal to blah execute this. basically it counts by this many lines it also resets the counter on completion
-    if "!num!"=="2" (set /a counter+=1&set "line_!counter!=%%i"&set num=0)
+    if "!num!"=="2" (
+		set /a counter+=1&set "line_!counter!=%%i"&set num=0
+		if "%launcher%"=="launch_%%i.bat" (set /a new_line=!counter!*2)
+	)
+)
+if exist version.txt del version.txt
+set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
+exit /b
+
+:GET_NEW_DOWNLOADS
+if not exist .\bin\wget.exe call :DOWNLOADWGET
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+cls
+set "num=1"
+set "counter=0"
+for /f "DELIMS=" %%i in (version.txt) do (
+    set /a num+=1
+:: this line says if num is equal to blah execute this. basically it counts by this many lines it also resets the counter on completion
+    if "!num!"=="2" (
+		if not exist launch_%%i.bat (set /a counter+=1&set "line_!counter!=%%i")
+		set num=0
+	)
 )
 if exist version.txt del version.txt
 set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 exit /b
 
 :DOWNLOAD
-call :GET_DOWNLOADS
+call :GET_NEW_DOWNLOADS
 cls
 title PORTABLE EVERYTHING LAUNCHER - DOWNLOAD LAUNCHER
 echo %NAG%
@@ -186,7 +207,7 @@ cls
 title PORTABLE EVERYTHING LAUNCHER - CHECK LAUNCHER
 set /a verline = %CHOICE% * 2
 if not exist launch_%launchername%.bat goto UPDATENOW
-set nag="Launcher %launcher% Exists"
+set nag="You Shouldn't Be Able To Trigger This. If You Do Let Me Know. Launcher %launcher% Exists"
 goto UPDATECHECK
 goto MENU
 
@@ -198,6 +219,7 @@ set nag=SELECTION TIME!
 call :GET_LAUNCHERS
 For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
 echo type menu to return to the main menu
+:: typing "]" here opens cmd prompt. spoopy.
 set /p choice="launcher to launch: "
 set launcher=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto MENU
@@ -229,6 +251,7 @@ echo type menu to return to the main menu
 set /p choice="launcher to update: "
 set launcher=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto MENU
+call :GET_DOWNLOADS
 
 :UPDATECHECK
 cls
@@ -239,15 +262,7 @@ if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
-if "%launcher%"=="launch_everything.bat" set new_version=%Line_2%
-if "%launcher%"=="launch_minecraft.bat" set new_version=%Line_4%
-if "%launcher%"=="launch_steam.bat" set new_version=%Line_6%
-if "%launcher%"=="launch_obs.bat" set new_version=%Line_8%
-if "%launcher%"=="launch_kaerusetup.bat" set new_version=%Line_10%
-if "%launcher%"=="launch_cemu.bat" set new_version=%Line_12%
-if "%launcher%"=="launch_lastpass.bat" set new_version=%Line_14%
-if "%launcher%"=="launch_qtemu.bat" set new_version=%Line_16%
-if "%launcher%"=="launch_tor.bat" set new_version=%Line_18%
+set new_version=!line_%new_line%!
 if "%new_version%"=="OFFLINE" goto ERROROFFLINE
 if %current_version% EQU %new_version% goto LATEST
 if %current_version% LSS %new_version% goto NEWUPDATE
