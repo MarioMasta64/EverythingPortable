@@ -21,7 +21,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 13 > .\doc\version.txt
+echo 14 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -68,7 +68,7 @@ cls
 title PORTABLE OBS LAUNCHER - DOWNLOAD OBS
 if exist OBS-Studio-19.0.3-Full.zip goto MOVEOBS
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://github.com/jp9000/obs-studio/releases/download/19.0.2/OBS-Studio-19.0.3-Full.zip
+.\bin\wget.exe -q --show-progress https://github.com/jp9000/obs-studio/releases/download/19.0.3/OBS-Studio-19.0.3-Full.zip
 
 :MOVEOBS
 cls
