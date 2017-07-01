@@ -395,6 +395,7 @@ echo. >> .\bin\extracteverything.vbs
 cscript .\bin\extracteverything.vbs
 for %%i in (.\EverythingPortable-master\launch_*.bat) do if not "%%i" == ".\EverythingPortable-master\launch_everything.bat" xcopy %%i .\ /e /i /y
 rmdir /s /q .\EverythingPortable-master\
+del /s /q  master.zip
 goto MENU
 
 :DELETEALLTHESTUFF
