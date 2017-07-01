@@ -17,7 +17,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 15 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -115,6 +115,8 @@ echo 3. update a launcher
 echo 4. delete a program
 echo 5. about
 echo 6. exit
+echo 7. DOWNLOAD EVERYTHING
+echo 8. DELETE EVERYTHING
 echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%CHOICE%"=="1" goto DOWNLOAD
@@ -123,7 +125,9 @@ if "%CHOICE%"=="3" goto UPDATE
 if "%CHOICE%"=="4" goto DELETE
 if "%CHOICE%"=="5" goto ABOUT
 if "%CHOICE%"=="6" exit
-set nag="PLEASE SELECT A CHOICE 1-5"
+if "%CHOICE%"=="7" goto GETALLTHESTUFF
+if "%CHOICE%"=="8" goto DELETEALLTHESTUFF
+set nag="PLEASE SELECT A CHOICE 1-8"
 goto MENU
 
 :GET_LAUNCHERS
@@ -362,4 +366,37 @@ exit
 cls
 echo an error occured
 pause
+goto MENU
+
+:GETALLTHESTUFF
+if not exist .\bin\wget.exe call :DOWNLOADWGET
+.\bin\wget.exe -q --show-progress https://github.com/MarioMasta64/EverythingPortable/archive/master.zip
+set folder=%CD%
+if %CD%==%~d0\ set folder=%CD:~0,2%
+echo. > .\bin\extracteverything.vbs
+echo 'The location of the zip file. >> .\bin\extracteverything.vbs
+echo ZipFile="%folder%\master.zip" >> .\bin\extracteverything.vbs
+echo 'The folder the contents should be extracted to. >> .\bin\extracteverything.vbs
+echo ExtractTo="%folder%\" >> .\bin\extracteverything.vbs
+echo. >> .\bin\extracteverything.vbs
+echo 'If the extraction location does not exist create it. >> .\bin\extracteverything.vbs
+echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extracteverything.vbs
+echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extracteverything.vbs
+echo    fso.CreateFolder(ExtractTo) >> .\bin\extracteverything.vbs
+echo End If >> .\bin\extracteverything.vbs
+echo. >> .\bin\extracteverything.vbs
+echo 'Extract the contants of the zip file. >> .\bin\extracteverything.vbs
+echo set objShell = CreateObject("Shell.Application") >> .\bin\extracteverything.vbs
+echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extracteverything.vbs
+echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extracteverything.vbs
+echo Set fso = Nothing >> .\bin\extracteverything.vbs
+echo Set objShell = Nothing >> .\bin\extracteverything.vbs
+echo. >> .\bin\extracteverything.vbs
+cscript .\bin\extracteverything.vbs
+for %%i in (.\EverythingPortable-master\launch_*.bat) do if not "%%i" == ".\EverythingPortable-master\launch_everything.bat" xcopy %%i .\ /e /i /y
+rmdir /s /q .\EverythingPortable-master\
+goto MENU
+
+:DELETEALLTHESTUFF
+for %%i in (*) do if not "%%i" == "launch_everything.bat" del %%i
 goto MENU
