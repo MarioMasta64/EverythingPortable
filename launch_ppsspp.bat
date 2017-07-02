@@ -353,29 +353,29 @@ exit
 cls
 title PORTABLE PPSSPP LAUNCHER - QUICKLAUNCHER WRITER
 
-echo @echo off > quicklaunch_ppsspp.bat
-echo cls >> quicklaunch_ppsspp.bat
-echo Color 0A >> quicklaunch_ppsspp.bat
-echo setlocal enabledelayedexpansion >> quicklaunch_ppsspp.bat
-echo if exist .\bin\ppsspp\installed.txt del .\bin\ppsspp\installed.txt >> quicklaunch_ppsspp.bat
-echo for /F "tokens=1*" %%%%a in ('fsutil fsinfo drives') do ( >> quicklaunch_ppsspp.bat
-echo    for %%%%c in (%%%%b) do ( >> quicklaunch_ppsspp.bat
-echo       for /F "tokens=3" %%%%d in ('fsutil fsinfo drivetype %%%%c') do ( >> quicklaunch_ppsspp.bat
-echo          if %%%%d equ Removable ( >> quicklaunch_ppsspp.bat
-echo             if exist "%%%%c\PSP\" echo %%%%c^> .\bin\ppsspp\installed.txt >> quicklaunch_ppsspp.bat
-echo          ) >> quicklaunch_ppsspp.bat
-echo       ) >> quicklaunch_ppsspp.bat
-echo    ) >> quicklaunch_ppsspp.bat
-echo ) >> quicklaunch_ppsspp.bat
-echo if exist .\bin\ppsspp\installed.txt goto :launch >> quicklaunch_ppsspp.bat
-echo. >> quicklaunch_ppsspp.bat
-echo :default >> quicklaunch_ppsspp.bat
-echo echo %%CD%%\data\ppsspp> .\bin\ppsspp\installed.txt >> quicklaunch_ppsspp.bat
-echo goto launch >> quicklaunch_ppsspp.bat
-echo. >> quicklaunch_ppsspp.bat
-echo :launch >> quicklaunch_ppsspp.bat
-echo start .\bin\ppsspp\PPSSPPWindows64.exe >> quicklaunch_ppsspp.bat
-echo exit >> quicklaunch_ppsspp.bat
+echo @echo off> quicklaunch_ppsspp.bat
+echo cls>> quicklaunch_ppsspp.bat
+echo Color 0A>> quicklaunch_ppsspp.bat
+echo setlocal enabledelayedexpansion>> quicklaunch_ppsspp.bat
+echo if exist .\bin\ppsspp\installed.txt del .\bin\ppsspp\installed.txt>> quicklaunch_ppsspp.bat
+echo for /F "tokens=1*" %%%%a in ('fsutil fsinfo drives') do (>> quicklaunch_ppsspp.bat
+echo    for %%%%c in (%%%%b) do (>> quicklaunch_ppsspp.bat
+echo       for /F "tokens=3" %%%%d in ('fsutil fsinfo drivetype %%%%c') do (>> quicklaunch_ppsspp.bat
+echo          if %%%%d equ Removable (>> quicklaunch_ppsspp.bat
+echo             if exist "%%%%c\PSP\" echo %%%%c^> .\bin\ppsspp\installed.txt ^& goto launch>> quicklaunch_ppsspp.bat
+echo          )>> quicklaunch_ppsspp.bat
+echo       )>> quicklaunch_ppsspp.bat
+echo    )>> quicklaunch_ppsspp.bat
+echo )>> quicklaunch_ppsspp.bat
+echo if exist .\bin\ppsspp\installed.txt goto :launch>> quicklaunch_ppsspp.bat
+echo.>> quicklaunch_ppsspp.bat
+echo :default>> quicklaunch_ppsspp.bat
+echo echo %%CD%%\data\ppsspp^> .\bin\ppsspp\installed.txt>> quicklaunch_ppsspp.bat
+echo goto launch>> quicklaunch_ppsspp.bat
+echo.>> quicklaunch_ppsspp.bat
+echo :launch>> quicklaunch_ppsspp.bat
+echo start .\bin\ppsspp\PPSSPPWindows64.exe>> quicklaunch_ppsspp.bat
+echo exit>> quicklaunch_ppsspp.bat
 
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_ppsspp.bat
 pause
