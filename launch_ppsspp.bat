@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -362,7 +362,7 @@ echo for /F "tokens=1*" %%%%a in ('fsutil fsinfo drives') do ( >> quicklaunch_pp
 echo    for %%%%c in (%%%%b) do ( >> quicklaunch_ppsspp.bat
 echo       for /F "tokens=3" %%%%d in ('fsutil fsinfo drivetype %%%%c') do ( >> quicklaunch_ppsspp.bat
 echo          if %%%%d equ Removable ( >> quicklaunch_ppsspp.bat
-echo             if exist "%%c\PSP\" echo %%%%c^> .\bin\ppsspp\installed.txt >> quicklaunch_ppsspp.bat
+echo             if exist "%%%%c\PSP\" echo %%%%c^> .\bin\ppsspp\installed.txt >> quicklaunch_ppsspp.bat
 echo          ) >> quicklaunch_ppsspp.bat
 echo       ) >> quicklaunch_ppsspp.bat
 echo    ) >> quicklaunch_ppsspp.bat
