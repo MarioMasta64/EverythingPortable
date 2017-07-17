@@ -1,4 +1,5 @@
-﻿@echo off
+﻿:: this space fixes a problem somehow dont remove
+@echo off
 Color 0A
 cls
 title Portable Discord Canary Launcher - Experimental Edition
@@ -119,6 +120,14 @@ echo ===========================================================================
 echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt
 echo =========================================================================== >> .\doc\discord_canary_changelog.txt
+echo. >> .\doc\discord_canary_changelog.txt
+echo =========================================================================== > .\doc\discord_canary_changelog.txt 
+echo =                         Discord Canary Launcher - v2                  = >> .\doc\discord_canary_changelog.txt
+echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt
+echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt
+echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt
 chcp 437 >nul:
 notepad.exe .\doc\discord_canary_changelog.txt
 exit /b 2
@@ -176,7 +185,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -267,12 +276,8 @@ cls
 title Portable Discord Canary Launcher - Experimental Edition - Download 7zip
 if not exist .\bin\wget.exe call :Download-Wget
 .\bin\wget.exe -q --show-progress http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
-
-:Move-7zip
 if not exist 7-ZipPortable_16.04.paf.exe goto :Download-7zip
-move 7-ZipPortable_16.04.paf.exe .\extra 7-ZipPortable_16.04.paf.exe
-
-:Install-7zip
+move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
 .\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
 (goto) 2>nul
 
