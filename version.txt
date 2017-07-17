@@ -28,13 +28,11 @@ ppsspp
 3
 discord_canary
 2
+discord
+1
 opera_poc
 0
 qbittorrent_poc
-0
-discord_poc
-0
-discord_canary_poc
 0
 ntlite_poc
 0
