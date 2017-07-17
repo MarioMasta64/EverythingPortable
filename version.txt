@@ -26,6 +26,8 @@ kodi
 1
 ppsspp
 3
+discord_canary
+1
 opera_poc
 0
 qbittorrent_poc
