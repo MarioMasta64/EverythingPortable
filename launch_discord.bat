@@ -7,6 +7,7 @@ title Portable Discord Launcher - Experimental Edition
 set nag=EXPERIMENTS :D
 set new_version=OFFLINE
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
+if exist launch_discord_poc.bat del launch_discord_poc.bat
 
 :: allows letters to be set as numbers
 setlocal enabledelayedexpansion
@@ -67,6 +68,8 @@ exit
 
 :3
 :Reset-Discord
+call :Null
+exit /b 2
 
 :4
 :Uninstall-Discord
@@ -108,7 +111,7 @@ title Portable Discord Launcher - Expiremental Edition - Change Log
 :: https://ss64.com/nt/chcp.html
 chcp 65001 >nul:
 echo =========================================================================== > .\doc\discord_canary_changelog.txt 
-echo =                            Discord Launcher - v1                  = >> .\doc\discord_canary_changelog.txt
+echo =                            Discord Launcher - v1                        = >> .\doc\discord_canary_changelog.txt
 echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt
 echo =========================================================================== >> .\doc\discord_canary_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ Type Any Labels Name To Goto It (Useful For Debugging)          = >> .\doc\discord_canary_changelog.txt
@@ -116,6 +119,14 @@ echo = (ﾉ◕ヮ◕)ﾉ Updater Now Hides Itself And Deletes Itself On Completi
 echo = (ﾉ◕ヮ◕)ﾉ (goto) 2^>nul                                                    = >> .\doc\discord_canary_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ Made Code Slightly Cleaner But Kinda Not                        = >> .\doc\discord_canary_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ Maybe Other Stuff I Forgot To Mention                           = >> .\doc\discord_canary_changelog.txt
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt
+echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt
+echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt
+echo. >> .\doc\discord_canary_changelog.txt
+echo =========================================================================== > .\doc\discord_canary_changelog.txt 
+echo =                            Discord Launcher - v2                        = >> .\doc\discord_canary_changelog.txt
+echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt
 echo =========================================================================== >> .\doc\discord_canary_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt
@@ -145,15 +156,13 @@ exit /b 2
 :c
 :Quicklauncher-Check
 cls
-title Portable Discord Launcher - Experimental Edition - Quicklauncher Writer
-echo @echo off > quicklaunch_cemu.bat
-echo Color 0A >> quicklaunch_cemu.bat
-echo cls >> quicklaunch_cemu.bat
-echo set path="%%PATH%%;%%CD%%\dll\64\;" >> quicklaunch_cemu.bat
-echo cls >> quicklaunch_cemu.bat
-echo start .\bin\cemu\Cemu.exe >> quicklaunch_cemu.bat
-echo exit >> quicklaunch_cemu.bat
-echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_cemu.bat
+title Portable Discord Canary Launcher - Experimental Edition - Quicklauncher Writer
+echo @echo off > quicklaunch_discord.bat
+echo Color 0A >> quicklaunch_discord.bat
+echo cls >> quicklaunch_discord.bat >> quicklaunch_discord.bat
+echo set "UserProfile=%%CD%%\data" >> quicklaunch_discord.bat
+echo start .\bin\discord\Discord.exe >> quicklaunch_discord.bat
+echo exit >> quicklaunch_discord.bat
 pause>nul:
 exit /b 2
 

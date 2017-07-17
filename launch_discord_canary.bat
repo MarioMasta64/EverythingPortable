@@ -7,6 +7,7 @@ title Portable Discord Canary Launcher - Experimental Edition
 set nag=EXPERIMENTS :D
 set new_version=OFFLINE
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
+if exist launch_discord_canary_poc.bat del launch_discord_canary_poc.bat
 
 :: allows letters to be set as numbers
 setlocal enabledelayedexpansion
@@ -67,6 +68,8 @@ exit
 
 :3
 :Reset-Discord-Canary
+call :Null
+exit /b 2
 
 :4
 :Uninstall-Discord-Canary
@@ -128,6 +131,14 @@ echo ===========================================================================
 echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt
 echo =========================================================================== >> .\doc\discord_canary_changelog.txt
+echo. >> .\doc\discord_canary_changelog.txt
+echo =========================================================================== > .\doc\discord_canary_changelog.txt 
+echo =                         Discord Canary Launcher - v3                  = >> .\doc\discord_canary_changelog.txt
+echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt
+echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt
+echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt
 chcp 437 >nul:
 notepad.exe .\doc\discord_canary_changelog.txt
 exit /b 2
@@ -154,14 +165,12 @@ exit /b 2
 :Quicklauncher-Check
 cls
 title Portable Discord Canary Launcher - Experimental Edition - Quicklauncher Writer
-echo @echo off > quicklaunch_cemu.bat
-echo Color 0A >> quicklaunch_cemu.bat
-echo cls >> quicklaunch_cemu.bat
-echo set path="%%PATH%%;%%CD%%\dll\64\;" >> quicklaunch_cemu.bat
-echo cls >> quicklaunch_cemu.bat
-echo start .\bin\cemu\Cemu.exe >> quicklaunch_cemu.bat
-echo exit >> quicklaunch_cemu.bat
-echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_cemu.bat
+echo @echo off > quicklaunch_discord_canary.bat
+echo Color 0A >> quicklaunch_discord_canary.bat
+echo cls >> quicklaunch_discord_canary.bat >> quicklaunch_discord_canary.bat
+echo set "UserProfile=%%CD%%\data" >> quicklaunch_discord_canary.bat
+echo start .\bin\discord_canary\DiscordCanary.exe >> quicklaunch_discord_canary.bat
+echo exit >> quicklaunch_discord_canary.bat
 pause>nul:
 exit /b 2
 
