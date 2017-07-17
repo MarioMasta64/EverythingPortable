@@ -22,7 +22,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -241,6 +241,7 @@ goto NULL
 :DEFAULT
 cls
 title DO NOT CLOSE
+xcopy .\data\.vscode\* "%userprofile%\.vscode\" /e /i /y
 rmdir /s /q .\data\.vscode\
 set "AppData=%CD%\data\AppData\Roaming\"
 cls
@@ -352,6 +353,7 @@ echo @echo off > quicklaunch_vscode.bat >> quicklaunch_vscode.bat
 echo Color 0A >> quicklaunch_vscode.bat >> quicklaunch_vscode.bat
 echo cls >> quicklaunch_vscode.bat
 echo title DO NOT CLOSE >> quicklaunch_vscode.bat
+echo xcopy .\data\.vscode\* "%userprofile%\.vscode\" /e /i /y >> quicklaunch_vscode.bat
 echo rmdir /s /q .\data\.vscode\ >> quicklaunch_vscode.bat
 echo set "AppData=%CD%\data\AppData\Roaming\" >> quicklaunch_vscode.bat
 echo cls >> quicklaunch_vscode.bat
