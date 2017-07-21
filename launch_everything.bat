@@ -17,7 +17,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 17 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -137,7 +137,6 @@ for /f "DELIMS=" %%i in ('type .\doc\launchers.txt') do (
 	if "%%i" NEQ "launch_dlldownloader.bat" (
 		set /a Counter+=1
 		set Line_!Counter!=%%i
-		set max-launchers=!counter!
 	)
 )
 if exist .\doc\launchers.txt del .\doc\launchers.txt
@@ -166,11 +165,11 @@ for /f "DELIMS=" %%i in (version.txt) do (
 :: this line says if num is equal to blah execute this. basically it counts by this many lines it also resets the counter on completion
     if "!num!"=="2" (
 		set /a counter+=1&set "line_!counter!=%%i"&set num=0
-		if "%launcher%"=="launch_%%i.bat" (set /a new_line=!counter!*2 & set max-launchers=!counter!)
+		if "%launcher%"=="launch_%%i.bat" (set /a new_line=!counter!*2)
 	)
 )
 if exist version.txt del version.txt
-:: set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
+set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 exit /b
 
 :GET_NEW_DOWNLOADS
@@ -183,12 +182,12 @@ for /f "DELIMS=" %%i in (version.txt) do (
     set /a num+=1
 :: this line says if num is equal to blah execute this. basically it counts by this many lines it also resets the counter on completion
     if "!num!"=="2" (
-		if not exist launch_%%i.bat (set /a counter+=1&set "line_!counter!=%%i" & set max-launchers=!counter!)
+		if not exist launch_%%i.bat (set /a counter+=1&set "line_!counter!=%%i")
 		set num=0
 	)
 )
 if exist version.txt del version.txt
-:: set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
+set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 exit /b
 
 :DOWNLOAD
@@ -204,9 +203,7 @@ set /p choice="launcher to download: "
 set launchername=!Line_%CHOICE%!
 set launcher=launch_%launchername%.bat
 if "%CHOICE%"=="menu" goto MENU
-if "%mod%"=="" set nag="please choose a choice between 1-%max-launchers%" & goto DOWNLOAD
-if "%mod%" LSS "1" set nag="please choose a choice between 1-%max-launchers%" & goto DOWNLOAD
-if "%mod%" GTR "%max-mod%" set nag="please choose a choice between 1-%max-launchers%" & goto DOWNLOAD
+:: cap output somehow
 goto INFO
 
 :LAUNCHERCHECK
@@ -230,9 +227,6 @@ echo type menu to return to the main menu
 set /p choice="launcher to launch: "
 set launcher=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto MENU
-if "%mod%"=="" set nag="please choose a choice between 1-%max-launchers%" & goto LAUNCH
-if "%mod%" LSS "1" set nag="please choose a choice between 1-%max-launchers%" & goto LAUNCH
-if "%mod%" GTR "%max-mod%" set nag="please choose a choice between 1-%max-launchers%" & goto LAUNCH
 start %launcher%
 exit
 
@@ -247,9 +241,6 @@ echo type menu to return to the main menu
 set /p choice="launcher to delete: "
 set launcher=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto MENU
-if "%mod%"=="" set nag="please choose a choice between 1-%max-launchers%" & goto DELETE
-if "%mod%" LSS "1" set nag="please choose a choice between 1-%max-launchers%" & goto DELETE
-if "%mod%" GTR "%max-mod%" set nag="please choose a choice between 1-%max-launchers%" & goto DELETE
 del %launcher%
 goto MENU
 
@@ -264,9 +255,6 @@ echo type menu to return to the main menu
 set /p choice="launcher to update: "
 set launcher=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto MENU
-if "%mod%"=="" set nag="please choose a choice between 1-%max-launchers%" & goto UPDATE
-if "%mod%" LSS "1" set nag="please choose a choice between 1-%max-launchers%" & goto UPDATE
-if "%mod%" GTR "%max-mod%" set nag="please choose a choice between 1-%max-launchers%" & goto UPDATE
 call :GET_DOWNLOADS
 
 :UPDATECHECK

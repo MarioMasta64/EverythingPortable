@@ -2,7 +2,7 @@
 Color 0A
 cls
 title Portable Cemu Launcher - Experimental Edition
-set nag=EXPIREMENTS :D
+set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 
