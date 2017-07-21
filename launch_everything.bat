@@ -17,7 +17,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 16 > .\doc\version.txt
+echo 18 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -395,6 +395,9 @@ echo. >> .\bin\extracteverything.vbs
 cscript .\bin\extracteverything.vbs
 for %%i in (.\EverythingPortable-master\launch_*.bat) do if not "%%i" == ".\EverythingPortable-master\launch_everything.bat" xcopy %%i .\ /e /i /y
 rmdir /s /q .\EverythingPortable-master\
+rmdir /s /q .\.vs\
+rmdir /s /q .\info\
+rmdir /s /q .\note\
 del /s /q  master.zip
 goto MENU
 
