@@ -16,6 +16,7 @@ call :Alpha-To-Number
 :: no version check needed.
 
 call :Folder-Check
+call :Version
 call :Credits
 call :Check-Scripts
 call :Discord-Check
@@ -84,7 +85,7 @@ if not exist .\bin\wget.exe call :Download-Wget
 cls
 title Portable Discord Launcher - Experimental Edition - Checking For Update
 .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
-set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")iscord_canary_
+set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
 set new_version=%Line_32%
 if "%new_version%"=="OFFLINE" call :Error-Offline & exit /b 2
@@ -186,7 +187,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 2 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -411,12 +412,11 @@ echo start launch_discord.bat >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
 echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> replacer.bat
 wscript "%CD%\bin\hide.vbs" "replacer.bat"
-if exist .\doc\discord_canary_changelog.txt del .\doc\discord_canary_changelog.txt
 exit
 
 :Preview-Build
 cls
-title Portable Discord Launcher - Experimental Edition - Test Build :0
+title Portable Cemu Launcher - Experimental Edition - Test Build :0
 echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
