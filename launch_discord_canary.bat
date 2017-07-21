@@ -16,6 +16,7 @@ call :Alpha-To-Number
 :: no version check needed.
 
 call :Folder-Check
+call :Version
 call :Credits
 call :Check-Scripts
 call :Discord-Canary-Check
@@ -194,7 +195,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 2 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
