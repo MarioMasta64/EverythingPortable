@@ -1,3 +1,4 @@
+:: this space fixes a problem somehow dont remove
 @echo off
 Color 0A
 cls
