@@ -131,7 +131,7 @@ echo ===========================================================================
 echo =                             Cemu Launcher - v19                         = >> .\doc\cemu_changelog.txt
 echo =                          Experimental Code Edition                      = >> .\doc\cemu_changelog.txt
 echo =========================================================================== >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Upgraded To Cemu v1.8.1b                                        = >> .\doc\cemu_changelog.txt
+echo = (ﾉ◕ヮ◕)ﾉ Upgraded To Cemu v1.8.1                                         = >> .\doc\cemu_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ Automaticly Upgrade Cemu No More Need For Manual Upgrade        = >> .\doc\cemu_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ Type Any Labels Name To Goto It (Useful For Debugging)          = >> .\doc\cemu_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ Updater Now Hides Itself And Deletes Itself On Completion       = >> .\doc\cemu_changelog.txt
@@ -144,9 +144,19 @@ echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and ot
 echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\cemu_changelog.txt
 echo =========================================================================== >> .\doc\cemu_changelog.txt
 echo. >> .\doc\cemu_changelog.txt
-echo =========================================================================== >> .\doc\cemu_changelog.txt
+echo =========================================================================== >> .\doc\cemu_changelog.txt 
 echo =                             Cemu Launcher - v20                         = >> .\doc\cemu_changelog.txt
 echo =                          Experimental Code Edition                      = >> .\doc\cemu_changelog.txt
+echo =========================================================================== >> .\doc\cemu_changelog.txt
+echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\cemu_changelog.txt
+echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\cemu_changelog.txt
+echo =========================================================================== >> .\doc\cemu_changelog.txt
+echo. >> .\doc\cemu_changelog.txt
+echo =========================================================================== >> .\doc\cemu_changelog.txt 
+echo =                             Cemu Launcher - v21                         = >> .\doc\cemu_changelog.txt
+echo =                          Experimental Code Edition                      = >> .\doc\cemu_changelog.txt
+echo =========================================================================== >> .\doc\cemu_changelog.txt
+echo = (ﾉ◕ヮ◕)ﾉ Fixed Changelog Somehow                                         = >> .\doc\cemu_changelog.txt
 echo =========================================================================== >> .\doc\cemu_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\cemu_changelog.txt
 echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\cemu_changelog.txt
@@ -216,7 +226,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 20 > .\doc\version.txt
+echo 21 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"

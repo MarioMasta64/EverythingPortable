@@ -112,34 +112,55 @@ title Portable Discord Canary Launcher - Expiremental Edition - Change Log
 :: https://ss64.com/nt/chcp.html
 chcp 65001 >nul:
 echo =========================================================================== > .\doc\discord_canary_changelog.txt 
-echo =                         Discord Canary Launcher - v1                  = >> .\doc\discord_canary_changelog.txt
-echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Type Any Labels Name To Goto It (Useful For Debugging)          = >> .\doc\discord_canary_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Updater Now Hides Itself And Deletes Itself On Completion       = >> .\doc\discord_canary_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ (goto) 2^>nul                                                    = >> .\doc\discord_canary_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Made Code Slightly Cleaner But Kinda Not                        = >> .\doc\discord_canary_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Maybe Other Stuff I Forgot To Mention                           = >> .\doc\discord_canary_changelog.txt
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt
-echo. >> .\doc\discord_canary_changelog.txt
-echo =========================================================================== > .\doc\discord_canary_changelog.txt 
-echo =                         Discord Canary Launcher - v2                  = >> .\doc\discord_canary_changelog.txt
-echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt
-echo. >> .\doc\discord_canary_changelog.txt
-echo =========================================================================== > .\doc\discord_canary_changelog.txt 
-echo =                         Discord Canary Launcher - v3                  = >> .\doc\discord_canary_changelog.txt
-echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt
+echo =                        Discord Canary Launcher - v1                    = >> .\doc\discord_canary_changelog.txt 
+echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ Upgraded To Cemu v1.8.1                                         = >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ Automaticly Upgrade Cemu No More Need For Manual Upgrade        = >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ Type Any Labels Name To Goto It (Useful For Debugging)          = >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ Updater Now Hides Itself And Deletes Itself On Completion       = >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ (goto) 2^>nul                                                    = >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ Made It Easier To Set Cemu Versions For Faster Deployement      = >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ Made Code Slightly Cleaner But Kinda Not                        = >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ Maybe Other Stuff I Forgot To Mention                           = >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo. >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo =                        Discord Canary Launcher - v2                    = >> .\doc\discord_canary_changelog.txt 
+echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo. >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo =                        Discord Canary Launcher - v3                    = >> .\doc\discord_canary_changelog.txt 
+echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo. >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo =                        Discord Canary Launcher - v4                    = >> .\doc\discord_canary_changelog.txt 
+echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo. >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo =                        Discord Canary Launcher - v5                    = >> .\doc\discord_canary_changelog.txt 
+echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ Fixed Changelog Somehow                                         = >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt 
+echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt 
+echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
 chcp 437 >nul:
 notepad.exe .\doc\discord_canary_changelog.txt
 exit /b 2

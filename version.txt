@@ -9,7 +9,7 @@ obs
 kaerusetup
 10
 cemu
-20
+21
 lastpass
 11
 qtemu
@@ -27,9 +27,9 @@ kodi
 ppsspp
 3
 discord_canary
-4
+5
 discord
-4
+5
 opera_poc
 0
 qbittorrent_poc
