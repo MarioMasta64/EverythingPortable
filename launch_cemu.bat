@@ -13,21 +13,14 @@ call :Alpha-To-Number
 
 :: change this to change cemu versions
 :: makes for extremely easy version changes without changing a whole bunch of code
-set "cemu-ver-first-digit=1"
-set "cemu-ver-second-digit=8"
-set "cemu-ver-third-digit=2"
-set "cemu-ver-letter=b"
-set cemu-ver-fourth-digit=!%cemu-ver-letter%!
-
-:: use this to easily set what the zip file is called
-set cemu-ver=cemu_%cemu-ver-first-digit%.%cemu-ver-second-digit%.%cemu-ver-third-digit%.zip
-
 call :Folder-Check
 call :Version
 call :Credits
 call :Check-Scripts
-call :Cemu-Upgrade-Check
-call :Cemu-Check
+call :v19-Upgrade-Check
+if not exist .\bin\cemu\Cemu.exe set nag=CEMU IS NOT INSTALLED CHOOSE "E"
+:: call :Cemu-Upgrade-Check
+:: call :Cemu-Check
 
 :Menu
 cls
@@ -49,6 +42,8 @@ echo.
 echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo.
 echo d. download mod's [want cemu hook or something?]
+echo.
+echo e. check for new cemu version [automatically check for a new version]
 echo.
 set /p choice="enter a number and press enter to confirm: "
 :: sets errorlevel to 0 (?)
@@ -162,6 +157,32 @@ cls & if exist launch_cemu_moddownloader.bat.1 del launch_cemu_moddownloader.bat
 cls & start launch_cemu_moddownloader.bat
 exit /b 2
 
+:e
+:Upgrade-Cemu
+title Portable Cemu Launcher - Expiremental Edition - Cemu Update Check
+if not exist .\bin\wget.exe call :Download-Wget
+if exist index.html del index.html
+.\bin\wget.exe -q --show-progress http://cemu.info/
+for /f tokens^=2delims^=^" %%A in (
+  'findstr /i /c:"http://cemu.info/releases/" /c:"http://cemu.info/releases/" index.html'
+) Do > .\doc\cemu_link.txt Echo:%%A
+set /p cemu_link=<.\doc\cemu_link.txt
+set cemu_zip=%cemu_link:~26,20%
+if exist index.html del index.html
+if not exist .\bin\wget.exe call :Download-Wget
+cls
+if exist .\extra\%cemu_zip% (
+  echo you already have this version. if you're build is broken or you're sure there's an update type 1.
+  call :Broke-Build
+)
+cls
+if exist .\bin\cemu\Cemu.exe (
+  if %broke% NEQ 1 echo type 2 if you would you like to upgrade to cemu v%cemu_zip:~5,5% & call :Upgrade-Build
+  if %broke% EQU 1 call :Extract-Cemu
+)
+if not exist .\bin\cemu\Cemu.exe call :Extract-Cemu
+exit /b 2
+
 ########################################################################
 
 :: program specific stuff that can easily be changed below
@@ -181,7 +202,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 23 > .\doc\version.txt
+echo 24 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -219,12 +240,12 @@ pause
 :Check-Scripts
 if not exist .\bin\downloadwget.vbs call :Create-Wget-Downloader
 if not exist .\bin\hide.vbs call :Create-Hide
+if not exist .\bin\extractzip.vbs call :Create-Zip-Extractor
 (goto) 2>nul
 
 ########################################################################
 
 :Create-Wget-Downloader
-cls
 echo ' Set your settings > .\bin\downloadwget.vbs
 echo    strFileURL = "https://eternallybored.org/misc/wget/current/wget.exe" >> .\bin\downloadwget.vbs
 echo    strHDLocation = "wget.exe" >> .\bin\downloadwget.vbs
@@ -257,6 +278,38 @@ echo Set objXMLHTTP = Nothing >> .\bin\downloadwget.vbs
 
 ########################################################################
 
+:Create-Hide
+echo CreateObject("Wscript.Shell").Run """" ^& WScript.Arguments(0) ^& """", 0, False > .\bin\hide.vbs
+(goto) 2>nul
+
+########################################################################
+
+:Create-Zip-Extractor
+echo 'The location of the zip file. >> .\bin\extractzip.vbs
+echo ZipFile = Wscript.Arguments(0) >> .\bin\extractzip.vbs
+echo 'The folder the contents should be extracted to. >> .\bin\extractzip.vbs
+echo ExtractTo = Wscript.Arguments(1) >> .\bin\extractzip.vbs
+echo. >> .\bin\extractzip.vbs
+echo 'If the extraction location does not exist create it. >> .\bin\extractzip.vbs
+echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractzip.vbs
+echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extractzip.vbs
+echo fso.CreateFolder(ExtractTo) >> .\bin\extractzip.vbs
+echo End If >> .\bin\extractzip.vbs
+echo. >> .\bin\extractzip.vbs
+echo 'Extract the contants of the zip file. >> .\bin\extractzip.vbs
+echo set objShell = CreateObject("Shell.Application") >> .\bin\extractzip.vbs
+echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extractzip.vbs
+echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractzip.vbs
+echo Set fso = Nothing >> .\bin\extractzip.vbs
+echo Set objShell = Nothing >> .\bin\extractzip.vbs
+(goto) 2>nul
+
+########################################################################
+
+End Of Scripts
+
+########################################################################
+
 :Download-Wget
 cls
 title Portable Cemu Launcher - Experimental Edition - Download Wget
@@ -266,88 +319,17 @@ move wget.exe .\bin\
 
 ########################################################################
 
-:Create-Hide
-echo CreateObject("Wscript.Shell").Run """" ^& WScript.Arguments(0) ^& """", 0, False > .\bin\hide.vbs
-(goto) 2>nul
-
-########################################################################
-
 :: scripts that are program specific are below
 
 ########################################################################
 
-:Cemu-Check
+:Extract-Zip
 cls
-call :v19-Upgrade-Check
-if not exist .\bin\cemu\Cemu.exe call :File-Check & goto Cemu-Check
-(goto) 2>nul
-
-:File-Check
-if not exist .\extra\%cemu-ver% call :Download-Cemu
-if exist .\extra\%cemu-ver% call :Extract-Cemu
-(goto) 2>nul
-
-:Download-Cemu
-if exist %cemu-ver% call :Move-Cemu & (goto) 2>nul
-if not exist .\bin\wget.exe call :Download-Wget
-cls
-title Portable Cemu Launcher - Experimental Edition - Download Cemu
-.\bin\wget.exe -q --show-progress "http://cemu.info/releases/%cemu-ver%"
-
-:Move-Cemu
-cls
-if not exist %cemu-ver% (goto) 2>nul
-move %cemu-ver% .\extra\%cemu-ver%
-(goto) 2>nul
-
-########################################################################
-
-:Create-Cemu-Extractor
-cls
-title Portable Cemu Launcher - Experimental Edition - Extract Cemu
+set dir=%1
+set file=%2
 set folder=%CD%
 if %CD%==%~d0\ set folder=%CD:~0,2%
-echo. > .\bin\extractcemu.vbs
-echo 'The location of the zip file. >> .\bin\extractcemu.vbs
-echo ZipFile="%folder%\extra\%cemu-ver%" >> .\bin\extractcemu.vbs
-echo 'The folder the contents should be extracted to. >> .\bin\extractcemu.vbs
-echo ExtractTo="%folder%\bin\cemu\" >> .\bin\extractcemu.vbs
-echo. >> .\bin\extractcemu.vbs
-echo 'If the extraction location does not exist create it. >> .\bin\extractcemu.vbs
-echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractcemu.vbs
-echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extractcemu.vbs
-echo    fso.CreateFolder(ExtractTo) >> .\bin\extractcemu.vbs
-echo End If >> .\bin\extractcemu.vbs
-echo. >> .\bin\extractcemu.vbs
-echo 'Extract the contants of the zip file. >> .\bin\extractcemu.vbs
-echo set objShell = CreateObject("Shell.Application") >> .\bin\extractcemu.vbs
-echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extractcemu.vbs
-echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractcemu.vbs
-echo Set fso = Nothing >> .\bin\extractcemu.vbs
-echo Set objShell = Nothing >> .\bin\extractcemu.vbs
-echo. >> .\bin\extractcemu.vbs
-(goto) 2>nul
-
-########################################################################
-
-:Extract-Cemu
-cls
-title Portable Cemu Launcher - Experimental Edition - Extract Cemu
-:: if a script has to point to a relative object then it needs to be re-written so its best not to put it in :Check-Scripts
-call :Create-Cemu-Extractor
-cscript.exe .\bin\extractcemu.vbs
-cd bin
-if exist cemu cd cemu
-if exist cemu* cd cemu*
-if not exist ..\wget.exe xcopy * ..\ /e /i /y
-if not exist ..\wget.exe cd ..
-if exist temp.txt del temp.txt
-for /D %%A IN ("cemu*") DO echo "%%A">temp.txt
-if exist temp.txt set /p dir=<temp.txt
-if exist temp.txt rmdir /s /q %dir%
-if exist temp.txt del temp.txt
-if exist ..\wget.exe cd ..
-if exist ..\launch_cemu.bat cd ..
+cscript .\bin\extractzip.vbs "%folder%\%file%" "%folder%\%dir%"
 (goto) 2>nul
 
 #######################################################################
@@ -369,20 +351,7 @@ if exist .\bin\temp.txt del .\bin\temp.txt
 
 ########################################################################
 
-:Cemu-Upgrade-Check
-cls
-if not exist cemu-ver.txt (goto) 2>nul
-set Counter=0 & for /f "DELIMS=" %%i in ('type cemu-ver.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
-del cemu-ver.txt
-set old-ver-first-digit=%Line_1%
-set old-ver-second-digit=%Line_2%
-set old-ver-third-digit=%Line_3%
-set old-ver-fourth-digit=%Line_4%
-if %old-ver-first-digit% LSS %cemu-ver-first-digit% call :Upgrade-Cemu
-if %old-ver-second-digit% LSS %cemu-ver-second-digit% call :Upgrade-Cemu
-if %old-ver-third-digit% LSS %cemu-ver-third-digit% call :Upgrade-Cemu
-if %old-ver-fourth-digit% LSS %cemu-ver-fourth-digit% call :Upgrade-Cemu
-(goto) 2>nul
+:: scripts that are used for updating things are below
 
 ########################################################################
 
@@ -390,10 +359,6 @@ if %old-ver-fourth-digit% LSS %cemu-ver-fourth-digit% call :Upgrade-Cemu
 cls
 del .\bin\cemu\Cemu.exe
 (goto) 2>nul
-
-########################################################################
-
-:: scripts that are used for updating things are below
 
 ########################################################################
 
@@ -570,5 +535,42 @@ add new launchers to update check in everything portable
 the better link: https://raw.githubusercontent.com/MarioMasta64/ModDownloaderPortable/master/mod_list.txt
 apparently raw is bad before master but only sometimes?
 raw is perfect for text links tho
+
+########################################################################
+
+:Broke-Build
+set /p broke="build broke [understandable have a nice day]: "
+if "%broke%"=="1" call :Download-Cemu
+(goto) 2>nul
+
+:Upgrade-Build
+set /p upgrade=""
+if "%upgrade%"=="2" call :Extract-Cemu
+(goto) 2>nul
+
+:Download-Cemu
+if not exist .\bin\wget.exe call :Download-Wget
+.\bin\wget.exe -q --show-progress %cemu_link%
+if not exist %cemu_zip% call :Error-Offline & (goto) 2>nul
+if exist %cemu_zip% move %cemu_zip% .\extra\%cemu_zip%
+(goto) 2>nul
+
+:Extract-Cemu
+call :Extract-Zip "bin\cemu" "extra\%cemu_zip%"
+cd bin
+if exist cemu cd cemu
+if exist cemu* cd cemu*
+if not exist ..\launch_cemu.bat (
+  if not exist ..\wget.exe xcopy * ..\ /e /i /y
+  if not exist ..\wget.exe cd ..
+)
+if exist temp.txt del temp.txt
+for /D %%A IN ("cemu*") DO echo "%%A">temp.txt
+if exist temp.txt set /p dir=<temp.txt
+if exist temp.txt rmdir /s /q %dir%
+if exist temp.txt del temp.txt
+if exist ..\wget.exe cd ..
+if exist ..\launch_cemu.bat cd ..
+exit /b 2
 
 ########################################################################
