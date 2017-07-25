@@ -41,7 +41,6 @@ echo 4. uninstall cemu [Maybe Buy A WiiU :^^)]
 echo 5. update program [check for updates]
 echo 6. about [shoulda named this credits]
 echo 7. exit [EXIT]
-echo 8. changelog.txt [what changed?]
 echo.
 echo a. download dll's [dll errors anyone?]
 echo.
@@ -121,50 +120,6 @@ exit
 :7
 exit
 
-:8
-:Write-Cemu-Change-Log
-cls
-title Portable Cemu Launcher - Expiremental Edition - Change Log
-:: https://ss64.com/nt/chcp.html
-chcp 65001 >nul:
-echo =========================================================================== > .\doc\cemu_changelog.txt 
-echo =                             Cemu Launcher - v19                         = >> .\doc\cemu_changelog.txt
-echo =                          Experimental Code Edition                      = >> .\doc\cemu_changelog.txt
-echo =========================================================================== >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Upgraded To Cemu v1.8.1                                         = >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Automaticly Upgrade Cemu No More Need For Manual Upgrade        = >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Type Any Labels Name To Goto It (Useful For Debugging)          = >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Updater Now Hides Itself And Deletes Itself On Completion       = >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ (goto) 2^>nul                                                    = >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Made It Easier To Set Cemu Versions For Faster Deployement      = >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Made Code Slightly Cleaner But Kinda Not                        = >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Maybe Other Stuff I Forgot To Mention                           = >> .\doc\cemu_changelog.txt
-echo =========================================================================== >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\cemu_changelog.txt
-echo =========================================================================== >> .\doc\cemu_changelog.txt
-echo. >> .\doc\cemu_changelog.txt
-echo =========================================================================== >> .\doc\cemu_changelog.txt 
-echo =                             Cemu Launcher - v20                         = >> .\doc\cemu_changelog.txt
-echo =                          Experimental Code Edition                      = >> .\doc\cemu_changelog.txt
-echo =========================================================================== >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\cemu_changelog.txt
-echo =========================================================================== >> .\doc\cemu_changelog.txt
-echo. >> .\doc\cemu_changelog.txt
-echo =========================================================================== >> .\doc\cemu_changelog.txt 
-echo =                             Cemu Launcher - v21                         = >> .\doc\cemu_changelog.txt
-echo =                          Experimental Code Edition                      = >> .\doc\cemu_changelog.txt
-echo =========================================================================== >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Fixed Changelog Somehow                                         = >> .\doc\cemu_changelog.txt
-echo =========================================================================== >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\cemu_changelog.txt
-echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\cemu_changelog.txt
-echo =========================================================================== >> .\doc\cemu_changelog.txt
-chcp 437 >nul:
-notepad.exe .\doc\cemu_changelog.txt
-exit /b 2
-
 :a
 :DLL-Downloader-Check
 cls & title Portable Cemu Launcher - Experimental Edition - Download Dll Downloader
@@ -226,7 +181,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 22 > .\doc\version.txt
+echo 23 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -236,7 +191,6 @@ if exist .\doc\version.txt del .\doc\version.txt
 
 :Credits
 cls
-if not exist .\doc\cemu_changelog.txt call :Write-Cemu-Change-Log
 if exist .\doc\cemu_license.txt (goto) 2>nul
 echo ================================================== > .\doc\cemu_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\cemu_license.txt
@@ -480,7 +434,7 @@ goto New-Update
 :Update-Now
 cls & if not exist .\bin\wget.exe call :Download-Wget
 cls & title Portable Cemu Launcher - Experimental Edition - Updating Launcher
-cls & .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/raw/master/launch_cemu.bat
+cls & .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_cemu.bat
 cls & if exist launch_cemu.bat.1 goto Replacer-Create
 cls & call :Error-Offline
 (goto) 2>nul
@@ -496,11 +450,11 @@ echo start launch_cemu.bat >> replacer.bat
 echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> replacer.bat
 wscript "%CD%\bin\hide.vbs" "replacer.bat"
 if exist cemu-ver.txt del cemu-ver.txt
-if exist .\doc\cemu_changelog.txt del .\doc\cemu_changelog.txt
 echo %cemu-ver-first-digit% > cemu-ver.txt
 echo %cemu-ver-second-digit% >> cemu-ver.txt
 echo %cemu-ver-third-digit% >> cemu-ver.txt
 echo %cemu-ver-fourth-digit% >> cemu-ver.txt
+pause
 exit
 
 :Preview-Build
@@ -609,7 +563,6 @@ exit
 ########################################################################
 
 replace launch_cemu.bat with %~f0
-make a way to flip through pages in changelog
 because i use the call command. you can edit the file add a label and goto the label by typing it in the menu without even having to close the program cause youre worried about it glitching (put your code on the bottom)
 add raw before raw/master in everything
 maybe add option to open mod folder?

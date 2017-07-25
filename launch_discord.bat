@@ -27,13 +27,12 @@ title Portable Discord Launcher - Experimental Edition - Main Menu
 echo %NAG%
 set nag="Selection Time!"
 echo 1. reinstall discord [will remove discord entirely]
-echo 2. launch discord [launches discord canary]
+echo 2. launch discord [launches discord]
 echo 3. reset discord [will remove everything discord except the binary]
 echo 4. uninstall discord [Just Please Dont Use TeamSpeak..]
 echo 5. update program [check for updates]
 echo 6. about [shoulda named this credits]
 echo 7. exit [EXIT]
-echo 8. changelog.txt [what changed?]
 echo.
 echo b. download other projects [check out my other stuff]
 echo.
@@ -105,66 +104,6 @@ exit
 :Exit
 exit
 
-:8
-:Write-Discord-Change-Log
-cls
-title Portable Discord Launcher - Expiremental Edition - Change Log
-:: https://ss64.com/nt/chcp.html
-chcp 65001 >nul:
-echo =========================================================================== > .\doc\discord_canary_changelog.txt 
-echo =                            Discord Launcher - v1                    = >> .\doc\discord_canary_changelog.txt 
-echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ Upgraded To Cemu v1.8.1                                         = >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ Automaticly Upgrade Cemu No More Need For Manual Upgrade        = >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ Type Any Labels Name To Goto It (Useful For Debugging)          = >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ Updater Now Hides Itself And Deletes Itself On Completion       = >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ (goto) 2^>nul                                                    = >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ Made It Easier To Set Cemu Versions For Faster Deployement      = >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ Made Code Slightly Cleaner But Kinda Not                        = >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ Maybe Other Stuff I Forgot To Mention                           = >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo. >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo =                            Discord Launcher - v2                    = >> .\doc\discord_canary_changelog.txt 
-echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo. >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo =                            Discord Launcher - v3                    = >> .\doc\discord_canary_changelog.txt 
-echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo. >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo =                            Discord Launcher - v4                    = >> .\doc\discord_canary_changelog.txt 
-echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo. >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo =                            Discord Launcher - v5                    = >> .\doc\discord_canary_changelog.txt 
-echo =                          Experimental Code Edition                      = >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ Fixed Changelog Somehow                                         = >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ Further improvements to overall system stability and other      = >> .\doc\discord_canary_changelog.txt 
-echo = (ﾉ◕ヮ◕)ﾉ minor adjustments have been made to enhance the user experience = >> .\doc\discord_canary_changelog.txt 
-echo =========================================================================== >> .\doc\discord_canary_changelog.txt 
-chcp 437 >nul:
-notepad.exe .\doc\discord_canary_changelog.txt
-exit /b 2
-
 :a
 :DLL-Downloader-Check
 cls & title Portable Discord Launcher - Experimental Edition - Download Dll Downloader
@@ -216,7 +155,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 5 > .\doc\version.txt
+echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -226,7 +165,6 @@ if exist .\doc\version.txt del .\doc\version.txt
 
 :Credits
 cls
-if not exist .\doc\discord_canary_changelog.txt call :Write-Discord-Change-Log
 if exist .\doc\discord_canary_license.txt (goto) 2>nul
 echo ================================================== > .\doc\discord_canary_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\discord_canary_license.txt
@@ -426,7 +364,7 @@ goto New-Update
 :Update-Now
 cls & if not exist .\bin\wget.exe call :Download-Wget
 cls & title Portable Discord Launcher - Experimental Edition - Updating Launcher
-cls & .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/raw/master/launch_discord.bat
+cls & .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_discord.bat
 cls & if exist launch_discord.bat.1 goto Replacer-Create
 cls & call :Error-Offline
 (goto) 2>nul
@@ -548,7 +486,6 @@ exit
 
 ########################################################################
 
-make a way to flip through pages in changelog
 because i use the call command. you can edit the file add a label and goto the label by typing it in the menu without even having to close the program cause youre worried about it glitching (put your code on the bottom)
 add raw before raw/master in everything
 apparently raw is bad before master but only sometimes?
