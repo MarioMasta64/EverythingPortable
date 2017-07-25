@@ -434,12 +434,6 @@ echo start launch_cemu.bat >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
 echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> replacer.bat
 wscript "%CD%\bin\hide.vbs" "replacer.bat"
-if exist cemu-ver.txt del cemu-ver.txt
-echo %cemu-ver-first-digit% > cemu-ver.txt
-echo %cemu-ver-second-digit% >> cemu-ver.txt
-echo %cemu-ver-third-digit% >> cemu-ver.txt
-echo %cemu-ver-fourth-digit% >> cemu-ver.txt
-pause
 exit
 
 :Preview-Build
