@@ -15,7 +15,7 @@ call :Alpha-To-Number
 :: makes for extremely easy version changes without changing a whole bunch of code
 set "cemu-ver-first-digit=1"
 set "cemu-ver-second-digit=8"
-set "cemu-ver-third-digit=1"
+set "cemu-ver-third-digit=2"
 set "cemu-ver-letter=b"
 set cemu-ver-fourth-digit=!%cemu-ver-letter%!
 
@@ -226,7 +226,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 21 > .\doc\version.txt
+echo 22 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
