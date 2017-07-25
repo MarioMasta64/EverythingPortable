@@ -310,6 +310,17 @@ End Of Scripts
 
 ########################################################################
 
+:Extract-Zip
+cls
+set dir=%1
+set file=%2
+set folder=%CD%
+if %CD%==%~d0\ set folder=%CD:~0,2%
+cscript .\bin\extractzip.vbs "%folder%\%file%" "%folder%\%dir%"
+(goto) 2>nul
+
+########################################################################
+
 :Download-Wget
 cls
 title Portable Cemu Launcher - Experimental Edition - Download Wget
@@ -320,17 +331,6 @@ move wget.exe .\bin\
 ########################################################################
 
 :: scripts that are program specific are below
-
-########################################################################
-
-:Extract-Zip
-cls
-set dir=%1
-set file=%2
-set folder=%CD%
-if %CD%==%~d0\ set folder=%CD:~0,2%
-cscript .\bin\extractzip.vbs "%folder%\%file%" "%folder%\%dir%"
-(goto) 2>nul
 
 #######################################################################
 
