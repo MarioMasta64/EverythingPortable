@@ -313,7 +313,7 @@ echo Const ForWriting = 2 >> .\bin\replacetext.vbs
 echo. >> .\bin\replacetext.vbs
 echo strFileName = Wscript.Arguments(0) >> .\bin\replacetext.vbs
 echo strOldText = Wscript.Arguments(1) >> .\bin\replacetext.vbs
-echo strNewText = Wscript.Arguments(2 >> .\bin\replacetext.vbs
+echo strNewText = Wscript.Arguments(2) >> .\bin\replacetext.vbs
 echo. >> .\bin\replacetext.vbs
 echo Set objFSO = CreateObject("Scripting.FileSystemObject") >> .\bin\replacetext.vbs
 echo Set objFile = objFSO.OpenTextFile(strFileName, ForReading) >> .\bin\replacetext.vbs
