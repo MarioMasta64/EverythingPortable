@@ -195,7 +195,7 @@ echo cls >> quicklaunch_cemu.bat
 echo start .\bin\cemu\Cemu.exe >> quicklaunch_cemu.bat
 echo exit >> quicklaunch_cemu.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_cemu.bat
-pause>nul:
+echo ENTER TO CONTINUE & pause>nul:
 exit /b 2
 
 :d
@@ -458,7 +458,7 @@ title Portable Cemu Launcher - Experimental Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-pause>nul:
+echo ENTER TO CONTINUE & pause>nul:
 start launch_cemu.bat
 exit
 
@@ -511,7 +511,7 @@ echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE
-pause>nul:
+echo ENTER TO CONTINUE & pause>nul:
 start launch_cemu.bat
 exit
 

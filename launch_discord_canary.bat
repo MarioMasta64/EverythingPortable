@@ -193,7 +193,7 @@ echo cls >> quicklaunch_discord_canary.bat >> quicklaunch_discord_canary.bat
 echo set "UserProfile=%%CD%%\data" >> quicklaunch_discord_canary.bat
 echo start .\bin\discord_canary\DiscordCanary.exe >> quicklaunch_discord_canary.bat
 echo exit >> quicklaunch_discord_canary.bat
-pause>nul:
+echo ENTER TO CONTINUE & pause>nul:
 exit /b 2
 
 ########################################################################
@@ -404,7 +404,7 @@ title Portable Discord Canary Launcher - Experimental Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-pause>nul:
+echo ENTER TO CONTINUE & pause>nul:
 start launch_discord_canary.bat
 exit
 
@@ -452,7 +452,7 @@ echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE
-pause>nul:
+echo ENTER TO CONTINUE & pause>nul:
 start launch_discord_canary.bat
 exit
 
