@@ -285,7 +285,7 @@ echo CreateObject("Wscript.Shell").Run """" ^& WScript.Arguments(0) ^& """", 0, 
 ########################################################################
 
 :Create-Zip-Extractor
-echo 'The location of the zip file. >> .\bin\extractzip.vbs
+echo 'The location of the zip file. > .\bin\extractzip.vbs
 echo ZipFile = Wscript.Arguments(0) >> .\bin\extractzip.vbs
 echo 'The folder the contents should be extracted to. >> .\bin\extractzip.vbs
 echo ExtractTo = Wscript.Arguments(1) >> .\bin\extractzip.vbs
