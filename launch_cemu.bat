@@ -241,6 +241,7 @@ pause
 if not exist .\bin\downloadwget.vbs call :Create-Wget-Downloader
 if not exist .\bin\hide.vbs call :Create-Hide
 if not exist .\bin\extractzip.vbs call :Create-Zip-Extractor
+if not exist .\bin\replacetext.vbs call :Create-Text-Replacer
 (goto) 2>nul
 
 ########################################################################
@@ -305,6 +306,25 @@ echo Set objShell = Nothing >> .\bin\extractzip.vbs
 (goto) 2>nul
 
 ########################################################################
+
+:Create-Text-Replacer
+echo Const ForReading = 1 > .\bin\replacetext.vbs
+echo Const ForWriting = 2 >> .\bin\replacetext.vbs
+echo. >> .\bin\replacetext.vbs
+echo strFileName = Wscript.Arguments(0) >> .\bin\replacetext.vbs
+echo strOldText = Wscript.Arguments(1) >> .\bin\replacetext.vbs
+echo strNewText = Wscript.Arguments(2 >> .\bin\replacetext.vbs
+echo. >> .\bin\replacetext.vbs
+echo Set objFSO = CreateObject("Scripting.FileSystemObject") >> .\bin\replacetext.vbs
+echo Set objFile = objFSO.OpenTextFile(strFileName, ForReading) >> .\bin\replacetext.vbs
+echo strText = objFile.ReadAll >> .\bin\replacetext.vbs
+echo objFile.Close >> .\bin\replacetext.vbs
+echo. >> .\bin\replacetext.vbs
+echo strNewText = Replace(strText, strOldText, strNewText) >> .\bin\replacetext.vbs
+echo Set objFile = objFSO.OpenTextFile(strFileName, ForWriting) >> .\bin\replacetext.vbs
+echo objFile.Write strNewText  'WriteLine adds extra CR/LF >> .\bin\replacetext.vbs
+echo objFile.Close >> .\bin\replacetext.vbs
+(goto) 2>nul
 
 End Of Scripts
 
