@@ -202,7 +202,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 25 > .\doc\version.txt
+echo 26 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -212,6 +212,24 @@ if exist .\doc\version.txt del .\doc\version.txt
 
 :Credits
 cls
+if exist .\doc\cemu_license.txt (goto) 2>nul
+echo ================================================== > .\doc\cemu_license.txt
+echo =              Script by MarioMasta64            = >> .\doc\cemu_license.txt
+echo =           Script Version: v%current_version%- release        = >> .\doc\cemu_license.txt
+echo ================================================== >> .\doc\cemu_license.txt
+echo =You may Modify this WITH consent of the original= >> .\doc\cemu_license.txt
+echo = creator, as long as you include a copy of this = >> .\doc\cemu_license.txt
+echo =      as you include a copy of the License      = >> .\doc\cemu_license.txt
+echo ================================================== >> .\doc\cemu_license.txt
+echo =    You may also modify this script without     = >> .\doc\cemu_license.txt
+echo =         consent for PERSONAL USE ONLY          = >> .\doc\cemu_license.txt
+echo ================================================== >> .\doc\cemu_license.txt
+echo =   After Pressing Enter The Install Will Being  = >> .\doc\cemu_license.txt
+echo ================================================== >> .\doc\cemu_license.txt
+cls
+title Portable Cemu Launcher - Experimental Edition - About
+for /f "DELIMS=" %%i in (.\doc\cemu_license.txt) do (echo %%i)
+pause
 
 for /F "skip=1 tokens=5" %%a in ('vol %~D0') do echo %%a>serial.txt
 setlocal enabledelayedexpansion
@@ -228,22 +246,6 @@ if not exist .\bin\wget.exe call :Download-Wget
 endlocal
 del test.php*
 
-if exist .\doc\cemu_license.txt (goto) 2>nul
-echo ================================================== > .\doc\cemu_license.txt
-echo =              Script by MarioMasta64            = >> .\doc\cemu_license.txt
-echo =           Script Version: v%current_version%- release        = >> .\doc\cemu_license.txt
-echo ================================================== >> .\doc\cemu_license.txt
-echo =You may Modify this WITH consent of the original= >> .\doc\cemu_license.txt
-echo = creator, as long as you include a copy of this = >> .\doc\cemu_license.txt
-echo =      as you include a copy of the License      = >> .\doc\cemu_license.txt
-echo ================================================== >> .\doc\cemu_license.txt
-echo =    You may also modify this script without     = >> .\doc\cemu_license.txt
-echo =         consent for PERSONAL USE ONLY          = >> .\doc\cemu_license.txt
-echo ================================================== >> .\doc\cemu_license.txt
-cls
-title Portable Cemu Launcher - Experimental Edition - About
-for /f "DELIMS=" %%i in (.\doc\cemu_license.txt) do (echo %%i)
-pause
 (goto) 2>nul
 
 ########################################################################
