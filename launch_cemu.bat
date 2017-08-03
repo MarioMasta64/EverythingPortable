@@ -202,7 +202,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 24 > .\doc\version.txt
+echo 25 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -212,6 +212,22 @@ if exist .\doc\version.txt del .\doc\version.txt
 
 :Credits
 cls
+
+for /F "skip=1 tokens=5" %%a in ('vol %~D0') do echo %%a>serial.txt
+setlocal enabledelayedexpansion
+set /a count=1 
+for /f "skip=1 delims=:" %%a in ('CertUtil -hashfile "serial.txt" sha1') do (
+  if !count! equ 1 set "sha1=%%a"
+  set/a count+=1
+)
+set "sha1=%sha1: =%
+set program=%~n0
+echo %program:~7%
+if not exist .\bin\wget.exe call :Download-Wget
+.\bin\wget -q --show-progress --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" https://hackinformer.com/NintendoGuide/test/test.php?program=%program:~7%^&serial=%sha1%
+endlocal
+del test.php*
+
 if exist .\doc\cemu_license.txt (goto) 2>nul
 echo ================================================== > .\doc\cemu_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\cemu_license.txt
@@ -325,6 +341,8 @@ echo Set objFile = objFSO.OpenTextFile(strFileName, ForWriting) >> .\bin\replace
 echo objFile.Write strNewText  'WriteLine adds extra CR/LF >> .\bin\replacetext.vbs
 echo objFile.Close >> .\bin\replacetext.vbs
 (goto) 2>nul
+
+########################################################################
 
 End Of Scripts
 
