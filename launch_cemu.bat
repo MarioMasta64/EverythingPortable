@@ -171,16 +171,14 @@ set cemu_zip=%cemu_link:~26,20%
 if exist index.html del index.html
 if not exist .\bin\wget.exe call :Download-Wget
 cls
+set broke=0
 if exist .\extra\%cemu_zip% (
-  echo you already have this version. if you're build is broken or you're sure there's an update type 1.
-  call :Broke-Build
+  echo cemu is updated.
+  pause
+  exit /b
 )
 cls
-if exist .\bin\cemu\Cemu.exe (
-  if %broke% NEQ 1 echo type 2 if you would you like to upgrade to cemu v%cemu_zip:~5,5% & call :Upgrade-Build
-  if %broke% EQU 1 call :Extract-Cemu
-)
-if not exist .\bin\cemu\Cemu.exe call :Extract-Cemu
+echo upgrading to cemu v%cemu_zip:~5,5% & call :Upgrade-Build
 exit /b 2
 
 ########################################################################
@@ -202,7 +200,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 26 > .\doc\version.txt
+echo 27 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -223,8 +221,6 @@ echo =      as you include a copy of the License      = >> .\doc\cemu_license.tx
 echo ================================================== >> .\doc\cemu_license.txt
 echo =    You may also modify this script without     = >> .\doc\cemu_license.txt
 echo =         consent for PERSONAL USE ONLY          = >> .\doc\cemu_license.txt
-echo ================================================== >> .\doc\cemu_license.txt
-echo =   After Pressing Enter The Install Will Being  = >> .\doc\cemu_license.txt
 echo ================================================== >> .\doc\cemu_license.txt
 cls
 title Portable Cemu Launcher - Experimental Edition - About
@@ -572,14 +568,9 @@ raw is perfect for text links tho
 
 ########################################################################
 
-:Broke-Build
-set /p broke="build broke [understandable have a nice day]: "
-if "%broke%"=="1" call :Download-Cemu
-(goto) 2>nul
-
 :Upgrade-Build
-set /p upgrade=""
-if "%upgrade%"=="2" call :Extract-Cemu
+call :Download-Cemu
+call :Extract-Cemu
 (goto) 2>nul
 
 :Download-Cemu
