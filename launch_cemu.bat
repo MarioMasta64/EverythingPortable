@@ -31,7 +31,7 @@ echo 1. reinstall cemu [will remove cemu entirely]
 echo 2. launch cemu [launches cemu]
 echo 3. reset cemu [will remove everything cemu except the binary]
 echo 4. uninstall cemu [Maybe Buy A WiiU :^^)]
-echo 5. update program [check for updates]
+echo 5. update script [check for updates]
 echo 6. about [shoulda named this credits]
 echo 7. exit [EXIT]
 echo.
@@ -51,7 +51,7 @@ ver > nul
 :: an incorrect call throws an errorlevel of 1
 :: replace all goto Main with exit /b 2 (if they are called by the main menu)
 call :%choice%
-if "%ERRORLEVEL%" NEQ "2" set nag="PLEASE Select A CHOICE 1-8 or a/b/c/d"
+if "%ERRORLEVEL%" NEQ "2" set nag="PLEASE Select A CHOICE 1-7 or a/b/c/d/e"
 goto Menu
 
 :Null
@@ -226,22 +226,7 @@ cls
 title Portable Cemu Launcher - Experimental Edition - About
 for /f "DELIMS=" %%i in (.\doc\cemu_license.txt) do (echo %%i)
 pause
-
-for /F "skip=1 tokens=5" %%a in ('vol %~D0') do echo %%a>serial.txt
-setlocal enabledelayedexpansion
-set /a count=1 
-for /f "skip=1 delims=:" %%a in ('CertUtil -hashfile "serial.txt" sha1') do (
-  if !count! equ 1 set "sha1=%%a"
-  set/a count+=1
-)
-set "sha1=%sha1: =%
-set program=%~n0
-echo %program:~7%
-if not exist .\bin\wget.exe call :Download-Wget
-.\bin\wget -q --show-progress --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" https://hackinformer.com/NintendoGuide/test/test.php?program=%program:~7%^&serial=%sha1%
-endlocal
-del test.php*
-
+call :Ping-Install
 (goto) 2>nul
 
 ########################################################################
@@ -338,6 +323,25 @@ echo strNewText = Replace(strText, strOldText, strNewText) >> .\bin\replacetext.
 echo Set objFile = objFSO.OpenTextFile(strFileName, ForWriting) >> .\bin\replacetext.vbs
 echo objFile.Write strNewText  'WriteLine adds extra CR/LF >> .\bin\replacetext.vbs
 echo objFile.Close >> .\bin\replacetext.vbs
+(goto) 2>nul
+
+########################################################################
+
+:Ping-Install
+for /F "skip=1 tokens=5" %%a in ('vol %~D0') do echo %%a>serial.txt
+setlocal enabledelayedexpansion
+set /a count=1 
+for /f "skip=1 delims=:" %%a in ('CertUtil -hashfile "serial.txt" sha1') do (
+  if !count! equ 1 set "sha1=%%a"
+  set/a count+=1
+)
+set "sha1=%sha1: =%
+set program=%~n0
+echo %program:~7%
+if not exist .\bin\wget.exe call :Download-Wget
+.\bin\wget -q --show-progress --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" https://hackinformer.com/NintendoGuide/test/test.php?program=%program:~7%^&serial=%sha1%
+endlocal
+del test.php*
 (goto) 2>nul
 
 ########################################################################
