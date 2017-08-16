@@ -611,6 +611,7 @@ if not exist .\bin\wget.exe call :Download-Wget
 :: .\bin\wget.exe -q --show-progress %obs_link%
 :: if not exist %obs_zip% call :Error-Offline & (goto) 2>nul
 :: if exist %obs_zip% move %obs_zip% .\extra\%obs_zip%
+del /s /q OBS-Studio*-Full.zip>nul:
 .\bin\wget.exe -q --show-progress https://github.com/jp9000/obs-studio/releases/download/20.0.1/OBS-Studio-20.0.1-Full.zip
 if not exist OBS-Studio-20.0.1-Full.zip call :Error-Offline & (goto) 2>nul
 if exist OBS-Studio-20.0.1-Full.zip move OBS-Studio-20.0.1-Full.zip .\extra\OBS-Studio-20.0.1-Full.zip

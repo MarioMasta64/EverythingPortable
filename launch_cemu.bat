@@ -579,6 +579,7 @@ call :Extract-Cemu
 
 :Download-Cemu
 if not exist .\bin\wget.exe call :Download-Wget
+del /s /q cemu*.zip
 .\bin\wget.exe -q --show-progress %cemu_link%
 if not exist %cemu_zip% call :Error-Offline & (goto) 2>nul
 if exist %cemu_zip% move %cemu_zip% .\extra\%cemu_zip%
