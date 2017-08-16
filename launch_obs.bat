@@ -152,18 +152,20 @@ echo @echo off > quicklaunch_obs.bat
 echo Color 0A >> quicklaunch_obs.bat
 echo cls >> quicklaunch_obs.bat
 echo title DO NOT CLOSE >> quicklaunch_obs.bat
-echo set path="%%PATH%%";"%%CD%%\dll\64\;"; >> quicklaunch_obs.bat
+echo set arch=32 >> quicklaunch_obs.bat
+echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64" >> quicklaunch_obs.bat
+echo set "path=%%PATH%%;%%CD%%\dll\%%arch%%\;" >> quicklaunch_obs.bat
 echo xcopy .\data\obs\* "%%appdata%%\obs-studio\" /e /i /y >> quicklaunch_obs.bat
 echo rmdir /s /q .\data\obs\ >> quicklaunch_obs.bat
 echo cls >> quicklaunch_obs.bat
 echo echo OBS IS RUNNING >> quicklaunch_obs.bat
-echo cd .\bin\obs\bin\64bit\ >> quicklaunch_obs.bat
-echo obs64.exe -portable >> quicklaunch_obs.bat
+echo cd .\bin\obs\bin\%%arch%%bit\ >> quicklaunch_obs.bat
+echo obs%%arch%%.exe -portable >> quicklaunch_obs.bat
 echo cd .. >> quicklaunch_obs.bat
 echo cd .. >> quicklaunch_obs.bat
 echo cd .. >> quicklaunch_obs.bat
 echo cd .. >> quicklaunch_obs.bat
-echo xcopy "%%appdata%%\obs-studio\*" .\data\obs\ /e /i /y >> quicklaunch_obs.bat
+echo xcopy "%%appdat%a%\obs-studio\*" .\data\obs\ /e /i /y >> quicklaunch_obs.bat
 echo rmdir /s /q "%%appdata%%\obs-studio" >> quicklaunch_obs.bat
 echo exit >> quicklaunch_obs.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_obs.bat
