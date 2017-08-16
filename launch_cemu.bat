@@ -14,9 +14,9 @@ call :Alpha-To-Number
 :: change this to change cemu versions
 :: makes for extremely easy version changes without changing a whole bunch of code
 call :Folder-Check
+call :Check-Scripts
 call :Version
 call :Credits
-call :Check-Scripts
 call :v19-Upgrade-Check
 if not exist .\bin\cemu\Cemu.exe set nag=CEMU IS NOT INSTALLED CHOOSE "E"
 :: call :Cemu-Upgrade-Check

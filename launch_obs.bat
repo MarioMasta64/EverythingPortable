@@ -14,9 +14,9 @@ call :Alpha-To-Number
 :: change this to change cemu versions
 :: makes for extremely easy version changes without changing a whole bunch of code
 call :Folder-Check
+call :Check-Scripts
 call :Version
 call :Credits
-call :Check-Scripts
 
 set arch=32
 if exist "%PROGRAMFILES(X86)%" set "arch=64"
