@@ -489,7 +489,7 @@ cls & call :Error-Offline
 cls
 echo @echo off > replacer.bat
 echo Color 0A >> replacer.bat
-echo del launch_cemu.bat >> replacer.bat
+echo del launch_obs.bat >> replacer.bat
 echo rename launch_obs.bat.1 launch_obs.bat >> replacer.bat
 echo start launch_obs.bat >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
