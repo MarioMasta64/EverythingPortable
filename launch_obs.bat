@@ -34,7 +34,6 @@ echo 4. uninstall obs [Why Tho?]
 echo 5. update script [check for updates]
 echo 6. about [shoulda named this credits]
 echo 7. exit [EXIT]
-echo 8. backup / restore obs folder
 echo.
 echo a. download dll's [dll errors anyone?]
 echo.
