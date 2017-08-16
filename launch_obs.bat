@@ -165,7 +165,7 @@ echo cd .. >> quicklaunch_obs.bat
 echo cd .. >> quicklaunch_obs.bat
 echo cd .. >> quicklaunch_obs.bat
 echo cd .. >> quicklaunch_obs.bat
-echo xcopy "%%appdata%\obs-studio\*" .\data\obs\ /e /i /y >> quicklaunch_obs.bat
+echo xcopy "%%appdata%%\obs-studio\*" .\data\obs\ /e /i /y >> quicklaunch_obs.bat
 echo rmdir /s /q "%%appdata%%\obs-studio" >> quicklaunch_obs.bat
 echo exit >> quicklaunch_obs.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_obs.bat
