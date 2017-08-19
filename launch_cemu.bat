@@ -190,6 +190,7 @@ if not exist .\bin\ mkdir .\bin\
 :: dll folder check removed because dll downloader creates it
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
+if not exist .\note\ mkdir .\note\
 (goto) 2>nul
 
 ########################################################################

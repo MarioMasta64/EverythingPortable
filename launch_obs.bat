@@ -248,6 +248,7 @@ if not exist .\bin\ mkdir .\bin\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\data\obs\ mkdir .\data\obs\
+if not exist .\note\ mkdir .\note\
 (goto) 2>nul
 
 ########################################################################

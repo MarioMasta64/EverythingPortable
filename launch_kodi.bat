@@ -180,6 +180,7 @@ if not exist .\bin\ mkdir .\bin\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
 if not exist .\extra\ mkdir .\extra\
+if not exist .\note\ mkdir .\note\
 (goto) 2>nul
 
 ########################################################################
