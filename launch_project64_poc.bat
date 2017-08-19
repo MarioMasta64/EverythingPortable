@@ -65,9 +65,10 @@ for /f tokens^=2delims^=^" %%A in (
 Setup Project64 v2.3.2-202-g57a221e.exe
 
 set /p project64_link=<project64_link.txt
-echo "http://www.pj64-emu.com%project64_link%Setup Project64 v%project64_link:~23,1%.%project64_link:~25,1%.%project64_link:~27,1%-%project64_link:~29,3%-%project64_link:~33,-1%.exe"
+echo "http://www.pj64-emu.com%project64_link%"
 set "project64_exe=Setup Project64 v%project64_link:~23,1%.%project64_link:~25,1%.%project64_link:~27,1%-%project64_link:~29,3%-%project64_link:~33,-1%.exe"
 echo "%project64_exe%"
+del /s /q project64-latest.html*
 pause
 del /s /q index.html*
 .\bin\wget.exe "http://www.pj64-emu.com%project64_link%"
