@@ -42,3 +42,5 @@ skype_poc
 0
 project64_poc
 0
+authy_poc
+0
