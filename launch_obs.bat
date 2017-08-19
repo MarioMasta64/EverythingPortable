@@ -7,19 +7,13 @@ set nag=EXPIREMENTS :D
 set new_version=OFFLINE
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 
-:: allows letters to be set as numbers
-setlocal enabledelayedexpansion
-call :Alpha-To-Number
-
-:: change this to change cemu versions
-:: makes for extremely easy version changes without changing a whole bunch of code
 call :Folder-Check
 call :Check-Scripts
+call :Set-Arch
 call :Version
 call :Credits
+call :MoTD
 
-set arch=32
-if exist "%PROGRAMFILES(X86)%" set "arch=64"
 if not exist .\bin\obs\bin\%arch%bit\obs%arch%.exe set nag=OBS IS NOT INSTALLED CHOOSE "E"
 
 :Menu
@@ -106,7 +100,7 @@ if exist version.txt del version.txt
 if not exist .\bin\wget.exe call :Download-Wget
 cls
 title Portable OBS Launcher - Experimental Edition - Checking For Update
-.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+.\bin\wget.exe-q --show-progress --continue https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
 set new_version=%Line_8%
@@ -130,7 +124,7 @@ exit
 :DLL-Downloader-Check
 cls & title Portable OBS Launcher - Experimental Edition - Download Dll Downloader
 cls & if not exist .\bin\wget.exe call :Download-Wget
-cls & .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat
+cls & .\bin\wget.exe-q --show-progress --continue https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat
 cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
 exit /b 2
@@ -139,7 +133,7 @@ exit /b 2
 :Portable-Everything
 cls & title Portable OBS Launcher - Experimental Edition - Download Suite
 cls & if not exist .\bin\wget.exe call :Download-Wget
-cls & .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
+cls & .\bin\wget.exe-q --show-progress --continue https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
 cls & if exist launch_everything.bat.1 del launch_everything.bat & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
 exit /b 2
@@ -184,7 +178,7 @@ exit /b 2
 :: title Portable Cemu Launcher - Expiremental Edition - Cemu Update Check
 :: if not exist .\bin\wget.exe call :Download-Wget
 :: if exist index.html del index.html
-:: .\bin\wget.exe -q --show-progress http://cemu.info/
+:: .\bin\wget.exe-q --show-progress --continue http://cemu.info/
 :: for /f tokens^=2delims^=^" %%A in (
 ::   'findstr /i /c:"http://cemu.info/releases/" /c:"http://cemu.info/releases/" index.html'
 :: ) Do > .\doc\cemu_link.txt Echo:%%A
@@ -240,6 +234,13 @@ exit /b 2
 
 ########################################################################
 
+:Set-Arch
+set arch=32
+if exist "%PROGRAMFILES(X86)%" set "arch=64"
+(goto) 2>nul
+
+########################################################################
+
 :Folder-Check
 cls
 if not exist .\bin\ mkdir .\bin\
@@ -253,7 +254,7 @@ if not exist .\data\obs\ mkdir .\data\obs\
 
 :Version
 cls
-echo 15 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -381,20 +382,35 @@ echo objFile.Close >> .\bin\replacetext.vbs
 ########################################################################
 
 :Ping-Install
-for /F "skip=1 tokens=5" %%a in ('vol %~D0') do echo %%a>serial.txt
+if not exist .\bin\wget.exe call :Download-Wget
 setlocal enabledelayedexpansion
+for /F "skip=1 tokens=5" %%a in ('vol %~D0') do echo %%a>serial.txt
 set /a count=1 
 for /f "skip=1 delims=:" %%a in ('CertUtil -hashfile "serial.txt" sha1') do (
   if !count! equ 1 set "sha1=%%a"
   set/a count+=1
 )
 set "sha1=%sha1: =%
+echo %sha1%
 set program=%~n0
 echo %program:~7%
-if not exist .\bin\wget.exe call :Download-Wget
+echo https://hackinformer.com/NintendoGuide/test/test.php?program=%program:~7%^&serial=%sha1%
 .\bin\wget -q --show-progress --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" https://hackinformer.com/NintendoGuide/test/test.php?program=%program:~7%^&serial=%sha1%
 endlocal
 del test.php*
+del serial.txt
+(goto) 2>nul
+
+########################################################################
+
+:MoTD
+if not exist .\bin\wget.exe call :Download-Wget
+title checking for message of the day
+set program=%~n0>nul:
+.\bin\wget.exe -q --show-progress https://github.com/MarioMasta64/EverythingPortable/raw/master/note/motd.txt>nul:
+if exist motd.txt del .\note\motd.txt>nul:
+if exist motd.txt move motd.txt .\note\motd.txt>nul:
+if exist .\note\motd.txt for /f "DELIMS=" %%i in ('type .\note\motd.txt') do (set nag=%%i)
 (goto) 2>nul
 
 ########################################################################
@@ -408,7 +424,7 @@ cls
 set dir=%1
 set file=%2
 set folder=%CD%
-if %CD%==%~d0\ set folder=%CD:~0,2%
+if "%CD%"=="%~d0\" "set folder=%CD:~0,2%"
 cscript .\bin\extractzip.vbs "%folder%\%file%" "%folder%\%dir%"
 (goto) 2>nul
 
@@ -446,7 +462,7 @@ del .\bin\obs\bin\64bit\obs64.exe
 :Update-Wget
 cls
 title Portable OBS Launcher - Experimental Edition - Update Wget
-.\bin\wget.exe -q --show-progress https://eternallybored.org/misc/wget/current/wget.exe
+.\bin\wget.exe-q --show-progress --continue https://eternallybored.org/misc/wget/current/wget.exe
 move wget.exe .\bin\
 (goto) 2>nul
 
@@ -480,7 +496,7 @@ goto New-Update
 :Update-Now
 cls & if not exist .\bin\wget.exe call :Download-Wget
 cls & title Portable OBS Launcher - Experimental Edition - Updating Launcher
-cls & .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_obs.bat
+cls & .\bin\wget.exe-q --show-progress --continue https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_obs.bat
 cls & if exist launch_obs.bat.1 goto Replacer-Create
 cls & call :Error-Offline
 (goto) 2>nul
@@ -609,11 +625,11 @@ call :Extract-OBS
 
 :Download-OBS
 if not exist .\bin\wget.exe call :Download-Wget
-:: .\bin\wget.exe -q --show-progress %obs_link%
+:: .\bin\wget.exe-q --show-progress --continue %obs_link%
 :: if not exist %obs_zip% call :Error-Offline & (goto) 2>nul
 :: if exist %obs_zip% move %obs_zip% .\extra\%obs_zip%
 del /s /q OBS-Studio*-Full.zip>nul:
-.\bin\wget.exe -q --show-progress https://github.com/jp9000/obs-studio/releases/download/20.0.1/OBS-Studio-20.0.1-Full.zip
+.\bin\wget.exe-q --show-progress --continue https://github.com/jp9000/obs-studio/releases/download/20.0.1/OBS-Studio-20.0.1-Full.zip
 if not exist OBS-Studio-20.0.1-Full.zip call :Error-Offline & (goto) 2>nul
 if exist OBS-Studio-20.0.1-Full.zip move OBS-Studio-20.0.1-Full.zip .\extra\OBS-Studio-20.0.1-Full.zip
 (goto) 2>nul
