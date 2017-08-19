@@ -78,7 +78,7 @@ rmdir /s /q .\temp\
 
 pause
 :l
-set "AppData=%CD%\data\AppData\Roaming"
+set "UserProfile=%CD%\data\"
 start .\bin\authy\Authy%%20Desktop.exe
 exit
 
