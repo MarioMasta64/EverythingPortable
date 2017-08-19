@@ -84,7 +84,7 @@ if exist version.txt del version.txt
 if not exist .\bin\wget.exe call :Download-Wget
 cls
 title Portable Kodi Launcher - Experimental Edition - Checking For Update
-.\bin\wget.exe -q --show-progress --continue https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
 set new_version=%Line_26%
@@ -108,7 +108,7 @@ exit
 :DLL-Downloader-Check
 cls & title Portable Kodi Launcher - Experimental Edition - Download Dll Downloader
 cls & if not exist .\bin\wget.exe call :Download-Wget
-cls & .\bin\wget.exe -q --show-progress --continue https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat
+cls & .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat
 cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
 exit /b 2
@@ -117,7 +117,7 @@ exit /b 2
 :Portable-Everything
 cls & title Portable Kodi Launcher - Experimental Edition - Download Suite
 cls & if not exist .\bin\wget.exe call :Download-Wget
-cls & .\bin\wget.exe -q --show-progress --continue https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
+cls & .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
 cls & if exist launch_everything.bat.1 del launch_everything.bat & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
 exit /b 2
@@ -147,7 +147,7 @@ exit /b 2
 title Portable Kodi Launcher - Expiremental Edition - Kodi Update Check
 if not exist .\bin\wget.exe call :Download-Wget
 if exist index.html del index.html
-.\bin\wget.exe -q --show-progress --continue http://mirrors.kodi.tv/releases/win32/
+.\bin\wget.exe -q --show-progress http://mirrors.kodi.tv/releases/win32/
 for /f tokens^=2delims^=^" %%A in (
   'findstr /i /c:"kodi-" /c:"kodi-" index.html'
 ) Do > .\doc\kodi_link.txt Echo:%%A
@@ -398,7 +398,7 @@ move wget.exe .\bin\
 cls
 if not exist .\bin\wget.exe call :Download-Wget
 title Portable Kodi Launcher - Experimental Edition - Download 7zip
-if not exist .\extra\7-ZipPortable_16.04.paf.exe .\bin\wget.exe -q --show-progress --continue http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe & move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
+if not exist .\extra\7-ZipPortable_16.04.paf.exe .\bin\wget.exe -q --show-progress http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe & move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
 .\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
 (goto) 2>nul
 
@@ -422,7 +422,7 @@ del .\bin\kodi\Kodi.exe
 :Update-Wget
 cls
 title Portable Kodi Launcher - Experimental Edition - Update Wget
-.\bin\wget.exe -q --show-progress --continue https://eternallybored.org/misc/wget/current/wget.exe
+.\bin\wget.exe -q --show-progress https://eternallybored.org/misc/wget/current/wget.exe
 move wget.exe .\bin\
 (goto) 2>nul
 
@@ -456,7 +456,7 @@ goto New-Update
 :Update-Now
 cls & if not exist .\bin\wget.exe call :Download-Wget
 cls & title Portable Kodi Launcher - Experimental Edition - Updating Launcher
-cls & .\bin\wget.exe -q --show-progress --continue https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_kodi.bat
+cls & .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_kodi.bat
 cls & if exist launch_kodi.bat.1 goto Replacer-Create
 cls & call :Error-Offline
 (goto) 2>nul
@@ -597,7 +597,7 @@ call :Extract-Kodi
 :Download-Kodi
 if not exist .\bin\wget.exe call :Download-Wget
 del /s /q kodi*.exe>nul:
-.\bin\wget.exe -q --show-progress --continue http://mirrors.kodi.tv/releases/win32/%kodi_exe%
+.\bin\wget.exe -q --show-progress http://mirrors.kodi.tv/releases/win32/%kodi_exe%
 if not exist %kodi_exe% call :Error-Offline & (goto) 2>nul
 if exist %kodi_exe% move %kodi_exe% .\extra\%kodi_exe%
 (goto) 2>nul
