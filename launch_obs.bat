@@ -265,6 +265,7 @@ if exist .\doc\version.txt del .\doc\version.txt
 
 :Credits
 cls
+if exist .\doc\obs_license.txt (goto) 2>nul
 echo ================================================== > .\doc\obs_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\obs_license.txt
 echo =           Script Version: v%current_version%- release        = >> .\doc\obs_license.txt
