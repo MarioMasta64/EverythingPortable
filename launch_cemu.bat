@@ -358,8 +358,12 @@ title checking for message of the day
 set program=%~n0>nul:
 .\bin\wget.exe -q --show-progress https://github.com/MarioMasta64/EverythingPortable/raw/master/note/motd.txt>nul:
 if exist motd.txt del .\note\motd.txt>nul:
-if exist motd.txt move motd.txt .\note\motd.txt>nul:
+if exist motd.txt (
+  xcopy motd.txt .\note\ /e /i /y>nul:
+  move motd.txt .\note\motd.txt>nul:
+)
 if exist .\note\motd.txt for /f "DELIMS=" %%i in ('type .\note\motd.txt') do (set nag=%%i)
+del /s /q motd.txt*>nul:
 (goto) 2>nul
 
 ########################################################################
