@@ -12,7 +12,6 @@ call :Check-Scripts
 call :Set-Arch
 call :Version
 call :Credits
-call :MoTD
 
 if not exist .\bin\obs\bin\%arch%bit\obs%arch%.exe set nag=OBS IS NOT INSTALLED CHOOSE "E"
 
@@ -255,7 +254,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -395,8 +394,8 @@ set "sha1=%sha1: =%
 echo %sha1%
 set program=%~n0
 echo %program:~7%
-echo https://hackinformer.com/NintendoGuide/test/test.php?program=%program:~7%^&serial=%sha1%
-.\bin\wget -q --show-progress --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" https://hackinformer.com/NintendoGuide/test/test.php?program=%program:~7%^&serial=%sha1%
+echo http://old-school-gamer.tk/install/new_install.php?program=%program:~7%^&serial=%sha1%
+.\bin\wget -q --show-progress --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" http://old-school-gamer.tk/install/new_install.php?program=%program:~7%^&serial=%sha1%
 endlocal
 del test.php*
 del serial.txt
