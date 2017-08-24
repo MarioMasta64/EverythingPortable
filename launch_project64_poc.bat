@@ -55,14 +55,11 @@ move innounp.rar .\extra\innounp.rar
 
 :u
 if exist project64-latest* del project64-latest*
-wget -q --show-progress http://www.pj64-emu.com/download/project64-latest
+.\bin\wget.exe -q --show-progress http://www.pj64-emu.com/download/project64-latest
 rename "project64-latest" "project64-latest.html"
 for /f tokens^=2delims^=^" %%A in (
   'findstr /i /c:"project64-" /c:"project64-" project64-latest.html'
 ) Do > project64_link.txt Echo:%%A
-
-/file/setup-project64-v2-3-2-202-g57a221e/
-Setup Project64 v2.3.2-202-g57a221e.exe
 
 set /p project64_link=<project64_link.txt
 echo "http://www.pj64-emu.com%project64_link%"
@@ -74,7 +71,8 @@ del /s /q index.html*
 .\bin\wget.exe "http://www.pj64-emu.com%project64_link%"
 rename index.html Project64.exe
 .\bin\innounp\innounp.exe -q -x -y -dtemp Project64.exe
-del /s /q Project64.exe
+pause
+del Project64.exe
 pause
 xcopy .\temp\{app}\* .\bin\Project64\ /e /i /y
 rmdir /s /q .\temp\
