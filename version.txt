@@ -44,3 +44,5 @@ project64_poc
 0
 authy_poc
 0
+lightshot_poc
+0
