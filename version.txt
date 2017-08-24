@@ -5,11 +5,11 @@ minecraft
 steam
 14
 obs
-16
+17
 kaerusetup
 10
 cemu
-28
+29
 lastpass
 11
 qtemu
@@ -23,7 +23,7 @@ teamviewer
 vscode
 4
 kodi
-2
+3
 ppsspp
 3
 discord_canary
