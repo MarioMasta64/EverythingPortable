@@ -46,3 +46,5 @@ authy_poc
 0
 lightshot_poc
 0
+winscp_poc
+0
