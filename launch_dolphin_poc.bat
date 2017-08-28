@@ -3,6 +3,9 @@ cls
 Color 0A
 title Dolphin 5.0 PoC - MarioMasta64
 
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
+
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\dolphin\ mkdir .\data\dolphin\
 if not exist .\dll\64\ mkdir .\dll\64\
@@ -48,10 +51,11 @@ cscript.exe .\bin\downloadwget.vbs
 move wget.exe .\bin\wget.exe
 .\bin\wget.exe http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
 move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
-.\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
+.\extra\7-ZipPortable_16.04.paf.exe /destination="%folder%\bin\"
 .\bin\wget.exe "https://dl-mirror.dolphin-emu.org/5.0/dolphin-x64-5.0.exe"
 move dolphin-x64-5.0.exe .\extra\dolphin-x64-5.0.exe
 :: is not required to be set. will be set in release
+
 :e
 .\bin\7-ZipPortable\App\7-Zip%arch%\7z.exe x .\extra\dolphin-x64-5.0.exe * -o.\bin\dolphin\
 rmdir /s /q .\bin\dolphin\$PLUGINSDIR\
@@ -64,8 +68,9 @@ for /f "DELIMS=" %%i in ('type dll64.txt') do (
     if exist %%i move %%i .\dll\64\%%i
 )
 if exist dll64.txt del dll64.txt
+
 :l
-set "path=%path%;%CD%\dll\64\;"
-dont pirate mmkay > .\bin\dolphin\portable.txt
-start .\bin\dolphin\dolphin.exe -u "%CD%\data\dolphin\"
+set "path=%path%;%folder%\dll\64\;"
+start .\bin\dolphin\dolphin.exe -u "%folder%\data\dolphin"
+pause
 exit
