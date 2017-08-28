@@ -6,6 +6,9 @@ if not exist .\bin\ mkdir .\bin\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
 if not exist .\extra\ mkdir .\extra\
 
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
+
 echo "l" to launch ntlite
 echo "d" to download ntlite (first time)
 echo "e" to extract ntlite
@@ -47,17 +50,16 @@ cscript.exe .\bin\downloadwget.vbs
 move wget.exe .\bin\wget.exe
 .\bin\wget.exe http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
 move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
-.\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
+.\extra\7-ZipPortable_16.04.paf.exe /destination="%folder%\bin\"
 :u
 .\bin\wget.exe https://sourceforge.net/projects/innounp/files/latest/download?source=typ_redirect
 rename "download@source=typ_redirect" innounp.rar
 move innounp.rar .\extra\innounp.rar
 :: is not required to be set. will be set in release
 .\bin\7-ZipPortable\App\7-Zip%arch%\7z.exe x .\extra\innounp.rar * -o.\bin\innounp\
-.\bin\wget.exe http://downloads.ntlite.com/files/NTLite_setup_x64.exe
-.\bin\wget.exe http://downloads.ntlite.com/files/NTLite_setup_x86.exe
-move NTLite_setup_x64.exe .\extra\NTLite_setup_x64.exe
-move NTLite_setup_x86.exe .\extra\NTLite_setup_x86.exe
+.\bin\wget.exe https://app.prntscr.com/build/setup-lightshot.exe
+move setup-lightshot.exe .\extra\setup-lightshot.exe
+
 :e
 .\bin\innounp\innounp.exe -q -x -y -dtemp\64 .\extra\NTLite_setup_x64.exe
 .\bin\innounp\innounp.exe -q -x -y -dtemp\86 .\extra\NTLite_setup_x86.exe
@@ -66,6 +68,6 @@ xcopy .\temp\86\{app}\* .\bin\ntlite\x86\ /e /i /y
 rmdir /s /q .\temp\
 :l
 echo you require admin btw & pause
-set "appdata=%CD%\data\appdata\roaming\"
+set "appdata=%folder%\data\appdata\roaming\"
 start .\bin\ntlite\x64\ntlite.exe
 exit

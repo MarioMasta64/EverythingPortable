@@ -6,6 +6,9 @@ if not exist .\bin\winscp\ mkdir .\bin\winscp\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
 if not exist .\extra\ mkdir .\extra\
 
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
+
 echo "l" to launch winscp
 echo "d" to download winscp
 echo "u" to update winscp
@@ -64,9 +67,7 @@ if exist download.php* del download.php*
 
 .\bin\wget.exe %winscp_link%
 move %winscp_zip% .\extra\%winscp_zip%
-cls
-set folder=%CD%
-if %CD%==%~d0\ set folder=%CD:~0,2%
+
 cls
 echo. > .\bin\extractwinscp.vbs
 echo 'The location of the zip file. >> .\bin\extractwinscp.vbs
@@ -93,6 +94,6 @@ cscript.exe .\bin\extractwinscp.vbs
 
 :l
 cls
-set "AppData=%CD%\data\AppData\Roaming"
+set "AppData=%folder%\data\AppData\Roaming"
 start .\bin\winscp\winscp.exe
 exit

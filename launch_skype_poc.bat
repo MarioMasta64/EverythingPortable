@@ -2,9 +2,12 @@
 cls
 Color 0A
 
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
+
 set "rm=yes"
 set "dp=yes"
-set "datapath=%CD%\data\skype\"
+set "datapath=%folder%\data\skype\"
 set "us=no"
 set "login="
 set "ps=no"
@@ -39,12 +42,12 @@ goto main
 
 :sd
 cls
-"%CD%\bin\Skype\Skype.exe" /shutdown
+"%folder%\bin\Skype\Skype.exe" /shutdown
 goto main
 
 :st
 cls
-set "start=%CD%\bin\Skype\Skype.exe"
+set "start=%folder%\bin\Skype\Skype.exe"
 :: removable logic
 if "%rm%"=="yes" set "start=%start% /removable"
 if "%dp%"=="yes" set "start=%start% /datapath:%datapath%"
@@ -111,7 +114,7 @@ goto main
 :dpdf
 cls
 set "dp=yes"
-set "datapath=%CD%\data\skype\"
+set "datapath=%folder%\data\skype\"
 
 cls
 echo datapath set: "%dp%"
@@ -350,7 +353,7 @@ move wget.exe .\bin\wget.exe
 
 .\bin\wget.exe http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
 move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
-.\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
+.\extra\7-ZipPortable_16.04.paf.exe /destination="%folder%\bin\"
 
 .\bin\wget.exe https://download.skype.com/msi/SkypeSetup_7.37.0.103.msi
 move SkypeSetup_7.37.0.103.msi .\extra\SkypeSetup_7.37.0.103.msi
@@ -362,8 +365,6 @@ goto SKIP
 .\bin\wget.exe https://github.com/upx/upx/releases/download/v3.94/upx394w.zip
 move upx394w.zip .\extra\upx394w.zip
 
-set folder=%CD%
-if %CD%==%~d0\ set folder=%CD:~0,2%
 echo. > .\bin\extractupx.vbs
 echo 'The location of the zip file. >> .\bin\extractupx.vbs
 echo ZipFile="%folder%\extra\upx394w.zip" >> .\bin\extractupx.vbs

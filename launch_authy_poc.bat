@@ -2,6 +2,9 @@
 cls
 Color 0A
 
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
+
 if not exist .\bin\authy\ mkdir .\bin\authy\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
 if not exist .\extra\ mkdir .\extra\
@@ -62,7 +65,7 @@ goto loop
 :extract
 move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
 move authy-installer.exe .\extra\authy-installer.exe
-.\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
+.\extra\7-ZipPortable_16.04.paf.exe /destination="%folder%\bin\"
 if not exist .\temp\ mkdir .\temp\
 :: is not required to be set. will be set in release
 
@@ -78,7 +81,7 @@ rmdir /s /q .\temp\
 
 pause
 :l
-set "UserProfile=%CD%\data\"
+set "UserProfile=%folder%\data\"
 start .\bin\authy\Authy%%20Desktop.exe
 exit
 

@@ -2,6 +2,9 @@
 cls
 Color 0A
 
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
+
 if not exist .\bin\qBittorrent\ mkdir .\bin\qBittorrent\
 if not exist .\extra\ mkdir .\extra\
 
@@ -47,7 +50,7 @@ move wget.exe .\bin\wget.exe
 move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
 rename download qBittorrent.exe
 move qBittorrent.exe ./extra/qBittorrent.exe
-.\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
+.\extra\7-ZipPortable_16.04.paf.exe /destination="%folder%\bin\"
 :: is not required to be set. will be set in release
 .\bin\7-ZipPortable\App\7-Zip%arch%\7z.exe x .\extra\qBittorrent.exe * -o.\bin\qBittorrent\
 rmdir /s /q .\temp\$PLUGINSDIR\

@@ -2,6 +2,9 @@
 cls
 Color 0A
 
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
+
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
 if not exist .\extra\ mkdir .\extra\
@@ -46,7 +49,7 @@ cscript.exe .\bin\downloadwget.vbs
 move wget.exe .\bin\wget.exe
 .\bin\wget.exe http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
 move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
-.\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
+.\extra\7-ZipPortable_16.04.paf.exe /destination="%folder%\bin\"
 .\bin\wget.exe https://sourceforge.net/projects/innounp/files/latest/download?source=typ_redirect
 rename "download@source=typ_redirect" innounp.rar
 move innounp.rar .\extra\innounp.rar
@@ -78,6 +81,6 @@ xcopy .\temp\{app}\* .\bin\Project64\ /e /i /y
 rmdir /s /q .\temp\
 
 :l
-set "appdata=%CD%\data\appdata\roaming\"
+set "appdata=%folder%\data\appdata\roaming\"
 start .\bin\Project64\Project64.exe
 exit

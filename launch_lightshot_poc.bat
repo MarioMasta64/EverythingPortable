@@ -6,6 +6,9 @@ if not exist .\bin\ mkdir .\bin\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
 if not exist .\extra\ mkdir .\extra\
 
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
+
 echo "l" to launch lightshot 
 echo "d" to download lightshot (first time)
 echo "e" to extract lightshot 
@@ -47,7 +50,7 @@ cscript.exe .\bin\downloadwget.vbs
 move wget.exe .\bin\wget.exe
 .\bin\wget.exe http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
 move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
-.\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
+.\extra\7-ZipPortable_16.04.paf.exe /destination="%folder%\bin\"
 
 :u
 .\bin\wget.exe https://sourceforge.net/projects/innounp/files/latest/download?source=typ_redirect
@@ -65,6 +68,6 @@ xcopy .\temp\{app}\* .\bin\lightshot\ /e /i /y
 rmdir /s /q .\temp\
 
 :l
-set "appdata=%CD%\data\appdata\roaming\"
+set "appdata=%folder%\data\appdata\roaming\"
 start .\bin\lightshot\Lightshot.exe
 exit
