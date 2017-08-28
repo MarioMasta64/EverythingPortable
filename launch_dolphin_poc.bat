@@ -72,5 +72,4 @@ if exist dll64.txt del dll64.txt
 :l
 set "path=%path%;%folder%\dll\64\;"
 start .\bin\dolphin\dolphin.exe -u "%folder%\data\dolphin"
-pause
 exit
