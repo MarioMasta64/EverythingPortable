@@ -48,3 +48,5 @@ lightshot_poc
 0
 winscp_poc
 0
+twitch_poc
+0
