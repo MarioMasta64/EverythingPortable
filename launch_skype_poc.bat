@@ -355,8 +355,8 @@ move wget.exe .\bin\wget.exe
 move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
 .\extra\7-ZipPortable_16.04.paf.exe /destination="%folder%\bin\"
 
-.\bin\wget.exe https://download.skype.com/msi/SkypeSetup_7.37.0.103.msi
-move SkypeSetup_7.37.0.103.msi .\extra\SkypeSetup_7.37.0.103.msi
+.\bin\wget.exe https://download.skype.com/msi/SkypeSetup_7.39.0.102.msi
+move SkypeSetup_7.39.0.102.msi .\extra\SkypeSetup_7.39.0.102.msi
 
 goto SKIP
 
@@ -403,7 +403,7 @@ if exist ..\launch_skype_poc.bat cd ..
 :SKIP
 
 :: is not required to be set. will be set in release
-.\bin\7-ZipPortable\App\7-Zip%arch%\7z.exe x .\extra\SkypeSetup_7.37.0.103.msi Product.CAB -o.\temp\
+.\bin\7-ZipPortable\App\7-Zip%arch%\7z.exe x .\extra\SkypeSetup_7.39.0.102.msi Product.CAB -o.\temp\
 
 expand -r .\temp\Product.CAB -F:* .\bin\skype\
 
