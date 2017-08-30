@@ -196,7 +196,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 29 > .\doc\version.txt
+echo 30 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -346,7 +346,7 @@ echo %program:~7%
 echo http://old-school-gamer.tk/install/new_install.php?program=%program:~7%^&serial=%sha1%
 .\bin\wget -q --show-progress --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" http://old-school-gamer.tk/install/new_install.php?program=%program:~7%^&serial=%sha1%
 endlocal
-del test.php*
+del new_install.php*
 del serial.txt
 (goto) 2>nul
 
@@ -612,17 +612,15 @@ call :Extract-Zip "bin\cemu" "extra\%cemu_zip%"
 cd bin
 if exist cemu cd cemu
 if exist cemu* cd cemu*
-if not exist ..\launch_cemu.bat (
-  if not exist ..\wget.exe xcopy * ..\ /e /i /y
-  if not exist ..\wget.exe cd ..
+if not exist ..\wget.exe (
+  if not exist ..\cemu_always_updated.bat (
+    xcopy * ..\ /e /i /y
+    cd ..
+  )
 )
-if exist temp.txt del temp.txt
-for /D %%A IN ("cemu*") DO echo "%%A">temp.txt
-if exist temp.txt set /p dir=<temp.txt
-if exist temp.txt rmdir /s /q %dir%
-if exist temp.txt del temp.txt
+for /D %%A IN ("cemu*") DO echo rmdir /s /q "%%A"
 if exist ..\wget.exe cd ..
-if exist ..\launch_cemu.bat cd ..
+if exist ..\cemu_always_updated.bat cd ..
 exit /b 2
 
 ########################################################################
