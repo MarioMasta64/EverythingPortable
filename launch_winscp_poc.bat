@@ -112,6 +112,7 @@ cls
 set "AppData=%folder%\data\AppData\Roaming"
 cd .\bin\WinSCP\
 start WinSCP.exe
+cd ..\..\
 goto mn
 
 :wu
@@ -125,6 +126,7 @@ cls
 cd .\bin\WinSCP\
 winscppwd winscp.ini > password.txt
 start notepad.exe password.txt
+cd ..\..\
 goto mn
 
 :pu
@@ -141,4 +143,5 @@ cls
 set "AppData=%folder%\data\AppData\Roaming"
 cd .\bin\WinSCP\
 start Putty.exe
+cd ..\..\
 goto mn
