@@ -9,9 +9,14 @@ if not exist .\extra\ mkdir .\extra\
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
+:mn
 echo "l" to launch winscp
 echo "d" to download winscp
 echo "u" to update winscp
+echo "wl" to launch winscppwd
+echo "wu" to update winscppwd
+echo "pl" to launch putty
+echo "pu" to update putty
 set /p goto="choice: "
 goto %goto%
 
@@ -49,14 +54,26 @@ cscript.exe .\bin\downloadwget.vbs
 move wget.exe .\bin\wget.exe
 
 :u
-
+cls
 if exist download.php del download.php
-.\bin\wget.exe -q --show-progress https://winscp.net/eng/download.php
+.\bin\wget.exe -q --show-progress https://winscp.net/eng/download.php#download2
 for /f tokens^=2delims^=^" %%A in (
   'findstr /i /c:"https://winscp.net/download/" /c:"https://winscp.net/download/" download.php'
 ) Do > winscp_link.txt Echo:%%A
 set /p winscp_txt=<winscp_link.txt
 set winscp_link=%winscp_txt:~0,44%-Portable.zip
+
+echo %winscp_txt%
+echo %winscp_link%
+echo %winscp_zip%
+
+echo %winscp_link:~-15,2%
+
+if %winscp_link:~-15,2% == Re (
+  echo Re Detected Fixing
+  set winscp_link=%winscp_link:~0,-16%%winscp_link:~-13%
+)
+
 set winscp_zip=%winscp_link:~28%
 echo %winscp_txt%
 echo %winscp_link%
@@ -68,13 +85,11 @@ if exist download.php* del download.php*
 .\bin\wget.exe %winscp_link%
 move %winscp_zip% .\extra\%winscp_zip%
 
-cls
 echo. > .\bin\extractwinscp.vbs
 echo 'The location of the zip file. >> .\bin\extractwinscp.vbs
 echo ZipFile="%folder%\extra\%winscp_zip%" >> .\bin\extractwinscp.vbs
 echo 'The folder the contents should be extracted to. >> .\bin\extractwinscp.vbs
-:: change to %folder%\bin\ on regular builds (ones that dont have a folder inside the zip)
-echo ExtractTo="%folder%\bin\winscp\" >> .\bin\extractwinscp.vbs
+echo ExtractTo="%folder%\bin\WinSCP\" >> .\bin\extractwinscp.vbs
 echo. >> .\bin\extractwinscp.vbs
 echo 'If the extraction location does not exist create it. >> .\bin\extractwinscp.vbs
 echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractwinscp.vbs
@@ -89,11 +104,41 @@ echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractwinscp.v
 echo Set fso = Nothing >> .\bin\extractwinscp.vbs
 echo Set objShell = Nothing >> .\bin\extractwinscp.vbs
 echo. >> .\bin\extractwinscp.vbs
-title PORTABLE CEMU LAUNCHER - EXTRACT ZIP
 cscript.exe .\bin\extractwinscp.vbs
+goto mn
 
 :l
 cls
 set "AppData=%folder%\data\AppData\Roaming"
-start .\bin\winscp\winscp.exe
-exit
+cd .\bin\WinSCP\
+start WinSCP.exe
+goto mn
+
+:wu
+cls
+.\bin\wget.exe https://bitbucket.org/knarf/winscppwd/downloads/winscppwd.exe
+move winscppwd.exe .\bin\WinSCP\winscppwd.exe
+goto mn
+
+:wl
+cls
+cd .\bin\WinSCP\
+winscppwd winscp.ini > password.txt
+start notepad.exe password.txt
+goto mn
+
+:pu
+.\bin\wget.exe https://winscp.net/download/putty.exe
+move putty.exe .\bin\WinSCP\putty.exe
+.\bin\wget.exe https://winscp.net/download/puttygen.exe
+move puttygen.exe .\bin\WinSCP\puttygen.exe
+.\bin\wget.exe https://winscp.net/download/pageant.exe
+move pageant.exe .\bin\WinSCP\pageant.exe
+goto mn
+
+:pl
+cls
+set "AppData=%folder%\data\AppData\Roaming"
+cd .\bin\WinSCP\
+start Putty.exe
+goto mn
