@@ -64,14 +64,9 @@ for /f tokens^=2delims^=^" %%A in (
 set /p winscp_txt=<winscp_link.txt
 set winscp_link=%winscp_txt:~0,44%-Portable.zip
 
-
 echo %winscp_txt%
 echo %winscp_link%
 echo %winscp_zip%
-pause
-
-if not exist .\doc\%winscp_txt:~28% .\bin\wget.exe -q --show-progress %winscp_txt% & move %winscp_txt:~28% .\doc\%winscp_txt:~28%
-if exist batch-read.bat call batch-read ".\doc\%winscp_txt:~28%" 10 1
 
 echo %winscp_link:~-15,2%
 
@@ -84,7 +79,12 @@ set winscp_zip=%winscp_link:~28%
 echo %winscp_txt%
 echo %winscp_link%
 echo %winscp_zip%
-pause
+
+if not exist .\doc\%winscp_txt:~28% .\bin\wget.exe -q --show-progress %winscp_txt% & move %winscp_txt:~28% .\doc\%winscp_txt:~28%
+if exist batch-read.bat pause & call batch-read ".\doc\%winscp_txt:~28%" 10 1
+
+if not exist batch-read.bat pause
+
 if exist winscp_link.txt del winscp_link.txt
 if exist download.php* del download.php*
 
