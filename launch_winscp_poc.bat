@@ -17,6 +17,7 @@ echo "wl" to launch winscppwd
 echo "wu" to update winscppwd
 echo "pl" to launch putty
 echo "pu" to update putty
+echo "tu" to update text-reader
 set /p goto="choice: "
 goto %goto%
 
@@ -63,9 +64,14 @@ for /f tokens^=2delims^=^" %%A in (
 set /p winscp_txt=<winscp_link.txt
 set winscp_link=%winscp_txt:~0,44%-Portable.zip
 
+
 echo %winscp_txt%
 echo %winscp_link%
 echo %winscp_zip%
+pause
+
+if not exist .\doc\%winscp_txt:~28% .\bin\wget.exe -q --show-progress %winscp_txt% & move %winscp_txt:~28% .\doc\%winscp_txt:~28%
+if exist batch-read.bat call batch-read ".\doc\%winscp_txt:~28%" 10 1
 
 echo %winscp_link:~-15,2%
 
@@ -144,4 +150,9 @@ set "AppData=%folder%\data\AppData\Roaming"
 cd .\bin\WinSCP\
 start Putty.exe
 cd ..\..\
+goto mn
+
+:tu
+.\bin\wget.exe https://old-school-gamer.tk/batch/text-reader/update-text-reader.bat
+start update-text-reader.bat
 goto mn
