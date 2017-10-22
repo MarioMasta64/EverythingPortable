@@ -75,6 +75,7 @@ exit /b 2
 :Uninstall-Discord-Canary
 cls
 rmdir /s /q .\bin\discord_canary\
+rmdir /s /q .\data\AppData\Roaming\discordcanary\
 exit
 
 :5
@@ -155,7 +156,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"

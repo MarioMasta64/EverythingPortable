@@ -29,7 +29,7 @@ set nag="Selection Time!"
 echo 1. reinstall discord [will remove discord entirely]
 echo 2. launch discord [launches discord]
 echo 3. reset discord [will remove everything discord except the binary]
-echo 4. uninstall discord [Just Please Dont Use TeamSpeak..]
+echo 4. uninstall discord [IM TIRED OF THESE SHITTY MEMES]
 echo 5. update program [check for updates]
 echo 6. about [shoulda named this credits]
 echo 7. exit [EXIT]
@@ -75,6 +75,7 @@ exit /b 2
 :Uninstall-Discord
 cls
 rmdir /s /q .\bin\discord\
+rmdir /s /q .\data\AppData\Roaming\discord\
 exit
 
 :5
@@ -155,7 +156,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -318,7 +319,6 @@ if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download-7zip
 del %discord%
 xcopy .\temp\lib\net45\* .\bin\discord\ /e /i /y
 rmdir /s /q .\temp\
-del .\bin\discord\Squirrel.exe
 (goto) 2>nul
 
 #######################################################################
