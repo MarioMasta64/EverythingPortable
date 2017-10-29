@@ -172,7 +172,7 @@ exit /b 2
 
 :e
 :Upgrade-OBS
-:: title Portable OBS Launcher - Expiremental Edition - Upgrading To OBS 20.0.1e Check
+:: title Portable OBS Launcher - Expiremental Edition - Upgrading To OBS 20.1.1 Check
 
 :: title Portable Cemu Launcher - Expiremental Edition - Cemu Update Check
 :: if not exist .\bin\wget.exe call :Download-Wget
@@ -254,7 +254,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 17 > .\doc\version.txt
+echo 18 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -397,7 +397,7 @@ echo %program:~7%
 echo http://old-school-gamer.tk/install/new_install.php?program=%program:~7%^&serial=%sha1%
 .\bin\wget -q --show-progress --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" http://old-school-gamer.tk/install/new_install.php?program=%program:~7%^&serial=%sha1%
 endlocal
-del test.php*
+del new_install.php*
 del serial.txt
 (goto) 2>nul
 
@@ -633,13 +633,13 @@ if not exist .\bin\wget.exe call :Download-Wget
 :: if not exist %obs_zip% call :Error-Offline & (goto) 2>nul
 :: if exist %obs_zip% move %obs_zip% .\extra\%obs_zip%
 del /s /q OBS-Studio*-Full.zip>nul:
-.\bin\wget.exe -q --show-progress --continue https://github.com/jp9000/obs-studio/releases/download/20.0.1/OBS-Studio-20.0.1-Full.zip
-if not exist OBS-Studio-20.0.1-Full.zip call :Error-Offline & (goto) 2>nul
-if exist OBS-Studio-20.0.1-Full.zip move OBS-Studio-20.0.1-Full.zip .\extra\OBS-Studio-20.0.1-Full.zip
+.\bin\wget.exe -q --show-progress --continue https://github.com/jp9000/obs-studio/releases/download/20.1.1/OBS-Studio-20.1.1-Full.zip
+if not exist OBS-Studio-20.1.1-Full.zip call :Error-Offline & (goto) 2>nul
+if exist OBS-Studio-20.1.1-Full.zip move OBS-Studio-20.1.1-Full.zip .\extra\OBS-Studio-20.1.1-Full.zip
 (goto) 2>nul
 
 :Extract-OBS
-call :Extract-Zip "bin\obs" "extra\OBS-Studio-20.0.1-Full.zip"
+call :Extract-Zip "bin\obs" "extra\OBS-Studio-20.1.1-Full.zip"
 exit /b 2
 
 ########################################################################
