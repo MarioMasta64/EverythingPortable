@@ -35,7 +35,7 @@ echo.
 echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo.
 :: echo e. check for new obs version [automatically check for a new version]
-echo e. download obs version 20.0.1
+echo e. download obs version 20.1.1
 echo.
 echo f. Backup OBS Folder [Just In Case]
 echo g. Restore OBS Folder [Fucked Up(?)]
