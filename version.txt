@@ -50,3 +50,5 @@ winscp_poc
 0
 twitch_poc
 0
+firefox_poc
+0
