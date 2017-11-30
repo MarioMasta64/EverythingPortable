@@ -80,17 +80,7 @@ if not exist .\temp\ mkdir .\temp\
 :c
 xcopy .\temp\Vivaldi-bin\*.* .\bin\vivaldi\ /e /i /y
 :: insert check
-pause
 rmdir /s /q .\temp\
-pause
-
-:I
-:: of all things. it was tmp -> %userprofile%\AppData\Local\temp\
-:: of all things. it was tmp -> %localappdata%\temp\
-:: of all things. it was tmp -> %tmp%
-:: %temp% is usually C:\Windows\Temp\
-:: %tmp% is usually C:\Users\<username>\AppData\Local\temp\
-:: like wow
 
 :L
 set "AppData=%folder%\data\AppData\Roaming\"
