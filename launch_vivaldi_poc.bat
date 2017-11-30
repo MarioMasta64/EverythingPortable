@@ -1,13 +1,12 @@
 @echo off
 cls
 Color 0A
-title INSTALLING OPERA
-echo RUNNING INSTALLER DO NOT CLOSE
+title Vivaldi Portable PoC - By MarioMasta64
 
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
-if not exist .\bin\opera\ mkdir .\bin\opera\
+if not exist .\bin\vivaldi\ mkdir .\bin\vivaldi\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\data\AppData\Local\ mkdir .\data\AppData\Local\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
