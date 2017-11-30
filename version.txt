@@ -52,3 +52,5 @@ twitch_poc
 0
 firefox_poc
 0
+vivaldi_poc
+0
