@@ -16,18 +16,8 @@ if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
 echo "d" download
 echo "i" install
 echo "l" launch
-echo "why" why doesnt it sync passwords and extensions?!?!?!?!
 set /p goto="choice: "
 goto %goto%
-
-:why
-cls
-echo see: https://www.ghacks.net/2017/07/06/how-to-sync-vivaldi-user-data/
-echo for the most part this is due to vivaldi using google chromes core,
-echo all you can do is hope for a sync option
-echo (extension data stays i.e. reinstalling lastpass will load the old lastpass login)
-pause
-goto mn
 
 :D
 echo ANY FILES THAT START WITH "windows" WILL BE RENAMED
@@ -81,6 +71,22 @@ if not exist .\temp\ mkdir .\temp\
 xcopy .\temp\Vivaldi-bin\*.* .\bin\vivaldi\ /e /i /y
 :: insert check
 rmdir /s /q .\temp\
+goto L
+
+:snap
+if exist .\bin\vivaldi\ (
+    taskkill /f /im update_notifier.exe
+    rmdir /s /q .\bin\vivaldi\
+)
+.\bin\wget.exe https://downloads.vivaldi.com/snapshot/Vivaldi.1.14.1030.3.exe
+move Vivaldi.1.14.1030.3.exe .\extra\Vivaldi.1.14.1030.3.exe
+if not exist .\temp\ mkdir .\temp\
+.\bin\7-ZipPortable\App\7-Zip%arch%\7z.exe x .\extra\Vivaldi.1.14.1030.3.exe * -o.\temp\
+.\bin\7-ZipPortable\App\7-Zip%arch%\7z.exe x .\temp\vivaldi.7z * -o.\temp\
+xcopy .\temp\Vivaldi-bin\*.* .\bin\vivaldi\ /e /i /y
+:: insert check
+rmdir /s /q .\temp\
+
 
 :L
 set "AppData=%folder%\data\AppData\Roaming\"
