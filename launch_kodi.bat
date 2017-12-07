@@ -186,7 +186,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -335,7 +335,7 @@ echo %program:~7%
 echo http://old-school-gamer.tk/install/new_install.php?program=%program:~7%^&serial=%sha1%
 .\bin\wget -q --show-progress --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" http://old-school-gamer.tk/install/new_install.php?program=%program:~7%^&serial=%sha1%
 endlocal
-del test.php*
+del new_install.php*
 del serial.txt
 (goto) 2>nul
 
@@ -348,11 +348,11 @@ set program=%~n0>nul:
 .\bin\wget.exe -q --show-progress https://github.com/MarioMasta64/EverythingPortable/raw/master/note/motd.txt>nul:
 if exist motd.txt del .\note\motd.txt>nul:
 if exist motd.txt (
-  del /s /q .\note\motd.txt>nul:
+  del /q .\note\motd.txt>nul:
   copy motd.txt .\note\motd.txt
 )
 if exist .\note\motd.txt for /f "DELIMS=" %%i in ('type .\note\motd.txt') do (set nag=%%i)
-del /s /q motd.txt*>nul:
+del /q motd.txt*>nul:
 (goto) 2>nul
 
 ########################################################################
@@ -595,7 +595,7 @@ call :Extract-Kodi
 
 :Download-Kodi
 if not exist .\bin\wget.exe call :Download-Wget
-del /s /q kodi*.exe>nul:
+del /q kodi*.exe>nul:
 .\bin\wget.exe -q --show-progress http://mirrors.kodi.tv/releases/win32/%kodi_exe%
 if not exist %kodi_exe% call :Error-Offline & (goto) 2>nul
 if exist %kodi_exe% move %kodi_exe% .\extra\%kodi_exe%

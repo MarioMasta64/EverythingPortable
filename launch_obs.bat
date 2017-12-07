@@ -35,7 +35,7 @@ echo.
 echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo.
 :: echo e. check for new obs version [automatically check for a new version]
-echo e. download obs version 20.1.1
+echo e. download obs version 20.0.1
 echo.
 echo f. Backup OBS Folder [Just In Case]
 echo g. Restore OBS Folder [Fucked Up(?)]
@@ -254,7 +254,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 18 > .\doc\version.txt
+echo 19 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -410,11 +410,11 @@ set program=%~n0>nul:
 .\bin\wget.exe -q --show-progress https://github.com/MarioMasta64/EverythingPortable/raw/master/note/motd.txt>nul:
 if exist motd.txt del .\note\motd.txt>nul:
 if exist motd.txt (
-  del /s /q .\note\motd.txt>nul:
+  del /q .\note\motd.txt>nul:
   copy motd.txt .\note\motd.txt
 )
 if exist .\note\motd.txt for /f "DELIMS=" %%i in ('type .\note\motd.txt') do (set nag=%%i)
-del /s /q motd.txt*>nul:
+del /q motd.txt*>nul:
 (goto) 2>nul
 
 ########################################################################
@@ -632,14 +632,14 @@ if not exist .\bin\wget.exe call :Download-Wget
 :: .\bin\wget.exe -q --show-progress --continue %obs_link%
 :: if not exist %obs_zip% call :Error-Offline & (goto) 2>nul
 :: if exist %obs_zip% move %obs_zip% .\extra\%obs_zip%
-del /s /q OBS-Studio*-Full.zip>nul:
-.\bin\wget.exe -q --show-progress --continue https://github.com/jp9000/obs-studio/releases/download/20.1.1/OBS-Studio-20.1.1-Full.zip
-if not exist OBS-Studio-20.1.1-Full.zip call :Error-Offline & (goto) 2>nul
-if exist OBS-Studio-20.1.1-Full.zip move OBS-Studio-20.1.1-Full.zip .\extra\OBS-Studio-20.1.1-Full.zip
+del /q OBS-Studio*-Full.zip>nul:
+.\bin\wget.exe -q --show-progress --continue https://github.com/jp9000/obs-studio/releases/download/20.1.1/OBS-Studio-20.1.3-Full.zip
+if not exist OBS-Studio-20.1.3-Full.zip call :Error-Offline & (goto) 2>nul
+if exist OBS-Studio-20.1.3-Full.zip move OBS-Studio-20.1.3-Full.zip .\extra\OBS-Studio-20.1.3-Full.zip
 (goto) 2>nul
 
 :Extract-OBS
-call :Extract-Zip "bin\obs" "extra\OBS-Studio-20.1.1-Full.zip"
+call :Extract-Zip "bin\obs" "extra\OBS-Studio-20.1.3-Full.zip"
 exit /b 2
 
 ########################################################################

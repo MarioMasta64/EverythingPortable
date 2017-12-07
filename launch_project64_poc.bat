@@ -68,9 +68,9 @@ set /p project64_link=<project64_link.txt
 echo "http://www.pj64-emu.com%project64_link%"
 set "project64_exe=Setup Project64 v%project64_link:~23,1%.%project64_link:~25,1%.%project64_link:~27,1%-%project64_link:~29,3%-%project64_link:~33,-1%.exe"
 echo "%project64_exe%"
-del /s /q project64-latest.html*
+del /q project64-latest.html*
 pause
-del /s /q index.html*
+del /q index.html*
 .\bin\wget.exe "http://www.pj64-emu.com%project64_link%"
 rename index.html Project64.exe
 .\bin\innounp\innounp.exe -q -x -y -dtemp Project64.exe
@@ -78,7 +78,7 @@ pause
 del Project64.exe
 pause
 xcopy .\temp\{app}\* .\bin\Project64\ /e /i /y
-rmdir /s /q .\temp\
+rmdir /q .\temp\
 
 :l
 set "appdata=%folder%\data\appdata\roaming\"

@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -62,7 +62,7 @@ cls
 title PORTABLE PPSSPP LAUNCHER - DOWNLOAD PPSSPP
 if exist ppsspp_win.zip goto MOVEPPSSPP
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress http://www.ppsspp.org/files/1_4_2/ppsspp_win.zip
+.\bin\wget.exe -q --show-progress https://ppsspp.org/files/1_5_4/ppsspp_win.zip
 
 :MOVEPPSSPP
 cls

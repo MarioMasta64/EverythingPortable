@@ -196,7 +196,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 30 > .\doc\version.txt
+echo 31 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -359,11 +359,11 @@ set program=%~n0>nul:
 .\bin\wget.exe -q --show-progress https://github.com/MarioMasta64/EverythingPortable/raw/master/note/motd.txt>nul:
 if exist motd.txt del .\note\motd.txt>nul:
 if exist motd.txt (
-  del /s /q .\note\motd.txt>nul:
+  del /q .\note\motd.txt>nul:
   copy motd.txt .\note\motd.txt
 )
 if exist .\note\motd.txt for /f "DELIMS=" %%i in ('type .\note\motd.txt') do (set nag=%%i)
-del /s /q motd.txt*>nul:
+del /q motd.txt*>nul:
 (goto) 2>nul
 
 ########################################################################
@@ -601,7 +601,7 @@ call :Extract-Cemu
 
 :Download-Cemu
 if not exist .\bin\wget.exe call :Download-Wget
-del /s /q cemu*.zip>nul:
+del /q cemu*.zip>nul:
 .\bin\wget.exe -q --show-progress %cemu_link%
 if not exist %cemu_zip% call :Error-Offline & (goto) 2>nul
 if exist %cemu_zip% move %cemu_zip% .\extra\%cemu_zip%
@@ -620,7 +620,7 @@ if not exist ..\wget.exe (
 )
 for /D %%A IN ("cemu*") DO echo rmdir /s /q "%%A"
 if exist ..\wget.exe cd ..
-if exist ..\cemu_always_updated.bat cd ..
+if exist ..\launch_cemu.bat cd ..
 exit /b 2
 
 ########################################################################
