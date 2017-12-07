@@ -127,8 +127,54 @@ if "%CHOICE%"=="5" goto ABOUT
 if "%CHOICE%"=="6" exit
 if "%CHOICE%"=="7" goto GETALLTHESTUFF
 if "%CHOICE%"=="8" goto DELETEALLTHESTUFF
+if "%CHOICE%"=="9" goto UPDATEALLTHESTUFF
 set nag="PLEASE SELECT A CHOICE 1-8"
 goto MENU
+
+:UPDATEALLTHESTUFF
+if not exist .\bin\wget.exe call :DOWNLOADWGET
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+cls
+set "num=1"
+for /f "DELIMS=" %%i in (version.txt) do (
+    set /a num+=1
+	if "!num!"=="1" (
+		set "new_version=%%i"
+		if !new_version! NEQ 0 (
+			if !launcher! NEQ everything (
+				if exist launch_!launcher!.bat (
+					call launch_!launcher!.bat VERSION
+					set current_version=!errorlevel!
+					if !current_version! LSS !new_version! (
+:: this returns OFFLINE sometimes and im unsure why, it only seems to happen after a certain amount of launchers that are updated to the current version
+						if "!new_version!" NEQ "OFFLINE" (
+							echo update detected for !launcher!
+							echo current: !current_version!
+							echo new: !new_version!
+							.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_!launcher!.bat
+							if exist launch_!launcher!.bat.1 (
+								del launch_!launcher!.bat> nul:
+								rename launch_!launcher!.bat.1 launch_!launcher!.bat
+							)
+						)
+					)
+				)
+			)
+		)
+		if !new_version! EQU 0 (
+			echo no version, not checking.
+		)
+	)
+    if "!num!"=="2" (
+		set /a "num=0"
+			set "launcher=%%i"
+			echo !launcher!
+	)
+)
+if exist version.txt del version.txt
+set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
+pause
+exit /b
 
 :GET_LAUNCHERS
 dir /b /a-d launch_*.bat > .\doc\launchers.txt
