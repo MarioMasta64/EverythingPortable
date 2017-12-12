@@ -641,7 +641,6 @@ if exist OBS-Studio-20.1.3-Full.zip move OBS-Studio-20.1.3-Full.zip .\extra\OBS-
 :Extract-OBS
 rmdir /s /q .\bin\obs\
 call :Extract-Zip "bin\obs" "extra\OBS-Studio-20.1.3-Full.zip"
-pause
 exit /b 2
 
 ########################################################################
