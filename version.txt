@@ -25,7 +25,7 @@ vscode
 kodi
 4
 ppsspp
-4
+5
 discord_canary
 7
 discord
