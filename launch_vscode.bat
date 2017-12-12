@@ -22,7 +22,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 4 > .\doc\version.txt
+echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -205,7 +205,7 @@ cls
 title PORTABLE VSCODE LAUNCHER - MAIN MENU
 echo %NAG%
 set nag="SELECTION TIME!"
-echo 1. reinstall vscode [not a feature yet]
+echo 1. reinstall vscode [did something fuck up?]
 echo 2. launch vscode
 echo 3. reset vscode [not a feature yet]
 echo 4. uninstall vscode [not a feature yet]
@@ -236,7 +236,9 @@ set nag="NOT A FEATURE YET!"
 goto MENU
 
 :NEW
-goto NULL
+taskkill /f /im Code.exe
+rmdir /s /q .\bin\vscode\
+goto DOWNLOADVSCODE
 
 :DEFAULT
 cls
