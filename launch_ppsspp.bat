@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 4 > .\doc\version.txt
+echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -160,7 +160,7 @@ cls
 title PORTABLE PPSSPP LAUNCHER - MAIN MENU
 echo %NAG%
 set nag="SELECTION TIME!"
-echo 1. reinstall ppsspp [not a feature yet]
+echo 1. reinstall ppsspp [ppsspp install corrupted but dont want to redownload?]
 echo 2. launch ppsspp
 echo 3. reset ppsspp [not a feature yet]
 echo 4. uninstall ppsspp [not a feature yet]
@@ -203,7 +203,9 @@ set nag="NOT A FEATURE YET!"
 goto MENU
 
 :NEW
-goto NULL
+rmdir /s /q .\bin\ppsspp\
+call :EXTRACTPPSSPP
+goto MENU
 
 :MEMSTICKCHECK
 if not exist .\temp\ mkdir .\temp\
@@ -256,6 +258,7 @@ goto NULL
 :UPGRADE
 cls
 rmdir /s /q .\bin\ppsspp\
+del /q .\extra\ppsspp_win.zip
 goto PPSSPPCHECK
 
 :UPDATECHECK
