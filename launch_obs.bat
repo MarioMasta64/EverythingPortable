@@ -172,7 +172,7 @@ exit /b 2
 
 :e
 :Upgrade-OBS
-:: title Portable OBS Launcher - Expiremental Edition - Upgrading To OBS 20.1.1 Check
+:: title Portable OBS Launcher - Expiremental Edition - Upgrading To OBS 20.1.3 Check
 
 :: title Portable Cemu Launcher - Expiremental Edition - Cemu Update Check
 :: if not exist .\bin\wget.exe call :Download-Wget
@@ -254,7 +254,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 19 > .\doc\version.txt
+echo 20 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -410,11 +410,11 @@ set program=%~n0>nul:
 .\bin\wget.exe -q --show-progress https://github.com/MarioMasta64/EverythingPortable/raw/master/note/motd.txt>nul:
 if exist motd.txt del .\note\motd.txt>nul:
 if exist motd.txt (
-  del /q .\note\motd.txt>nul:
+  del /s /q .\note\motd.txt>nul:
   copy motd.txt .\note\motd.txt
 )
 if exist .\note\motd.txt for /f "DELIMS=" %%i in ('type .\note\motd.txt') do (set nag=%%i)
-del /q motd.txt*>nul:
+del /s /q motd.txt*>nul:
 (goto) 2>nul
 
 ########################################################################
@@ -425,10 +425,10 @@ End Of Scripts
 
 :Extract-Zip
 cls
-set dir=%1
-set file=%2
-set folder=%CD%
-if "%CD%"=="%~d0\" "set folder=%CD:~0,2%"
+set "dir=%1"
+set "file=%2"
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 cscript .\bin\extractzip.vbs "%folder%\%file%" "%folder%\%dir%"
 (goto) 2>nul
 
@@ -632,14 +632,16 @@ if not exist .\bin\wget.exe call :Download-Wget
 :: .\bin\wget.exe -q --show-progress --continue %obs_link%
 :: if not exist %obs_zip% call :Error-Offline & (goto) 2>nul
 :: if exist %obs_zip% move %obs_zip% .\extra\%obs_zip%
-del /q OBS-Studio*-Full.zip>nul:
-.\bin\wget.exe -q --show-progress --continue https://github.com/jp9000/obs-studio/releases/download/20.1.1/OBS-Studio-20.1.3-Full.zip
+del /s /q OBS-Studio*-Full.zip>nul:
+.\bin\wget.exe -q --show-progress --continue https://github.com/jp9000/obs-studio/releases/download/20.1.3/OBS-Studio-20.1.3-Full.zip
 if not exist OBS-Studio-20.1.3-Full.zip call :Error-Offline & (goto) 2>nul
 if exist OBS-Studio-20.1.3-Full.zip move OBS-Studio-20.1.3-Full.zip .\extra\OBS-Studio-20.1.3-Full.zip
 (goto) 2>nul
 
 :Extract-OBS
+rmdir /s /q .\bin\obs\
 call :Extract-Zip "bin\obs" "extra\OBS-Studio-20.1.3-Full.zip"
+pause
 exit /b 2
 
 ########################################################################
