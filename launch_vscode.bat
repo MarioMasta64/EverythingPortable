@@ -22,7 +22,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 5 > .\doc\version.txt
+echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -217,6 +217,9 @@ echo b. download other projects
 echo.
 echo c. write a quicklauncher
 echo.
+echo d. backup vscode folder [just in case]
+echo e. restore vscode folder [fucked up(?)]
+echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%choice%"=="1" goto NEW
 if "%choice%"=="2" goto DEFAULT
@@ -227,6 +230,8 @@ if "%choice%"=="6" goto ABOUT
 if "%choice%"=="7" goto EXIT
 if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
 if "%CHOICE%"=="c" goto QUICKLAUNCHERCHECK
+if "%choice%"=="d" goto BACKUPVSCODEFOLDER
+if "%choice%"=="e" goto RESTOREVSCODEFOLDER
 set nag="PLEASE SELECT A CHOICE 1-7 or b/c"
 goto MENU
 
@@ -334,11 +339,6 @@ del .\doc\vscode_license.txt
 start launch_vscode.bat
 exit
 
-:ERROROFFLINE
-cls
-set nag="YOU SEEM TO BE OFFLINE PLEASE RECONNECT TO THE INTERNET TO USE THIS FEATURE"
-goto MENU
-
 :PORTABLEEVERYTHING
 cls
 title PORTABLE VSCODE LAUNCHER - DOWNLOAD SUITE
@@ -372,3 +372,34 @@ exit
 xcopy "%userprofile%\.vscode\*" .\data\.vscode\ /e /i /y
 rmdir /s /q "%userprofile%\.vscode\"
 exit
+
+:BACKUPVSCODEFOLDER
+:: title PORTABLE VSCODE LAUNCHER - BACKING UP VSCODE FOLDER...
+echo make sure
+echo "%CD%\data\.vscode\"
+echo contains your data before pressing enter
+pause>nul:
+cls
+echo BACKING UP VSCODE
+rmdir /s /q .\backup\.vscode\
+mkdir .\backup\.vscode\
+xcopy .\data\.vscode\* .\backup\.vscode\ /e /i /y
+GOTO MENU
+
+:RESTOREVSCODEFOLDER
+:: title PORTABLE VSCODE LAUNCHER - RESTORING VSCODE FOLDER...
+echo make sure
+echo "%CD%\backup\.vscode\"
+echo contains your data before pressing enter
+pause>nul:
+cls
+echo RESTORING VSCODE
+rmdir /s /q .\data\.vscode\
+mkdir .\data\.vscode\
+xcopy .\backup\.vscode\* .\data\.vscode\ /e /i /y
+GOTO MENU
+
+:ERROROFFLINE
+cls
+set nag="YOU SEEM TO BE OFFLINE PLEASE RECONNECT TO THE INTERNET TO USE THIS FEATURE"
+goto MENU
