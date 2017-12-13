@@ -29,9 +29,9 @@ ppsspp
 discord_canary
 7
 discord
-7
-opera_poc
-0
+8
+opera
+1
 qbittorrent_poc
 0
 ntlite_poc
