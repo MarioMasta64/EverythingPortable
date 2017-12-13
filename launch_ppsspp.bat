@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 5 > .\doc\version.txt
+echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -165,13 +165,15 @@ echo 2. launch ppsspp
 echo 3. reset ppsspp [not a feature yet]
 echo 4. uninstall ppsspp [not a feature yet]
 echo 5. update program
-echo 6. upgrade ppsspp [run after update]
+echo 6. upgrade to ppsspp v1.5.4 [run after update]
 echo 7. about
 echo 8. exit
 echo.
 echo b. download other projects
 echo.
 echo c. write a quicklauncher
+echo.
+echo d. experimental always updated upgrade [might break]
 echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%choice%"=="1" goto NEW
@@ -184,6 +186,7 @@ if "%choice%"=="7" goto ABOUT
 if "%choice%"=="8" goto EXIT
 if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
 if "%CHOICE%"=="c" goto QUICKLAUNCHERCHECK
+if "%CHOICE%"=="d" goto EXPERIMENTALUPGRADE
 set nag="PLEASE SELECT A CHOICE 1-8 or b/c"
 goto MENU
 
@@ -260,6 +263,40 @@ cls
 rmdir /s /q .\bin\ppsspp\
 del /q .\extra\ppsspp_win.zip
 goto PPSSPPCHECK
+
+:EXPERIMENTALUPGRADE
+rmdir /s /q .\bin\ppsspp\
+del /q .\extra\ppsspp_win.zip
+
+if exist index.html del index.html
+.\bin\wget.exe -q --show-progress https://www.ppsspp.org/
+if not exist index.html pause
+for /f tokens^=4delims^=^> %%A in (
+  'findstr /i /c:"Download PPSSPP " /c:"Download PPSSPP " index.html'
+) Do > .\doc\ppsspp_link.txt Echo:"%%A"
+if exist index.html del index.html
+
+set /p ppsspp_link=<.\doc\ppsspp_link.txt
+set "ppsspp_ver=%ppsspp_link:~18,5%"
+echo do you wish to upgrade to "%ppsspp_ver%"? enter to continue
+pause
+set "ppsspp_url=https://www.ppsspp.org/files/%ppsspp_ver:~0,1%_%ppsspp_ver:~2,1%_%ppsspp_ver:~4,1%/ppsspp_win.zip"
+
+:: to-do add a check to see if its newer or not
+:: ideas: save as ppsspp_win_<ver>.zip and see if it exists
+
+.\bin\wget.exe -q --show-progress "%ppsspp_url%"
+move ppsspp_win.zip .\extra\ppsspp_win.zip
+call :extract-zip "bin\ppsspp" "extra\ppsspp_win.zip"
+goto MENU
+
+:extract-zip
+set "dir=%1"
+set "file=%2"
+set "folder=%CD%"
+if "%CD%==%~d0\" set "folder=%CD:~0,2%"
+cscript extractzip.vbs "%folder%\%file%" "%folder%\%dir%"
+(goto) 2>nul
 
 :UPDATECHECK
 cls
