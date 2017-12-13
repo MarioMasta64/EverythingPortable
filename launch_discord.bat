@@ -156,7 +156,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 7 > .\doc\version.txt
+echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -279,7 +279,7 @@ if exist discord.exe call :Move-Discord & (goto) 2>nul
 if not exist .\bin\wget.exe call :Download-Wget
 cls
 title Portable Discord Launcher - Experimental Edition - Download Discord
-.\bin\wget.exe -q --show-progress .\bin\wget.exe -q --show-progress "https://discordapp.com/api/download?platform=win"
+.\bin\wget.exe -q --show-progress "https://discordapp.com/api/download?platform=win"
 
 :Move-Discord
 cls
@@ -383,7 +383,7 @@ exit
 
 :Preview-Build
 cls
-title Portable Cemu Launcher - Experimental Edition - Test Build :0
+title Portable Discord Launcher - Experimental Edition - Test Build :0
 echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
