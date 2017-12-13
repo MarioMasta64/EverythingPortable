@@ -54,3 +54,7 @@ firefox_poc
 0
 vivaldi_poc
 0
+null
+0
+serial
+0
