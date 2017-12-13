@@ -48,32 +48,32 @@ pause
 
 :PPSSPPCHECK
 cls
-if not exist .\bin\ppsspp\PPSSPPWindows.exe goto FILECHECK
-if not exist .\bin\ppsspp\PPSSPPWindows64.exe goto FILECHECK
-goto WGETUPDATE
+if not exist .\bin\ppsspp\PPSSPPWindows.exe set nag="please choose 6 to install ppsspp"
+if not exist .\bin\ppsspp\PPSSPPWindows64.exe set nag="please choose 6 to install ppsspp"
+:: goto WGETUPDATE
 
-:FILECHECK
-if not exist .\extra\ppsspp_win.zip goto DOWNLOADPPSSPP
-call :EXTRACTPPSSPP
-goto PPSSPPCHECK
+:: :FILECHECK
+:: if not exist .\extra\ppsspp_win.zip goto DOWNLOADPPSSPP
+:: call :EXTRACTPPSSPP
+:: goto PPSSPPCHECK
 
-:DOWNLOADPPSSPP
-cls
-title PORTABLE PPSSPP LAUNCHER - DOWNLOAD PPSSPP
-if exist ppsspp_win.zip goto MOVEPPSSPP
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://ppsspp.org/files/1_5_4/ppsspp_win.zip
+:: :DOWNLOADPPSSPP
+:: cls
+:: title PORTABLE PPSSPP LAUNCHER - DOWNLOAD PPSSPP
+:: if exist ppsspp_win.zip goto MOVEPPSSPP
+:: if not exist .\bin\wget.exe call :DOWNLOADWGET
+:: .\bin\wget.exe -q --show-progress https://ppsspp.org/files/1_5_4/ppsspp_win.zip
 
-:MOVEPPSSPP
-cls
-move ppsspp_win.zip .\extra\ppsspp_win.zip
-goto PPSSPPCHECK
+:: :MOVEPPSSPP
+:: cls
+:: move ppsspp_win.zip .\extra\ppsspp_win.zip
+:: goto PPSSPPCHECK
 
-:WGETUPDATE
-cls
-title PORTABLE PPSSPP LAUNCHER - UPDATE WGET
-wget https://eternallybored.org/misc/wget/current/wget.exe
-move wget.exe .\bin\
+:: :WGETUPDATE
+:: cls
+:: title PORTABLE PPSSPP LAUNCHER - UPDATE WGET
+:: wget https://eternallybored.org/misc/wget/current/wget.exe
+:: move wget.exe .\bin\
 goto MENU
 
 :DOWNLOADWGET
@@ -126,34 +126,34 @@ cscript.exe .\bin\downloadwget.vbs
 move wget.exe .\bin\
 exit /b
 
-:EXTRACTPPSSPP
-cls
-title PORTABLE PPSSPP LAUNCHER - EXTRACT PPSSPP
-set folder=%CD%
-if %CD%==%~d0\ set folder=%CD:~0,2%
-cls
-echo. > .\bin\extractppsspp.vbs
-echo 'The location of the zip file. >> .\bin\extractppsspp.vbs
-echo ZipFile="%folder%\extra\ppsspp_win.zip" >> .\bin\extractppsspp.vbs
-echo 'The folder the contents should be extracted to. >> .\bin\extractppsspp.vbs
-echo ExtractTo="%folder%\bin\ppsspp\" >> .\bin\extractppsspp.vbs
-echo. >> .\bin\extractppsspp.vbs
-echo 'If the extraction location does not exist create it. >> .\bin\extractppsspp.vbs
-echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractppsspp.vbs
-echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extractppsspp.vbs
-echo    fso.CreateFolder(ExtractTo) >> .\bin\extractppsspp.vbs
-echo End If >> .\bin\extractppsspp.vbs
-echo. >> .\bin\extractppsspp.vbs
-echo 'Extract the contants of the zip file. >> .\bin\extractppsspp.vbs
-echo set objShell = CreateObject("Shell.Application") >> .\bin\extractppsspp.vbs
-echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extractppsspp.vbs
-echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractppsspp.vbs
-echo Set fso = Nothing >> .\bin\extractppsspp.vbs
-echo Set objShell = Nothing >> .\bin\extractppsspp.vbs
-echo. >> .\bin\extractppsspp.vbs
-title PORTABLE PPSSPP LAUNCHER - EXTRACT ZIP
-cscript.exe .\bin\extractppsspp.vbs
-exit /b
+:: :EXTRACTPPSSPP
+:: cls
+:: title PORTABLE PPSSPP LAUNCHER - EXTRACT PPSSPP
+:: set folder=%CD%
+:: if %CD%==%~d0\ set folder=%CD:~0,2%
+:: cls
+:: echo. > .\bin\extractppsspp.vbs
+:: echo 'The location of the zip file. >> .\bin\extractppsspp.vbs
+:: echo ZipFile="%folder%\extra\ppsspp_win.zip" >> .\bin\extractppsspp.vbs
+:: echo 'The folder the contents should be extracted to. >> .\bin\extractppsspp.vbs
+:: echo ExtractTo="%folder%\bin\ppsspp\" >> .\bin\extractppsspp.vbs
+:: echo. >> .\bin\extractppsspp.vbs
+:: echo 'If the extraction location does not exist create it. >> .\bin\extractppsspp.vbs
+:: echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractppsspp.vbs
+:: echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extractppsspp.vbs
+:: echo    fso.CreateFolder(ExtractTo) >> .\bin\extractppsspp.vbs
+:: echo End If >> .\bin\extractppsspp.vbs
+:: echo. >> .\bin\extractppsspp.vbs
+:: echo 'Extract the contants of the zip file. >> .\bin\extractppsspp.vbs
+:: echo set objShell = CreateObject("Shell.Application") >> .\bin\extractppsspp.vbs
+:: echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extractppsspp.vbs
+:: echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractppsspp.vbs
+:: echo Set fso = Nothing >> .\bin\extractppsspp.vbs
+:: echo Set objShell = Nothing >> .\bin\extractppsspp.vbs
+:: echo. >> .\bin\extractppsspp.vbs
+:: title PORTABLE PPSSPP LAUNCHER - EXTRACT ZIP
+:: cscript.exe .\bin\extractppsspp.vbs
+:: exit /b
 
 :MENU
 cls
@@ -165,7 +165,7 @@ echo 2. launch ppsspp
 echo 3. reset ppsspp [not a feature yet]
 echo 4. uninstall ppsspp [not a feature yet]
 echo 5. update program
-echo 6. upgrade to ppsspp v1.5.4 [run after update]
+echo 6. upgrade ppsspp [experimental upgrader]
 echo 7. about
 echo 8. exit
 echo.
@@ -173,20 +173,18 @@ echo b. download other projects
 echo.
 echo c. write a quicklauncher
 echo.
-echo d. experimental always updated upgrade [might break]
-echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%choice%"=="1" goto NEW
 if "%choice%"=="2" goto MEMSTICKCHECK
 if "%choice%"=="3" goto SELECT
 if "%choice%"=="4" goto DELETE
 if "%choice%"=="5" goto UPDATECHECK
-if "%choice%"=="6" goto UPGRADE
+:: if "%choice%"=="6" goto UPGRADE
+if "%choice%"=="6" goto EXPERIMENTALUPGRADE
 if "%choice%"=="7" goto ABOUT
 if "%choice%"=="8" goto EXIT
 if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
 if "%CHOICE%"=="c" goto QUICKLAUNCHERCHECK
-if "%CHOICE%"=="d" goto EXPERIMENTALUPGRADE
 set nag="PLEASE SELECT A CHOICE 1-8 or b/c"
 goto MENU
 
@@ -258,11 +256,11 @@ goto NULL
 :DELETE
 goto NULL
 
-:UPGRADE
-cls
-rmdir /s /q .\bin\ppsspp\
-del /q .\extra\ppsspp_win.zip
-goto PPSSPPCHECK
+:: :UPGRADE
+:: cls
+:: rmdir /s /q .\bin\ppsspp\
+:: del /q .\extra\ppsspp_win.zip
+:: goto PPSSPPCHECK
 
 :EXPERIMENTALUPGRADE
 rmdir /s /q .\bin\ppsspp\
