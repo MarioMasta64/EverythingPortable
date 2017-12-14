@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -215,6 +215,7 @@ for /F "tokens=1*" %%a in ('fsutil fsinfo drives') do (
    for %%c in (%%b) do (
       for /F "tokens=3" %%d in ('fsutil fsinfo drivetype %%c') do (
          if %%d equ Removable (
+            if exist "%%c\pspemu\PSP\" echo %%cpspemu\>> .\temp\memsticks.txt
             if exist "%%c\PSP\" echo %%c>> .\temp\memsticks.txt
          )
       )
@@ -400,6 +401,7 @@ echo for /F "tokens=1*" %%%%a in ('fsutil fsinfo drives') do (>> quicklaunch_pps
 echo    for %%%%c in (%%%%b) do (>> quicklaunch_ppsspp.bat
 echo       for /F "tokens=3" %%%%d in ('fsutil fsinfo drivetype %%%%c') do (>> quicklaunch_ppsspp.bat
 echo          if %%%%d equ Removable (>> quicklaunch_ppsspp.bat
+echo            if exist "%%%%c\pspemu\PSP\" echo %%%%cpspemu\^> .\bin\ppsspp\installed.txt>> quicklaunch_ppsspp.bat
 echo             if exist "%%%%c\PSP\" echo %%%%c^> .\bin\ppsspp\installed.txt>> quicklaunch_ppsspp.bat
 echo          )>> quicklaunch_ppsspp.bat
 echo       )>> quicklaunch_ppsspp.bat
