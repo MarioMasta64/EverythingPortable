@@ -32,6 +32,8 @@ discord
 8
 opera
 1
+citra
+1
 qbittorrent_poc
 0
 ntlite_poc
