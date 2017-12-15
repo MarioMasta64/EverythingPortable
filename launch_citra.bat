@@ -139,6 +139,7 @@ exit /b 2
 
 :e
 :Upgrade-Citra
+title Portable Citra Launcher - Experimental Edition - Update Citra
 if not exist .\extra\citra-setup-windows.exe (
     if not exist .\bin\wget.exe call :Download-Wget
     .\bin\wget.exe -q --show-progress https://github.com/citra-emu/citra-web/releases/download/1.0/citra-setup-windows.exe
