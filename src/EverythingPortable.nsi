@@ -102,8 +102,8 @@ WriteUninstaller "$INSTDIR\uninstall.exe"
 CreateDirectory "$SMPROGRAMS\$SM_Folder"
 CreateShortCut "$SMPROGRAMS\$SM_Folder\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}"
 !ifdef WEB_SITE
-WriteIniStr "$INSTDIR\${APP_NAME} website.url" "InternetShortcut" "URL" "${WEB_SITE}"
-CreateShortCut "$SMPROGRAMS\$SM_Folder\${APP_NAME} Website.lnk" "$INSTDIR\${APP_NAME} website.url"
+WriteIniStr "$INSTDIR\${APP_NAME}.url" "InternetShortcut" "URL" "${WEB_SITE}"
+CreateShortCut "$SMPROGRAMS\$SM_Folder\${APP_NAME}.lnk" "$INSTDIR\${APP_NAME}.url"
 !endif
 !insertmacro MUI_STARTMENU_WRITE_END
 !endif
@@ -113,7 +113,7 @@ CreateDirectory "$SMPROGRAMS\EverythingPortable"
 CreateShortCut "$SMPROGRAMS\EverythingPortable\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}"
 !ifdef WEB_SITE
 WriteIniStr "$INSTDIR\${APP_NAME}.url" "InternetShortcut" "URL" "${WEB_SITE}"
-CreateShortCut "$SMPROGRAMS\Everything Portable\${APP_NAME}.lnk" "$INSTDIR\${APP_NAME}.url"
+CreateShortCut "$SMPROGRAMS\EverythingPortable\${APP_NAME}.lnk" "$INSTDIR\${APP_NAME}.url"
 !endif
 !endif
 
@@ -135,7 +135,7 @@ Section Uninstall
 ${INSTALL_TYPE}
 RmDir /r "$INSTDIR"
 !ifdef WEB_SITE
-Delete "$INSTDIR\${APP_NAME} website.url"
+Delete "$INSTDIR\${APP_NAME}.url"
 !endif
 
 RmDir "$INSTDIR"
@@ -150,11 +150,11 @@ RmDir "$SMPROGRAMS\$SM_Folder"
 !endif
 
 !ifndef REG_START_MENU
-Delete "$SMPROGRAMS\Everything Portable\${APP_NAME}.lnk"
+Delete "$SMPROGRAMS\EverythingPortable\${APP_NAME}.lnk"
 !ifdef WEB_SITE
-Delete "$SMPROGRAMS\Everything Portable\${APP_NAME}.lnk"
+Delete "$SMPROGRAMS\EverythingPortable\${APP_NAME}.lnk"
 !endif
-RmDir "$SMPROGRAMS\Everything Portable"
+RmDir "$SMPROGRAMS\EverythingPortable"
 !endif
 
 DeleteRegKey ${REG_ROOT} "${REG_APP_PATH}"
