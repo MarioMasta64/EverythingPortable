@@ -12,8 +12,8 @@ RequestExecutionLevel user
 !define VERSION "01.00.00.00"
 !define COPYRIGHT ""
 !define DESCRIPTION "Application"
-!define LICENSE_TXT "F:\doc\everything_license.txt"
-!define INSTALLER_NAME "C:\Users\MarioMasta64\Desktop\Nsisqssg\Output\EverythingPortable\EverythingPortable.exe"
+!define LICENSE_TXT "F:\launch_everything\doc\everything_license.txt"
+!define INSTALLER_NAME "F:\EverythingPortable.exe"
 !define MAIN_APP_EXE "launch_everything.bat"
 !define INSTALL_TYPE "SetShellVarContext current"
 !define REG_ROOT "HKCU"
@@ -84,11 +84,11 @@ Section -MainProgram
 ${INSTALL_TYPE}
 SetOverwrite ifnewer
 SetOutPath "$INSTDIR"
-File "F:\vita\launch_everything\launch_everything.bat"
+File "F:\launch_everything\launch_everything.bat"
 SetOutPath "$INSTDIR\doc"
-File "F:\vita\launch_everything\doc\everything_license.txt"
+File "F:\launch_everything\doc\everything_license.txt"
 SetOutPath "$INSTDIR\src"
-File "C:\Users\MarioMasta64\Desktop\Nsisqssg\Output\EverythingPortable\EverythingPortable.nsi"
+File "F:\launch_everything\src\EverythingPortable.nsi"
 SectionEnd
 
 ######################################################################
