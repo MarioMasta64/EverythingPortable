@@ -40,6 +40,8 @@ echo d. download mod's [want cemu hook or something?]
 echo.
 echo e. check for new cemu version [automatically check for a new version]
 echo.
+echo f. install text-reader [update if had]
+echo.
 set /p choice="enter a number and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver > nul
@@ -162,9 +164,9 @@ for /f tokens^=2delims^=^" %%A in (
   'findstr /i /c:"http://cemu.info/releases/" /c:"http://cemu.info/releases/" index.html'
 ) Do > .\doc\cemu_link.txt Echo:%%A
 set /p cemu_link=<.\doc\cemu_link.txt
-set cemu_zip=%cemu_link:~26,20%
+set "cemu_zip=%cemu_link:~26,20%"
+
 if exist index.html del index.html
-if not exist .\bin\wget.exe call :Download-Wget
 cls
 set broke=0
 if exist .\extra\%cemu_zip% (
@@ -173,7 +175,28 @@ if exist .\extra\%cemu_zip% (
   exit /b
 )
 cls
-echo upgrading to cemu v%cemu_zip:~5,5% & call :Upgrade-Build
+
+set "cemu_txt=%cemu_zip:~5,-4%"
+set "cemu_txt_1=%cemu_txt:~0,1%"
+set "cemu_txt_3=%cemu_txt:~-1,1%"
+set "cemu_txt_2=%cemu_txt:~2,-2%"
+set "cemu_txt=http://cemu.info/changelog/cemu_%cemu_txt_1%_%cemu_txt_2%_%cemu_txt_3%.txt"
+echo "%cemu_zip%"
+echo "%cemu_txt%"
+echo "%cemu_txt:~27%"
+
+if not exist ".\doc\%cemu_txt:~27%" .\bin\wget.exe -q --show-progress "%cemu_txt%" & move "%cemu_txt:~27%" ".\doc\%cemu_txt:~27%"
+if exist batch-read.bat pause & call batch-read ".\doc\%cemu_txt:~27%" 10 1
+
+echo upgrading to cemu v%cemu_zip:~5,-4% & call :Upgrade-Build
+exit /b 2
+
+:f
+title Portable Cemu Launcher - Expiremental Edition - Text-Reader Update Check
+cls
+if not exist .\bin\wget.exe call :Download-Wget
+.\bin\wget.exe https://old-school-gamer.tk/batch/text-reader/update-text-reader.bat
+start update-text-reader.bat
 exit /b 2
 
 ########################################################################
@@ -196,7 +219,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 31 > .\doc\version.txt
+echo 32 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -611,16 +634,20 @@ if exist %cemu_zip% move %cemu_zip% .\extra\%cemu_zip%
 call :Extract-Zip "bin\cemu" "extra\%cemu_zip%"
 cd bin
 if exist cemu cd cemu
-if exist cemu* cd cemu*
+if exist "%cemu_zip:~0,-4%" cd "%cemu_zip:~0,-4%"
+if exist "%cemu_zip:~0,4%%cemu_zip:~5,-4%" cd "%cemu_zip:~0,4%%cemu_zip:~5,-4%"
 if not exist ..\wget.exe (
   if not exist ..\cemu_always_updated.bat (
     xcopy * ..\ /e /i /y
     cd ..
   )
+  for /D %%A IN ("cemu*") DO echo rmdir /s /q "%%A"
+  if exist "%cemu_zip:~0,-4%" rmdir /s /q "%cemu_zip:~0,-4%"
+  if exist "%cemu_zip:~0,4%%cemu_zip:~5,-4%" rmdir /s /q "%cemu_zip:~0,4%%cemu_zip:~5,-4%"
 )
-for /D %%A IN ("cemu*") DO echo rmdir /s /q "%%A"
 if exist ..\wget.exe cd ..
 if exist ..\launch_cemu.bat cd ..
+pause
 exit /b 2
 
 ########################################################################
