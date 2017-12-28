@@ -9,9 +9,14 @@ if exist replacer.bat del replacer.bat
 if exist launch_vscode_poc.bat del launch_vscode_poc.bat
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 
+:ARCHSET
+set arch=32
+if exist "%PROGRAMFILES(X86)%" set "arch=64"
+
 :FOLDERCHECK
 cls
-if not exist .\bin\vscode\ mkdir .\bin\vscode\
+if "%arch%"=="32" if not exist .\bin\vscode32\ mkdir .\bin\vscode32\
+if "%arch%"=="64" if not exist .\bin\vscode64\ mkdir .\bin\vscode64\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\data\ mkdir .\data\
 if not exist .\data\.vscode\ mkdir .\data\.vscode\
@@ -22,7 +27,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -54,29 +59,39 @@ cls
 if exist .\temp\ goto MOVEVSCODEFILES
 if exist .\bin\Code.exe call :PoCv1Upgrade
 if exist .\data\AppData\Local\Code\ call :PoCv2Upgrade
-if not exist .\bin\vscode\Code.exe goto FILECHECK
+if exist .\bin\vscode\ call :Releasev6Upgrade
+if "%arch%"=="32" if not exist .\bin\vscode32\Code.exe goto FILECHECK
+if "%arch%"=="64" if not exist .\bin\vscode64\Code.exe goto FILECHECK
 goto WGETUPDATE
 
 :FILECHECK
-if not exist .\extra\vscode.zip goto DOWNLOADVSCODE
+if "%arch%"=="32" if not exist .\extra\vscode32.zip goto DOWNLOADVSCODE
+if "%arch%"=="64" if not exist .\extra\vscode64.zip goto DOWNLOADVSCODE
 call :EXTRACTVSCODE
 goto VSCODECHECK
 
 :DOWNLOADVSCODE
 cls
 title PORTABLE VSCODE LAUNCHER - DOWNLOAD VSCODE
+if exist "vscode.zip" rename "vscode.zip" "vscode32.zip"
 if exist "index.html@LinkID=623231" goto RENAMEVSCODE
-if exist vscode.zip goto MOVEVSCODE
+if exist "index.html@LinkID=852157" goto RENAMEVSCODE
+if exist vscode32.zip goto MOVEVSCODE
+if exist vscode64.zip goto MOVEVSCODE
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress "https://go.microsoft.com/fwlink/?LinkID=623231"
+if "%arch%"=="32" .\bin\wget.exe -q --show-progress "https://go.microsoft.com/fwlink/?LinkID=623231"
+if "%arch%"=="64" .\bin\wget.exe -q --show-progress "https://go.microsoft.com/fwlink/?Linkid=850641"
 
 :RENAMEVSCODE
 cls
-rename "index.html@LinkID=623231" "vscode.zip"
+rename "index.html@LinkID=623231" "vscode32.zip"
+rename "index.html@LinkID=850641" "vscode64.zip"
 
 :MOVEVSCODE
 cls
-move vscode.zip .\extra\vscode.zip
+if exist .\extra\vscode.zip rename .\extra\vscode.zip vscode32.zip
+move vscode32.zip .\extra\vscode32.zip
+move vscode64.zip .\extra\vscode64.zip
 goto VSCODECHECK
 
 :MOVEVSCODEFILES
@@ -148,30 +163,53 @@ exit /b
 :EXTRACTVSCODE
 cls
 title PORTABLE VSCODE LAUNCHER - EXTRACT VSCODE
-set folder=%CD%
-if %CD%==%~d0\ set folder=%CD:~0,2%
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 cls
-echo. > .\bin\extractvscode.vbs
-echo 'The location of the zip file. >> .\bin\extractvscode.vbs
-echo ZipFile="%folder%\extra\vscode.zip" >> .\bin\extractvscode.vbs
-echo 'The folder the contents should be extracted to. >> .\bin\extractvscode.vbs
-echo ExtractTo="%folder%\bin\vscode\" >> .\bin\extractvscode.vbs
-echo. >> .\bin\extractvscode.vbs
-echo 'If the extraction location does not exist create it. >> .\bin\extractvscode.vbs
-echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractvscode.vbs
-echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extractvscode.vbs
-echo    fso.CreateFolder(ExtractTo) >> .\bin\extractvscode.vbs
-echo End If >> .\bin\extractvscode.vbs
-echo. >> .\bin\extractvscode.vbs
-echo 'Extract the contants of the zip file. >> .\bin\extractvscode.vbs
-echo set objShell = CreateObject("Shell.Application") >> .\bin\extractvscode.vbs
-echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extractvscode.vbs
-echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractvscode.vbs
-echo Set fso = Nothing >> .\bin\extractvscode.vbs
-echo Set objShell = Nothing >> .\bin\extractvscode.vbs
-echo. >> .\bin\extractvscode.vbs
+
+echo. > .\bin\extractvscode32.vbs
+echo 'The location of the zip file. >> .\bin\extractvscode32.vbs
+echo ZipFile="%folder%\extra\vscode32.zip" >> .\bin\extractvscode32.vbs
+echo 'The folder the contents should be extracted to. >> .\bin\extractvscode32.vbs
+echo ExtractTo="%folder%\bin\vscode32\" >> .\bin\extractvscode32.vbs
+echo. >> .\bin\extractvscode32.vbs
+echo 'If the extraction location does not exist create it. >> .\bin\extractvscode32.vbs
+echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractvscode32.vbs
+echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extractvscode32.vbs
+echo    fso.CreateFolder(ExtractTo) >> .\bin\extractvscode32.vbs
+echo End If >> .\bin\extractvscode32.vbs
+echo. >> .\bin\extractvscode32.vbs
+echo 'Extract the contants of the zip file. >> .\bin\extractvscode32.vbs
+echo set objShell = CreateObject("Shell.Application") >> .\bin\extractvscode32.vbs
+echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extractvscode32.vbs
+echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractvscode32.vbs
+echo Set fso = Nothing >> .\bin\extractvscode32.vbs
+echo Set objShell = Nothing >> .\bin\extractvscode32.vbs
+echo. >> .\bin\extractvscode32.vbs
+
+echo. > .\bin\extractvscode64.vbs
+echo 'The location of the zip file. >> .\bin\extractvscode64.vbs
+echo ZipFile="%folder%\extra\vscode64.zip" >> .\bin\extractvscode64.vbs
+echo 'The folder the contents should be extracted to. >> .\bin\extractvscode64.vbs
+echo ExtractTo="%folder%\bin\vscode64\" >> .\bin\extractvscode64.vbs
+echo. >> .\bin\extractvscode64.vbs
+echo 'If the extraction location does not exist create it. >> .\bin\extractvscode64.vbs
+echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractvscode64.vbs
+echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extractvscode64.vbs
+echo    fso.CreateFolder(ExtractTo) >> .\bin\extractvscode64.vbs
+echo End If >> .\bin\extractvscode64.vbs
+echo. >> .\bin\extractvscode64.vbs
+echo 'Extract the contants of the zip file. >> .\bin\extractvscode64.vbs
+echo set objShell = CreateObject("Shell.Application") >> .\bin\extractvscode64.vbs
+echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extractvscode64.vbs
+echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractvscode64.vbs
+echo Set fso = Nothing >> .\bin\extractvscode64.vbs
+echo Set objShell = Nothing >> .\bin\extractvscode64.vbs
+echo. >> .\bin\extractvscode64.vbs
+
 title PORTABLE VSCODE LAUNCHER - EXTRACT ZIP
-cscript.exe .\bin\extractvscode.vbs
+if "%arch%"=="32" cscript.exe .\bin\extractvscode32.vbs
+if "%arch%"=="64" cscript.exe .\bin\extractvscode64.vbs
 exit /b
 
 :PoCv1Upgrade
@@ -198,6 +236,11 @@ exit /b
 taskkill /f /im Code.exe
 xcopy .\data\AppData\Local\Code\* .\data\AppData\Roaming\Code\ /e /i /y
 rmdir /s /q .\data\AppData\Local\Code\
+exit /b
+
+:Releasev6Upgrade
+taskkill /f /im Code.exe
+move .\bin\vscode .\bin\vscode32
 exit /b
 
 :MENU
@@ -253,7 +296,8 @@ rmdir /s /q .\data\.vscode\
 set "AppData=%CD%\data\AppData\Roaming\"
 cls
 echo VSCODE IS RUNNING
-.\bin\vscode\Code.exe
+if "%arch%"=="32" .\bin\vscode32\Code.exe
+if "%arch%"=="64" .\bin\vscode64\Code.exe
 goto EXIT
 
 :SELECT
@@ -354,13 +398,15 @@ title PORTABLE VSCODE LAUNCHER - QUICKLAUNCHER WRITER
 echo @echo off > quicklaunch_vscode.bat >> quicklaunch_vscode.bat
 echo Color 0A >> quicklaunch_vscode.bat >> quicklaunch_vscode.bat
 echo cls >> quicklaunch_vscode.bat
+echo set arch=32 >> quicklaunch_vscode.bat
+echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64" >> quicklaunch_vscode.bat
 echo title DO NOT CLOSE >> quicklaunch_vscode.bat
 echo xcopy .\data\.vscode\* "%userprofile%\.vscode\" /e /i /y >> quicklaunch_vscode.bat
 echo rmdir /s /q .\data\.vscode\ >> quicklaunch_vscode.bat
 echo set "AppData=%CD%\data\AppData\Roaming\" >> quicklaunch_vscode.bat
 echo cls >> quicklaunch_vscode.bat
 echo echo VSCODE IS RUNNING >> quicklaunch_vscode.bat
-echo .\bin\vscode\Code.exe >> quicklaunch_vscode.bat
+echo .\bin\vscode%%arch%%\Code.exe >> quicklaunch_vscode.bat
 echo xcopy "%userprofile%\.vscode\*" .\data\.vscode\ /e /i /y >> quicklaunch_vscode.bat
 echo rmdir /s /q "%userprofile%\.vscode\" >> quicklaunch_vscode.bat
 echo exit >> quicklaunch_vscode.bat
