@@ -21,7 +21,7 @@ teamviewer_host
 teamviewer
 2
 vscode
-6
+7
 kodi
 4
 ppsspp
