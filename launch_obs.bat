@@ -34,8 +34,7 @@ echo b. download other projects [check out my other stuff]
 echo.
 echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo.
-:: echo e. check for new obs version [automatically check for a new version]
-echo e. download obs version 20.1.3
+echo e. check for new obs version [automatically check for a new version]
 echo.
 echo f. Backup OBS Folder [Just In Case]
 echo g. Restore OBS Folder [Fucked Up(?)]
@@ -172,30 +171,53 @@ exit /b 2
 
 :e
 :Upgrade-OBS
-:: title Portable OBS Launcher - Expiremental Edition - Upgrading To OBS 20.1.3 Check
+title Portable OBS Launcher - Expiremental Edition - OBS Update Check
+if not exist .\bin\wget.exe call :Download-Wget
+if exist latest del latest>nul:
+.\bin\wget.exe -q --show-progress https://api.github.com/repos/jp9000/obs-studio/releases/latest
+:: create file or wont work (do not run on same file)
+echo.> latest.txt
+:: convert to dos style line ends
+TYPE latest | MORE /P > latest.txt
+for /f tokens^=4delims^=^" %%A in (
+  'findstr /i /c:"browser_download_url" /c:"browser_download_url" latest.txt'
+) Do > .\doc\obs_link.txt Echo:%%A
+set /p obs_link=<.\doc\obs_link.txt
+set "obs_link=%obs_link:~0,-9%Full.zip"
+set "obs_temp=%obs_link%"
 
-:: title Portable Cemu Launcher - Expiremental Edition - Cemu Update Check
-:: if not exist .\bin\wget.exe call :Download-Wget
-:: if exist index.html del index.html
-:: .\bin\wget.exe -q --show-progress --continue http://cemu.info/
-:: for /f tokens^=2delims^=^" %%A in (
-::   'findstr /i /c:"http://cemu.info/releases/" /c:"http://cemu.info/releases/" index.html'
-:: ) Do > .\doc\cemu_link.txt Echo:%%A
-:: set /p cemu_link=<.\doc\cemu_link.txt
-:: set cemu_zip=%cemu_link:~26,20%
-:: if exist index.html del index.html
-:: if not exist .\bin\wget.exe call :Download-Wget
-:: cls
-:: set broke=0
-:: if exist .\extra\%cemu_zip% (
-::   echo cemu is updated.
-::   pause
-::   exit /b
-:: )
-:: cls
-:: echo upgrading to cemu v%cemu_zip:~5,5% & call :Upgrade-Build
+set /a counter=0
+setlocal enabledelayedexpansion
+:loopslashcheck
+if "!obs_temp:~-1!" NEQ "/" (
+  set "obs_temp=!obs_temp:~0,-1!"
+  set /a counter+=1
+  goto loopslashcheck
+)
+if "%obs_temp:~-1%"=="/" (
+  set /a counter-=1
+  echo !obs_link:~-%counter%!>.\doc\obs_zip.txt
+)
+endlocal
 
-call :Upgrade-Build
+set /p obs_zip=<.\doc\obs_zip.txt
+echo "%obs_zip:~11,-9%"
+echo "%obs_zip%"
+echo "%obs_link%"
+pause
+
+if exist latest del latest>nul:
+if exist latest.txt del latest.txt>nul:
+
+cls
+set broke=0
+if exist .\extra\%obs_zip% (
+  echo obs is updated.
+  pause
+  exit /b
+)
+cls
+echo upgrading to obs v%obs_zip:~11,-9% & call :Upgrade-Build
 exit /b 2
 
 :f
@@ -254,7 +276,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 20 > .\doc\version.txt
+echo 21 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -629,18 +651,14 @@ call :Extract-OBS
 
 :Download-OBS
 if not exist .\bin\wget.exe call :Download-Wget
-:: .\bin\wget.exe -q --show-progress --continue %obs_link%
-:: if not exist %obs_zip% call :Error-Offline & (goto) 2>nul
-:: if exist %obs_zip% move %obs_zip% .\extra\%obs_zip%
-del /s /q OBS-Studio*-Full.zip>nul:
-.\bin\wget.exe -q --show-progress --continue https://github.com/jp9000/obs-studio/releases/download/20.1.3/OBS-Studio-20.1.3-Full.zip
-if not exist OBS-Studio-20.1.3-Full.zip call :Error-Offline & (goto) 2>nul
-if exist OBS-Studio-20.1.3-Full.zip move OBS-Studio-20.1.3-Full.zip .\extra\OBS-Studio-20.1.3-Full.zip
+.\bin\wget.exe -q --show-progress --continue "%obs_link%"
+if not exist "%obs_zip%" call :Error-Offline & (goto) 2>nul
+if exist "%obs_zip%" move "%obs_zip%" ".\extra\%obs_zip%"
 (goto) 2>nul
 
 :Extract-OBS
 rmdir /s /q .\bin\obs\
-call :Extract-Zip "bin\obs" "extra\OBS-Studio-20.1.3-Full.zip"
+call :Extract-Zip "bin\obs" "extra\%obs_zip%"
 exit /b 2
 
 ########################################################################
