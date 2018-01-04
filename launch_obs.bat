@@ -12,6 +12,7 @@ call :Check-Scripts
 call :Set-Arch
 call :Version
 call :Credits
+if exist .\data\obs\ call :Release-v21-Upgrade
 
 if not exist .\bin\obs\bin\%arch%bit\obs%arch%.exe set nag=OBS IS NOT INSTALLED CHOOSE "E"
 
@@ -36,16 +37,13 @@ echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo.
 echo e. check for new obs version [automatically check for a new version]
 echo.
-echo f. Backup OBS Folder [Just In Case]
-echo g. Restore OBS Folder [Fucked Up(?)]
-echo.
 set /p choice="enter a number and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver > nul
 :: an incorrect call throws an errorlevel of 1
 :: replace all goto Main with exit /b 2 (if they are called by the main menu)
 call :%choice%
-if "%ERRORLEVEL%" NEQ "2" set nag="PLEASE Select A CHOICE 1-7 or a/b/c/e/f/g"
+if "%ERRORLEVEL%" NEQ "2" set nag="PLEASE Select A CHOICE 1-7 or a/b/c/e"
 goto Menu
 
 :Null
@@ -62,20 +60,22 @@ exit /b 2
 
 :2
 :Launch-OBS
-title DO NOT CLOSE
+:: title DO NOT CLOSE
 set "path=%PATH%;%CD%\dll\%arch%\;"
-xcopy .\data\obs\* "%appdata%\obs-studio\" /e /i /y
-rmdir /s /q .\data\obs\
-cls
-echo OBS IS RUNNING
+:: xcopy .\data\obs\* "%appdata%\obs-studio\" /e /i /y
+:: rmdir /s /q .\data\obs\
+:: cls
+:: echo OBS IS RUNNING
 cd .\bin\obs\bin\%arch%bit\
-obs%arch%.exe -portable
-cd ..
-cd ..
-cd ..
-cd ..
-xcopy "%appdata%\obs-studio\*" .\data\obs\ /e /i /y
-rmdir /s /q "%appdata%\obs-studio"
+obs%arch%.exe --portable
+:: cd ..
+:: cd ..
+:: cd ..
+:: cd ..
+:: xcopy "%appdata%\obs-studio\*" .\data\obs\ /e /i /y
+:: rmdir /s /q "%appdata%\obs-studio"
+:: start .\bin\obs\bin\%arch%bit\obs%arch%.exe --portable
+pause
 exit
 
 :3
@@ -143,22 +143,11 @@ title Portable OBS Launcher - Experimental Edition - Quicklauncher Writer
 echo @echo off > quicklaunch_obs.bat
 echo Color 0A >> quicklaunch_obs.bat
 echo cls >> quicklaunch_obs.bat
-echo title DO NOT CLOSE >> quicklaunch_obs.bat
 echo set arch=32 >> quicklaunch_obs.bat
 echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64" >> quicklaunch_obs.bat
 echo set "path=%%PATH%%;%%CD%%\dll\%%arch%%\;" >> quicklaunch_obs.bat
-echo xcopy .\data\obs\* "%%appdata%%\obs-studio\" /e /i /y >> quicklaunch_obs.bat
-echo rmdir /s /q .\data\obs\ >> quicklaunch_obs.bat
-echo cls >> quicklaunch_obs.bat
-echo echo OBS IS RUNNING >> quicklaunch_obs.bat
 echo cd .\bin\obs\bin\%%arch%%bit\ >> quicklaunch_obs.bat
-echo obs%%arch%%.exe -portable >> quicklaunch_obs.bat
-echo cd .. >> quicklaunch_obs.bat
-echo cd .. >> quicklaunch_obs.bat
-echo cd .. >> quicklaunch_obs.bat
-echo cd .. >> quicklaunch_obs.bat
-echo xcopy "%%appdata%%\obs-studio\*" .\data\obs\ /e /i /y >> quicklaunch_obs.bat
-echo rmdir /s /q "%%appdata%%\obs-studio" >> quicklaunch_obs.bat
+echo obs%%arch%%.exe --portable >> quicklaunch_obs.bat
 echo exit >> quicklaunch_obs.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_obs.bat
 echo ENTER TO CONTINUE & pause>nul:
@@ -220,34 +209,6 @@ cls
 echo upgrading to obs v%obs_zip:~11,-9% & call :Upgrade-Build
 exit /b 2
 
-:f
-:Backup-OBS-Folder
-:: title Portable OBS Launcher - Expiremental Edition - Backing Up OBS Folder...
-echo make sure
-echo "%CD%\data\obs\"
-echo contains your data before pressing enter
-pause>nul:
-cls
-echo BACKING UP OBS
-rmdir /s /q .\backup\obs\
-mkdir .\backup\obs\
-xcopy .\data\obs\* .\backup\obs\ /e /i /y
-exit /b 2
-
-:g
-:Restore-OBS-Folder
-:: title Portable OBS Launcher - Expiremental Edition - Restoring OBS Folder...
-echo make sure
-echo "%CD%\backup\obs\"
-echo contains your data before pressing enter
-pause>nul:
-cls
-echo RESTORING OBS
-rmdir /s /q .\data\obs\
-mkdir .\data\obs\
-xcopy .\backup\obs\* .\data\obs\ /e /i /y
-exit /b 2
-
 ########################################################################
 
 :: program specific stuff that can easily be changed below
@@ -276,7 +237,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 21 > .\doc\version.txt
+echo 22 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -399,6 +360,14 @@ echo strNewText = Replace(strText, strOldText, strNewText) >> .\bin\replacetext.
 echo Set objFile = objFSO.OpenTextFile(strFileName, ForWriting) >> .\bin\replacetext.vbs
 echo objFile.Write strNewText  'WriteLine adds extra CR/LF >> .\bin\replacetext.vbs
 echo objFile.Close >> .\bin\replacetext.vbs
+(goto) 2>nul
+
+########################################################################
+
+:Release-v21-Upgrade
+if exist .\bin\obs\config\obs-studio\ rmdir /s /q .\bin\obs\config\obs-studio\
+xcopy .\data\obs\* .\bin\obs\config\obs-studio\ /e /i /y
+rmdir /s /q .\data\obs\
 (goto) 2>nul
 
 ########################################################################
