@@ -37,7 +37,7 @@ citra
 obs_classic
 1
 github_desktop
-1
+2
 qbittorrent_poc
 0
 ntlite_poc

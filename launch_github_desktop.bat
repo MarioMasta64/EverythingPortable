@@ -74,7 +74,7 @@ exit /b 2
 :Uninstall-Github-Desktop
 cls
 rmdir /s /q .\bin\github_desktop\
-rmdir /s /q .\data\AppData\Roaming\githubdesktop\
+rmdir /s /q ".\data\AppData\Roaming\GitHub Desktop\"
 exit
 
 :5
@@ -126,12 +126,12 @@ exit /b 2
 :Quicklauncher-Check
 cls
 title Portable Github Desktop Canary Launcher - Experimental Edition - Quicklauncher Writer
-echo @echo off > quicklaunch_discord.bat
-echo Color 0A >> quicklaunch_discord.bat
-echo cls >> quicklaunch_discord.bat >> quicklaunch_discord.bat
-echo set "UserProfile=%%CD%%\data" >> quicklaunch_discord.bat
-echo start .\bin\github_desktop\GitHubDesktop.exe >> quicklaunch_discord.bat
-echo exit >> quicklaunch_discord.bat
+echo @echo off > quicklaunch_github_desktop.bat
+echo Color 0A >> quicklaunch_github_desktop.bat
+echo cls >> quicklaunch_github_desktop.bat >> quicklaunch_github_desktop.bat
+echo set "UserProfile=%%CD%%\data" >> quicklaunch_github_desktop.bat
+echo start .\bin\github_desktop\GitHubDesktop.exe >> quicklaunch_github_desktop.bat
+echo exit >> quicklaunch_github_desktop.bat
 echo ENTER TO CONTINUE & pause>nul:
 exit /b 2
 
@@ -155,7 +155,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
