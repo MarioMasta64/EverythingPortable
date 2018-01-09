@@ -1,6 +1,7 @@
 # EverythingPortable
 
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40MarioMasta64)](https://twitter.com/MarioMasta64)
+[![Discord](https://discordapp.com/api/guilds/380941559358554112/widget.png)](https://discord.gg/52AUHwu)
 
 allows downloading binaries from my repositories (all things ive released)
 
@@ -20,3 +21,4 @@ suite can now update launchers ! (any old launchers must be updated manually fir
 
 Known Issues:
 none?
+
