@@ -1,6 +1,6 @@
 # EverythingPortable
 
-release v4 yay
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40MarioMasta64)](https://twitter.com/MarioMasta64)
 
 allows downloading binaries from my repositories (all things ive released)
 
