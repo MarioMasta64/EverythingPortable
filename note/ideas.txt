@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 turn .\folder and folder into .\folder\
 
 add a space between the top and bottom and the options (??? wut)
@@ -17,17 +16,11 @@ add an option to import and export steam saves / steam
 
 change move to xcopy so folders only have to be made if needed
 
-allow 32bit dll files
-
 wiiuusbhelper: http://application.wiiuusbhelper.com/Updater.exe
-
-if i extract to a temp directory -> check if cemu* directory is in there -> if so enter that directory -> copy directory to %root%\bin\cemu\ -> clear out the temp directory (this would layer builds but it would work fine without overwriting save directory ^~^)
 
 display a transfer message for each launcher like in minecraft portable
 
 make an option to port files into usb
-
-extract to .\bin\cemu\ then enter the directory cemu* move everything up a directory
 
 add title to extraction
 
@@ -35,44 +28,3 @@ make steam not copy whole appdata locallow? (locallow is not copied for now)
 
 if /I "%choice%"=="a" goto DLLDOWNLOADERCHECK
 if /I "%CHOICE%"=="b" goto PORTABLEEVERYTHING
-
-=======
-turn .\folder and folder into .\folder\
-
-add a space between the top and bottom and the options (??? wut)
-
-add "" around everything ;D (im working on it)
-
-make variables uppercase (bleh)
-
-change .\file.txt to file.txt (but why?)
-
-add an option to import and export minecraft saves
-
-add an option to import and export obs saves
-
-add an option to import and export steam saves / steam
-
-change move to xcopy so folders only have to be made if needed
-
-allow 32bit dll files
-
-wiiuusbhelper: http://application.wiiuusbhelper.com/Updater.exe
-
-if i extract to a temp directory -> check if cemu* directory is in there -> if so enter that directory -> copy directory to %root%\bin\cemu\ -> clear out the temp directory (this would layer builds but it would work fine without overwriting save directory ^~^)
-
-display a transfer message for each launcher like in minecraft portable
-
-make an option to port files into usb
-
-extract to .\bin\cemu\ then enter the directory cemu* move everything up a directory
-
-add title to extraction
-
-make steam not copy whole appdata locallow? (locallow is not copied for now)
-
-if /I "%choice%"=="a" goto DLLDOWNLOADERCHECK
-if /I "%CHOICE%"=="b" goto PORTABLEEVERYTHING
-
->>>>>>> bec9425116756f3d706aaf1b0813f79a804b0e02
-makes everything case insensitive
