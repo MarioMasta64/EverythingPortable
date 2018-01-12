@@ -3,9 +3,9 @@ everything
 minecraft
 11
 steam
-14
+15
 obs
-22
+23
 kaerusetup
 10
 cemu

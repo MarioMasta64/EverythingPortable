@@ -11,18 +11,19 @@ if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 :FOLDERCHECK
 cls
 if not exist .\bin\steam\ mkdir .\bin\steam\
-if not exist .\dll\32\ mkdir .\dll\32\
-if not exist .\doc\ mkdir .\doc\
-if not exist .\extra\ mkdir .\extra\
 if not exist .\data\AppData\ mkdir .\data\AppData\
 if not exist .\data\AppData\Local\ mkdir .\data\AppData\Local\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
+if not exist .\dll\32\ mkdir .\dll\32\
+if not exist .\doc\ mkdir .\doc\
+if not exist .\extra\ mkdir .\extra\
+if not exist .\ini\ mkdir .\ini\
 call :VERSION
 goto CREDITS
 
 :VERSION
 cls
-echo 14 > .\doc\version.txt
+echo 15 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -96,15 +97,15 @@ move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
 goto FILECHECK
 
 :WGETUPDATE
-cls
-title PORTABLE STEAM LAUNCHER - UPDATE WGET
-wget https://eternallybored.org/misc/wget/current/wget.exe
-move wget.exe .\bin\
+::cls
+:: title PORTABLE STEAM LAUNCHER - UPDATE WGET
+:: wget https://eternallybored.org/misc/wget/current/wget.exe
+:: move wget.exe .\bin\
 goto MENU
 
 :DOWNLOADWGET
 cls
-call :CHECKWGETDOWNLOADER
+.\bin\wget.exe call :CHECKWGETDOWNLOADER
 exit /b
 
 :CHECKWGETDOWNLOADER
@@ -171,6 +172,9 @@ echo b. download other projects
 echo.
 echo c. write a quicklauncher
 echo.
+echo d. type your steam login [to automatically login between pc]
+echo e. remove steam login [to not login automatically]
+echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%choice%"=="1" goto NEW
 if "%choice%"=="2" goto DEFAULT
@@ -182,7 +186,9 @@ if "%choice%"=="7" goto EXIT
 if "%choice%"=="a" goto DLLDOWNLOADERCHECK
 if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
 if "%CHOICE%"=="c" goto QUICKLAUNCHERCHECK
-set nag="PLEASE SELECT A CHOICE 1-7 or a/b/c"
+if "%CHOICE%"=="d" goto STEAMINIMAKER
+if "%CHOICE%"=="e" del .\ini\steam.ini>nul:
+set nag="PLEASE SELECT A CHOICE 1-7 or a/b/c/d/e"
 goto MENU
 
 :DLLDOWNLOADERCHECK
@@ -208,17 +214,27 @@ cls
 goto NULL
 
 :DEFAULT
-cls
-title DO NOT CLOSE - Steam is Running
-xcopy /q ".\data\AppData\locallow\*" "%UserProfile%\data\AppData\LocalLow" /e /i /y
+:: cls
+:: title DO NOT CLOSE - Steam is Running
+:: xcopy /q ".\data\AppData\locallow\*" "%UserProfile%\data\AppData\LocalLow" /e /i /y
 set path="%PATH%;%CD%\dll\32\;"
 set "COMMONPROGRAMFILES(X86)=%CD%\bin\CommonFiles\"
 set "LOCALAPPDATA=%CD%\data\AppData\Local"
 set "APPDATA=%CD%\data\AppData\Roaming"
-cls
-echo STEAM IS RUNNING
-.\bin\steam\steam.exe
-goto EXIT
+:: cls
+:: echo STEAM IS RUNNING
+setlocal enabledelayedexpansion
+if exist .\ini\steam.ini ( 
+  for /f "delims=" %%a in (.\ini\steam.ini) do ( 
+    set "a=%%a" 
+    if "!a:~1,5!"=="User:" set "user=!a:~6,-1!" 
+    if "!a:~1,5!"=="Pass:" set "pass=!a:~6,-1!" 
+  ) 
+  start .\bin\steam\steam.exe -login "!user!" "!pass!" 
+) 
+if not exist .\ini\steam.ini start .\bin\steam\steam.exe 
+:: goto EXIT
+exit
 
 :SELECT
 cls
@@ -328,22 +344,39 @@ cls
 title PORTABLE STEAM LAUNCHER - QUICKLAUNCHER WRITER
 echo @echo off > quicklaunch_steam.bat
 echo Color 0A >> quicklaunch_steam.bat
-echo cls >> quicklaunch_steam.bat
-echo title DO NOT CLOSE - Steam is Running >> quicklaunch_steam.bat
-echo xcopy /q ".\data\AppData\locallow\*" "%%sUserProfile%%\data\AppData\LocalLow" /e /i /y >> quicklaunch_steam.bat
-echo set path="%%PATH%%";"%%CD%%\dll\32\;" >> quicklaunch_steam.bat
-echo set "COMMONPROGRAMFILES(X86)=%CD%\bin\commonfiles\">> quicklaunch_steam.bat
-echo set "LOCALAPPDATA=%CD%\data\AppData\local\" >> quicklaunch_steam.bat
-echo set "APPDATA=%CD%\data\AppData\roaming\" >> quicklaunch_steam.bat
-echo cls >> quicklaunch_steam.bat
-echo echo STEAM IS RUNNING >> quicklaunch_steam.bat
-echo .\bin\steam\steam.exe >> quicklaunch_steam.bat
-echo xcopy /q "%%UserProfile%%\data\data\AppData\LocalLow\*" .\data\AppData\locallow /e /i /y >> quicklaunch_steam.bat
-echo rmdir /s /q "%%UserProfile%%\data\AppData\LocalLow" >> quicklaunch_steam.bat
+:: echo cls >> quicklaunch_steam.bat
+:: echo title DO NOT CLOSE - Steam is Running >> quicklaunch_steam.bat
+:: echo xcopy /q ".\data\AppData\locallow\*" "%%sUserProfile%%\data\AppData\LocalLow" /e /i /y >> quicklaunch_steam.bat
+echo set path="%%PATH%%;%%CD%%\dll\32\;" >> quicklaunch_steam.bat
+echo set "COMMONPROGRAMFILES(X86)=%%CD%%\bin\commonfiles\">> quicklaunch_steam.bat
+echo set "LOCALAPPDATA=%%CD%%\data\AppData\local\" >> quicklaunch_steam.bat
+echo set "APPDATA=%%CD%%\data\AppData\roaming\" >> quicklaunch_steam.bat
+echo setlocal enabledelayedexpansion >> quicklaunch_steam.bat
+echo if exist .\ini\steam.ini ( >> quicklaunch_steam.bat
+echo   for /f "delims=" %%%%a in (.\ini\steam.ini) do ( >> quicklaunch_steam.bat
+echo     set "a=%%%%a" >> quicklaunch_steam.bat
+echo     if "^!a:~1,5^!"=="User:" set "user=^!a:~6,-1^!" >> quicklaunch_steam.bat
+echo     if "^!a:~1,5^!"=="Pass:" set "pass=^!a:~6,-1^!" >> quicklaunch_steam.bat
+echo   ) >> quicklaunch_steam.bat
+echo   start .\bin\steam\steam.exe -login "^!user^!" "^!pass^!" >> quicklaunch_steam.bat
+echo ) >> quicklaunch_steam.bat
+echo if not exist .\ini\steam.ini start .\bin\steam\steam.exe >> quicklaunch_steam.bat
+:: echo xcopy /q "%%UserProfile%%\data\data\AppData\LocalLow\*" .\data\AppData\locallow /e /i /y >> quicklaunch_steam.bat
+:: echo rmdir /s /q "%%UserProfile%%\data\AppData\LocalLow" >> quicklaunch_steam.bat
 echo exit >> quicklaunch_steam.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_steam.bat
 pause
 exit
+
+:STEAMINIMAKER
+cls
+set /p username="username: "
+set /p password="password: "
+echo "User:%username%"> .\ini\steam.ini
+echo "Pass:%password%">> .\ini\steam.ini
+echo steam login saved to .\ini\steam.ini
+pause
+goto MENU
 
 :ERROROFFLINE
 cls
