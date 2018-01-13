@@ -62,6 +62,7 @@ exit /b 2
 :Launch-Github-Desktop
 cls
 set "UserProfile=%CD%\data"
+set "path=%path%;%CD%\bin\github_desktop\resources\app\git\cmd\"
 start .\bin\github_desktop\GitHubDesktop.exe
 exit
 
@@ -155,7 +156,7 @@ if not exist .\extra\ mkdir .\extra\
 
 :Version
 cls
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
