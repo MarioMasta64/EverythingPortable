@@ -131,6 +131,7 @@ echo @echo off > quicklaunch_github_desktop.bat
 echo Color 0A >> quicklaunch_github_desktop.bat
 echo cls >> quicklaunch_github_desktop.bat >> quicklaunch_github_desktop.bat
 echo set "UserProfile=%%CD%%\data" >> quicklaunch_github_desktop.bat
+echo set "path=%%path%%;%%CD%%\bin\github_desktop\resources\app\git\cmd\" >> quicklaunch_github_desktop.bat
 echo start .\bin\github_desktop\GitHubDesktop.exe >> quicklaunch_github_desktop.bat
 echo exit >> quicklaunch_github_desktop.bat
 echo ENTER TO CONTINUE & pause>nul:
