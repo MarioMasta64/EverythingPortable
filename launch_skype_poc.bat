@@ -36,8 +36,52 @@ echo st: Start Skype
 echo sd: Shutdown Skype
 echo.
 echo dl: Download Skype
+echo.
+echo ini: Write Current Settings To .\extra\skype.ini
+echo.
 set /p choice="choice: "
 call :%choice%
+goto main
+
+:ini
+cls
+echo inicl: Clear Removable
+echo inist: Set Removable
+set /p choice="choice: "
+call :%choice%
+goto rm
+
+:inist
+echo xxxxxx Removable xxxxxx> .\ini\skype.ini
+echo "rm:%rm%">> .\ini\skype.ini
+echo xxxxxx Datapath xxxxxx >> .\ini\skype.ini
+echo "dp:%dp%">> .\ini\skype.ini
+echo xxxxxx Datapath %%CD%% for current directory xxxxxx >> .\ini\skype.ini
+echo "data:%datapath%">> .\ini\skype.ini
+echo xxxxxx Username xxxxxx>> .\ini\skype.ini
+echo "us:%us%">> .\ini\skype.ini
+echo xxxxxx Enter Username xxxxxx>> .\ini\skype.ini
+echo "user:%login%">> .\ini\skype.ini
+echo xxxxxx Password xxxxxx>> .\ini\skype.ini
+echo "ps:%ps%">> .\ini\skype.ini
+echo xxxxxx Enter Password xxxxxx>> .\ini\skype.ini
+echo "pass:%password%">> .\ini\skype.ini
+echo xxxxxx No Splash xxxxxx>> .\ini\skype.ini
+echo "ns:%ns%">> .\ini\skype.ini
+echo xxxxxx Minimize xxxxxx>> .\ini\skype.ini
+echo "mn:%mn%">> .\ini\skype.ini
+echo xxxxxx Contact Someone xxxxxx>> .\ini\skype.ini
+echo "cl:no">> .\ini\skype.ini
+echo xxxxxx Contact Number xxxxxx>> .\ini\skype.ini
+echo "contact:">> .\ini\skype.ini
+echo .\ini\skype.ini has been written
+pause
+goto main
+
+:inicl
+del .\ini\skype.ini>nul:
+echo .\ini\skype.ini has been removed
+pause
 goto main
 
 :sd
@@ -47,6 +91,41 @@ goto main
 
 :st
 cls
+
+if exist .\ini\skype.ini (
+  setlocal enabledelayedexpansion
+  set "start=%folder%\bin\Skype\Skype.exe"
+  for /f "delims=" %%a in (.\ini\skype.ini) do ( 
+    set "a=%%a"
+    if "!a:~1,3!"=="rm:" set "rm=!a:~4,-1!"
+    if "!a:~1,3!"=="dp:" set "dp=!a:~4,-1!"
+    if "!a:~1,3!"=="us:" set "us=!a:~4,-1!"
+    if "!a:~1,3!"=="ps:" set "ps=!a:~4,-1!"
+    if "!a:~1,3!"=="ns:" set "ns=!a:~4,-1!"
+    if "!a:~1,3!"=="mn:" set "mn=!a:~4,-1!"
+    if "!a:~1,3!"=="sc:" set "sc=!a:~4,-1!"
+    if "!a:~1,3!"=="cl:" set "cl=!a:~4,-1!"
+    if "!a:~1,5!"=="user:" set "login=!a:~6,-1!"
+    if "!a:~1,5!"=="pass:" set "password=!a:~6,-1!"
+    if "!a:~1,5!"=="data:" set "datapath=!a:~6,-1!"
+    if "!a:~1,8!"=="contact:" set "contact=!a:~9,-1!"
+  )
+  if "!rm!"=="yes" set "start=!start! /removable"
+  if "!dp!"=="yes" set "start=!start! /datapath:!datapath!"
+  if "!us!"=="yes" set "start=!start! /username:!login!"
+  if "!ps!"=="yes" set "start=!start! /password:!password!"
+  if "!ns!"=="yes" set "start=!start! /nosplash"
+  if "!mn!"=="yes" set "start=!start! /minimized"
+  if "!sc!"=="yes" set "start=!start! /secondary"
+  if "!cl!"=="yes" set "start=!start! /callto:!contact!"
+
+  echo !start!
+  pause
+  start !start!
+  exit
+  endlocal
+)
+
 set "start=%folder%\bin\Skype\Skype.exe"
 :: removable logic
 if "%rm%"=="yes" set "start=%start% /removable"
