@@ -45,8 +45,8 @@ goto main
 
 :ini
 cls
-echo inicl: Clear Removable
-echo inist: Set Removable
+echo inicl: Clear Ini
+echo inist: Set Ini
 set /p choice="choice: "
 call :%choice%
 goto rm
@@ -56,7 +56,7 @@ echo xxxxxx Removable xxxxxx> .\ini\skype.ini
 echo "rm:%rm%">> .\ini\skype.ini
 echo xxxxxx Datapath xxxxxx >> .\ini\skype.ini
 echo "dp:%dp%">> .\ini\skype.ini
-echo xxxxxx Datapath %%CD%% for current directory xxxxxx >> .\ini\skype.ini
+echo xxxxxx Datapath !CD! for current directory xxxxxx >> .\ini\skype.ini
 echo "data:%datapath%">> .\ini\skype.ini
 echo xxxxxx Username xxxxxx>> .\ini\skype.ini
 echo "us:%us%">> .\ini\skype.ini
