@@ -60,3 +60,5 @@ firefox_poc
 0
 vivaldi_poc
 0
+virtual_dj_poc
+0
