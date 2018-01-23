@@ -56,44 +56,110 @@ move wget.exe .\bin\wget.exe
 
 :u
 cls
-if exist download.php del download.php
-.\bin\wget.exe -q --show-progress https://winscp.net/eng/download.php#download2
-for /f tokens^=2delims^=^" %%A in (
-  'findstr /i /c:"https://winscp.net/download/" /c:"https://winscp.net/download/" download.php'
-) Do > winscp_link.txt Echo:%%A
-set /p winscp_txt=<winscp_link.txt
-set winscp_link=%winscp_txt:~0,44%-Portable.zip
+if exist history del history>nul:
+if exist winscp_release.txt del winscp_release.txt>nul:
+if exist winscp_beta.txt del winscp_beta.txt>nul:
+.\bin\wget.exe -q --show-progress https://winscp.net/eng/docs/history
+echo.> winscp_link.txt
+for /f tokens^=2delims^=^> %%A in (
+  'findstr /i /c:"h2 id=" /c:"h2 id=" history'
+) Do >> winscp_link.txt Echo:%%A
+if exist history del history>nul:
 
-echo %winscp_txt%
-echo %winscp_link%
-echo %winscp_zip%
+setlocal enabledelayedexpansion
+set /a release=0
+set /a beta=0
+set /a rc=0
+set /a hotfix=0
+for /F "tokens=*" %%A in (winscp_link.txt) do (
+  set "A=%%A"
+  set "A=!A:~0,-4!"
+  if "!A:~-18!" EQU "(not released yet)" (
+    echo "!A:~0,-19! is not released"
+  )
+  if "!A:~-8!" EQU "(hotfix)" (
+    echo "!A:~0,-9! is a hotfix"
+  )
+  if "!A:~-4!" EQU "beta" (
+    echo "https://winscp.net/download/WinSCP-!A:~0,-5!.beta-Portable.zip"
+    if !beta! EQU 0 (
+      set /a beta+=1
+      echo !A:~0,-5!>winscp_beta.txt
+    )
+  )
+  if "!A:~-2!" EQU "RC" (
+    echo "!A:~0,-3! is a release-candidate build"
+  )
 
-echo %winscp_link:~-15,2%
+  if "!A:~-18!" NEQ "(not released yet)" (
+    if "!A:~-8!" NEQ "(hotfix)" (
+      if "!A:~-4!" NEQ "beta" (
+        if "!A:~-2!" NEQ "RC" (
+          echo "https://winscp.net/download/WinSCP-!A!-Portable.zip"
+          if !release! EQU 0 (
+            if exist winscp_beta.txt (
+              set /a release+=1
+              echo !A!>winscp_release.txt
+            )
+          )
+        )
+      )
+    )
+  )
 
-if %winscp_link:~-15,2% == Re (
-  echo Re Detected Fixing
-  set winscp_link=%winscp_link:~0,-16%%winscp_link:~-13%
 )
+endlocal
 
-set winscp_zip=%winscp_link:~28%
-echo %winscp_txt%
-echo %winscp_link%
-echo %winscp_zip%
+if exist winscp_link.txt del winscp_link.txt>nul:
 
-if not exist .\doc\%winscp_txt:~28% .\bin\wget.exe -q --show-progress %winscp_txt% & move %winscp_txt:~28% .\doc\%winscp_txt:~28%
-if exist batch-read.bat pause & call batch-read ".\doc\%winscp_txt:~28%" 10 1
+echo.
+set /p winscp_release=<winscp_release.txt
+set /p winscp_beta=<winscp_beta.txt
 
-if not exist batch-read.bat pause
+if exist winscp_release.txt del winscp_release.txt>nul:
+if exist winscp_beta.txt del winscp_beta.txt>nul:
 
-if exist winscp_link.txt del winscp_link.txt
-if exist download.php* del download.php*
+set release_zip_link=https://winscp.net/download/WinSCP-%winscp_release%-Portable.zip
+set beta_zip_link=https://winscp.net/download/WinSCP-%winscp_beta%.beta-Portable.zip
 
-.\bin\wget.exe %winscp_link%
-move %winscp_zip% .\extra\%winscp_zip%
+set release_txt_link=https://winscp.net/download/WinSCP-%winscp_release%-ReadMe.txt
+set beta_txt_link=https://winscp.net/download/WinSCP-%winscp_beta%.beta-ReadMe.txt
+
+set release_zip_file=WinSCP-%winscp_release%-Portable.zip
+set beta_zip_file=WinSCP-%winscp_beta%.beta-Portable.zip
+
+set release_txt_file=WinSCP-%winscp_release%-ReadMe.txt
+set beta_txt_file=WinSCP-%winscp_beta%.beta-ReadMe.txt
+
+echo release zip link: %release_zip_link%
+echo beta zip link: %beta_zip_link%
+:: echo rc zip link: [wip]
+:: echo hotfix zip link: [wip]
+echo release zip file: %release_zip_file%
+echo beta zip file: %beta_zip_file%
+:: echo rc zip file: [wip]
+:: echo hotfix zip file: [wip]
+echo release txt link: %release_txt_link%
+echo beta txt link: %beta_txt_link%
+:: echo rc txt link: [wip]
+:: echo hotfix txt link: [wip]
+echo release txt file: %release_txt_file%
+echo beta txt file: %beta_txt_file%
+:: echo rc txt file: [wip]
+:: echo hotfix txt file: [wip]
+
+:: text files are broke for now
+:: if not exist ".\doc\%release_txt_file%" .\bin\wget.exe "%release_txt_link%" & move "%release_txt_file%" ".\doc\%release_txt_file%"
+:: if exist batch-read.bat pause & call batch-read ".\doc\%release_txt_file%" 10 1
+:: if not exist batch-read.bat pause
+pause
+
+.\bin\wget.exe -q --show-progress "%release_zip_link%"
+move "%release_zip_file%" ".\extra\%release_zip_file%"
 
 echo. > .\bin\extractwinscp.vbs
 echo 'The location of the zip file. >> .\bin\extractwinscp.vbs
-echo ZipFile="%folder%\extra\%winscp_zip%" >> .\bin\extractwinscp.vbs
+echo ZipFile="%folder%\extra\%release_zip_file%" >> .\bin\extractwinscp.vbs
 echo 'The folder the contents should be extracted to. >> .\bin\extractwinscp.vbs
 echo ExtractTo="%folder%\bin\WinSCP\" >> .\bin\extractwinscp.vbs
 echo. >> .\bin\extractwinscp.vbs
