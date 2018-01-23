@@ -17,7 +17,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 18 > .\doc\version.txt
+echo 19 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -46,63 +46,6 @@ pause
 :FILECHECK
 cls
 
-:WGETUPDATE
-cls
-title PORTABLE EVERYTHING LAUNCHER - UPDATE WGET
-wget https://eternallybored.org/misc/wget/current/wget.exe
-move wget.exe .\bin\
-goto MENU
-
-:DOWNLOADWGET
-cls
-call :CHECKWGETDOWNLOADER
-exit /b
-
-:CHECKWGETDOWNLOADER
-cls
-if not exist .\bin\downloadwget.vbs call :CREATEWGETDOWNLOADER
-if exist .\bin\downloadwget.vbs call :EXECUTEWGETDOWNLOADER
-exit /b
-
-:CREATEWGETDOWNLOADER
-cls
-echo ' Set your settings > .\bin\downloadwget.vbs
-echo    strFileURL = "https://eternallybored.org/misc/wget/current/wget.exe" >> .\bin\downloadwget.vbs
-echo    strHDLocation = "wget.exe" >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo ' Fetch the file >> .\bin\downloadwget.vbs
-echo     Set objXMLHTTP = CreateObject("MSXML2.XMLHTTP") >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo     objXMLHTTP.open "GET", strFileURL, false >> .\bin\downloadwget.vbs
-echo     objXMLHTTP.send() >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo If objXMLHTTP.Status = 200 Then >> .\bin\downloadwget.vbs
-echo Set objADOStream = CreateObject("ADODB.Stream") >> .\bin\downloadwget.vbs
-echo objADOStream.Open >> .\bin\downloadwget.vbs
-echo objADOStream.Type = 1 'adTypeBinary >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo objADOStream.Write objXMLHTTP.ResponseBody >> .\bin\downloadwget.vbs
-echo objADOStream.Position = 0    'Set the stream position to the start >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo Set objFSO = Createobject("Scripting.FileSystemObject") >> .\bin\downloadwget.vbs
-echo If objFSO.Fileexists(strHDLocation) Then objFSO.DeleteFile strHDLocation >> .\bin\downloadwget.vbs
-echo Set objFSO = Nothing >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo objADOStream.SaveToFile strHDLocation >> .\bin\downloadwget.vbs
-echo objADOStream.Close >> .\bin\downloadwget.vbs
-echo Set objADOStream = Nothing >> .\bin\downloadwget.vbs
-echo End if >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo Set objXMLHTTP = Nothing >> .\bin\downloadwget.vbs
-exit /b
-
-:EXECUTEWGETDOWNLOADER
-cls
-title PORTABLE EVERYTHING LAUNCHER - DOWNLOAD WGET
-cscript.exe .\bin\downloadwget.vbs
-move wget.exe .\bin\
-exit /b
-
 :MENU
 cls
 title PORTABLE EVERYTHING LAUNCHER - MAIN MENU
@@ -117,6 +60,8 @@ echo 5. about
 echo 6. exit
 echo 7. DOWNLOAD EVERYTHING
 echo 8. DELETE EVERYTHING
+echo 9. UPDATE EVERYTHING
+echo 10. TROUBLESHOOTING
 echo.
 set /p choice="enter a number and press enter to confirm: "
 if "%CHOICE%"=="1" goto DOWNLOAD
@@ -128,7 +73,27 @@ if "%CHOICE%"=="6" exit
 if "%CHOICE%"=="7" goto GETALLTHESTUFF
 if "%CHOICE%"=="8" goto DELETEALLTHESTUFF
 if "%CHOICE%"=="9" goto UPDATEALLTHESTUFF
-set nag="PLEASE SELECT A CHOICE 1-8"
+if "%CHOICE%"=="10" goto TROUBLESHOOTING
+set nag="PLEASE SELECT A CHOICE 1-10"
+goto MENU
+
+:TROUBLESHOOTING
+cls
+echo if nothing appears in the menu
+echo or a download keeps looping or
+echo a file is not extracting right
+echo press exit the on the launcher
+echo then delete the installer from
+echo .\extra\ and delete the folder
+echo that has the name of the thing
+echo you were attempting to use out
+echo .\bin\ and try again if it did
+echo the same thing again remove -q
+echo --show-progress from the place
+echo in the launcher, all of them .
+echo otherwise leave an issue on my
+echo github github.com/mariomasta64
+pause
 goto MENU
 
 :UPDATEALLTHESTUFF
