@@ -146,7 +146,7 @@ exit /b 2
 title Portable Kodi Launcher - Expiremental Edition - Kodi Update Check
 if not exist .\bin\wget.exe call :Download-Wget
 if exist index.html del index.html
-.\bin\wget.exe -q --show-progress http://mirrors.kodi.tv/releases/win32/
+.\bin\wget.exe -q --show-progress http://mirrors.kodi.tv/releases/windows/win32/
 for /f tokens^=2delims^=^" %%A in (
   'findstr /i /c:"kodi-" /c:"kodi-" index.html'
 ) Do > .\doc\kodi_link.txt Echo:%%A
@@ -186,7 +186,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 4 > .\doc\version.txt
+echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -596,7 +596,7 @@ call :Extract-Kodi
 :Download-Kodi
 if not exist .\bin\wget.exe call :Download-Wget
 del /q kodi*.exe>nul:
-.\bin\wget.exe -q --show-progress http://mirrors.kodi.tv/releases/win32/%kodi_exe%
+.\bin\wget.exe -q --show-progress http://mirrors.kodi.tv/releases/windows/win32/%kodi_exe%
 if not exist %kodi_exe% call :Error-Offline & (goto) 2>nul
 if exist %kodi_exe% move %kodi_exe% .\extra\%kodi_exe%
 (goto) 2>nul
