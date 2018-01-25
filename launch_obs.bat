@@ -37,6 +37,8 @@ echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo.
 echo e. check for new obs version [automatically check for a new version]
 echo.
+echo f. relink source paths
+echo.
 set /p choice="enter a number and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver > nul
@@ -209,6 +211,42 @@ cls
 echo upgrading to obs v%obs_zip:~11,-9% & call :Upgrade-Build
 exit /b 2
 
+:f
+setlocal enabledelayedexpansion
+for %%A in (.\bin\obs\config\obs-studio\basic\scenes\*.json) do (
+  set "A=%%A"
+  for /f "DELIMS=" %%B in (%%A) do (
+    set "B=%%B"
+    if "!B:~17,4!" EQU "file" (
+      set "C=!B:~25,-1!"
+      if "!C:~0,1!" NEQ "C" (
+        if "!C:~0,1!" NEQ "A" (
+          if "!C:~0,1!" NEQ "B" (
+            set "D=!C:~0,1!"
+            set "E=!C:~2!"
+            set "K=!E:/=\!"
+            for /F "tokens=1*" %%G in ('fsutil fsinfo drives') do (
+              for %%I in (%%H) do (
+                for /F "tokens=3" %%J in ('fsutil fsinfo drivetype %%I') do (
+                  if %%J equ Removable (
+                    set "I=%%I"
+                    if "!D:~0,1!" NEQ "!I:~0,1!" (
+                      if exist "!I!!K:~1!" echo "!D!:\ moved to !I! relinking..."
+                      cscript .\bin\replacetext.vbs "!A!" "!D!:!E!" "!I:~0,2!!E!"
+                    )
+                  )
+                )
+              )
+            )
+          )
+      )
+    )
+  )
+)
+endlocal
+pause
+exit /b 2
+
 ########################################################################
 
 :: program specific stuff that can easily be changed below
@@ -236,7 +274,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 22 > .\doc\version.txt
+echo 23 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
