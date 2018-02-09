@@ -69,7 +69,7 @@ set "path=%PATH%;%CD%\dll\%arch%\;"
 :: cls
 :: echo OBS IS RUNNING
 cd .\bin\obs\bin\%arch%bit\
-obs%arch%.exe --portable
+start obs%arch%.exe --portable
 :: cd ..
 :: cd ..
 :: cd ..
@@ -77,7 +77,6 @@ obs%arch%.exe --portable
 :: xcopy "%appdata%\obs-studio\*" .\data\obs\ /e /i /y
 :: rmdir /s /q "%appdata%\obs-studio"
 :: start .\bin\obs\bin\%arch%bit\obs%arch%.exe --portable
-pause
 exit
 
 :3
@@ -231,14 +230,18 @@ for %%A in (.\bin\obs\config\obs-studio\basic\scenes\*.json) do (
                   if %%J equ Removable (
                     set "I=%%I"
                     if "!D:~0,1!" NEQ "!I:~0,1!" (
-                      if exist "!I!!K:~1!" echo "!D!:\ moved to !I! relinking..."
-                      cscript .\bin\replacetext.vbs "!A!" "!D!:!E!" "!I:~0,2!!E!"
+                      if exist "!I!!K:~1!" (
+                        echo "!D!:\ moved to !I! relinking..."
+                        cscript .\bin\replacetext.vbs "!A!" "!D!:!E!" "!I:~0,2!!E!" >NUL:
+                        cscript .\bin\replacetext.vbs "!A!.bak" "!D!:!E!" "!I:~0,2!!E!" >NUL:
+                      )
                     )
                   )
                 )
               )
             )
           )
+        )
       )
     )
   )
@@ -274,7 +277,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 23 > .\doc\version.txt
+echo 24 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
