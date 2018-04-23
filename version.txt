@@ -62,3 +62,5 @@ vivaldi_poc
 0
 virtual_dj_poc
 0
+game_maker_studio_2_poc
+0
