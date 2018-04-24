@@ -65,7 +65,6 @@ for /f "DELIMS=" %%i in ('type dll64.txt') do (
 if exist dll64.txt del dll64.txt
 
 :u
-cls
 echo please download game maker studio 2 and save it as "%CD%\extra\gms2.exe"
 echo press enter to continue
 pause >nul:
