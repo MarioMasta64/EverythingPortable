@@ -12,9 +12,9 @@ if not exist .\bin\ mkdir .\bin\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
 if not exist .\extra\ mkdir .\extra\
 
-echo "l" to launch game
-echo "d" to download project64 (first time)
-echo "u" to download/upgrade project64
+echo Press "l" to start Gamemaker Studio 2
+echo Press "d" to start the first time download of Gamemaker Studio 2 (requires internet and a yoyogames account) 
+echo "u" to download/upgrade Gamemaker Studio 2
 set /p goto="choice: "
 goto %goto%
 
@@ -65,6 +65,7 @@ for /f "DELIMS=" %%i in ('type dll64.txt') do (
 if exist dll64.txt del dll64.txt
 
 :u
+cls
 echo please download game maker studio 2 and save it as "%CD%\extra\gms2.exe"
 echo press enter to continue
 pause >nul:
