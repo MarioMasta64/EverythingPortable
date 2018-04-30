@@ -12,9 +12,9 @@ if not exist .\bin\ mkdir .\bin\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
 if not exist .\extra\ mkdir .\extra\
 
-echo "l" to launch game
-echo "d" to download project64 (first time)
-echo "u" to download/upgrade project64
+echo Press "l" to start Gamemaker Studio 2
+echo Press "d" to start the first time download of Gamemaker Studio 2 (requires internet and a yoyogames account) 
+echo "u" to download/upgrade Gamemaker Studio 2
 set /p goto="choice: "
 goto %goto%
 
