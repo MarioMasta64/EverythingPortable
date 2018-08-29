@@ -1,4 +1,4 @@
-:: this space fixes a problem somehow dont remove
+:V:: this space fixes a problem somehow dont remove
 @echo off
 Color 0A
 cls
@@ -173,7 +173,8 @@ for /f tokens^=4delims^=^" %%A in (
   'findstr /i /c:"browser_download_url" /c:"browser_download_url" latest.txt'
 ) Do > .\doc\obs_link.txt Echo:%%A
 set /p obs_link=<.\doc\obs_link.txt
-set "obs_link=%obs_link:~0,-9%Full.zip"
+if %arch%==32 set "obs_link=%obs_link:~0,-13%-Full-x86.zip"
+if %arch%==64 set "obs_link=%obs_link:~0,-13%-Full-x64.zip"
 set "obs_temp=%obs_link%"
 
 set /a counter=0
@@ -191,7 +192,7 @@ if "%obs_temp:~-1%"=="/" (
 endlocal
 
 set /p obs_zip=<.\doc\obs_zip.txt
-echo "%obs_zip:~11,-9%"
+echo "%obs_zip:~11,-13%"
 echo "%obs_zip%"
 echo "%obs_link%"
 pause
@@ -207,7 +208,7 @@ if exist .\extra\%obs_zip% (
   exit /b
 )
 cls
-echo upgrading to obs v%obs_zip:~11,-9% & call :Upgrade-Build
+echo upgrading to obs v%obs_zip:~11,-13% & call :Upgrade-Build
 exit /b 2
 
 :f
@@ -277,7 +278,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 24 > .\doc\version.txt
+echo 25 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
