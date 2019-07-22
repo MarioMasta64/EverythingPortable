@@ -6,25 +6,19 @@
 
 **if you download one of these seperately download wget.exe**
 
-**https://eternallybored.org/misc/wget/current/ (the latest 32bit one)**
+**https://eternallybored.org/misc/wget/current/ (the latest 32bit one) place it in a folder called "bin"**
 
-**place it in a folder called "bin"**
+# if you message me on twitter about it you did not read this
 
-**if you message me on twitter about it you did not read this**
+**also as a somewhat sidenote the .exe is on the release page because wget is no longer downloaded properly**
 
-**also as a somewhat sidenote the .exe is on the release page**
+# for now this project is abandoned
 
-**because wget is no longer downloaded properly**
+**most things may still work and i may pick it back up if there is interest but its grown boring to me since people only ever tell you when something doesnt work it kills the joy of creating something honestly**
 
-
-**for now this project is abandoned**
-
-**issues are to be reported here:**
+# also issues are to be reported here:
 
 **https://github.com/MarioMasta64/EverythingPortable/issues/14**
-
-**most things may still work but it exists**
-
 
 allows downloading binaries from my repositories (all things ive released)
 
