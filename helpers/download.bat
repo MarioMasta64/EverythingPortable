@@ -11,17 +11,9 @@ IF "%~3" NEQ "" ( CALL :%~3 & EXIT /B )
 
 :ENVIROMENTCHECK
 ECHO DOWNLOADING "%URL%" SAVING TO "%FILE%"
-FOR %%I IN (powershell.exe) DO (
-  IF "%%~$path:i"=="" (
-    CALL :PS & EXIT /B
-  )
-)
-IF EXIST ".\helpers\download.vbs" (
-  CALL :VBS & EXIT /B
-)
-IF EXIST ".\bin\wget.exe" (
-  CALL :WGET & EXIT /B
-)
+FOR %%I IN (powershell.exe) DO ( IF "%%~$path:i"=="" ( CALL :PS & EXIT /B ) )
+IF EXIST ".\helpers\download.vbs" ( CALL :VBS & EXIT /B )
+IF EXIST ".\bin\wget.exe" ( CALL :WGET & EXIT /B )
 EXIT /B
 
 :WGET
