@@ -2,3 +2,5 @@ download.bat
 1
 unzip.bat
 1
+addon.bat
+1
