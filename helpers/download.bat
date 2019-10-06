@@ -11,25 +11,22 @@ IF "%~3" NEQ "" ( CALL :%~3 & EXIT /B )
 
 :ENVIROMENTCHECK
 ECHO DOWNLOADING "%URL%" SAVING TO "%FILE%"
-IF EXIST ".\bin\wget.exe" (
-  CALL :WGET
-  EXIT /B
-)
-IF EXIST ".\helpers\download.vbs" (
-  CALL :VBS
-  EXIT /B
-)
 FOR %%I IN (powershell.exe) DO (
   IF "%%~$path:i"=="" (
-    CALL :PS
-    EXIT /B
+    CALL :PS & EXIT /B
   )
+)
+IF EXIST ".\helpers\download.vbs" (
+  CALL :VBS & EXIT /B
+)
+IF EXIST ".\bin\wget.exe" (
+  CALL :WGET & EXIT /B
 )
 EXIT /B
 
 :WGET
 REM WINDOWS 95 [IE4]
-.\bin\wget.exe -q -i "%URL%" -O "%FILE%" -t "3" --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0"
+.\bin\wget.exe -i "%URL%" -O "%FILE%" --show-progress --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0"
 EXIT /B
 
 :PS
