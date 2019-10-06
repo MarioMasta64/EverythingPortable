@@ -11,10 +11,10 @@ IF "%~3" NEQ "" ( CALL :%~3 & EXIT /B )
 
 :ENVIROMENTCHECK
 ECHO UNZIPPING "%ZIP%" TO "%DIR%"
-IF EXIST ".\bin\wget.exe" (
-  CALL :7Z
-  EXIT /B
-)
+REM IF EXIST ".\bin\wget.exe" (
+REM  CALL :7Z
+REM  EXIT /B
+REM )
 IF EXIST ".\helpers\unzip.vbs" (
   CALL :VBS
   EXIT /B
