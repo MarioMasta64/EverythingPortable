@@ -61,11 +61,11 @@ set /p download=<.\helpers\download.txt
 set /p file=<.\helpers\file.txt
 
 REM Download Using VBS
-if not exist .\helpers\download.vbs call :CreateDownloadVBS
-cscript .\helpers\download.vbs "%download%" "%file%"
+REM if not exist .\helpers\download.vbs call :CreateDownloadVBS
+REM cscript .\helpers\download.vbs "%download%" "%file%"
 
-REM if not exist .\bin\wget.exe call :DownloadWget
-REM .\bin\wget.exe -q --show-progress %download% %file%
+if not exist .\bin\wget.exe call :DownloadWget
+.\bin\wget.exe -q --show-progress %download% %file%
 
 del .\helpers\*.txt > nul
 exit /b
@@ -82,7 +82,7 @@ echo. >> .\helpers\download.vbs
 echo download = Arg(0) >> .\helpers\download.vbs
 echo file = Arg(1) >> .\helpers\download.vbs
 echo. >> .\helpers\download.vbs
-echo dim xHttp: Set xHttp = createobject("Microsoft.XMLHTTP") >> .\helpers\download.vbs
+echo dim xHttp: Set xHttp = CreateObject("Msxml2.XMLHttp.6.0")>> .\helpers\download.vbs
 echo dim bStrm: Set bStrm = createobject("Adodb.Stream") >> .\helpers\download.vbs
 echo xHttp.Open "GET", download, False >> .\helpers\download.vbs
 echo xHttp.Send >> .\helpers\download.vbs
