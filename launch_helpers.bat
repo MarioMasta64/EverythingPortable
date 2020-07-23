@@ -8,11 +8,13 @@ set new_version=OFFLINE_OR_NO_UPDATES
 if exist replacer.bat del replacer.bat
 
 REM Check For Helper Updates
-set /p version_needed=<.\helpers\version.txt
-Call :Version
-if !current_version! LSS !version_needed! Call :Update
+if exist .\helpers\version.txt (
+	set /p version_needed=<.\helpers\version.txt
+	Call :Version
+	if !current_version! LSS !version_needed! Call :Update
+)
 
-if "%~1" neq "" (call :%~1 & exit /b !current_version!)
+if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
 cls
@@ -21,12 +23,51 @@ set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
 
+:Extract
+set /p file=<.\helpers\file.txt
+set /p folder=<.\helpers\folder.txt
+if not exist .\helpers\extractzip.vbs call :CreateExtractZipVBS
+cscript .\helpers\extractzip.vbs !file! !folder! > nul
+del .\helpers\*.txt > nul
+exit /b
+
+:CreateExtractZipVBS
+echo Dim Arg, zipfile, folder > .\helpers\extractzip.vbs
+echo Set Arg = WScript.Arguments >> .\helpers\extractzip.vbs
+echo. >> .\helpers\extractzip.vbs
+echo zipfile = Arg(0) >> .\helpers\extractzip.vbs
+echo folder = Arg(1) >> .\helpers\extractzip.vbs
+:: 'The location of the zip file.
+:: ZipFile="C:\Test.Zip"
+:: 'The folder the contents should be extracted to.
+:: ExtractTo="C:\Test\"
+echo. >> .\helpers\extractzip.vbs
+echo 'If the extraction location does not exist create it. >> .\helpers\extractzip.vbs
+echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\helpers\extractzip.vbs
+echo If NOT fso.FolderExists(folder) Then >> .\helpers\extractzip.vbs
+echo    fso.CreateFolder(folder) >> .\helpers\extractzip.vbs
+echo End If >> .\helpers\extractzip.vbs
+echo. >> .\helpers\extractzip.vbs
+echo 'Extract the contants of the zip file. >> .\helpers\extractzip.vbs
+echo set objShell = CreateObject("Shell.Application") >> .\helpers\extractzip.vbs
+echo set FilesInZip=objShell.NameSpace(zipfile).items >> .\helpers\extractzip.vbs
+echo objShell.NameSpace(folder).CopyHere(FilesInZip) >> .\helpers\extractzip.vbs
+echo Set fso = Nothing >> .\helpers\extractzip.vbs
+echo Set objShell = Nothing >> .\helpers\extractzip.vbs
+exit /b
+
 :Download
 set /p download=<.\helpers\download.txt
 set /p file=<.\helpers\file.txt
-if not exist .\bin\wget.exe call :DownloadWget
-.\bin\wget.exe -q --show-progress !download! !file!
-del .\helpers\*.txt
+
+REM Download Using VBS
+if not exist .\helpers\download.vbs call :CreateDownloadVBS
+cscript .\helpers\download.vbs "%download%" "%file%"
+
+REM if not exist .\bin\wget.exe call :DownloadWget
+REM .\bin\wget.exe -q --show-progress %download% %file%
+
+del .\helpers\*.txt > nul
 exit /b
 
 :DownloadWget
