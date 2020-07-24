@@ -1,30 +1,45 @@
 @echo off
 setlocal enabledelayedexpansion
+setlocal enableextensions
 Color 0A
 cls
-title PORTABLE EVERYTHING LAUNCHER
+title Portable Everything Launcher - Helper Edition
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE_OR_NO_UPDATES
 if exist replacer.bat del replacer.bat
+
+
+
+
+REM
+set folder=%CD%
+if %CD%==%~d0\ set folder=%CD:~0,2%
+REM
+
+
+
+
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 
-:FOLDERCHECK
+:FolderCheck
 cls
 if not exist .\bin\ mkdir .\bin\
 if not exist .\doc\ mkdir .\doc\
-call :VERSION
-goto CREDITS
+if not exist .\helpers\ mkdir .\helpers\
+call :Version
+call :HelperCheck
+goto Credits
 
-:VERSION
+:Version
 cls
-echo 19 > .\doc\version.txt
+echo 20 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
 
-:CREDITS
+:Credits
 cls
-if exist .\doc\everything_license.txt goto FILECHECK
+if exist .\doc\everything_license.txt goto FileCheck
 echo ================================================== > .\doc\everything_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\everything_license.txt
 echo =           Script Version: v%current_version%- release        = >> .\doc\everything_license.txt
@@ -37,21 +52,21 @@ echo =    You may also modify this script without     = >> .\doc\everything_lice
 echo =         consent for PERSONAL USE ONLY          = >> .\doc\everything_license.txt
 echo ================================================== >> .\doc\everything_license.txt
 
-:CREDITSREAD
+:CreditsRead
 cls
-title PORTABLE EVERYTHING LAUNCHER - ABOUT
+title Portable Everything Launcher - Helper Edition - About
 for /f "DELIMS=" %%i in (.\doc\everything_license.txt) do (echo %%i)
 pause
 
 :FILECHECK
 cls
 
-:MENU
+:Menu
 cls
-title PORTABLE EVERYTHING LAUNCHER - MAIN MENU
+title Portable Everything Launcher - Helper Edition - Main Menu
 echo %NAG%
 echo dont worry bugs will be fixed soon !
-set nag=SELECTION TIME!
+set nag=Selection Time!
 echo 1. download a program
 echo 2. launch a program
 echo 3. update a launcher
@@ -60,24 +75,26 @@ echo 5. about
 echo 6. exit
 echo 7. DOWNLOAD EVERYTHING
 echo 8. DELETE EVERYTHING
-echo 9. UPDATE EVERYTHING
+echo 9. UPDATE EVERYTHING [ Broken Use Option 3 Instead ]
 echo 10. TROUBLESHOOTING
+REM echo 11. GET HELPER MANAGER
 echo.
 set /p choice="enter a number and press enter to confirm: "
-if "%CHOICE%"=="1" goto DOWNLOAD
-if "%CHOICE%"=="2" goto LAUNCH
-if "%CHOICE%"=="3" goto UPDATE
-if "%CHOICE%"=="4" goto DELETE
-if "%CHOICE%"=="5" goto ABOUT
+if "%CHOICE%"=="1" goto Download
+if "%CHOICE%"=="2" goto Launch
+if "%CHOICE%"=="3" goto Update
+if "%CHOICE%"=="4" goto Delete
+if "%CHOICE%"=="5" goto About
 if "%CHOICE%"=="6" exit
-if "%CHOICE%"=="7" goto GETALLTHESTUFF
-if "%CHOICE%"=="8" goto DELETEALLTHESTUFF
-if "%CHOICE%"=="9" goto UPDATEALLTHESTUFF
-if "%CHOICE%"=="10" goto TROUBLESHOOTING
+if "%CHOICE%"=="7" goto GetAllTheStuff
+if "%CHOICE%"=="8" goto DeleteAllTheStuff
+if "%CHOICE%"=="9" goto UpdateAllTheStuff
+if "%CHOICE%"=="10" goto Troubleshooting
+REM if "%CHOICE%"=="10" goto GetHelperManager
 set nag="PLEASE SELECT A CHOICE 1-10"
-goto MENU
+goto Menu
 
-:TROUBLESHOOTING
+:Troubleshooting
 cls
 echo if nothing appears in the menu
 echo or a download keeps looping or
@@ -94,11 +111,12 @@ echo in the launcher, all of them .
 echo otherwise leave an issue on my
 echo github github.com/mariomasta64
 pause
-goto MENU
+goto Menu
 
-:UPDATEALLTHESTUFF
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+:UpdateAllTheStuff
+echo https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt > .\helpers\download.txt
+echo launch_!launcher!.bat > .\helpers\file.txt
+call launch_helpers.bat Download
 cls
 set "num=1"
 for /f "DELIMS=" %%i in (version.txt) do (
@@ -108,7 +126,7 @@ for /f "DELIMS=" %%i in (version.txt) do (
 		if !new_version! NEQ 0 (
 			if !launcher! NEQ everything (
 				if exist launch_!launcher!.bat (
-					call launch_!launcher!.bat VERSION
+					call launch_!launcher!.bat Version
 					set current_version=!errorlevel!
 					if !current_version! LSS !new_version! (
 :: this returns OFFLINE sometimes and im unsure why, it only seems to happen after a certain amount of launchers that are updated to the current version
@@ -116,9 +134,11 @@ for /f "DELIMS=" %%i in (version.txt) do (
 							echo update detected for !launcher!
 							echo current: !current_version!
 							echo new: !new_version!
-							.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_!launcher!.bat
+							echo https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_!launcher!.bat > .\helpers\download.txt
+							echo launch_!launcher!.bat > .\helpers\file.txt
+							call launch_helpers.bat Download
 							if exist launch_!launcher!.bat.1 (
-								del launch_!launcher!.bat> nul:
+								del launch_!launcher!.bat > nul:
 								rename launch_!launcher!.bat.1 launch_!launcher!.bat
 							)
 						)
@@ -139,9 +159,9 @@ for /f "DELIMS=" %%i in (version.txt) do (
 if exist version.txt del version.txt
 set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 pause
-exit /b
+goto Menu
 
-:GET_LAUNCHERS
+:GetLaunchers
 dir /b /a-d launch_*.bat > .\doc\launchers.txt
 set Counter=0
 for /f "DELIMS=" %%i in ('type .\doc\launchers.txt') do (
@@ -153,10 +173,11 @@ for /f "DELIMS=" %%i in ('type .\doc\launchers.txt') do (
 if exist .\doc\launchers.txt del .\doc\launchers.txt
 exit /b
 
-:GET_INFO
-if not exist .\bin\wget.exe call :DOWNLOADWGET
+:GetInfo
 if exist %launchername%.txt del %launchername%.txt
-.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/info/%launchername%.txt
+echo https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/info/%launchername%.txt > .\helpers\download.txt
+echo %launchername%.txt > .\helpers\file.txt
+call launch_helpers.bat Download
 cls
 for /f "DELIMS=" %%i in ('type %launchername%.txt') do (
     echo %%i
@@ -165,9 +186,10 @@ if not exist %launchername%.txt cls & echo you seem to be offline or there is a 
 if exist %launchername%.txt del %launchername%.txt
 exit /b
 
-:GET_DOWNLOADS
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+:GetDownloads
+echo https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt > .\helpers\download.txt
+echo version.txt > .\helpers\file.txt
+call launch_helpers.bat Download
 cls
 set "num=1"
 set "counter=0"
@@ -183,9 +205,10 @@ if exist version.txt del version.txt
 set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 exit /b
 
-:GET_NEW_DOWNLOADS
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+:GetNewDownloads
+echo https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt > .\helpers\download.txt
+echo version.txt > .\helpers\file.txt
+call launch_helpers.bat Download
 cls
 set "num=1"
 set "counter=0"
@@ -201,150 +224,152 @@ if exist version.txt del version.txt
 set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 exit /b
 
-:DOWNLOAD
-call :GET_NEW_DOWNLOADS
+:Download
+call :GetNewDownloads
 cls
-title PORTABLE EVERYTHING LAUNCHER - DOWNLOAD LAUNCHER
+title Portable Everything Launcher - Helper Edition - Download Launcher
 echo %NAG%
-set nag=SELECTION TIME!
+set nag=Selection Time!
 :: first number is which line to start second number is how many lines to count by
 For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
 echo type menu to return to the main menu
 set /p choice="launcher to download: "
 set launchername=!Line_%CHOICE%!
 set launcher=launch_%launchername%.bat
-if "%CHOICE%"=="menu" goto MENU
+if "%CHOICE%"=="menu" goto Menu
 :: cap output somehow
-goto INFO
+goto Info
 
-:LAUNCHERCHECK
+:LauncherCheck
 cls
-title PORTABLE EVERYTHING LAUNCHER - CHECK LAUNCHER
+title Portable Everything Launcher - Helper Edition - Check Launcher
 set /a verline = %CHOICE% * 2
-if not exist launch_%launchername%.bat goto UPDATENOW
+if not exist launch_%launchername%.bat goto UpdateNow
 set nag="You Shouldn't Be Able To Trigger This. If You Do Let Me Know. Launcher %launcher% Exists"
-goto UPDATECHECK
-goto MENU
+goto UpdateCheck
+goto Menu
 
-:LAUNCH
+:Launch
 cls
-title PORTABLE EVERYTHING LAUNCHER - SELECT LAUNCHER
+title Portable Everything Launcher - Helper Edition - SelectLauncher
 echo %NAG%
-set nag=SELECTION TIME!
-call :GET_LAUNCHERS
+set nag=Selection Time!
+call :GetLaunchers
 For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
 echo type menu to return to the main menu
 :: typing "]" here opens cmd prompt. spoopy.
 set /p choice="launcher to launch: "
 set launcher=!Line_%CHOICE%!
-if "%CHOICE%"=="menu" goto MENU
+if "%CHOICE%"=="menu" goto Menu
 start %launcher%
 exit
 
-:DELETE
+:Delete
 cls
-title PORTABLE EVERYTHING LAUNCHER - DELETE LAUNCHER
+title Portable Everything Launcher - Helper Edition - DeleteLauncher
 echo %NAG%
-set nag=SELECTION TIME!
-call :GET_LAUNCHERS
+set nag=Selection Time!
+call :GetLaunchers
 For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
 echo type menu to return to the main menu
 set /p choice="launcher to delete: "
 set launcher=!Line_%CHOICE%!
-if "%CHOICE%"=="menu" goto MENU
+if "%CHOICE%"=="menu" goto Menu
 del %launcher%
-goto MENU
+goto Menu
 
-:UPDATE
+:Update
 cls
-title PORTABLE EVERYTHING LAUNCHER - UPDATE LAUNCHER
+title Portable Everything Launcher - Helper EditionUPDATE LAUNCHER
 echo %NAG%
-set nag=SELECTION TIME!
-call :GET_LAUNCHERS
+set nag=Selection Time!
+call :GetLaunchers
 For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
 echo type menu to return to the main menu
 set /p choice="launcher to update: "
 set launcher=!Line_%CHOICE%!
-if "%CHOICE%"=="menu" goto MENU
-call :GET_DOWNLOADS
+if "%CHOICE%"=="menu" goto Menu
+call :GetDownloads
 
-:UPDATECHECK
+:UpdateCheck
 cls
-call %launcher% VERSION
+call %launcher% Version
 set current_version=!errorlevel!
 if exist version.txt del version.txt
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
+echo https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt > .\helpers\download.txt
+echo version.txt > .\helpers\file.txt
+call launch_helpers.bat Download
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
 set new_version=!line_%new_line%!
-if "%new_version%"=="OFFLINE" goto ERROROFFLINE
-if %current_version% EQU %new_version% goto LATEST
-if %current_version% LSS %new_version% goto NEWUPDATE
-if %current_version% GTR %new_version% goto NEWEST
-goto ERROROFFLINE
+if "%new_version%"=="OFFLINE" goto ErrorOffline
+if %current_version% EQU %new_version% goto Latest
+if %current_version% LSS %new_version% goto NewUpdate
+if %current_version% GTR %new_version% goto Newest
+goto ErrorOffline
 
-:LATEST
+:Latest
 cls
-title PORTABLE EVERYTHING LAUNCHER - LATEST BUILD :D
+title Portable Everything Launcher - Helper Edition - Latest Build :D
 echo %NAG%
-set nag=SELECTION TIME!
+set nag=Selection Time!
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE
+echo Press Enter To Continue
 pause
-goto MENU
+goto Menu
 
-:NEWUPDATE
+:NewUpdate
 cls
-title PORTABLE EVERYTHING LAUNCHER - OLD BUILD D:
+title Portable Everything Launcher - Helper Edition - Old Build D:
 echo %NAG%
-set nag=SELECTION TIME!
+set nag=Selection Time!
 echo you are using an older version
 echo enter yes or no
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 set /p choice="Update?: "
-if "%CHOICE%"=="yes" goto UPDATENOW
-if "%CHOICE%"=="no" goto MENU
+if "%CHOICE%"=="yes" goto UpdateNow
+if "%CHOICE%"=="no" goto Menu
 set nag="please enter YES or NO"
-goto NEWUPDATE
+goto NewUpdate
 
-:INFO
+:Info
 cls
-title PORTABLE EVERYTHING LAUNCHER - "%launchername%" MENU
+title Portable Everything Launcher - Helper Edition - "%launchername%" Menu
 echo %NAG%
-set nag=SELECTION TIME!
+set nag=Selection Time!
 echo what would you like to do?
 echo 1. Download Launcher
 echo 2. View More Info
 echo back to go back or menu to go back to the menu
 set /p choice="action: "
-if "%CHOICE%"=="1" goto LAUNCHERCHECK
-if "%CHOICE%"=="2" goto MOREINFO
-if "%CHOICE%"=="back" goto DOWNLOAD
-if "%CHOICE%"=="menu" goto MENU
+if "%CHOICE%"=="1" goto LauncherCheck
+if "%CHOICE%"=="2" goto MoreInfo
+if "%CHOICE%"=="back" goto Download
+if "%CHOICE%"=="menu" goto Menu
 set nag="please enter 1 or 2"
-goto INFO
+goto Info
 
-:MOREINFO
+:MoreInfo
 cls
-call :GET_INFO
-title PORTABLE "%launchername%" LAUNCHER - MORE INFO
+call :GetInfo
+title Portable "%launchername%" Launcher - More Info
 pause
-goto INFO
+goto Info
 
-:UPDATENOW
+:UpdateNow
 cls
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/%launcher%
+echo https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/%launcher% > .\helpers\download.txt
+echo %launcher% > .\helpers\file.txt
+call launch_helpers.bat Download
 cls
-if exist %launcher%.1 goto REPLACERCREATE
-if exist %launcher% goto MENU
-goto ERROROFFLINE
+if exist %launcher%.1 goto ReplacerCreate
+if exist %launcher% goto Menu
+goto ErrorOffline
 
-:REPLACERCREATE
+:ReplacerCreate
 cls
 echo @echo off > replacer.bat
 echo Color 0A >> replacer.bat
@@ -355,63 +380,91 @@ echo exit >> replacer.bat
 start replacer.bat
 exit
 
-:NEWEST
+:Newest
 cls
-title PORTABLE EVERYTHING LAUNCHER - TEST BUILD :0
+title Portable Everything Launcher - Helper Edition - Test Build :0
 echo YOURE USING A TEST BUILD MEANING YOURE EITHER
-echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
+echo CLOSE TO ME OR YOURE SOME SORT OF BETA TESTER
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE
+echo Press Enter To Continue
 pause
 start launch_everything.bat
 exit
 
-:ABOUT
+:About
 cls
 del .\doc\everything_license.txt
 start launch_everything.bat
 exit
 
-:ERROROFFLINE
+:ErrorOffline
 cls
 echo an error occured
 pause
-goto MENU
+goto Menu
 
-:GETALLTHESTUFF
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://github.com/MarioMasta64/EverythingPortable/archive/master.zip
-set folder=%CD%
-if %CD%==%~d0\ set folder=%CD:~0,2%
-echo. > .\bin\extracteverything.vbs
-echo 'The location of the zip file. >> .\bin\extracteverything.vbs
-echo ZipFile="%folder%\master.zip" >> .\bin\extracteverything.vbs
-echo 'The folder the contents should be extracted to. >> .\bin\extracteverything.vbs
-echo ExtractTo="%folder%\" >> .\bin\extracteverything.vbs
-echo. >> .\bin\extracteverything.vbs
-echo 'If the extraction location does not exist create it. >> .\bin\extracteverything.vbs
-echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extracteverything.vbs
-echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extracteverything.vbs
-echo    fso.CreateFolder(ExtractTo) >> .\bin\extracteverything.vbs
-echo End If >> .\bin\extracteverything.vbs
-echo. >> .\bin\extracteverything.vbs
-echo 'Extract the contants of the zip file. >> .\bin\extracteverything.vbs
-echo set objShell = CreateObject("Shell.Application") >> .\bin\extracteverything.vbs
-echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extracteverything.vbs
-echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extracteverything.vbs
-echo Set fso = Nothing >> .\bin\extracteverything.vbs
-echo Set objShell = Nothing >> .\bin\extracteverything.vbs
-echo. >> .\bin\extracteverything.vbs
-cscript .\bin\extracteverything.vbs
+:GetAllTheStuff
+echo https://github.com/MarioMasta64/EverythingPortable/archive/master.zip > .\helpers\download.txt
+echo master.zip > .\helpers\file.txt
+call launch_helpers.bat Download
+if not exist .\bin\wget.exe call :DownloadWget
+echo "%folder%\master.zip" > .\helpers\file.txt
+echo "%folder%" > .\helpers\folder.txt
+call launch_helpers.bat Extract
 for %%i in (.\EverythingPortable-master\launch_*.bat) do if not "%%i" == ".\EverythingPortable-master\launch_everything.bat" xcopy %%i .\ /e /i /y
 rmdir /s /q .\EverythingPortable-master\
 rmdir /s /q .\.vs\
 rmdir /s /q .\info\
 rmdir /s /q .\note\
 del /s /q  master.zip
-goto MENU
+goto Menu
 
-:DELETEALLTHESTUFF
-for %%i in (*) do if not "%%i" == "launch_everything.bat" del %%i
-goto MENU
+:DeleteAllTheStuff
+for %%i in (*) do (
+	if not "%%i" == "launch_everything.bat" (
+		if not "%%i" == "launch_helpers.bat" del %%i
+	)
+)
+goto Menu
+
+:DownloadWget
+if not exist .\helpers\download.vbs call :CreateDownloadVBS
+cscript .\helpers\download.vbs https://eternallybored.org/misc/wget/current/wget.exe .\bin\wget.exe
+exit /b
+
+
+
+
+
+
+
+
+REM
+:HelperCheck
+if not exist launch_helpers.bat call :DownloadHelpers
+exit /b
+:DownloadHelpers
+if not exist .\helpers\download.vbs call :CreateDownloadVBS
+cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat > nul
+exit /b
+:CreateDownloadVBS
+echo Dim Arg, download, file > .\helpers\download.vbs
+echo Set Arg = WScript.Arguments >> .\helpers\download.vbs
+echo. >> .\helpers\download.vbs
+echo download = Arg(0) >> .\helpers\download.vbs
+echo file = Arg(1) >> .\helpers\download.vbs
+echo. >> .\helpers\download.vbs
+echo dim xHttp: Set xHttp = CreateObject("MSXML2.ServerXMLHTTP")>> .\helpers\download.vbs
+echo dim bStrm: Set bStrm = createobject("Adodb.Stream") >> .\helpers\download.vbs
+echo xHttp.Open "GET", download, False >> .\helpers\download.vbs
+echo xHttp.Send >> .\helpers\download.vbs
+echo. >> .\helpers\download.vbs
+echo with bStrm >> .\helpers\download.vbs
+echo     .type = 1 '//binary >> .\helpers\download.vbs
+echo     .open >> .\helpers\download.vbs
+echo     .write xHttp.responseBody >> .\helpers\download.vbs
+echo     .savetofile file, 2 '//overwrite >> .\helpers\download.vbs
+echo end with >> .\helpers\download.vbs
+exit /b
+REM
