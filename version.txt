@@ -50,8 +50,8 @@ skype_poc
 0
 project64_poc
 0
-authy_poc
-0
+authy
+1
 lightshot_poc
 0
 winscp_poc
