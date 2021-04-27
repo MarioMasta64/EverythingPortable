@@ -291,6 +291,13 @@ echo %2 > .\helpers\folder.txt
 call launch_helpers.bat Extract7Zip
 (goto) 2>nul
 
+:HelperHide
+REM v4+ Required
+echo 4 > .\helpers\version.txt
+echo %1 > .\helpers\file.txt
+call launch_helpers.bat Hide
+(goto) 2>nul
+
 :PingInstall
 for /F "skip=1 tokens=5" %%a in ('vol %~D0') do echo %%a>serial.txt
 set /a count=1 
@@ -355,7 +362,7 @@ echo rename launch_authy.bat.1 launch_authy.bat >> replacer.bat
 echo start launch_authy.bat >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
 echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> replacer.bat
-wscript "%CD%\bin\hide.vbs" "replacer.bat"
+call :HelperHide "replacer.bat"
 exit
 
 :PreviewBuild
