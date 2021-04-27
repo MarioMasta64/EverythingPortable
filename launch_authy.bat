@@ -7,6 +7,7 @@ title Portable Authy Launcher - Helper Edition
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE_OR_NO_UPDATES
 if exist replacer.bat del replacer.bat
+if exist launch_authy_poc.bat del launch_authy_poc.bat
 
 call :FolderCheck
 call :SetArch
@@ -198,7 +199,7 @@ if not exist ".\bin\authy\Authy Desktop.exe" set nag=AUTHY IS NOT INSTALLED CHOO
 
 :Version
 cls
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
