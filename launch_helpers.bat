@@ -18,10 +18,28 @@ if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current
 
 :Version
 cls
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
+
+:Extract7zip
+set /p file=<.\helpers\file.txt
+set /p folder=<.\helpers\folder.txt
+set "arch="
+if exist "%PROGRAMFILES(X86)%" set "arch=64"
+if not exist .\bin\7-ZipPortable\App\7-Zip!arch!\7z.exe call :Download7Zip
+.\bin\7-ZipPortable\App\7-Zip!arch!\7z.exe x !file! * -o.!folder!
+del .\helpers\*.txt > nul
+exit /b
+
+:Download7Zip
+if not exist .\bin\wget.exe call :DownloadWget
+.\bin\wget.exe -q --show-progress "http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe"
+if not exist 7-ZipPortable_16.04.paf.exe goto :Download7zip
+move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
+.\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
+(goto) 2>nul
 
 :Extract
 set /p file=<.\helpers\file.txt
