@@ -17,7 +17,7 @@ if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current
 
 :Version
 cls
-echo 4 > .\doc\version.txt
+echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -38,6 +38,12 @@ if not exist .\bin\wget.exe call :DownloadWget
 .\bin\wget.exe -q --show-progress "http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe"
 if not exist 7-ZipPortable_16.04.paf.exe goto :Download7zip
 move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
+cls
+echo README README README README
+echo PLEASE PROCEED THROUGH ALL DIALOGUE OPTIONS
+echo DO NOT HIT RUN
+echo PRESS ENTER WHEN READ
+pause>nul
 .\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
 (goto) 2>nul
 
