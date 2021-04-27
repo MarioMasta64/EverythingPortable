@@ -18,7 +18,7 @@ if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current
 
 :Version
 cls
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -29,7 +29,8 @@ set /p folder=<.\helpers\folder.txt
 set "arch="
 if exist "%PROGRAMFILES(X86)%" set "arch=64"
 if not exist .\bin\7-ZipPortable\App\7-Zip!arch!\7z.exe call :Download7Zip
-.\bin\7-ZipPortable\App\7-Zip!arch!\7z.exe x !file! * -o.!folder!
+.\bin\7-ZipPortable\App\7-Zip!arch!\7z.exe x !file! * -o!folder!
+echo .\bin\7-ZipPortable\App\7-Zip!arch!\7z.exe x !file! * -o!folder!
 del .\helpers\*.txt > nul
 exit /b
 
