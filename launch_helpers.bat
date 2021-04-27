@@ -5,7 +5,6 @@ cls
 title Helper Launcher Beta
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE_OR_NO_UPDATES
-if exist replacer.bat del replacer.bat
 
 REM Check For Helper Updates
 if exist .\helpers\version.txt (
@@ -18,7 +17,7 @@ if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current
 
 :Version
 cls
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -73,6 +72,17 @@ echo set FilesInZip=objShell.NameSpace(zipfile).items >> .\helpers\extractzip.vb
 echo objShell.NameSpace(folder).CopyHere(FilesInZip) >> .\helpers\extractzip.vbs
 echo Set fso = Nothing >> .\helpers\extractzip.vbs
 echo Set objShell = Nothing >> .\helpers\extractzip.vbs
+exit /b
+
+:Hide
+set /p file=<.\helpers\file.txt
+if not exist .\helpers\hide.vbs call :CreateHideVBS
+wscript .\helpers\hide.vbs !file!
+del .\helpers\*.txt > nul
+exit /b
+
+:CreateHideVBS
+echo CreateObject("Wscript.Shell").Run """" ^& WScript.Arguments(0) ^& """", 0, False > .\helpers\hide.vbs
 exit /b
 
 :Download
