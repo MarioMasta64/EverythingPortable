@@ -17,9 +17,18 @@ if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current
 
 :Version
 cls
-echo 5 > .\doc\version.txt
+echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
+exit /b
+
+:ReplaceText
+set /p file=<.\helpers\file.txt
+set /p oldtext=<.\helpers\oldtext.txt
+set /p newtext=<.\helpers\newtext.txt
+if not exist .\helpers\replacetext.vbs call :CreateReplaceTextVBS
+cscript .\helpers\replacetext.vbs !file! !oldtext! !newtext! > nul
+del .\helpers\*.txt > nul
 exit /b
 
 :Extract7zip
@@ -53,6 +62,25 @@ set /p folder=<.\helpers\folder.txt
 if not exist .\helpers\extractzip.vbs call :CreateExtractZipVBS
 cscript .\helpers\extractzip.vbs !file! !folder! > nul
 del .\helpers\*.txt > nul
+exit /b
+
+:CreateReplaceTextVBS
+echo Const ForReading = 1 > .\helpers\replacetext.vbs
+echo Const ForWriting = 2 >> .\helpers\replacetext.vbs
+echo. >> .\helpers\replacetext.vbs
+echo strFileName = Wscript.Arguments(0) >> .\helpers\replacetext.vbs
+echo strOldText = Wscript.Arguments(1) >> .\helpers\replacetext.vbs
+echo strNewText = Wscript.Arguments(2) >> .\helpers\replacetext.vbs
+echo. >> .\helpers\replacetext.vbs
+echo Set objFSO = CreateObject("Scripting.FileSystemObject") >> .\helpers\replacetext.vbs
+echo Set objFile = objFSO.OpenTextFile(strFileName, ForReading) >> .\helpers\replacetext.vbs
+echo strText = objFile.ReadAll >> .\helpers\replacetext.vbs
+echo objFile.Close >> .\helpers\replacetext.vbs
+echo. >> .\helpers\replacetext.vbs
+echo strNewText = Replace(strText, strOldText, strNewText) >> .\helpers\replacetext.vbs
+echo Set objFile = objFSO.OpenTextFile(strFileName, ForWriting) >> .\helpers\replacetext.vbs
+echo objFile.Write strNewText  'WriteLine adds extra CR/LF >> .\helpers\replacetext.vbs
+echo objFile.Close >> .\helpers\replacetext.vbs
 exit /b
 
 :CreateExtractZipVBS
