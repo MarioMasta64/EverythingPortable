@@ -8,6 +8,8 @@ set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE_OR_NO_UPDATES
 if exist replacer.bat del replacer.bat
 if exist launch_authy_poc.bat del launch_authy_poc.bat
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
 call :FolderCheck
 call :SetArch
@@ -63,9 +65,9 @@ call :UpgradeAuthy
 :LaunchAuthy
 if not exist ".\bin\authy\Authy Desktop.exe" set "nag=PLEASE INSTALL AUTHY FIRST" && (goto) 2>nul
 title DO NOT CLOSE
-set "folder=%CD%"
-if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
-set "UserProfile=%folder%\data\"
+set "UserProfile=!folder!\data\"
+set "AppData=!folder!\data\AppData\Roaming\"
+set "LocalAppData=!folder!\data\AppData\Local\"
 REM start "" "command" allows spaces in filenames (not launching a cmd window)
 start "" ".\bin\authy\Authy Desktop.exe"
 exit
@@ -134,6 +136,8 @@ echo Color 0A >> quicklaunch_authy.bat
 echo cls >> quicklaunch_authy.bat
 echo set "folder=%%CD%%" >> quicklaunch_authy.bat
 echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >> quicklaunch_authy.bat
+echo set "AppData=%%folder%%\data\AppData\Roaming\" >> quicklaunch_authy.bat
+echo set "LocalAppData=%%folder%%\data\AppData\Local\" >> quicklaunch_authy.bat
 echo set "UserProfile=%%folder%%\data\" >> quicklaunch_authy.bat
 echo start "" ".\bin\authy\Authy Desktop.exe" >> quicklaunch_authy.bat
 echo exit >> quicklaunch_authy.bat
@@ -199,7 +203,7 @@ if not exist ".\bin\authy\Authy Desktop.exe" set nag=AUTHY IS NOT INSTALLED CHOO
 
 :Version
 cls
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
