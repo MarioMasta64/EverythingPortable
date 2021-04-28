@@ -9,7 +9,7 @@ obs
 kaerusetup
 10
 cemu
-32
+33
 lastpass
 11
 qtemu
@@ -51,7 +51,7 @@ skype_poc
 project64_poc
 0
 authy
-2
+3
 lightshot_poc
 0
 winscp_poc
