@@ -143,9 +143,6 @@ echo Color 0A >> quicklaunch_cemu.bat
 echo cls >> quicklaunch_cemu.bat
 echo set "folder=%%CD%%" >> quicklaunch_cemu.bat
 echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >> quicklaunch_cemu.bat
-echo set "AppData=%%folder%%\data\AppData\Roaming\" >> quicklaunch_authy.bat
-echo set "LocalAppData=%%folder%%\data\AppData\Local\" >> quicklaunch_authy.bat
-echo set "UserProfile=%%folder%%\data\" >> quicklaunch_authy.bat
 echo set path="%%PATH%%;%%folder%%\dll\64\;" >> quicklaunch_cemu.bat
 echo cls >> quicklaunch_cemu.bat
 echo start .\bin\cemu\Cemu.exe >> quicklaunch_cemu.bat
@@ -215,8 +212,8 @@ set nag="NOT A FEATURE YET!"
 :ModDownloaderCheck
 cls & title Portable Cemu Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://github.com/MarioMasta64/ModDownloaderPortable/raw/master/launch_cemu_moddownloader.bat" "launch_cemu_moddownloader.bat.1"
-cls & if exist launch_everything.bat.1 del launch_everything.bat & rename launch_everything.bat.1 launch_everything.bat
-cls & start launch_everything.bat
+cls & if exist launch_cemu_moddownloader.bat.1 del launch_cemu_moddownloader.bat
+cls & start launch_cemu_moddownloader.bat
 (goto) 2>nul
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
@@ -235,7 +232,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 33 > .\doc\version.txt
+echo 34 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
