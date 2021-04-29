@@ -29,7 +29,7 @@ ppsspp
 discord_canary
 7
 discord
-8
+9
 opera
 1
 citra
