@@ -62,8 +62,6 @@ call :UpgradeCitra
 :Launch-Citra
 if not exist ".\bin\citra\citra-qt.exe" set "nag=PLEASE INSTALL CITRA FIRST" && (goto) 2>nul
 title DO NOT CLOSE
-set "folder=%CD%"
-if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 set "UserProfile=!folder!\data\"
 set "AppData=!folder!\data\AppData\Roaming\"
 set "LocalAppData=!folder!\data\AppData\Local\"
@@ -159,8 +157,6 @@ move citra-setup-windows.exe .\extra\citra-setup-windows.exe
 cls
 echo continue with installation,
 echo when prompted for location enter,
-set "folder=%CD%"
-if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 echo "!folder!\bin\citra"
 pause
 .\extra\citra-setup-windows.exe

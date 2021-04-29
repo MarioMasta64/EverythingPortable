@@ -64,8 +64,6 @@ call :UpgradeTelegram
 :LaunchTelegram
 if not exist ".\bin\Telegram\Telegram.exe" set "nag=PLEASE INSTALL TELEGRAM FIRST" && (goto) 2>nul
 title DO NOT CLOSE
-set "folder=%CD%"
-if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 set "UserProfile=!folder!\data\"
 set "AppData=!folder!\data\AppData\Roaming\"
 set "LocalAppData=!folder!\data\AppData\Local\"

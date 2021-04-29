@@ -69,8 +69,6 @@ if not exist ".\bin\steam\steam.exe" set "nag=PLEASE INSTALL STEAM FIRST" && (go
 :: title DO NOT CLOSE - Steam is Running
 :: xcopy /q ".\data\AppData\locallow\*" "%UserProfile%\data\AppData\LocalLow" /e /i /y
 title DO NOT CLOSE
-set "folder=%CD%"
-if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 set "CommonProgramFiles(X86)=!folder!\bin\CommonFiles\"
 set "UserProfile=!folder!\data\"
 set "AppData=!folder!\data\AppData\Roaming\"

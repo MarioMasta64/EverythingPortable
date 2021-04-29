@@ -67,8 +67,6 @@ call :UpgradeCemu
 :LaunchCemu
 if not exist ".\bin\cemu\Cemu.exe" set "nag=PLEASE INSTALL CEMU FIRST" && (goto) 2>nul
 title DO NOT CLOSE
-set "folder=%CD%"
-if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 set "UserProfile=!folder!\data\"
 set "AppData=!folder!\data\AppData\Roaming\"
 set "LocalAppData=!folder!\data\AppData\Local\"
