@@ -46,7 +46,7 @@ set /p choice="enter a number and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver > nul
 :: an incorrect call throws an errorlevel of 1
-:: replace all goto Main with exit /b 2 (if they are called by the main menu)
+:: replace all goto Main with (goto) 2>nul (if they are called by the main menu)
 call :%choice%
 REM if "%ERRORLEVEL%" NEQ "2" set nag="PLEASE Select A CHOICE 1-7 or a/b/c/d/e"
 goto Menu
@@ -75,6 +75,7 @@ set "path=!PATH!;!folder!\dll\64\;"
 cls
 echo CEMU IS RUNNING
 cd bin\cemu*
+if not exist "Cemu" set "nag=PLEASE INSTALL CEMU FIRST" && (goto) 2>nul
 start Cemu.exe
 exit
 
@@ -101,11 +102,11 @@ call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingP
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
 set new_version=%Line_12%
-if "%new_version%"=="OFFLINE" call :ErrorOffline & exit /b 2
-if %current_version% EQU %new_version% call :LatestBuild & exit /b 2
-if %current_version% LSS %new_version% call :NewUpdate & exit /b 2
-if %current_version% GTR %new_version% call :PreviewBuild & exit /b 2
-call :ErrorOffline & exit /b 2
+if "%new_version%"=="OFFLINE" call :ErrorOffline & (goto) 2>nul
+if %current_version% EQU %new_version% call :LatestBuild & (goto) 2>nul
+if %current_version% LSS %new_version% call :NewUpdate & (goto) 2>nul
+if %current_version% GTR %new_version% call :PreviewBuild & (goto) 2>nul
+call :ErrorOffline & (goto) 2>nul
 (goto) 2>nul
 
 :6
@@ -143,13 +144,16 @@ echo Color 0A >> quicklaunch_cemu.bat
 echo cls >> quicklaunch_cemu.bat
 echo set "folder=%%CD%%" >> quicklaunch_cemu.bat
 echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >> quicklaunch_cemu.bat
+echo set "UserProfile=%%folder%%\data\" >> quicklaunch_cemu.bat
+echo set "AppData=%%folder%%\data\AppData\Roaming\" >> quicklaunch_cemu.bat
+echo set "LocalAppData=%%folder%%\data\AppData\Local\" >> quicklaunch_cemu.bat
 echo set path="%%PATH%%;%%folder%%\dll\64\;" >> quicklaunch_cemu.bat
 echo cls >> quicklaunch_cemu.bat
 echo start .\bin\cemu\Cemu.exe >> quicklaunch_cemu.bat
 echo exit >> quicklaunch_cemu.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_cemu.bat
 echo ENTER TO CONTINUE & pause>nul:
-exit /b 2
+(goto) 2>nul
 
 :d
 :UpgradeCemu
@@ -232,7 +236,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 34 > .\doc\version.txt
+echo 35 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"

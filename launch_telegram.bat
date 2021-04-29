@@ -3,11 +3,10 @@ setlocal enabledelayedexpansion
 setlocal enableextensions
 Color 0A
 cls
-title Portable Authy Launcher - Helper Edition
+title Portable Telegram Launcher - Helper Edition
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE_OR_NO_UPDATES
 if exist replacer.bat del replacer.bat
-if exist launch_authy_poc.bat del launch_authy_poc.bat
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
@@ -19,15 +18,15 @@ call :HelperCheck
 
 :Menu
 cls
-title Portable Authy Launcher - Helper Edition - Main Menu
+title Portable Telegram Launcher - Helper Edition - Main Menu
 echo %NAG%
 set nag="Selection Time!"
-echo 1. reinstall authy [will remove authy entirely]
-echo 2. launch authy [launches authy]
-echo 3. reset authy [will remove everything authy except the binary]
-echo 4. uninstall authy [tired of using your phone number for totp?]
+echo 1. reinstall telegram [will remove telegram entirely]
+echo 2. launch telegram [launches telegram]
+echo 3. reset telegram [will remove everything telegram except the binary]
+echo 4. uninstall telegram [none of your friends on telegram?]
 echo 5. update script [check for updates]
-echo 6. credits [named this credits this time]
+echo 6. credits [credits]
 echo 7. exit [EXIT]
 echo.
 echo a. download dll's [dll errors anyone?]
@@ -36,7 +35,7 @@ echo b. download other projects [check out my other stuff]
 echo.
 echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo.
-echo d. check for new authy version [automatically check for a new version]
+echo d. check for new telegram version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
@@ -55,45 +54,48 @@ set nag="NOT A FEATURE YET!"
 (goto) 2>nul
 
 :1
-:ReinstallAuthy
+:ReinstallTelegram
 cls
-call :UninstallAuthy
-call :UpgradeAuthy
+call :UninstallTelegram
+call :UpgradeTelegram
 (goto) 2>nul
 
 :2
-:LaunchAuthy
-if not exist ".\bin\authy\Authy Desktop.exe" set "nag=PLEASE INSTALL AUTHY FIRST" && (goto) 2>nul
+:LaunchTelegram
+if not exist ".\bin\Telegram\Telegram.exe" set "nag=PLEASE INSTALL TELEGRAM FIRST" && (goto) 2>nul
 title DO NOT CLOSE
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 set "UserProfile=!folder!\data\"
 set "AppData=!folder!\data\AppData\Roaming\"
 set "LocalAppData=!folder!\data\AppData\Local\"
-REM start "" "command" allows spaces in filenames (not launching a cmd window)
-start "" ".\bin\authy\Authy Desktop.exe"
+cls
+echo TELEGRAM IS RUNNING
+start .\bin\Telegram\Telegram.exe
 exit
 
 :3
-:ResetAuthy
-cls
-rmdir /s /q ".\data\AppData\Roaming\Authy Desktop\"
+:ResetTelegram
+taskkill /f /im Telegram.exe
+rmdir /s /q .\bin\Telegram\tdata\
 (goto) 2>nul
 
 :4
-:UninstallAuthy
-cls
-taskkill /f /im "Authy Desktop.exe"
-rmdir /s /q ".\bin\authy\"
+:UninstallTelegram
+taskkill /f /im Telegram.exe
+rmdir /s /q .\bin\Telegram\
+del .\extra\win*_portable.zip
 (goto) 2>nul
 
 :5
 :UpdateCheck
 if exist version.txt del version.txt
 cls
-title Portable Authy Launcher - Helper Edition - Checking For Update
+title Portable Telegram Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
-set new_version=%Line_54%
+set new_version=%Line_70%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & (goto) 2>nul
 if %current_version% EQU %new_version% call :LatestBuild & (goto) 2>nul
 if %current_version% LSS %new_version% call :NewUpdate & (goto) 2>nul
@@ -103,9 +105,9 @@ call :ErrorOffline & (goto) 2>nul
 
 :6
 :About
-:cls
-del .\doc\authy_license.txt
-start launch_authy.bat
+cls
+del .\doc\telegram_license.txt
+start launch_telegram.bat
 exit
 
 :7
@@ -113,7 +115,7 @@ exit
 
 :a
 :DLLDownloaderCheck
-cls & title Portable Authy Launcher - Helper Edition - Download Dll Downloader
+cls & title Portable Telegram Launcher - Helper Edition - Download Dll Downloader
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
 cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
@@ -121,7 +123,7 @@ cls & start launch_dlldownloader.bat
 
 :b
 :PortableEverything
-cls & title Portable Authy Launcher - Helper Edition - Download Suite
+cls & title Portable Telegram Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
 cls & if exist launch_everything.bat.1 del launch_everything.bat & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
@@ -130,57 +132,38 @@ cls & start launch_everything.bat
 :c
 :QuicklauncherCheck
 cls
-title Portable Authy Launcher - Helper Edition - Quicklauncher Writer
-echo @echo off > quicklaunch_authy.bat
-echo Color 0A >> quicklaunch_authy.bat
-echo cls >> quicklaunch_authy.bat
-echo set "folder=%%CD%%" >> quicklaunch_authy.bat
-echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >> quicklaunch_authy.bat
-echo set "UserProfile=%%folder%%\data\" >> quicklaunch_authy.bat
-echo start "" ".\bin\authy\Authy Desktop.exe" >> quicklaunch_authy.bat
-echo exit >> quicklaunch_authy.bat
-echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_authy.bat
+title Portable telegram Launcher - Helper Edition - Quicklauncher Writer
+echo @echo off > quicklaunch_telegram.bat
+echo Color 0A >> quicklaunch_telegram.bat
+echo cls >> quicklaunch_telegram.bat
+echo set "folder=%%CD%%" >> quicklaunch_telegram.bat
+echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >> quicklaunch_telegram.bat
+echo set "UserProfile=%%folder%%\data\" >> quicklaunch_telegram.bat
+echo set "AppData=%%folder%%\data\AppData\Roaming\" >> quicklaunch_telegram.bat
+echo set "LocalAppData=%%folder%%\data\AppData\Local\" >> quicklaunch_telegram.bat
+echo cls >> quicklaunch_telegram.bat
+echo start .\bin\telegram\telegram.exe >> quicklaunch_telegram.bat
+echo exit >> quicklaunch_telegram.bat
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_telegram.bat
 echo ENTER TO CONTINUE & pause>nul:
 (goto) 2>nul
 
 :d
-:UpgradeAuthy
-cls
-set /a cycle1=2
-set /a cycle2=0
-set /a cycle3=0
-:loop
-set /a cycle3-=1
-if !cycle3!==-1 set /a cycle3=9 & set /a cycle2-=1
-if !cycle2!==-1 set /a cycle2=9 & set /a cycle1-=1
-if !cycle1!==-1 set /a cycle1=9 & echo nothing found?
-title checking v!cycle1!.!cycle2!.!cycle3!
-REM .\bin\wget.exe -q --show-progress --tries=1 https://s3.amazonaws.com/authy-electron-repository-production/stable/!cycle1!.!cycle2!.!cycle3!/win32/x64/authy-installer.exe
-if not exist .\bin\wget.exe call :HelperDownloadWget
-.\bin\wget.exe -q --show-progress --tries=1 "https://s3.amazonaws.com/authy-electron-repository-production/authy/stable/!cycle1!.!cycle2!.!cycle3!/win32/x64/Authy Desktop Setup !cycle1!.!cycle2!.!cycle3!.exe"
-if exist "Authy Desktop Setup !cycle1!.!cycle2!.!cycle3!.exe" goto extract
-goto loop
-:extract
-move "Authy Desktop Setup !cycle1!.!cycle2!.!cycle3!.exe" ".\extra\Authy Desktop Setup !cycle1!.!cycle2!.!cycle3!.exe"
-call :HelperExtract7Zip ".\extra\Authy Desktop Setup !cycle1!.!cycle2!.!cycle3!.exe" ".\temp\"
-del .\temp\background.gif
-del .\temp\Update.exe
-for %%d in (.\temp\authy*.nupkg) do set authy=%%d
-call :HelperExtract7Zip "!authy!" ".\temp\"
-if "!authy!" NEQ "" del "!authy!"
-xcopy .\temp\lib\net45\* .\bin\authy\ /e /i /y
-rmdir /s /q .\temp\
+:UpgradeTelegram
+title Portable Telegram Launcher - Expiremental Edition - Telegram Update Check
+if exist win!arch!_portable.zip del win!arch!_portable.zip
+call :HelperDownload "https://telegram.org/dl/desktop/win!arch!_portable" "win!arch!_portable.zip"
+:MoveTelegram
+move win!arch!_portable.zip .\extra\win!arch!_portable.zip
+:ExtractTelegram
+call :HelperExtract "!folder!\extra\win!arch!_portable.zip" "!folder!\bin\"
 (goto) 2>nul
 
 :e
-title Portable Authy Launcher - Helper Edition - Text-Reader Update Check
+title Portable Telegram Launcher - Helper Edition - Text-Reader Update Check
 cls
 REM IMPLEMENT THIS LATER
 set nag="NOT A FEATURE YET!"
-(goto) 2>nul
-
-call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
-start update-text-reader.bat
 (goto) 2>nul
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
@@ -189,19 +172,17 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 :FolderCheck
 cls
 if not exist .\bin\ mkdir .\bin\
-if not exist .\bin\authy\ mkdir .\bin\authy\
-if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
-REM dll folder check removed because dll downloader creates it
+if not exist .\data\ mkdir .\data\
+:: dll folder check removed because dll downloader creates it
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\helpers\ mkdir .\helpers\
 if not exist .\note\ mkdir .\note\
-if not exist ".\bin\authy\Authy Desktop.exe" set nag=AUTHY IS NOT INSTALLED CHOOSE "D"
 (goto) 2>nul
 
 :Version
 cls
-echo 4 > .\doc\version.txt
+echo 1 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -209,21 +190,21 @@ if exist .\doc\version.txt del .\doc\version.txt
 
 :Credits
 cls
-if exist .\doc\authy_license.txt (goto) 2>nul
-echo ================================================== > .\doc\authy_license.txt
-echo =              Script by MarioMasta64            = >> .\doc\authy_license.txt
-echo =           Script Version: v%current_version%- release        = >> .\doc\authy_license.txt
-echo ================================================== >> .\doc\authy_license.txt
-echo =You may Modify this WITH consent of the original= >> .\doc\authy_license.txt
-echo = creator, as long as you include a copy of this = >> .\doc\authy_license.txt
-echo =      as you include a copy of the License      = >> .\doc\authy_license.txt
-echo ================================================== >> .\doc\authy_license.txt
-echo =    You may also modify this script without     = >> .\doc\authy_license.txt
-echo =         consent for PERSONAL USE ONLY          = >> .\doc\authy_license.txt
-echo ================================================== >> .\doc\authy_license.txt
+if exist .\doc\telegram_license.txt (goto) 2>nul
+echo ================================================== > .\doc\telegram_license.txt
+echo =              Script by MarioMasta64            = >> .\doc\telegram_license.txt
+echo =           Script Version: v%current_version%- release        = >> .\doc\telegram_license.txt
+echo ================================================== >> .\doc\telegram_license.txt
+echo =You may Modify this WITH consent of the original= >> .\doc\telegram_license.txt
+echo = creator, as long as you include a copy of this = >> .\doc\telegram_license.txt
+echo =      as you include a copy of the License      = >> .\doc\telegram_license.txt
+echo ================================================== >> .\doc\telegram_license.txt
+echo =    You may also modify this script without     = >> .\doc\telegram_license.txt
+echo =         consent for PERSONAL USE ONLY          = >> .\doc\telegram_license.txt
+echo ================================================== >> .\doc\telegram_license.txt
 cls
-title Portable Authy Launcher - Helper Edition - About
-for /f "DELIMS=" %%i in (.\doc\authy_license.txt) do (echo %%i)
+title Portable Telegram Launcher - Helper Edition - About
+for /f "DELIMS=" %%i in (.\doc\telegram_license.txt) do (echo %%i)
 pause
 call :PingInstall
 (goto) 2>nul
@@ -232,7 +213,7 @@ REM if a script can be used between files then it can be put here and re-written
 REM stuff here will not be changed between programs
 
 :SetArch
-set arch=32
+set arch=
 if exist "%PROGRAMFILES(X86)%" set "arch=64"
 (goto) 2>nul
 
@@ -300,6 +281,15 @@ echo %1 > .\helpers\file.txt
 call launch_helpers.bat Hide
 (goto) 2>nul
 
+:HelperReplaceText
+REM v5+ Required
+echo 5 > .\helpers\version.txt
+echo %1 > .\helpers\file.txt
+echo %1 > .\helpers\oldtext.txt
+echo %1 > .\helpers\newtext.txt
+call launch_helpers.bat ReplaceText
+(goto) 2>nul
+
 :PingInstall
 for /F "skip=1 tokens=5" %%a in ('vol %~D0') do echo %%a>serial.txt
 set /a count=1 
@@ -324,17 +314,17 @@ call launch_helpers.bat DownloadWget
 
 :LatestBuild
 cls
-title Portable Authy Launcher - Helper Edition - Latest Build :D
+title Portable Telegram Launcher - Helper Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE & pause>nul:
-start launch_authy.bat
+start launch_telegram.bat
 exit
 
 :NewUpdate
 cls
-title Portable Authy Launcher - Helper Edition - Old Build D:
+title Portable Telegram Launcher - Helper Edition - Old Build D:
 echo %NAG%
 set nag="Selection Time!"
 echo you are using an older version
@@ -342,16 +332,16 @@ echo enter yes or no
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 set /p choice="Update?: "
-if "%choice%"=="yes" call :UpdateNow & (goto) 2>nul
+if "%choice%"=="yes" call :Update-Now & (goto) 2>nul
 if "%choice%"=="no" (goto) 2>nul
 set nag="please enter YES or NO"
-goto New-Update
+goto NewUpdate
 
 :UpdateNow
 cls & if not exist .\bin\wget.exe call :Download-Wget
-cls & title Portable Authy Launcher - Helper Edition - Updating Launcher
-call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_authy.bat" "launch_authy.bat.1"
-cls & if exist launch_authy.bat.1 goto ReplacerCreate
+cls & title Portable Telegram Launcher - Helper Edition - Updating Launcher
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_telegram.bat" "launch_telegram.bat.1"
+cls & if exist launch_telegram.bat.1 goto ReplacerCreate
 cls & call :ErrorOffline
 (goto) 2>nul
 
@@ -359,9 +349,9 @@ cls & call :ErrorOffline
 cls
 echo @echo off > replacer.bat
 echo Color 0A >> replacer.bat
-echo del launch_authy.bat >> replacer.bat
-echo rename launch_authy.bat.1 launch_authy.bat >> replacer.bat
-echo start launch_authy.bat >> replacer.bat
+echo del launch_telegram.bat >> replacer.bat
+echo rename launch_telegram.bat.1 launch_telegram.bat >> replacer.bat
+echo start launch_telegram.bat >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
 echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> replacer.bat
 call :HelperHide "replacer.bat"
@@ -369,13 +359,13 @@ exit
 
 :PreviewBuild
 cls
-title Portable Authy Launcher - Helper Edition - Test Build :0
+title Portable Telegram Launcher - Helper Edition - Test Build :0
 echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE & pause>nul:
-start launch_authy.bat
+start launch_telegram.bat
 exit
 
 :ErrorOffline
@@ -426,7 +416,7 @@ copy "%~f0" "%~f0.bak"
 
 :Cmd
 cls
-title Portable Authy Launcher - Helper Edition - Command Prompt - By MarioMasta64
+title Portable Telegram Launcher - Helper Edition - Command Prompt - By MarioMasta64
 ver
 echo (C) Copyright Microsoft Corporation. All rights reserved
 echo.
