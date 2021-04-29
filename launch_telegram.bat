@@ -10,8 +10,8 @@ if exist replacer.bat del replacer.bat
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
-call :FolderCheck
 call :SetArch
+call :FolderCheck
 call :Version
 call :Credits
 call :HelperCheck

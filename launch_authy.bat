@@ -11,8 +11,8 @@ if exist launch_authy_poc.bat del launch_authy_poc.bat
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
-call :FolderCheck
 call :SetArch
+call :FolderCheck
 call :Version
 call :Credits
 call :HelperCheck
