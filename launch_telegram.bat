@@ -152,9 +152,9 @@ echo ENTER TO CONTINUE & pause>nul:
 :UpgradeTelegram
 title Portable Telegram Launcher - Expiremental Edition - Telegram Update Check
 if exist win!arch!_portable.zip del win!arch!_portable.zip
-call :HelperDownload "https://telegram.org/dl/desktop/win!arch!_portable" "win!arch!_portable.zip"
+call :HelperDownload "https://telegram.org/dl/desktop/win!arch!_portable" "win!arch!_portable"
 :MoveTelegram
-move win!arch!_portable.zip .\extra\win!arch!_portable.zip
+move win!arch!_portable .\extra\win!arch!_portable.zip
 :ExtractTelegram
 call :HelperExtract "!folder!\extra\win!arch!_portable.zip" "!folder!\bin\"
 (goto) 2>nul
@@ -182,7 +182,7 @@ if not exist .\note\ mkdir .\note\
 
 :Version
 cls
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
