@@ -147,7 +147,8 @@ echo set "UserProfile=%%folder%%\data\" >> quicklaunch_obs.bat
 echo set "AppData=%%folder%%\data\AppData\Roaming\" >> quicklaunch_obs.bat
 echo set "LocalAppData=%%folder%%\data\AppData\Local\" >> quicklaunch_obs.bat
 echo cls >> quicklaunch_obs.bat
-echo start .\bin\obs\bin\%%arch%%Bit\obs%%arch%%.exe >> quicklaunch_obs.bat
+echo cd .\bin\obs\bin\%%arch%%Bit\ >> quicklaunch_obs.bat
+echo start obs%%arch%%.exe --portable >> quicklaunch_obs.bat
 echo exit >> quicklaunch_obs.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_obs.bat
 echo ENTER TO CONTINUE & pause>nul:
@@ -293,7 +294,7 @@ if not exist ".\bin\obs\bin\!arch!Bit\obs!arch!.exe" set nag=OBS IS NOT INSTALLE
 
 :Version
 cls
-echo 26 > .\doc\version.txt
+echo 27 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
