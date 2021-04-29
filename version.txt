@@ -27,7 +27,7 @@ kodi
 ppsspp
 7
 discord_canary
-7
+8
 discord
 9
 opera
