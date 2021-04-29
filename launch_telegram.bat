@@ -10,6 +10,7 @@ if exist replacer.bat del replacer.bat
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
+call :Alpha-To-Number
 call :SetArch
 call :FolderCheck
 call :Version
@@ -285,8 +286,8 @@ call launch_helpers.bat Hide
 REM v5+ Required
 echo 5 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
-echo %1 > .\helpers\oldtext.txt
-echo %1 > .\helpers\newtext.txt
+echo %2 > .\helpers\oldtext.txt
+echo %3 > .\helpers\newtext.txt
 call launch_helpers.bat ReplaceText
 (goto) 2>nul
 

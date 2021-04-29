@@ -10,6 +10,7 @@ if exist replacer.bat del replacer.bat
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
+call :Alpha-To-Number
 call :SetArch
 call :FolderCheck
 call :Version
@@ -159,7 +160,7 @@ title Portable Cemu Launcher - Helper Edition - Cemu Update Check
 if exist index.html del index.html
 call :HelperDownload "https://cemu.info/#Download" "index.html"
 for /f tokens^=2delims^=^" %%A in (
-  'findstr /i /c:"https://cemu.info/releases/" /c:"http://cemu.info/releases/" index.html'
+  'findstr /i /c:"https://cemu.info/releases/" /c:"https://cemu.info/releases/" index.html'
 ) Do > .\doc\cemu_link.txt Echo:%%A
 set /p cemu_link=<.\doc\cemu_link.txt
 set "cemu_zip=!cemu_link:~27,20!"
@@ -339,8 +340,8 @@ call launch_helpers.bat Hide
 REM v5+ Required
 echo 5 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
-echo %1 > .\helpers\oldtext.txt
-echo %1 > .\helpers\newtext.txt
+echo %2 > .\helpers\oldtext.txt
+echo %3 > .\helpers\newtext.txt
 call launch_helpers.bat ReplaceText
 (goto) 2>nul
 
