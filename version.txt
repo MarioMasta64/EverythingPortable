@@ -9,7 +9,7 @@ obs
 kaerusetup
 10
 cemu
-34
+35
 lastpass
 11
 qtemu
@@ -51,7 +51,7 @@ skype_poc
 project64_poc
 0
 authy
-3
+4
 lightshot_poc
 0
 winscp_poc
@@ -66,3 +66,5 @@ virtual_dj_poc
 0
 game_maker_studio_2_poc
 0
+telegram
+1
