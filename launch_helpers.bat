@@ -1,7 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
 Color 0A
-cls
 title Helper Launcher Beta
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE_OR_NO_UPDATES
@@ -16,7 +15,6 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-cls
 echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
@@ -26,6 +24,9 @@ exit /b
 set /p file=<.\helpers\file.txt
 set /p oldtext=<.\helpers\oldtext.txt
 set /p newtext=<.\helpers\newtext.txt
+echo %file%
+echo %oldtext%
+echo %newtext%
 if not exist .\helpers\replacetext.vbs call :CreateReplaceTextVBS
 cscript .\helpers\replacetext.vbs !file! !oldtext! !newtext! > nul
 del .\helpers\*.txt > nul
