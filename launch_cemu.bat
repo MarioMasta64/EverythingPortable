@@ -157,7 +157,7 @@ echo ENTER TO CONTINUE & pause>nul:
 
 :d
 :UpgradeCemu
-title Portable Cemu Launcher - Expiremental Edition - Cemu Update Check
+title Portable Cemu Launcher - Helper Edition - Cemu Update Check
 if exist index.html del index.html
 call :HelperDownload "https://cemu.info/#Download" "index.html"
 for /f tokens^=2delims^=^" %%A in (
