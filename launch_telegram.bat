@@ -173,16 +173,18 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 cls
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
-:: dll folder check removed because dll downloader creates it
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\helpers\ mkdir .\helpers\
 if not exist .\note\ mkdir .\note\
+if not exist .\data\AppData\Local\ mkdir .\data\AppData\Local\
+if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
+if not exist ".\bin\cemu\Cemu.exe" set nag=TELEGRAM IS NOT INSTALLED CHOOSE "D"
 (goto) 2>nul
 
 :Version
 cls
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"

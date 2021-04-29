@@ -178,7 +178,6 @@ cls
 REM IMPLEMENT THIS LATER
 set nag="NOT A FEATURE YET!"
 (goto) 2>nul
-
 call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
 start update-text-reader.bat
 (goto) 2>nul
@@ -189,19 +188,18 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 :FolderCheck
 cls
 if not exist .\bin\ mkdir .\bin\
-if not exist .\bin\authy\ mkdir .\bin\authy\
-if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
-REM dll folder check removed because dll downloader creates it
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\helpers\ mkdir .\helpers\
 if not exist .\note\ mkdir .\note\
-if not exist ".\bin\authy\Authy Desktop.exe" set nag=AUTHY IS NOT INSTALLED CHOOSE "D"
+if not exist .\data\AppData\Local\ mkdir .\data\AppData\Local\
+if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\ set nag=AUTHY IS NOT INSTALLED CHOOSE "D"Roaming\
+if not exist ".\bin\authy\Authy Desktop.exe" set nag=CEMU IS NOT INSTALLED CHOOSE "D"
 (goto) 2>nul
 
 :Version
 cls
-echo 4 > .\doc\version.txt
+echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"

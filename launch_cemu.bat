@@ -65,6 +65,7 @@ call :UpgradeCemu
 
 :2
 :LaunchCemu
+if not exist ".\bin\cemu\Cemu.exe" set "nag=PLEASE INSTALL CEMU FIRST" && (goto) 2>nul
 title DO NOT CLOSE
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
@@ -75,7 +76,6 @@ set "path=!PATH!;!folder!\dll\64\;"
 cls
 echo CEMU IS RUNNING
 cd bin\cemu*
-if not exist "Cemu" set "nag=PLEASE INSTALL CEMU FIRST" && (goto) 2>nul
 start Cemu.exe
 exit
 
@@ -227,16 +227,18 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 cls
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
-:: dll folder check removed because dll downloader creates it
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\helpers\ mkdir .\helpers\
 if not exist .\note\ mkdir .\note\
+if not exist .\data\AppData\Local\ mkdir .\data\AppData\Local\
+if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
+if not exist ".\bin\cemu\Cemu.exe" set nag=CEMU IS NOT INSTALLED CHOOSE "D"
 (goto) 2>nul
 
 :Version
 cls
-echo 35 > .\doc\version.txt
+echo 36 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
