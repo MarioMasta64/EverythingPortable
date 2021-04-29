@@ -441,7 +441,7 @@ goto CmdLoop
 
 :Relaunch
 echo @echo off > relaunch.bat
-echo cls >> relauncher.bat
+echo cls >> relaunch.bat
 echo Color 0A >> relaunch.bat
 echo start %~f0 >> relaunch.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
