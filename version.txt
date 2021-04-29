@@ -5,7 +5,7 @@ minecraft
 steam
 16
 obs
-25
+26
 kaerusetup
 10
 cemu
