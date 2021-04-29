@@ -77,7 +77,9 @@ exit
 
 :3
 :ResetVscode
-call :Null
+taskkill /f /im Code.exe
+rmdir /s /q .\data\.vscode\
+rmdir /s /q .\data\AppData\Roaming\Code\
 (goto) 2>nul
 
 :4
@@ -229,7 +231,7 @@ if not exist ".\bin\vscode!arch!\Code.exe" set nag=VSCODE IS NOT INSTALLED CHOOS
 
 :Version
 cls
-echo 8 > .\doc\version.txt
+echo 9 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
