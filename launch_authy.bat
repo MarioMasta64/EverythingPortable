@@ -194,7 +194,7 @@ if not exist .\helpers\ mkdir .\helpers\
 if not exist .\note\ mkdir .\note\
 if not exist .\data\AppData\Local\ mkdir .\data\AppData\Local\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\ set nag=AUTHY IS NOT INSTALLED CHOOSE "D"Roaming\
-if not exist ".\bin\authy\Authy Desktop.exe" set nag=CEMU IS NOT INSTALLED CHOOSE "D"
+if not exist ".\bin\authy\Authy Desktop.exe" set nag=AUTHY IS NOT INSTALLED CHOOSE "D"
 (goto) 2>nul
 
 :Version
