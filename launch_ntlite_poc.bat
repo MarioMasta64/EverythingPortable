@@ -57,8 +57,10 @@ rename "download@source=typ_redirect" innounp.rar
 move innounp.rar .\extra\innounp.rar
 :: is not required to be set. will be set in release
 .\bin\7-ZipPortable\App\7-Zip%arch%\7z.exe x .\extra\innounp.rar * -o.\bin\innounp\
-.\bin\wget.exe https://app.prntscr.com/build/setup-lightshot.exe
-move setup-lightshot.exe .\extra\setup-lightshot.exe
+.\bin\wget.exe http://downloads.ntlite.com/files/NTLite_setup_x64.exe
+.\bin\wget.exe http://downloads.ntlite.com/files/NTLite_setup_x86.exe
+move NTLite_setup_x64.exe .\extra\NTLite_setup_x64.exe
+move NTLite_setup_x86.exe .\extra\NTLite_setup_x86.exe
 
 :e
 .\bin\innounp\innounp.exe -q -x -y -dtemp\64 .\extra\NTLite_setup_x64.exe
