@@ -148,7 +148,7 @@ cls & start launch_everything.bat
 :c
 :QuicklauncherCheck
 cls
-title Portable steam Launcher - Helper Edition - Quicklauncher Writer
+title Portable Steam Launcher - Helper Edition - Quicklauncher Writer
 echo @echo off > quicklaunch_steam.bat
 echo Color 0A >> quicklaunch_steam.bat
 echo cls >> quicklaunch_steam.bat
@@ -191,8 +191,8 @@ call :HelperExtract7Zip "!folder!\extra\SteamSetup.exe" "!folder!\bin\steam\"
 :e
 title Portable Steam Launcher - Helper Edition - Text-Reader Update Check
 cls
-REM IMPLEMENT THIS LATER
-set nag="NOT A FEATURE YET!"
+call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
+start "" "update-text-reader.bat"
 (goto) 2>nul
 
 :f
@@ -386,7 +386,6 @@ set nag="please enter YES or NO"
 goto NewUpdate
 
 :UpdateNow
-cls & if not exist .\bin\wget.exe call :Download-Wget
 cls & title Portable Steam Launcher - Helper Edition - Updating Launcher
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_steam.bat" "launch_steam.bat.1"
 cls & if exist launch_steam.bat.1 goto ReplacerCreate

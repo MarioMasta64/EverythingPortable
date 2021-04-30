@@ -232,8 +232,8 @@ call :HelperExtract "!folder!\extra\!obs_zip!" "!folder!\bin\obs\"
 :e
 title Portable OBS Launcher - Helper Edition - Text-Reader Update Check
 cls
-REM IMPLEMENT THIS LATER
-set nag="NOT A FEATURE YET!"
+call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
+start "" "update-text-reader.bat"
 (goto) 2>nul
 
 :f
@@ -450,7 +450,6 @@ set nag="please enter YES or NO"
 goto NewUpdate
 
 :UpdateNow
-cls & if not exist .\bin\wget.exe call :Download-Wget
 cls & title Portable OBS Launcher - Helper Edition - Updating Launcher
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_obs.bat" "launch_obs.bat.1"
 cls & if exist launch_obs.bat.1 goto ReplacerCreate

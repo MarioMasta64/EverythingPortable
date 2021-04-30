@@ -134,7 +134,7 @@ cls & start launch_everything.bat
 :c
 :QuicklauncherCheck
 cls
-title PORTABLE VSCODE LAUNCHER - QUICKLAUNCHER WRITER
+title Portable Vscode Launcher - Helper Edition - QuickLauncher Writer
 echo @echo off > quicklaunch_vscode.bat >> quicklaunch_vscode.bat
 echo Color 0A >> quicklaunch_vscode.bat >> quicklaunch_vscode.bat
 echo cls >> quicklaunch_vscode.bat
@@ -178,8 +178,8 @@ call :HelperExtract "!folder!\extra\vscode!arch!.zip" "!folder!\bin\vscode!arch!
 :e
 title Portable Vscode Launcher - Helper Edition - Text-Reader Update Check
 cls
-REM IMPLEMENT THIS LATER
-set nag="NOT A FEATURE YET!"
+call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
+start "" "update-text-reader.bat"
 (goto) 2>nul
 
 :f
@@ -388,7 +388,6 @@ set nag="please enter YES or NO"
 goto NewUpdate
 
 :UpdateNow
-cls & if not exist .\bin\wget.exe call :Download-Wget
 cls & title Portable Vscode Launcher - Helper Edition - Updating Launcher
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_vscode.bat" "launch_vscode.bat.1"
 cls & if exist launch_vscode.bat.1 goto ReplacerCreate
