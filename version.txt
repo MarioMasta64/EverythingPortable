@@ -55,7 +55,7 @@ authy
 lightshot_poc
 0
 winscp_poc
-0
+1
 twitch_poc
 0
 firefox_poc
