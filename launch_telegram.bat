@@ -65,9 +65,6 @@ call :UpgradeTelegram
 :LaunchTelegram
 if not exist ".\bin\Telegram\Telegram.exe" set "nag=PLEASE INSTALL TELEGRAM FIRST" && (goto) 2>nul
 title DO NOT CLOSE
-set "UserProfile=!folder!\data\"
-set "AppData=!folder!\data\AppData\Roaming\"
-set "LocalAppData=!folder!\data\AppData\Local\"
 cls
 echo TELEGRAM IS RUNNING
 start .\bin\Telegram\Telegram.exe
@@ -170,6 +167,9 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
+set "UserProfile=!folder!\data\"
+set "AppData=!folder!\data\AppData\Roaming\"
+set "LocalAppData=!folder!\data\AppData\Local\"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
 if not exist .\doc\ mkdir .\doc\

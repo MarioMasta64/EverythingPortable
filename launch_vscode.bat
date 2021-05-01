@@ -68,9 +68,6 @@ call :UpgradeVscode
 :LaunchVscode
 if not exist ".\bin\vscode!arch!\Code.exe" set "nag=PLEASE INSTALL VSCODE FIRST" && (goto) 2>nul
 title DO NOT CLOSE
-set "UserProfile=!folder!\data\"
-set "AppData=!folder!%\data\AppData\Roaming\"
-set "LocalAppData=!folder!\data\AppData\Local\"
 cls
 echo VSCODE IS RUNNING
 start "" ".\bin\vscode!arch!\Code.exe"
@@ -215,6 +212,9 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
+set "UserProfile=!folder!\data\"
+set "AppData=!folder!\data\AppData\Roaming\"
+set "LocalAppData=!folder!\data\AppData\Local\"
 if not exist .\bin\ mkdir .\bin\
 if not exist ".\bin\vscode!arch!\" mkdir ".\bin\vscode!arch!\"
 if not exist .\data\ mkdir .\data\

@@ -71,9 +71,6 @@ call :UpgradeWinSCP
 :LaunchWinSCP
 if not exist ".\bin\WinSCP\WinSCP.exe" set "nag=PLEASE INSTALL WINSCP FIRST" && (goto) 2>nul
 title DO NOT CLOSE
-set "UserProfile=!folder!\data\"
-set "AppData=!folder!\data\AppData\Roaming\"
-set "LocalAppData=!folder!\data\AppData\Local\"
 cls
 echo WINSCP IS RUNNING
 cd .\bin\WinSCP\
@@ -273,9 +270,6 @@ move winscppwd.exe .\bin\WinSCP\winscppwd.exe
 
 :h
 :LaunchPutty
-set "UserProfile=!folder!\data\"
-set "AppData=!folder!\data\AppData\Roaming\"
-set "LocalAppData=!folder!\data\AppData\Local\"
 cls
 echo PUTTY IS RUNNING
 cd .\bin\WinSCP\
@@ -300,6 +294,9 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
+set "UserProfile=!folder!\data\"
+set "AppData=!folder!\data\AppData\Roaming\"
+set "LocalAppData=!folder!\data\AppData\Local\"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
 if not exist .\doc\ mkdir .\doc\

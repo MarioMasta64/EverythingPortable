@@ -71,9 +71,6 @@ if not exist ".\bin\steam\steam.exe" set "nag=PLEASE INSTALL STEAM FIRST" && (go
 :: xcopy /q ".\data\AppData\locallow\*" "%UserProfile%\data\AppData\LocalLow" /e /i /y
 title DO NOT CLOSE
 set "CommonProgramFiles(X86)=!folder!\bin\CommonFiles\"
-set "UserProfile=!folder!\data\"
-set "AppData=!folder!\data\AppData\Roaming\"
-set "LocalAppData=!folder!\data\AppData\Local\"
 set "Path=!PATH!;!folder!\dll\32\;"
 cls
 echo STEAM IS RUNNING
@@ -215,6 +212,9 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
+set "UserProfile=!folder!\data\"
+set "AppData=!folder!\data\AppData\Roaming\"
+set "LocalAppData=!folder!\data\AppData\Local\"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\

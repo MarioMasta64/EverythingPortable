@@ -38,6 +38,8 @@ echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo.
 echo d. check for new citra version [automatically check for a new version]
 echo.
+echo e. install text-reader [update if had]
+echo.
 set /p choice="enter a number and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver > nul
@@ -63,9 +65,6 @@ call :UpgradeCitra
 :Launch-Citra
 if not exist ".\bin\citra\citra-qt.exe" set "nag=PLEASE INSTALL CITRA FIRST" && (goto) 2>nul
 title DO NOT CLOSE
-set "UserProfile=!folder!\data\"
-set "AppData=!folder!\data\AppData\Roaming\"
-set "LocalAppData=!folder!\data\AppData\Local\"
 set "path=!PATH!;!folder!\dll\64\;"
 cls
 echo CITRA IS RUNNING
@@ -170,11 +169,22 @@ rmdir /s /q .\bin\citra\nightly-mingw\
 rmdir /s /q "!AppData!\Microsoft\Windows\Start Menu\Programs\Citra\"
 (goto) 2>nul
 
+:e
+cls
+title Portable Citra Launcher - Helper Edition - Text-Reader Update Check
+cls
+call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
+start "" "update-text-reader.bat"
+(goto) 2>nul
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
+set "UserProfile=!folder!\data\"
+set "AppData=!folder!\data\AppData\Roaming\"
+set "LocalAppData=!folder!\data\AppData\Local\"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
 if not exist .\doc\ mkdir .\doc\
@@ -344,7 +354,6 @@ set nag="please enter YES or NO"
 goto NewUpdate
 
 :UpdateNow
-cls & if not exist .\bin\wget.exe call :Download-Wget
 cls & title Portable Citra Launcher - Helper Edition - Updating Launcher
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_citra.bat" "launch_citra.bat.1"
 cls & if exist launch_citra.bat.1 goto ReplacerCreate

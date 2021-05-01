@@ -65,9 +65,6 @@ call :UpgradeDiscord
 :LaunchDiscord
 if not exist ".\bin\discord\Discord.exe" set "nag=PLEASE INSTALL DISCORD FIRST" && (goto) 2>nul
 title DO NOT CLOSE
-set "UserProfile=!folder!\data\"
-set "AppData=!folder!\data\AppData\Roaming\"
-set "LocalAppData=!folder!\data\AppData\Local\"
 cls
 echo DISCORD IS RUNNING
 start .\bin\discord\Discord.exe
@@ -131,7 +128,7 @@ cls & start launch_everything.bat
 :c
 :QuicklauncherCheck
 cls
-title Portable discord Launcher - Helper Edition - Quicklauncher Writer
+title Portable Discord Launcher - Helper Edition - Quicklauncher Writer
 echo @echo off > quicklaunch_discord.bat
 echo Color 0A >> quicklaunch_discord.bat
 echo cls >> quicklaunch_discord.bat
@@ -170,8 +167,8 @@ rmdir /s /q .\temp\
 :e
 title Portable Discord Launcher - Helper Edition - Text-Reader Update Check
 cls
-REM IMPLEMENT THIS LATER
-set nag="NOT A FEATURE YET!"
+call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
+start "" "update-text-reader.bat"
 (goto) 2>nul
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
@@ -179,6 +176,9 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
+set "UserProfile=!folder!\data\"
+set "AppData=!folder!\data\AppData\Roaming\"
+set "LocalAppData=!folder!\data\AppData\Local\"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
 if not exist .\doc\ mkdir .\doc\
@@ -348,7 +348,6 @@ set nag="please enter YES or NO"
 goto NewUpdate
 
 :UpdateNow
-cls & if not exist .\bin\wget.exe call :Download-Wget
 cls & title Portable Discord Launcher - Helper Edition - Updating Launcher
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_discord.bat" "launch_discord.bat.1"
 cls & if exist launch_discord.bat.1 goto ReplacerCreate

@@ -68,9 +68,6 @@ call :UpgradeCemu
 :LaunchCemu
 if not exist ".\bin\cemu\Cemu.exe" set "nag=PLEASE INSTALL CEMU FIRST" && (goto) 2>nul
 title DO NOT CLOSE
-set "UserProfile=!folder!\data\"
-set "AppData=!folder!\data\AppData\Roaming\"
-set "LocalAppData=!folder!\data\AppData\Local\"
 set "path=!PATH!;!folder!\dll\64\;"
 cls
 echo CEMU IS RUNNING
@@ -207,8 +204,8 @@ if exist ..\launch_cemu.bat cd ..
 :e
 title Portable Cemu Launcher - Helper Edition - Text-Reader Update Check
 cls
-REM IMPLEMENT THIS LATER
-set nag="NOT A FEATURE YET!"
+call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
+start "" "update-text-reader.bat"
 (goto) 2>nul
 
 :f
@@ -224,6 +221,9 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
+set "UserProfile=!folder!\data\"
+set "AppData=!folder!\data\AppData\Roaming\"
+set "LocalAppData=!folder!\data\AppData\Local\"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
 if not exist .\doc\ mkdir .\doc\
@@ -393,7 +393,6 @@ set nag="please enter YES or NO"
 goto NewUpdate
 
 :UpdateNow
-cls & if not exist .\bin\wget.exe call :Download-Wget
 cls & title Portable Cemu Launcher - Helper Edition - Updating Launcher
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_cemu.bat" "launch_cemu.bat.1"
 cls & if exist launch_cemu.bat.1 goto ReplacerCreate

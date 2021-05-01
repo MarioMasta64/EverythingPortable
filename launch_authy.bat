@@ -66,9 +66,6 @@ call :UpgradeAuthy
 :LaunchAuthy
 if not exist ".\bin\authy\Authy Desktop.exe" set "nag=PLEASE INSTALL AUTHY FIRST" && (goto) 2>nul
 title DO NOT CLOSE
-set "UserProfile=!folder!\data\"
-set "AppData=!folder!\data\AppData\Roaming\"
-set "LocalAppData=!folder!\data\AppData\Local\"
 REM start "" "command" allows spaces in filenames (not launching a cmd window)
 start "" ".\bin\authy\Authy Desktop.exe"
 exit
@@ -176,11 +173,8 @@ rmdir /s /q .\temp\
 :e
 title Portable Authy Launcher - Helper Edition - Text-Reader Update Check
 cls
-REM IMPLEMENT THIS LATER
-set nag="NOT A FEATURE YET!"
-(goto) 2>nul
 call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
-start update-text-reader.bat
+start "" "update-text-reader.bat"
 (goto) 2>nul
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
@@ -188,6 +182,9 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
+set "UserProfile=!folder!\data\"
+set "AppData=!folder!\data\AppData\Roaming\"
+set "LocalAppData=!folder!\data\AppData\Local\"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
@@ -356,7 +353,6 @@ set nag="please enter YES or NO"
 goto New-Update
 
 :UpdateNow
-cls & if not exist .\bin\wget.exe call :Download-Wget
 cls & title Portable Authy Launcher - Helper Edition - Updating Launcher
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_authy.bat" "launch_authy.bat.1"
 cls & if exist launch_authy.bat.1 goto ReplacerCreate

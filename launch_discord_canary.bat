@@ -65,9 +65,6 @@ call :UpgradeDiscordCanary
 :LaunchDiscordCanary
 if not exist ".\bin\discord_canary\DiscordCanary.exe" set "nag=PLEASE INSTALL DISCORD FIRST" && (goto) 2>nul
 title DO NOT CLOSE
-set "UserProfile=!folder!\data\"
-set "AppData=!folder!\data\AppData\Roaming\"
-set "LocalAppData=!folder!\data\AppData\Local\"
 cls
 echo DISCORD IS RUNNING
 start .\bin\discord_canary\DiscordCanary.exe
@@ -179,6 +176,9 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
+set "UserProfile=!folder!\data\"
+set "AppData=!folder!\data\AppData\Roaming\"
+set "LocalAppData=!folder!\data\AppData\Local\"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
 if not exist .\doc\ mkdir .\doc\
