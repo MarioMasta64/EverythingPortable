@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 setlocal enableextensions
 Color 0A
 cls
-title Portable Cemu Launcher - Helper Edition
+title Portable Project64 Launcher - Helper Edition
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE_OR_NO_UPDATES
 if exist replacer.bat del replacer.bat
@@ -16,19 +16,18 @@ call :FolderCheck
 call :Version
 call :Credits
 call :HelperCheck
-call :v19UpgradeCheck
 
 :Menu
 cls
-title Portable Cemu Launcher - Helper Edition - Main Menu
+title Portable Project64 Launcher - Helper Edition - Main Menu
 echo %NAG%
 set nag="Selection Time!"
-echo 1. reinstall cemu [will remove cemu entirely]
-echo 2. launch cemu [launches cemu]
-echo 3. reset cemu [will remove everything cemu except the binary]
-echo 4. uninstall cemu [Maybe Buy A WiiU :^^)]
+echo 1. reinstall project64 [will remove project64 entirely]
+echo 2. launch project64 [launches project64]
+echo 3. reset project64 [will remove everything project64 except the binary]
+echo 4. uninstall project64 [Super Mario 3D All-Stars]]
 echo 5. update script [check for updates]
-echo 6. about [shoulda named this credits]
+echo 6. credits [credits]
 echo 7. exit [EXIT]
 echo.
 echo a. download dll's [dll errors anyone?]
@@ -37,11 +36,9 @@ echo b. download other projects [check out my other stuff]
 echo.
 echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo.
-echo d. check for new cemu version [automatically check for a new version]
+echo d. check for new project64 version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
-echo.
-echo f. download mod's [want cemu hook or something?]
 echo.
 set /p choice="enter a number and press enter to confirm: "
 :: sets errorlevel to 0 (?)
@@ -58,46 +55,46 @@ set nag="NOT A FEATURE YET!"
 (goto) 2>nul
 
 :1
-:ReinstallCemu
+:ReinstallProject64
 cls
-call :UninstallCemu
-call :UpgradeCemu
+call :UninstallProject64
+call :UpgradeProject64
 (goto) 2>nul
 
 :2
-:LaunchCemu
-if not exist ".\bin\cemu\Cemu.exe" set "nag=PLEASE INSTALL CEMU FIRST" && (goto) 2>nul
+:LaunchProject64
+if not exist ".\bin\project64\Project64.exe" set "nag=PLEASE INSTALL PROJECT46 FIRST" && (goto) 2>nul
 title DO NOT CLOSE
-set "path=!PATH!;!folder!\dll\64\;"
 cls
-echo CEMU IS RUNNING
-cd bin\cemu*
-start Cemu.exe
+echo PROJECT46 IS RUNNING
+start .\bin\project64\Project64.exe
 exit
 
 :3
-:ResetCemu
-cls
-rmdir /s /q ".\data\AppData\Local\Cemu\"
+:ResetProject64
+rmdir /s /q .\bin\project64\Config\
+rmdir /s /q .\bin\project64\Logs\
+rmdir /s /q .\bin\project64\Save\
+rmdir /s /q .\bin\project64\Screenshots\
 (goto) 2>nul
 
 :4
-:UninstallCemu
-cls
-taskkill /f /im "Cemu.exe"
-rmdir /s /q .\bin\cemu\
-del .\extra\cemu* >nul
+:UninstallProject64
+taskkill /f /im Project64.exe
+del .\bin\project64\Project64.exe
+rmdir /s /q .\bin\project64\Plugin\
+del .\extra\*Project64*.exe
 (goto) 2>nul
 
 :5
 :UpdateCheck
 if exist version.txt del version.txt
 cls
-title Portable Cemu Launcher - Helper Edition - Checking For Update
+title Portable Project64 Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
-set new_version=%Line_12%
+set new_version=%Line_52%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & (goto) 2>nul
 if %current_version% EQU %new_version% call :LatestBuild & (goto) 2>nul
 if %current_version% LSS %new_version% call :NewUpdate & (goto) 2>nul
@@ -108,8 +105,8 @@ call :ErrorOffline & (goto) 2>nul
 :6
 :About
 cls
-del .\doc\cemu_license.txt
-start launch_cemu.bat
+del .\doc\project64_license.txt
+start launch_project64.bat
 exit
 
 :7
@@ -117,7 +114,7 @@ exit
 
 :a
 :DLLDownloaderCheck
-cls & title Portable Cemu Launcher - Helper Edition - Download Dll Downloader
+cls & title Portable Project64 Launcher - Helper Edition - Download Dll Downloader
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
 cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
@@ -125,7 +122,7 @@ cls & start launch_dlldownloader.bat
 
 :b
 :PortableEverything
-cls & title Portable Cemu Launcher - Helper Edition - Download Suite
+cls & title Portable Project64 Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
 cls & if exist launch_everything.bat.1 del launch_everything.bat & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
@@ -134,86 +131,58 @@ cls & start launch_everything.bat
 :c
 :QuicklauncherCheck
 cls
-title Portable Cemu Launcher - Helper Edition - Quicklauncher Writer
-echo @echo off > quicklaunch_cemu.bat
-echo Color 0A >> quicklaunch_cemu.bat
-echo cls >> quicklaunch_cemu.bat
-echo set "folder=%%CD%%" >> quicklaunch_cemu.bat
-echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >> quicklaunch_cemu.bat
-echo set "UserProfile=%%folder%%\data\" >> quicklaunch_cemu.bat
-echo set "AppData=%%folder%%\data\AppData\Roaming\" >> quicklaunch_cemu.bat
-echo set "LocalAppData=%%folder%%\data\AppData\Local\" >> quicklaunch_cemu.bat
-echo set path="%%PATH%%;%%folder%%\dll\64\;" >> quicklaunch_cemu.bat
-echo cls >> quicklaunch_cemu.bat
-echo start .\bin\cemu\Cemu.exe >> quicklaunch_cemu.bat
-echo exit >> quicklaunch_cemu.bat
-echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_cemu.bat
+title Portable Project64 Launcher - Helper Edition - Quicklauncher Writer
+echo @echo off > quicklaunch_project64.bat
+echo Color 0A >> quicklaunch_project64.bat
+echo cls >> quicklaunch_project64.bat
+echo set "folder=%%CD%%" >> quicklaunch_project64.bat
+echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >> quicklaunch_project64.bat
+echo set "UserProfile=%%folder%%\data\" >> quicklaunch_project64.bat
+echo set "AppData=%%folder%%\data\AppData\Roaming\" >> quicklaunch_project64.bat
+echo set "LocalAppData=%%folder%%\data\AppData\Local\" >> quicklaunch_project64.bat
+echo cls >> quicklaunch_project64.bat
+echo start .\bin\project64\project64.exe >> quicklaunch_project64.bat
+echo exit >> quicklaunch_project64.bat
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_project64.bat
 echo ENTER TO CONTINUE & pause>nul:
 (goto) 2>nul
 
 :d
-:UpgradeCemu
-title Portable Cemu Launcher - Helper Edition - Cemu Update Check
-if exist index.html del index.html
-call :HelperDownload "https://cemu.info/#Download" "index.html"
-for /f tokens^=2delims^=^" %%A in (
-  'findstr /i /c:"https://cemu.info/releases/" /c:"https://cemu.info/releases/" index.html'
-) Do > .\doc\cemu_link.txt Echo:%%A
-set /p cemu_link=<.\doc\cemu_link.txt
-set "cemu_zip=!cemu_link:~27,20!"
-if exist index.html del index.html
+:UpgradeProject64
 cls
-set broke=0
-if exist .\extra\!cemu_zip! (
-  echo cemu is updated.
+title Portable Project64 Launcher - Helper Edition - Project64 Update Check
+if exist project64-latest* del project64-latest*
+call :HelperDownload "http://www.pj64-emu.com/download/project64-latest" "project64-latest"
+for /f tokens^=2delims^=^" %%A in (
+  'findstr /i /c:"project64-" /c:"project64-" project64-latest'
+) Do > project64_link.txt Echo:%%A
+del project64-latest
+set /p project64_link=<project64_link.txt
+set "project64_exe=Setup Project64 v!project64_link:~23,1!.!project64_link:~25,1!.!project64_link:~27,1!-!project64_link:~29,3!-!project64_link:~33,-1!.exe"
+echo "http://www.pj64-emu.com!project64_link!"
+echo "!project64_exe!"
+del project64_link.txt
+REM pause
+:DownloadProject64
+if exist .\extra\!project64_exe! (
+  echo project64 is updated.
   pause
   exit /b
 )
-cls
-set "cemu_txt=!cemu_zip:~0,-4!"
-set "cemu_txt=!cemu_txt:.=_!"
-set "cemu_txt=http://cemu.info/changelog/!cemu_txt!.txt"
-echo "!cemu_zip!"
-echo "!cemu_txt!"
-echo "!cemu_txt:~27!"
-if not exist ".\doc\!cemu_txt:~27!" call :HelperDownload "!cemu_txt!" "!cemu_txt:~27!" & move "!cemu_txt:~27!" ".\doc\!cemu_txt:~27!"
-if exist batch-read.bat pause & call batch-read ".\doc\!cemu_txt:~27!" 10 1
-echo upgrading to cemu v!cemu_zip:~5,-4!
-del /q cemu*.zip>nul:
-call :HelperDownload "!cemu_link!" "!cemu_zip!"
-if not exist !cemu_zip! call :ErrorOffline & (goto) 2>nul
-if exist !cemu_zip! move !cemu_zip! .\extra\!cemu_zip!
-call :HelperExtract "!folder!\extra\!cemu_zip!" "!folder!\bin\cemu\"
-cd bin
-if exist cemu cd cemu
-if exist "!cemu_zip:~0,-4!" cd "!cemu_zip:~0,-4!"
-if exist "!cemu_zip:~0,4!!cemu_zip:~5,-4!" cd "!cemu_zip:~0,4!!cemu_zip:~5,-4!"
-if not exist ..\wget.exe (
-  if not exist ..\cemu_always_updated.bat (
-    xcopy * ..\ /e /i /y
-    cd ..
-  )
-  for /D %%A IN ("cemu*") DO echo rmdir /s /q "%%A"
-  if exist "!cemu_zip:~0,-4!" rmdir /s /q "!cemu_zip:~0,-4!"
-  if exist "!cemu_zip:~0,4!!cemu_zip:~5,-4!" rmdir /s /q "!cemu_zip:~0,4!!cemu_zip:~5,-4!"
-)
-if exist ..\wget.exe cd ..
-if exist ..\launch_cemu.bat cd ..
+call :HelperDownload "http://www.pj64-emu.com!project64_link!" "!project64_exe!"
+:MoveProject64
+move "index.html" ".\extra\!project64_exe!"
+:ExtractProject64
+call :HelperExtractInno "!folder!\extra\!project64_exe!" "!folder!\temp\"
+xcopy .\temp\{app}\* .\bin\project64\ /e /i /y
+rmdir /s /q .\temp\
 (goto) 2>nul
 
 :e
-title Portable Cemu Launcher - Helper Edition - Text-Reader Update Check
+title Portable Project64 Launcher - Helper Edition - Text-Reader Update Check
 cls
 call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
 start "" "update-text-reader.bat"
-(goto) 2>nul
-
-:f
-:ModDownloaderCheck
-cls & title Portable Cemu Launcher - Helper Edition - Download Suite
-call :HelperDownload "https://github.com/MarioMasta64/ModDownloaderPortable/raw/master/launch_cemu_moddownloader.bat" "launch_cemu_moddownloader.bat.1"
-cls & if exist launch_cemu_moddownloader.bat.1 del launch_cemu_moddownloader.bat
-cls & start launch_cemu_moddownloader.bat
 (goto) 2>nul
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
@@ -232,12 +201,12 @@ if not exist .\helpers\ mkdir .\helpers\
 if not exist .\note\ mkdir .\note\
 if not exist .\data\AppData\Local\ mkdir .\data\AppData\Local\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
-if not exist ".\bin\cemu\Cemu.exe" set nag=CEMU IS NOT INSTALLED CHOOSE "D"
+if not exist ".\bin\project64\Project64.exe" set nag=PROJECT46 IS NOT INSTALLED CHOOSE "D"
 (goto) 2>nul
 
 :Version
 cls
-echo 36 > .\doc\version.txt
+echo 1 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -245,21 +214,21 @@ if exist .\doc\version.txt del .\doc\version.txt
 
 :Credits
 cls
-if exist .\doc\cemu_license.txt (goto) 2>nul
-echo ================================================== > .\doc\cemu_license.txt
-echo =              Script by MarioMasta64            = >> .\doc\cemu_license.txt
-echo =           Script Version: v%current_version%- release        = >> .\doc\cemu_license.txt
-echo ================================================== >> .\doc\cemu_license.txt
-echo =You may Modify this WITH consent of the original= >> .\doc\cemu_license.txt
-echo = creator, as long as you include a copy of this = >> .\doc\cemu_license.txt
-echo =      as you include a copy of the License      = >> .\doc\cemu_license.txt
-echo ================================================== >> .\doc\cemu_license.txt
-echo =    You may also modify this script without     = >> .\doc\cemu_license.txt
-echo =         consent for PERSONAL USE ONLY          = >> .\doc\cemu_license.txt
-echo ================================================== >> .\doc\cemu_license.txt
+if exist .\doc\project64_license.txt (goto) 2>nul
+echo ================================================== > .\doc\project64_license.txt
+echo =              Script by MarioMasta64            = >> .\doc\project64_license.txt
+echo =           Script Version: v%current_version%- release        = >> .\doc\project64_license.txt
+echo ================================================== >> .\doc\project64_license.txt
+echo =You may Modify this WITH consent of the original= >> .\doc\project64_license.txt
+echo = creator, as long as you include a copy of this = >> .\doc\project64_license.txt
+echo =      as you include a copy of the License      = >> .\doc\project64_license.txt
+echo ================================================== >> .\doc\project64_license.txt
+echo =    You may also modify this script without     = >> .\doc\project64_license.txt
+echo =         consent for PERSONAL USE ONLY          = >> .\doc\project64_license.txt
+echo ================================================== >> .\doc\project64_license.txt
 cls
-title Portable Cemu Launcher - Helper Edition - About
-for /f "DELIMS=" %%i in (.\doc\cemu_license.txt) do (echo %%i)
+title Portable Project64 Launcher - Helper Edition - About
+for /f "DELIMS=" %%i in (.\doc\project64_license.txt) do (echo %%i)
 pause
 call :PingInstall
 (goto) 2>nul
@@ -268,7 +237,7 @@ REM if a script can be used between files then it can be put here and re-written
 REM stuff here will not be changed between programs
 
 :SetArch
-set arch=32
+set arch=
 if exist "%PROGRAMFILES(X86)%" set "arch=64"
 (goto) 2>nul
 
@@ -377,17 +346,17 @@ call launch_helpers.bat DownloadWget
 
 :LatestBuild
 cls
-title Portable Cemu Launcher - Helper Edition - Latest Build :D
+title Portable Project64 Launcher - Helper Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE & pause>nul:
-start launch_cemu.bat
+start launch_project64.bat
 exit
 
 :NewUpdate
 cls
-title Portable Cemu Launcher - Helper Edition - Old Build D:
+title Portable Project64 Launcher - Helper Edition - Old Build D:
 echo %NAG%
 set nag="Selection Time!"
 echo you are using an older version
@@ -401,9 +370,9 @@ set nag="please enter YES or NO"
 goto NewUpdate
 
 :UpdateNow
-cls & title Portable Cemu Launcher - Helper Edition - Updating Launcher
-call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_cemu.bat" "launch_cemu.bat.1"
-cls & if exist launch_cemu.bat.1 goto ReplacerCreate
+cls & title Portable Project64 Launcher - Helper Edition - Updating Launcher
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_project64.bat" "launch_project64.bat.1"
+cls & if exist launch_project64.bat.1 goto ReplacerCreate
 cls & call :ErrorOffline
 (goto) 2>nul
 
@@ -411,9 +380,9 @@ cls & call :ErrorOffline
 cls
 echo @echo off > replacer.bat
 echo Color 0A >> replacer.bat
-echo del launch_cemu.bat >> replacer.bat
-echo rename launch_cemu.bat.1 launch_cemu.bat >> replacer.bat
-echo start launch_cemu.bat >> replacer.bat
+echo del launch_project64.bat >> replacer.bat
+echo rename launch_project64.bat.1 launch_project64.bat >> replacer.bat
+echo start launch_project64.bat >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
 echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> replacer.bat
 call :HelperHide "replacer.bat"
@@ -421,13 +390,13 @@ exit
 
 :PreviewBuild
 cls
-title Portable Cemu Launcher - Helper Edition - Test Build :0
+title Portable Project64 Launcher - Helper Edition - Test Build :0
 echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE & pause>nul:
-start launch_cemu.bat
+start launch_project64.bat
 exit
 
 :ErrorOffline
@@ -478,7 +447,7 @@ copy "%~f0" "%~f0.bak"
 
 :Cmd
 cls
-title Portable Cemu Launcher - Helper Edition - Command Prompt - By MarioMasta64
+title Portable Project64 Launcher - Helper Edition - Command Prompt - By MarioMasta64
 ver
 echo (C) Copyright Microsoft Corporation. All rights reserved
 echo.
@@ -502,42 +471,3 @@ echo start %~f0 >> relaunch.bat
 echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> relaunch.bat
 call :HelperHide "relaunch.bat"
 exit
-
-:: scripts that are made to cleanup or move directories and files between releases are below
-
-:v19UpgradeCheck
-if exist .\bin\temp.txt del .\bin\temp.txt
-for /D %%A IN (".\bin\cemu*") DO echo "%%A">.\bin\temp.txt
-if exist .\bin\temp.txt set /p dir=<.\bin\temp.txt
-if "%dir%"=="".\bin\cemu"" goto Skip-Upgrade
-if exist .\bin\temp.txt xcopy %dir%\* .\bin\cemu\ /e /i /y
-if exist .\bin\temp.txt rmdir /s /q %dir%
-:Skip-Upgrade
-if exist .\bin\temp.txt del .\bin\temp.txt
-(goto) 2>nul
-
-
-REM LEFTOVER STUFF, REMOVE EVENTUALLY
-
-:MoTD
-if not exist .\bin\wget.exe call :Download-Wget
-title checking for message of the day
-set program=%~n0>nul:
-.\bin\wget.exe -q --show-progress https://github.com/MarioMasta64/EverythingPortable/raw/master/note/motd.txt>nul:
-if exist motd.txt del .\note\motd.txt>nul:
-if exist motd.txt (
-  del /q .\note\motd.txt>nul:
-  copy motd.txt .\note\motd.txt
-)
-if exist .\note\motd.txt for /f "DELIMS=" %%i in ('type .\note\motd.txt') do (set nag=%%i)
-del /q motd.txt*>nul:
-(goto) 2>nul
-
-REM replace launch_cemu.bat with %~f0
-REM because i use the call command. you can edit the file add a label and goto the label by typing it in the menu without even having to close the program cause youre worried about it glitching (put your code on the bottom)
-REM add raw before raw/master in everything
-REM maybe add option to open mod folder?
-REM add new launchers to update check in everything portable
-REM the better link: https://raw.githubusercontent.com/MarioMasta64/ModDownloaderPortable/master/mod_list.txt
-REM apparently raw is bad before master but only sometimes?
-REM raw is perfect for text links tho

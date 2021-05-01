@@ -67,9 +67,6 @@ call :UpgradeOBS
 :LaunchOBS
 if not exist ".\bin\obs\bin\!arch!Bit\obs!arch!.exe" set "nag=PLEASE INSTALL OBS FIRST" && (goto) 2>nul
 title DO NOT CLOSE
-set "UserProfile=!folder!\data\"
-set "AppData=!folder!\data\AppData\Roaming\"
-set "LocalAppData=!folder!\data\AppData\Local\"
 set "Path=!PATH!;!folder!\dll\!arch!\;"
 cls
 echo OBS IS RUNNING
@@ -400,6 +397,14 @@ echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\oldtext.txt
 echo %3 > .\helpers\newtext.txt
 call launch_helpers.bat ReplaceText
+(goto) 2>nul
+
+:HelperExtractInno
+REM v6+ Required
+echo 6 > .\helpers\version.txt
+echo %1 > .\helpers\file.txt
+echo %2 > .\helpers\folder.txt
+call launch_helpers.bat ExtractInno
 (goto) 2>nul
 
 :PingInstall
