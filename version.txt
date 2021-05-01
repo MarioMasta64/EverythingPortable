@@ -31,7 +31,7 @@ discord_canary
 discord
 9
 opera
-1
+2
 citra
 2
 obs_classic
