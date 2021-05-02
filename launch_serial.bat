@@ -16,7 +16,7 @@ echo %sha1%
 set program=%~n0
 echo %program:~7%
 
-echo http://old-school-gamer.tk/install/new_install.php?program=%program:~7%^&serial=%sha1%
+echo https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%
 
 pause
 
