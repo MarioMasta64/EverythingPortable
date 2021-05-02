@@ -20,7 +20,7 @@ echo http://old-school-gamer.tk/install/new_install.php?program=%program:~7%^&se
 
 pause
 
-.\bin\wget -q --show-progress --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" http://old-school-gamer.tk/install/new_install.php?program=%program:~7%^&serial=%sha1%
+.\bin\wget -q --show-progress --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%
 pause
 
 endlocal
