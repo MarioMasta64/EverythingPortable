@@ -58,8 +58,8 @@ winscp
 1
 twitch_poc
 0
-firefox_poc
-0
+firefox
+1
 vivaldi_poc
 0
 virtual_dj_poc
