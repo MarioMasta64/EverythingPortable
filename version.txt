@@ -52,8 +52,8 @@ project64
 1
 authy
 5
-lightshot_poc
-0
+lightshot
+1
 winscp
 1
 twitch_poc
