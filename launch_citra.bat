@@ -7,6 +7,7 @@ title Portable Citra Launcher - Helper Edition
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE_OR_NO_UPDATES
 if exist replacer.bat del replacer.bat
+if exist "%~n0_poc.bat" del "%~n0_poc.bat"
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 

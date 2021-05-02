@@ -7,6 +7,7 @@ title Portable Telegram Launcher - Helper Edition
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE_OR_NO_UPDATES
 if exist replacer.bat del replacer.bat
+if exist "%~n0_poc.bat" del "%~n0_poc.bat"
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
@@ -63,23 +64,23 @@ call :UpgradeTelegram
 
 :2
 :LaunchTelegram
-if not exist ".\bin\Telegram\Telegram.exe" set "nag=PLEASE INSTALL TELEGRAM FIRST" && (goto) 2>nul
+if not exist ".\bin\telegram\Telegram.exe" set "nag=PLEASE INSTALL TELEGRAM FIRST" && (goto) 2>nul
 title DO NOT CLOSE
 cls
 echo TELEGRAM IS RUNNING
-start .\bin\Telegram\Telegram.exe
+start .\bin\telegram\Telegram.exe
 exit
 
 :3
 :ResetTelegram
 taskkill /f /im Telegram.exe
-rmdir /s /q .\bin\Telegram\tdata\
+rmdir /s /q .\bin\telegram\tdata\
 (goto) 2>nul
 
 :4
 :UninstallTelegram
 taskkill /f /im Telegram.exe
-rmdir /s /q .\bin\Telegram\
+rmdir /s /q .\bin\telegram\
 del .\extra\win*_portable.zip
 (goto) 2>nul
 

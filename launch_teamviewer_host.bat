@@ -7,6 +7,7 @@ title Portable TeamViewer Host Launcher - Helper Edition
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE_OR_NO_UPDATES
 if exist replacer.bat del replacer.bat
+if exist "%~n0_poc.bat" del "%~n0_poc.bat"
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
@@ -73,13 +74,13 @@ exit
 
 :3
 :ResetTeamViewerHost
-taskill /f /im TeamViewer.exe
+taskkill /f /im TeamViewer.exe
 rmdir /s /q .\bin\teamviewer_host\
 (goto) 2>nul
 
 :4
 :UninstallTeamViewerHost
-taskill /f /im TeamViewer.exe
+taskkill /f /im TeamViewer.exe
 rmdir /s /q .\bin\teamviewer_host\
 (goto) 2>nul
 
