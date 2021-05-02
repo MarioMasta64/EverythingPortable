@@ -44,8 +44,8 @@ qbittorrent_poc
 0
 ntlite_poc
 0
-dolphin_poc
-0
+dolphin
+1
 skype_poc
 0
 project64
