@@ -87,7 +87,12 @@ echo %CD%\data\ppsspp> .\bin\ppsspp\installed.txt
 goto Launch
 :MemStick
 cls
-call :list_drives
+set Counter=0
+for /f "DELIMS=" %%i in ('type .\temp\memsticks.txt') do (
+    set /a Counter+=1
+    set "Line_!Counter!=%%i"
+)
+if exist .\temp\memsticks.txt del .\temp\memsticks.txt
 For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
 set /p choice="use memstick in drive: "
 set drive=!Line_%CHOICE%!
@@ -253,7 +258,7 @@ if not exist ".\bin\ppsspp\PPSSPPWindows!arch!.exe" set nag=PPSSPP IS NOT INSTAL
 
 :Version
 cls
-echo 8 > .\doc\version.txt
+echo 9 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
