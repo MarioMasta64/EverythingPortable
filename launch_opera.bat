@@ -95,7 +95,7 @@ title Portable Opera Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
-set new_version=%Line_34%
+set new_version=%Line_26%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & (goto) 2>nul
 if %current_version% EQU %new_version% call :LatestBuild & (goto) 2>nul
 if %current_version% LSS %new_version% call :NewUpdate & (goto) 2>nul
@@ -302,8 +302,8 @@ call launch_helpers.bat ReplaceText
 (goto) 2>nul
 
 :HelperExtractInno
-REM v6+ Required
-echo 6 > .\helpers\version.txt
+REM v8+ Required
+echo 8 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\folder.txt
 call launch_helpers.bat ExtractInno

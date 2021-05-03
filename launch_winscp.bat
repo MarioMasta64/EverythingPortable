@@ -420,8 +420,8 @@ call launch_helpers.bat ReplaceText
 (goto) 2>nul
 
 :HelperExtractInno
-REM v6+ Required
-echo 6 > .\helpers\version.txt
+REM v8+ Required
+echo 8 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\folder.txt
 call launch_helpers.bat ExtractInno

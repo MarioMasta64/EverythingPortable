@@ -207,7 +207,7 @@ if not exist ".\bin\project64\Project64.exe" set nag=PROJECT46 IS NOT INSTALLED 
 
 :Version
 cls
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
@@ -316,8 +316,8 @@ call launch_helpers.bat ReplaceText
 (goto) 2>nul
 
 :HelperExtractInno
-REM v6+ Required
-echo 6 > .\helpers\version.txt
+REM v8+ Required
+echo 8 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\folder.txt
 call launch_helpers.bat ExtractInno
