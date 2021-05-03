@@ -58,7 +58,6 @@ if not exist .\bin\wget.exe call :DownloadWget
 .\bin\wget.exe -q --show-progress "https://sourceforge.net/projects/innounp/files/latest/download?source=typ_redirect" "download@source=typ_redirect"
 if not exist "download@source=typ_redirect" goto :DownloadInno
 if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
-rem move download@source=typ_redirect innounp.rar
 .\bin\7-ZipPortable\App\7-Zip\7z.exe x download@source=typ_redirect * -obin\innounp\
 del "download@source=typ_redirect"
 (goto) 2>nul
@@ -66,8 +65,6 @@ del "download@source=typ_redirect"
 :Extract7zip
 set /p file=<.\helpers\file.txt
 set /p folder=<.\helpers\folder.txt
-set "arch="
-if exist "%PROGRAMFILES(X86)%" set "arch=64"
 if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
 .\bin\7-ZipPortable\App\7-Zip\7z.exe x !file! * -o!folder!
 del .\helpers\*.txt > nul
