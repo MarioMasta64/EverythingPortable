@@ -60,8 +60,8 @@ twitch_poc
 0
 firefox
 1
-vivaldi_poc
-0
+vivaldi
+1
 virtual_dj_poc
 0
 game_maker_studio_2_poc
