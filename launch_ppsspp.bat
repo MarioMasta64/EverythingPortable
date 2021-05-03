@@ -1,214 +1,74 @@
 @echo off
 setlocal enabledelayedexpansion
+setlocal enableextensions
 Color 0A
 cls
-setlocal enabledelayedexpansion
+title Portable PPSSPP Launcher - Helper Edition
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
-set new_version=OFFLINE
+set new_version=OFFLINE_OR_NO_UPDATES
 if exist replacer.bat del replacer.bat
-if "%~1" neq "" (call :%~1 & exit /b !current_version!)
+if exist "%~n0_poc.bat" del "%~n0_poc.bat"
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
-:FOLDERCHECK
+call :Alpha-To-Number
+call :SetArch
+call :FolderCheck
+call :Version
+call :Credits
+call :HelperCheck
+
+:Menu
 cls
-if not exist .\bin\ppsspp\ mkdir .\bin\ppsspp\
-if not exist .\data\ppsspp\ mkdir .\data\ppsspp\
-if not exist .\doc\ mkdir .\doc\
-if not exist .\extra\ mkdir .\extra\
-call :VERSION
-goto CREDITS
-
-:VERSION
-cls
-echo 7 > .\doc\version.txt
-set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt
-exit /b
-
-:CREDITS
-cls
-if exist .\doc\ppsspp_license.txt goto PPSSPPCHECK
-echo ================================================== > .\doc\ppsspp_license.txt
-echo =              Script by MarioMasta64            = >> .\doc\ppsspp_license.txt
-:: REMOVE SPACE AFTER VERSION HITS DOUBLE DIGITS
-echo =           Script Version: v%current_version%- release         = >> .\doc\ppsspp_license.txt
-echo ================================================== >> .\doc\ppsspp_license.txt
-echo =You may Modify this WITH consent of the original= >> .\doc\ppsspp_license.txt
-echo = creator, as long as you include a copy of this = >> .\doc\ppsspp_license.txt
-echo =      as you include a copy of the License      = >> .\doc\ppsspp_license.txt
-echo ================================================== >> .\doc\ppsspp_license.txt
-echo =    You may also modify this script without     = >> .\doc\ppsspp_license.txt
-echo =         consent for PERSONAL USE ONLY          = >> .\doc\ppsspp_license.txt
-echo ================================================== >> .\doc\ppsspp_license.txt
-
-:CREDITSREAD
-cls
-title PORTABLE PPSSPP LAUNCHER - ABOUT
-for /f "DELIMS=" %%i in (.\doc\ppsspp_license.txt) do (echo %%i)
-pause
-
-:PPSSPPCHECK
-cls
-if not exist .\bin\ppsspp\PPSSPPWindows.exe set nag="please choose 6 to install ppsspp"
-if not exist .\bin\ppsspp\PPSSPPWindows64.exe set nag="please choose 6 to install ppsspp"
-:: goto WGETUPDATE
-
-:: :FILECHECK
-:: if not exist .\extra\ppsspp_win.zip goto DOWNLOADPPSSPP
-:: call :EXTRACTPPSSPP
-:: goto PPSSPPCHECK
-
-:: :DOWNLOADPPSSPP
-:: cls
-:: title PORTABLE PPSSPP LAUNCHER - DOWNLOAD PPSSPP
-:: if exist ppsspp_win.zip goto MOVEPPSSPP
-:: if not exist .\bin\wget.exe call :DOWNLOADWGET
-:: .\bin\wget.exe -q --show-progress https://ppsspp.org/files/1_5_4/ppsspp_win.zip
-
-:: :MOVEPPSSPP
-:: cls
-:: move ppsspp_win.zip .\extra\ppsspp_win.zip
-:: goto PPSSPPCHECK
-
-:: :WGETUPDATE
-:: cls
-:: title PORTABLE PPSSPP LAUNCHER - UPDATE WGET
-:: wget https://eternallybored.org/misc/wget/current/wget.exe
-:: move wget.exe .\bin\
-goto MENU
-
-:DOWNLOADWGET
-cls
-call :CHECKWGETDOWNLOADER
-exit /b
-
-:CHECKWGETDOWNLOADER
-cls
-if not exist .\bin\downloadwget.vbs call :CREATEWGETDOWNLOADER
-if exist .\bin\downloadwget.vbs call :EXECUTEWGETDOWNLOADER
-exit /b
-
-:CREATEWGETDOWNLOADER
-cls
-echo ' Set your settings > .\bin\downloadwget.vbs
-echo    strFileURL = "https://eternallybored.org/misc/wget/current/wget.exe" >> .\bin\downloadwget.vbs
-echo    strHDLocation = "wget.exe" >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo ' Fetch the file >> .\bin\downloadwget.vbs
-echo     Set objXMLHTTP = CreateObject("MSXML2.XMLHTTP") >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo     objXMLHTTP.open "GET", strFileURL, false >> .\bin\downloadwget.vbs
-echo     objXMLHTTP.send() >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo If objXMLHTTP.Status = 200 Then >> .\bin\downloadwget.vbs
-echo Set objADOStream = CreateObject("ADODB.Stream") >> .\bin\downloadwget.vbs
-echo objADOStream.Open >> .\bin\downloadwget.vbs
-echo objADOStream.Type = 1 'adTypeBinary >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo objADOStream.Write objXMLHTTP.ResponseBody >> .\bin\downloadwget.vbs
-echo objADOStream.Position = 0    'Set the stream position to the start >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo Set objFSO = Createobject("Scripting.FileSystemObject") >> .\bin\downloadwget.vbs
-echo If objFSO.Fileexists(strHDLocation) Then objFSO.DeleteFile strHDLocation >> .\bin\downloadwget.vbs
-echo Set objFSO = Nothing >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo objADOStream.SaveToFile strHDLocation >> .\bin\downloadwget.vbs
-echo objADOStream.Close >> .\bin\downloadwget.vbs
-echo Set objADOStream = Nothing >> .\bin\downloadwget.vbs
-echo End if >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo Set objXMLHTTP = Nothing >> .\bin\downloadwget.vbs
-exit /b
-
-:EXECUTEWGETDOWNLOADER
-cls
-title PORTABLE PPSSPP LAUNCHER - DOWNLOAD WGET
-cscript.exe .\bin\downloadwget.vbs
-move wget.exe .\bin\
-exit /b
-
-:: :EXTRACTPPSSPP
-:: cls
-:: title PORTABLE PPSSPP LAUNCHER - EXTRACT PPSSPP
-:: set folder=%CD%
-:: if %CD%==%~d0\ set folder=%CD:~0,2%
-:: cls
-:: echo. > .\bin\extractppsspp.vbs
-:: echo 'The location of the zip file. >> .\bin\extractppsspp.vbs
-:: echo ZipFile="%folder%\extra\ppsspp_win.zip" >> .\bin\extractppsspp.vbs
-:: echo 'The folder the contents should be extracted to. >> .\bin\extractppsspp.vbs
-:: echo ExtractTo="%folder%\bin\ppsspp\" >> .\bin\extractppsspp.vbs
-:: echo. >> .\bin\extractppsspp.vbs
-:: echo 'If the extraction location does not exist create it. >> .\bin\extractppsspp.vbs
-:: echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractppsspp.vbs
-:: echo If NOT fso.FolderExists(ExtractTo) Then >> .\bin\extractppsspp.vbs
-:: echo    fso.CreateFolder(ExtractTo) >> .\bin\extractppsspp.vbs
-:: echo End If >> .\bin\extractppsspp.vbs
-:: echo. >> .\bin\extractppsspp.vbs
-:: echo 'Extract the contants of the zip file. >> .\bin\extractppsspp.vbs
-:: echo set objShell = CreateObject("Shell.Application") >> .\bin\extractppsspp.vbs
-:: echo set FilesInZip=objShell.NameSpace(ZipFile).items >> .\bin\extractppsspp.vbs
-:: echo objShell.NameSpace(ExtractTo).CopyHere(FilesInZip) >> .\bin\extractppsspp.vbs
-:: echo Set fso = Nothing >> .\bin\extractppsspp.vbs
-:: echo Set objShell = Nothing >> .\bin\extractppsspp.vbs
-:: echo. >> .\bin\extractppsspp.vbs
-:: title PORTABLE PPSSPP LAUNCHER - EXTRACT ZIP
-:: cscript.exe .\bin\extractppsspp.vbs
-:: exit /b
-
-:MENU
-cls
-title PORTABLE PPSSPP LAUNCHER - MAIN MENU
+title Portable PPSSPP Launcher - Helper Edition - Main Menu
 echo %NAG%
-set nag="SELECTION TIME!"
-echo 1. reinstall ppsspp [ppsspp install corrupted but dont want to redownload?]
-echo 2. launch ppsspp
-echo 3. reset ppsspp [not a feature yet]
-echo 4. uninstall ppsspp [not a feature yet]
-echo 5. update program
-echo 6. upgrade ppsspp [experimental upgrader]
-echo 7. about
-echo 8. exit
+set nag="Selection Time!"
+echo 1. reinstall ppsspp [will remove ppsspp entirely]
+echo 2. launch ppsspp [launches ppsspp]
+echo 3. reset ppsspp [vita emulation of psp is very nice yknow]
+echo 4. uninstall ppsspp [tired of plugins breaking?]
+echo 5. update script [check for updates]
+echo 6. credits [credits]
+echo 7. exit [EXIT]
 echo.
-echo b. download other projects
+echo a. download dll's [dll errors anyone?]
 echo.
-echo c. write a quicklauncher
+echo b. download other projects [check out my other stuff]
+echo.
+echo c. write a quicklauncher [MAKE IT EVEN FASTER]
+echo.
+echo d. check for new ppsspp version [automatically check for a new version]
+echo.
+echo e. install text-reader [update if had]
 echo.
 set /p choice="enter a number and press enter to confirm: "
-if "%choice%"=="1" goto NEW
-if "%choice%"=="2" goto MEMSTICKCHECK
-if "%choice%"=="3" goto SELECT
-if "%choice%"=="4" goto DELETE
-if "%choice%"=="5" goto UPDATECHECK
-:: if "%choice%"=="6" goto UPGRADE
-if "%choice%"=="6" goto EXPERIMENTALUPGRADE
-if "%choice%"=="7" goto ABOUT
-if "%choice%"=="8" goto EXIT
-if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
-if "%CHOICE%"=="c" goto QUICKLAUNCHERCHECK
-set nag="PLEASE SELECT A CHOICE 1-8 or b/c"
-goto MENU
+:: sets errorlevel to 0 (?)
+ver > nul
+:: an incorrect call throws an errorlevel of 1
+:: replace all goto Main with (goto) 2>nul (if they are called by the main menu)
+call :%choice%
+REM if "%ERRORLEVEL%" NEQ "2" set nag="PLEASE Select A CHOICE 1-7 or a/b/c/d/e"
+goto Menu
 
-:LIST_DRIVES
-cls
-set Counter=0
-for /f "DELIMS=" %%i in ('type .\temp\memsticks.txt') do (
-    set /a Counter+=1
-    set "Line_!Counter!=%%i"
-)
-if exist .\temp\memsticks.txt del .\temp\memsticks.txt
-exit /b
-
-:NULL
+:Null
 cls
 set nag="NOT A FEATURE YET!"
-goto MENU
+(goto) 2>nul
 
-:NEW
-rmdir /s /q .\bin\ppsspp\
-call :EXTRACTPPSSPP
-goto MENU
+:1
+:ReinstallPPSSPP
+cls
+call :UninstallPPSSPP
+call :UpgradePPSSPP
+(goto) 2>nul
 
-:MEMSTICKCHECK
+:2
+:LaunchPPSSPP
+if not exist ".\bin\ppsspp\PPSSPPWindows!arch!.exe" set "nag=PLEASE INSTALL PPSSPP FIRST" && (goto) 2>nul
+title DO NOT CLOSE
+cls
+echo PPSSPP IS RUNNING
+:MemStickCheck
 if not exist .\temp\ mkdir .\temp\
 if exist .\temp\memsticks.txt del .\temp\memsticks.txt
 for /F "tokens=1*" %%a in ('fsutil fsinfo drives') do (
@@ -221,181 +81,95 @@ for /F "tokens=1*" %%a in ('fsutil fsinfo drives') do (
       )
    )
 )
-if exist .\temp\memsticks.txt goto :memstick
-
-:default
+if exist .\temp\memsticks.txt goto :MemStick
+:LaunchDefault
 echo %CD%\data\ppsspp> .\bin\ppsspp\installed.txt
-goto launch
-
-:list_drives
-cls
-set Counter=0
-for /f "DELIMS=" %%i in ('type .\temp\memsticks.txt') do (
-    set /a Counter+=1
-    set "Line_!Counter!=%%i"
-)
-if exist .\temp\memsticks.txt del .\temp\memsticks.txt
-exit /b
-
-:memstick
+goto Launch
+:MemStick
 cls
 call :list_drives
 For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
 set /p choice="use memstick in drive: "
 set drive=!Line_%CHOICE%!
 echo %drive%> .\bin\ppsspp\installed.txt
-if "%CHOICE%"=="default" goto DEFAULT
-
-:launch
+if "%CHOICE%"=="default" goto LaunchDefault
+:Launch
 rmdir /s /q .\temp\
-start .\bin\ppsspp\PPSSPPWindows64.exe
+start .\bin\ppsspp\PPSSPPWindows!arch!.exe
 exit
 
-:SELECT
-goto NULL
-
-:DELETE
-goto NULL
-
-:: :UPGRADE
-:: cls
-:: rmdir /s /q .\bin\ppsspp\
-:: del /q .\extra\ppsspp_win.zip
-:: goto PPSSPPCHECK
-
-:EXPERIMENTALUPGRADE
-rmdir /s /q .\bin\ppsspp\
-del /q .\extra\ppsspp_win.zip
-
-if exist index.html del index.html
-.\bin\wget.exe -q --show-progress https://www.ppsspp.org/
-if not exist index.html pause
-for /f tokens^=4delims^=^> %%A in (
-  'findstr /i /c:"Download PPSSPP " /c:"Download PPSSPP " index.html'
-) Do > .\doc\ppsspp_link.txt Echo:"%%A"
-if exist index.html del index.html
-
-set /p ppsspp_link=<.\doc\ppsspp_link.txt
-set "ppsspp_ver=%ppsspp_link:~18,5%"
-echo do you wish to upgrade to "%ppsspp_ver%"? enter to continue
-pause
-set "ppsspp_url=https://www.ppsspp.org/files/%ppsspp_ver:~0,1%_%ppsspp_ver:~2,1%_%ppsspp_ver:~4,1%/ppsspp_win.zip"
-
-:: to-do add a check to see if its newer or not
-:: ideas: save as ppsspp_win_<ver>.zip and see if it exists
-
-.\bin\wget.exe -q --show-progress "%ppsspp_url%"
-move ppsspp_win.zip .\extra\ppsspp_win.zip
-call :extract-zip "bin\ppsspp" "extra\ppsspp_win.zip"
-goto MENU
-
-:extract-zip
-set "dir=%1"
-set "file=%2"
-set "folder=%CD%"
-if "%CD%==%~d0\" set "folder=%CD:~0,2%"
-cscript extractzip.vbs "%folder%\%file%" "%folder%\%dir%"
+:3
+:ResetPPSSPP
+taskkill /f /im PPSSPPWindows!arch!.exe
+REM rmdir /s /q .\bin\ppsspp\memstick\
+rmdir /s /q .\data\ppsspp\
 (goto) 2>nul
 
-:UPDATECHECK
-cls
+:4
+:UninstallPPSSPP
+taskkill /f /im PPSSPPWindows!arch!.exe
+REM for /d %%i in (".\bin\ppsspp\*") do if /i not "%%i"==".\bin\ppsspp\memstick" rmdir /s /q "%%i"
+REM echo y | del .\bin\ppsspp\*.*
+REM del .\extra\*ppsspp*
+rmdir /s /q .\bin\ppsspp\
+(goto) 2>nul
+
+:5
+:UpdateCheck
 if exist version.txt del version.txt
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 cls
+title Portable PPSSPP Launcher - Helper Edition - Checking For Update
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt
 set new_version=%Line_28%
-if "%new_version%"=="OFFLINE" goto ERROROFFLINE
-if %current_version% EQU %new_version% goto LATEST
-if %current_version% LSS %new_version% goto NEWUPDATE
-if %current_version% GTR %new_version% goto NEWEST
-goto ERROROFFLINE
+if "%new_version%"=="OFFLINE" call :ErrorOffline & (goto) 2>nul
+if %current_version% EQU %new_version% call :LatestBuild & (goto) 2>nul
+if %current_version% LSS %new_version% call :NewUpdate & (goto) 2>nul
+if %current_version% GTR %new_version% call :PreviewBuild & (goto) 2>nul
+call :ErrorOffline & (goto) 2>nul
+(goto) 2>nul
 
-:LATEST
-cls
-title PORTABLE PPSSPP LAUNCHER - LATEST BUILD :D
-echo you are using the latest version!!
-echo Current Version: v%current_version%
-echo New Version: v%new_version%
-pause
-start launch_ppsspp.bat
-exit
-
-:NEWUPDATE
-cls
-title PORTABLE PPSSPP LAUNCHER - OLD BUILD D:
-echo %NAG%
-set nag="SELECTION TIME!"
-echo you are using an older version
-echo enter yes or no
-echo Current Version: v%current_version%
-echo New Version: v%new_version%
-set /p choice="Update?: "
-if "%choice%"=="yes" goto UPDATE
-if "%choice%"=="no" goto MENU
-set nag="please enter YES or NO"
-goto NEWUPDATE
-
-:UPDATE
-cls
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_ppsspp.bat
-cls
-if exist launch_ppsspp.bat.1 goto REPLACERCREATE
-goto ERROROFFLINE
-
-:REPLACERCREATE
-cls
-echo @echo off > replacer.bat
-echo Color 0A >> replacer.bat
-echo del launch_ppsspp.bat >> replacer.bat
-echo rename launch_ppsspp.bat.1 launch_ppsspp.bat >> replacer.bat
-echo start launch_ppsspp.bat >> replacer.bat
-echo exit >> replacer.bat
-start replacer.bat
-exit
-
-:NEWEST
-cls
-title PORTABLE PPSSPP LAUNCHER - TEST BUILD :0
-echo YOURE USING A TEST BUILD MEANING YOURE EITHER
-echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
-echo Current Version: v%current_version%
-echo New Version: v%new_version%
-echo ENTER TO CONTINUE
-pause
-start launch_ppsspp.bat
-exit
-
-:ABOUT
+:6
+:About
 cls
 del .\doc\ppsspp_license.txt
 start launch_ppsspp.bat
 exit
 
-:ERROROFFLINE
-cls
-set nag="YOU SEEM TO BE OFFLINE PLEASE RECONNECT TO THE INTERNET TO USE THIS FEATURE"
-goto MENU
-
-:PORTABLEEVERYTHING
-cls
-title PORTABLE PPSSPP LAUNCHER - DOWNLOAD SUITE
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-if not exist launch_everything.bat .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
-cls
-start launch_everything.bat
+:7
 exit
 
-:QUICKLAUNCHERCHECK
-cls
-title PORTABLE PPSSPP LAUNCHER - QUICKLAUNCHER WRITER
+:a
+:DLLDownloaderCheck
+cls & title Portable PPSSPP Launcher - Helper Edition - Download Dll Downloader
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
+cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
+cls & start launch_dlldownloader.bat
+(goto) 2>nul
 
-echo @echo off> quicklaunch_ppsspp.bat
-echo cls>> quicklaunch_ppsspp.bat
-echo Color 0A>> quicklaunch_ppsspp.bat
-echo setlocal enabledelayedexpansion>> quicklaunch_ppsspp.bat
+:b
+:PortableEverything
+cls & title Portable PPSSPP Launcher - Helper Edition - Download Suite
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
+cls & if exist launch_everything.bat.1 del launch_everything.bat & rename launch_everything.bat.1 launch_everything.bat
+cls & start launch_everything.bat
+(goto) 2>nul
+
+:c
+:QuicklauncherCheck
+cls
+title Portable PPSSPP Launcher - Helper Edition - Quicklauncher Writer
+echo @echo off > quicklaunch_ppsspp.bat
+echo Color 0A >> quicklaunch_ppsspp.bat
+echo cls >> quicklaunch_ppsspp.bat
+echo set arch= >> quicklaunch_ppsspp.bat
+echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64" >> quicklaunch_ppsspp.bat
+echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >> quicklaunch_ppsspp.bat
+REM echo set "UserProfile=%%folder%%\data\" >> quicklaunch_ppsspp.bat
+echo set "AppData=%%folder%%\data\AppData\Roaming\" >> quicklaunch_ppsspp.bat
+echo set "LocalAppData=%%folder%%\data\AppData\Local\" >> quicklaunch_ppsspp.bat
+echo set "folder=%%CD%%" >> quicklaunch_ppsspp.bat >> quicklaunch_ppsspp.bat
 echo if exist .\bin\ppsspp\installed.txt del .\bin\ppsspp\installed.txt>> quicklaunch_ppsspp.bat
 echo for /F "tokens=1*" %%%%a in ('fsutil fsinfo drives') do (>> quicklaunch_ppsspp.bat
 echo    for %%%%c in (%%%%b) do (>> quicklaunch_ppsspp.bat
@@ -410,13 +184,337 @@ echo )>> quicklaunch_ppsspp.bat
 echo if exist .\bin\ppsspp\installed.txt goto :launch>> quicklaunch_ppsspp.bat
 echo.>> quicklaunch_ppsspp.bat
 echo :default>> quicklaunch_ppsspp.bat
-echo echo %CD%\data\ppsspp^> .\bin\ppsspp\installed.txt>> quicklaunch_ppsspp.bat
+echo echo %%folder%%\data\ppsspp^> .\bin\ppsspp\installed.txt>> quicklaunch_ppsspp.bat
 echo goto launch>> quicklaunch_ppsspp.bat
 echo.>> quicklaunch_ppsspp.bat
 echo :launch>> quicklaunch_ppsspp.bat
-echo start .\bin\ppsspp\PPSSPPWindows64.exe>> quicklaunch_ppsspp.bat
-echo exit>> quicklaunch_ppsspp.bat
-
+echo start %%folder%%\bin\ppsspp\PPSSPPWindows%%arch%%.exe>> quicklaunch_ppsspp.bat
+echo exit >> quicklaunch_ppsspp.bat
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_ppsspp.bat
+echo ENTER TO CONTINUE & pause>nul:
+(goto) 2>nul
+
+:d
+:UpgradePPSSPP
+if exist downloads.html del downloads.html
+call :HelperDownload "https://www.ppsspp.org/downloads.html" "downloads.html"
+if not exist index.html pause=
+for /f tokens^=4delims^=^" %%A in (
+  'findstr /i /c:".zip" downloads.html'
+) Do > .\doc\ppsspp_link.txt Echo:%%A
+if exist downloads.html del downloads.html
+set /p ppsspp_link=<.\doc\ppsspp_link.txt
+set "ppsspp_zip=!ppsspp_link!"
+REM listen, it works, im lazy, let it be, can handle a depth of 6 directories and helps future proof if they change the paths.
+for /f "delims=/" %%A in ("!ppsspp_zip!") do set ppsspp_zip=!ppsspp_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!ppsspp_zip!") do set ppsspp_zip=!ppsspp_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!ppsspp_zip!") do set ppsspp_zip=!ppsspp_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!ppsspp_zip!") do set ppsspp_zip=!ppsspp_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!ppsspp_zip!") do set ppsspp_zip=!ppsspp_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!ppsspp_zip!") do set ppsspp_zip=!ppsspp_zip:%%~nxA/=!
+set "ppsspp_link=https://www.ppsspp.org/!ppsspp_link!"
+echo "!ppsspp_link!"
+echo "!ppsspp_zip!"
 pause
+if exist "!ppsspp_zip!" del "!ppsspp_zip!"
+call :HelperDownload "!ppsspp_link!" "!ppsspp_zip!"
+:MovePPSSPP
+move "!ppsspp_zip!" ".\extra\!ppsspp_zip!"
+:ExtractPPSSPP
+call :HelperExtract "!folder!\extra\!ppsspp_zip!" "!folder!\bin\ppsspp\"
+(goto) 2>nul
+
+:e
+title Portable PPSSPP Launcher - Helper Edition - Text-Reader Update Check
+cls
+call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
+start "" "update-text-reader.bat"
+(goto) 2>nul
+
+REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
+REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
+
+:FolderCheck
+cls
+REM breaks memory stick detection SOMEHOW
+REM set "UserProfile=!folder!\data\"
+set "AppData=!folder!\data\AppData\Roaming\"
+set "LocalAppData=!folder!\data\AppData\Local\"
+if not exist .\bin\ mkdir .\bin\
+if not exist .\data\ mkdir .\data\
+if not exist .\doc\ mkdir .\doc\
+if not exist .\extra\ mkdir .\extra\
+if not exist .\helpers\ mkdir .\helpers\
+if not exist .\note\ mkdir .\note\
+if not exist .\data\AppData\Local\ mkdir .\data\AppData\Local\
+if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
+if not exist ".\bin\ppsspp\PPSSPPWindows!arch!.exe" set nag=PPSSPP IS NOT INSTALLED CHOOSE "D"
+(goto) 2>nul
+
+:Version
+cls
+echo 8 > .\doc\version.txt
+set /p current_version=<.\doc\version.txt
+if exist .\doc\version.txt del .\doc\version.txt
+:: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
+(goto) 2>nul
+
+:Credits
+cls
+if exist .\doc\ppsspp_license.txt (goto) 2>nul
+echo ================================================== > .\doc\ppsspp_license.txt
+echo =              Script by MarioMasta64            = >> .\doc\ppsspp_license.txt
+echo =           Script Version: v%current_version%- release        = >> .\doc\ppsspp_license.txt
+echo ================================================== >> .\doc\ppsspp_license.txt
+echo =You may Modify this WITH consent of the original= >> .\doc\ppsspp_license.txt
+echo = creator, as long as you include a copy of this = >> .\doc\ppsspp_license.txt
+echo =      as you include a copy of the License      = >> .\doc\ppsspp_license.txt
+echo ================================================== >> .\doc\ppsspp_license.txt
+echo =    You may also modify this script without     = >> .\doc\ppsspp_license.txt
+echo =         consent for PERSONAL USE ONLY          = >> .\doc\ppsspp_license.txt
+echo ================================================== >> .\doc\ppsspp_license.txt
+cls
+title Portable PPSSPP Launcher - Helper Edition - About
+for /f "DELIMS=" %%i in (.\doc\ppsspp_license.txt) do (echo %%i)
+pause
+call :PingInstall
+(goto) 2>nul
+
+REM if a script can be used between files then it can be put here and re-written only if it doesnt exist
+REM stuff here will not be changed between programs
+
+:SetArch
+set arch=
+if exist "%PROGRAMFILES(X86)%" set "arch=64"
+(goto) 2>nul
+
+:HelperCheck
+if not exist launch_helpers.bat call :DownloadHelpers
+(goto) 2>nul
+:DownloadHelpers
+if not exist .\helpers\download.vbs call :CreateDownloadVBS
+cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat > nul
+(goto) 2>nul
+:CreateDownloadVBS
+echo Dim Arg, download, file > .\helpers\download.vbs
+echo Set Arg = WScript.Arguments >> .\helpers\download.vbs
+echo. >> .\helpers\download.vbs
+echo download = Arg(0) >> .\helpers\download.vbs
+echo file = Arg(1) >> .\helpers\download.vbs
+echo. >> .\helpers\download.vbs
+echo dim xHttp: Set xHttp = CreateObject("MSXML2.ServerXMLHTTP")>> .\helpers\download.vbs
+echo dim bStrm: Set bStrm = createobject("Adodb.Stream") >> .\helpers\download.vbs
+echo xHttp.Open "GET", download, False >> .\helpers\download.vbs
+echo xHttp.Send >> .\helpers\download.vbs
+echo. >> .\helpers\download.vbs
+echo with bStrm >> .\helpers\download.vbs
+echo     .type = 1 '//binary >> .\helpers\download.vbs
+echo     .open >> .\helpers\download.vbs
+echo     .write xHttp.responseBody >> .\helpers\download.vbs
+echo     .savetofile file, 2 '//overwrite >> .\helpers\download.vbs
+echo end with >> .\helpers\download.vbs
+(goto) 2>nul
+
+:HelperDownload
+REM v1+ Required
+echo 1 > .\helpers\version.txt
+echo %1 > .\helpers\download.txt
+echo %2 > .\helpers\file.txt
+call launch_helpers.bat Download
+(goto) 2>nul
+
+:HelperDownloadWget
+REM v3+ Required
+echo 3 > .\helpers\version.txt
+call launch_helpers.bat DownloadWget
+(goto) 2>nul
+
+:HelperExtract
+REM v1+ Required
+echo 1 > .\helpers\version.txt
+echo %1 > .\helpers\file.txt
+echo %2 > .\helpers\folder.txt
+call launch_helpers.bat Extract
+(goto) 2>nul
+
+:HelperExtract7Zip
+REM v3+ Required
+echo 3 > .\helpers\version.txt
+echo %1 > .\helpers\file.txt
+echo %2 > .\helpers\folder.txt
+call launch_helpers.bat Extract7Zip
+(goto) 2>nul
+
+:HelperHide
+REM v4+ Required
+echo 4 > .\helpers\version.txt
+echo %1 > .\helpers\file.txt
+call launch_helpers.bat Hide
+(goto) 2>nul
+
+:HelperReplaceText
+REM v5+ Required
+echo 5 > .\helpers\version.txt
+echo %1 > .\helpers\file.txt
+echo %2 > .\helpers\oldtext.txt
+echo %3 > .\helpers\newtext.txt
+call launch_helpers.bat ReplaceText
+(goto) 2>nul
+
+:HelperExtractInno
+REM v6+ Required
+echo 6 > .\helpers\version.txt
+echo %1 > .\helpers\file.txt
+echo %2 > .\helpers\folder.txt
+call launch_helpers.bat ExtractInno
+(goto) 2>nul
+
+:PingInstall
+for /F "skip=1 tokens=5" %%a in ('vol %~D0') do echo %%a>serial.txt
+set /a count=1 
+for /f "skip=1 delims=:" %%a in ('CertUtil -hashfile "serial.txt" sha1') do (
+  if !count! equ 1 set "sha1=%%a"
+  set/a count+=1
+)
+set "sha1=%sha1: =%
+echo %sha1%
+set program=%~n0
+echo %program:~7%
+echo "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%"
+REM call :HelperDownload "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%" "new_install.php"
+del new_install.php*
+del serial.txt
+(goto) 2>nul
+
+:UpdateWget
+cls
+call launch_helpers.bat DownloadWget
+(goto) 2>nul
+
+:LatestBuild
+cls
+title Portable PPSSPP Launcher - Helper Edition - Latest Build :D
+echo you are using the latest version!!
+echo Current Version: v%current_version%
+echo New Version: v%new_version%
+echo ENTER TO CONTINUE & pause>nul:
+start launch_ppsspp.bat
+exit
+
+:NewUpdate
+cls
+title Portable PPSSPP Launcher - Helper Edition - Old Build D:
+echo %NAG%
+set nag="Selection Time!"
+echo you are using an older version
+echo enter yes or no
+echo Current Version: v%current_version%
+echo New Version: v%new_version%
+set /p choice="Update?: "
+if "%choice%"=="yes" call :Update-Now & (goto) 2>nul
+if "%choice%"=="no" (goto) 2>nul
+set nag="please enter YES or NO"
+goto NewUpdate
+
+:UpdateNow
+cls & title Portable PPSSPP Launcher - Helper Edition - Updating Launcher
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_ppsspp.bat" "launch_ppsspp.bat.1"
+cls & if exist launch_ppsspp.bat.1 goto ReplacerCreate
+cls & call :ErrorOffline
+(goto) 2>nul
+
+:ReplacerCreate
+cls
+echo @echo off > replacer.bat
+echo Color 0A >> replacer.bat
+echo del launch_ppsspp.bat >> replacer.bat
+echo rename launch_ppsspp.bat.1 launch_ppsspp.bat >> replacer.bat
+echo start launch_ppsspp.bat >> replacer.bat
+:: launcher exits, deletes itself, and then exits again. yes. its magic.
+echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> replacer.bat
+call :HelperHide "replacer.bat"
+exit
+
+:PreviewBuild
+cls
+title Portable PPSSPP Launcher - Helper Edition - Test Build :0
+echo YOURE USING A TEST BUILD MEANING YOURE EITHER
+echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
+echo Current Version: v%current_version%
+echo New Version: v%new_version%
+echo ENTER TO CONTINUE & pause>nul:
+start launch_ppsspp.bat
+exit
+
+:ErrorOffline
+cls
+set nag="YOU SEEM TO BE OFFLINE PLEASE RECONNECT TO THE INTERNET TO USE THIS FEATURE"
+(goto) 2>nul
+
+REM GENERAL PURPOSE SCRIPTS BELOW
+
+:AlphaToNumber
+set a=1
+set b=2
+set c=3
+set d=4
+set e=5
+set f=6
+set g=7
+set h=8
+set i=9
+set j=10
+set k=11
+set l=12
+set m=13
+set n=14
+set o=15
+set p=16
+set q=17
+set r=18
+set s=19
+set t=20
+set u=21
+set v=22
+set w=23
+set x=24
+set y=25
+set z=26
+(goto) 2>nul
+
+:ViewCode
+start notepad.exe "%~f0"
+(goto) 2>nul
+
+:MakeCopy
+:SaveCopy
+del "%~f0.bak"
+copy "%~f0" "%~f0.bak"
+(goto) 2>nul
+
+:Cmd
+cls
+title Portable PPSSPP Launcher - Helper Edition - Command Prompt - By MarioMasta64
+ver
+echo (C) Copyright Microsoft Corporation. All rights reserved
+echo.
+echo nice job finding me. have fun with my little cmd prompt.
+echo upon error (more likely than not) i will return to the menu.
+echo type "(goto) 2^>nul" or make me error to return.
+echo.
+:CmdLoop
+set /p "cmd=%cd%>"
+if "%cmd%"=="reset-cmd" call :Cmd
+%cmd%
+echo.
+goto CmdLoop
+
+:Relaunch
+echo @echo off > relaunch.bat
+echo cls >> relaunch.bat
+echo Color 0A >> relaunch.bat
+echo start %~f0 >> relaunch.bat
+:: launcher exits, deletes itself, and then exits again. yes. its magic.
+echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> relaunch.bat
+call :HelperHide "relaunch.bat"
 exit
