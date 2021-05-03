@@ -171,6 +171,11 @@ for /f "delims=/" %%A in ("!qbittorrent_exe!") do set qbittorrent_exe=!qbittorre
 for /f "delims=/" %%A in ("!qbittorrent_exe!") do set qbittorrent_exe=!qbittorrent_exe:%%~nxA/=!
 REM remove slash
 set "qbittorrent_exe=!qbittorrent_exe:/=!"
+if exist .\extra\!qbittorrent_exe! (
+  echo qbittorrent is updated.
+  pause
+  exit /b
+)
 cls
 echo !qbittorrent_link!
 echo !qbittorrent_exe!
@@ -213,7 +218,7 @@ if not exist ".\bin\qbittorrent\qBittorrent.exe" set nag=QBITTORRENT IS NOT INST
 
 :Version
 cls
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
