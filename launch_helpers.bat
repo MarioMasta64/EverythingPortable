@@ -15,7 +15,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 7 > .\doc\version.txt
+echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -57,8 +57,9 @@ exit /b
 if not exist .\bin\wget.exe call :DownloadWget
 .\bin\wget.exe -q --show-progress "https://sourceforge.net/projects/innounp/files/latest/download?source=typ_redirect" "download@source=typ_redirect"
 if not exist "download@source=typ_redirect" goto :DownloadInno
-if not exist .\bin\7-ZipPortable\App\7-Zip!arch!\7z.exe call :Download7Zip
-.\bin\7-ZipPortable\App\7-Zip!arch!\7z.exe x "download@source=typ_redirect" * -obin\innounp\
+if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
+rem move download@source=typ_redirect innounp.rar
+.\bin\7-ZipPortable\App\7-Zip\7z.exe x download@source=typ_redirect * -obin\innounp\
 del "download@source=typ_redirect"
 (goto) 2>nul
 
@@ -67,8 +68,8 @@ set /p file=<.\helpers\file.txt
 set /p folder=<.\helpers\folder.txt
 set "arch="
 if exist "%PROGRAMFILES(X86)%" set "arch=64"
-if not exist .\bin\7-ZipPortable\App\7-Zip!arch!\7z.exe call :Download7Zip
-.\bin\7-ZipPortable\App\7-Zip!arch!\7z.exe x !file! * -o!folder!
+if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
+.\bin\7-ZipPortable\App\7-Zip\7z.exe x !file! * -o!folder!
 del .\helpers\*.txt > nul
 exit /b
 
