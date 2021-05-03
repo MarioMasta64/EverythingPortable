@@ -62,8 +62,8 @@ firefox
 1
 vivaldi
 5
-virtual_dj_poc
-0
+virtual_dj
+1
 game_maker_studio_2_poc
 0
 telegram
