@@ -73,15 +73,12 @@ exit
 
 :3
 :ResetTor
-taskkill /f /im firefox.exe
-rmdir /s /q .\bin\data\tor\
+call :Null
 (goto) 2>nul
 
 :4
 :UninstallTor
-taskkill /f /im firefox.exe
-rmdir /s /q .\bin\tor\
-del .\extra\*tor*.exe
+call :Null
 (goto) 2>nul
 
 :5
