@@ -150,7 +150,7 @@ for /f tokens^=4delims^=^" %%A in (
   'findstr /i /c:".exe" index.html'
 ) Do > .\doc\tor_link.txt Echo:%%A
 set /p tor_link=<.\doc\tor_link.txt
-REM no x64 yet
+REM no x64 yet it seems the x64 binary is not the same format as the x86 one
 REM no x64 yet
 REM no x64 yet
 REM no x64 yet
