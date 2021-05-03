@@ -198,7 +198,7 @@ echo ENTER TO CONTINUE & pause>nul:
 :UpgradePPSSPP
 if exist downloads.html del downloads.html
 call :HelperDownload "https://www.ppsspp.org/downloads.html" "downloads.html"
-if not exist index.html pause=
+if exist index.html del index.html
 for /f tokens^=4delims^=^" %%A in (
   'findstr /i /c:".zip" downloads.html'
 ) Do > .\doc\ppsspp_link.txt Echo:%%A
