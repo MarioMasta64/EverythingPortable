@@ -15,7 +15,7 @@ lastpass
 qtemu
 10
 tor
-8
+9
 teamviewer_host
 4
 teamviewer
@@ -61,7 +61,7 @@ twitch_poc
 firefox
 1
 vivaldi
-1
+5
 virtual_dj_poc
 0
 game_maker_studio_2_poc

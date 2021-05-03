@@ -164,10 +164,10 @@ for /f "delims=/" %%A in ("!vivaldi_exe!") do set vivaldi_exe=!vivaldi_exe:%%~nx
 for /f "delims=/" %%A in ("!vivaldi_exe!") do set vivaldi_exe=!vivaldi_exe:%%~nxA/=!
 for /f "delims=/" %%A in ("!vivaldi_exe!") do set vivaldi_exe=!vivaldi_exe:%%~nxA/=!
 for /f "delims=/" %%A in ("!vivaldi_exe!") do set vivaldi_exe=!vivaldi_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!vivaldi_exe!") do set vivaldi_exe=!vivaldi_exe:/=!
+set vivaldi_exe=!vivaldi_exe:/=!
 if exist index.html del index.html
 cls
-if exist .\extra\!vivaldi_link! (
+if exist .\extra\!vivaldi_exe! (
   echo vivaldi is updated.
   pause
   exit /b
@@ -213,7 +213,7 @@ if not exist ".\bin\vivaldi\Vivaldi.exe" set nag=VIVALDI IS NOT INSTALLED CHOOSE
 
 :Version
 cls
-echo 4 > .\doc\version.txt
+echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 :: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
