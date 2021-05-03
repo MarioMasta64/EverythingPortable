@@ -107,7 +107,7 @@ call :ErrorOffline & (goto) 2>nul
 :About
 cls
 del .\doc\virtualdj_license.txt
-start launch_virtualdj.bat
+start launch_virtual_dj.bat
 exit
 
 :7
@@ -133,22 +133,22 @@ cls & start launch_everything.bat
 :QuicklauncherCheck
 cls
 title Portable Virtual DJ Launcher - Helper Edition - Quicklauncher Writer
-echo @echo off > quicklaunch_virtualdj.bat
-echo Color 0A >> quicklaunch_virtualdj.bat
-echo cls >> quicklaunch_virtualdj.bat
-echo set "folder=%%CD%%" >> quicklaunch_virtualdj.bat
-echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >> quicklaunch_virtualdj.bat
-echo set "UserProfile=%%folder%%\data\" >> quicklaunch_virtualdj.bat
-echo set "AppData=%%folder%%\data\AppData\Roaming\" >> quicklaunch_virtualdj.bat
-echo set "LocalAppData=%%folder%%\data\AppData\Local\" >> quicklaunch_virtualdj.bat
-echo cls >> quicklaunch_virtualdj.bat
-echo if not exist .\data\virtualdj\ mkdir .\data\virtualdj\ >> quicklaunch_virtualdj.bat
-echo cd .\data\virtualdj\ >> quicklaunch_virtualdj.bat
-echo echo yes ^| reg delete HKEY_CURRENT_USER\SOFTWARE\VirtualDJ /v HomeFolder >> quicklaunch_virtualdj.bat
-echo reg add HKCU\SOFTWARE\VirtualDJ /v HomeFolder /d %%folder%%\data\virtualdj\ >> quicklaunch_virtualdj.bat
-echo start "" "%%folder%%\bin\virtualdj\virtualdj.exe" >> quicklaunch_virtualdj.bat
-echo exit >> quicklaunch_virtualdj.bat
-echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_virtualdj.bat
+echo @echo off > quicklaunch_virtual_dj.bat
+echo Color 0A >> quicklaunch_virtual_dj.bat
+echo cls >> quicklaunch_virtual_dj.bat
+echo set "folder=%%CD%%" >> quicklaunch_virtual_dj.bat
+echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >> quicklaunch_virtual_dj.bat
+echo set "UserProfile=%%folder%%\data\" >> quicklaunch_virtual_dj.bat
+echo set "AppData=%%folder%%\data\AppData\Roaming\" >> quicklaunch_virtual_dj.bat
+echo set "LocalAppData=%%folder%%\data\AppData\Local\" >> quicklaunch_virtual_dj.bat
+echo cls >> quicklaunch_virtual_dj.bat
+echo if not exist .\data\virtualdj\ mkdir .\data\virtualdj\ >> quicklaunch_virtual_dj.bat
+echo cd .\data\virtualdj\ >> quicklaunch_virtual_dj.bat
+echo echo yes ^| reg delete HKEY_CURRENT_USER\SOFTWARE\VirtualDJ /v HomeFolder >> quicklaunch_virtual_dj.bat
+echo reg add HKCU\SOFTWARE\VirtualDJ /v HomeFolder /d %%folder%%\data\virtualdj\ >> quicklaunch_virtual_dj.bat
+echo start "" "%%folder%%\bin\virtualdj\virtualdj.exe" >> quicklaunch_virtual_dj.bat
+echo exit >> quicklaunch_virtual_dj.bat
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_virtual_dj.bat
 echo ENTER TO CONTINUE & pause>nul:
 (goto) 2>nul
 
@@ -336,7 +336,7 @@ echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE & pause>nul:
-start launch_virtualdj.bat
+start launch_virtual_dj.bat
 exit
 
 :NewUpdate
@@ -356,8 +356,8 @@ goto NewUpdate
 
 :UpdateNow
 cls & title Portable Virtual DJ Launcher - Helper Edition - Updating Launcher
-call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_virtualdj.bat" "launch_virtualdj.bat.1"
-cls & if exist launch_virtualdj.bat.1 goto ReplacerCreate
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_virtual_dj.bat" "launch_virtual_dj.bat.1"
+cls & if exist launch_virtual_dj.bat.1 goto ReplacerCreate
 cls & call :ErrorOffline
 (goto) 2>nul
 
@@ -365,9 +365,9 @@ cls & call :ErrorOffline
 cls
 echo @echo off > replacer.bat
 echo Color 0A >> replacer.bat
-echo del launch_virtualdj.bat >> replacer.bat
-echo rename launch_virtualdj.bat.1 launch_virtualdj.bat >> replacer.bat
-echo start launch_virtualdj.bat >> replacer.bat
+echo del launch_virtual_dj.bat >> replacer.bat
+echo rename launch_virtual_dj.bat.1 launch_virtual_dj.bat >> replacer.bat
+echo start launch_virtual_dj.bat >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
 echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> replacer.bat
 call :HelperHide "replacer.bat"
@@ -381,7 +381,7 @@ echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE & pause>nul:
-start launch_virtualdj.bat
+start launch_virtual_dj.bat
 exit
 
 :ErrorOffline
