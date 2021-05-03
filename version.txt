@@ -40,8 +40,8 @@ github_desktop
 3
 uwamp
 1
-qbittorrent_poc
-0
+qbittorrent
+1
 ntlite_poc
 0
 dolphin
