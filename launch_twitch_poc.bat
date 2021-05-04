@@ -71,7 +71,7 @@ call :select
 :: start notepad.exe bin.txt
 
 :: call :timeout 40
-:: del bin.txt>nul:
+:: del bin.txt >nul:
 
 .\extra\%twitch%
 exit

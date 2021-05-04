@@ -2,8 +2,16 @@
 setlocal enabledelayedexpansion
 Color 0A
 title Helper Launcher Beta
-set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
+set nag=Finally Getting Updates After 4 Years (Helper Update)
 set new_version=OFFLINE_OR_NO_UPDATES
+
+set "name=%~n0"
+set "name=!name:launch_=!"
+set "license=.\doc\!name!_license.txt"
+set "main_launcher=%~n0.bat"
+set "poc_launcher=%~n0_poc.bat"
+set "quick_launcher=quick%~n0.bat"
+
 
 REM Check For Helper Updates
 if exist .\helpers\version.txt (
@@ -15,9 +23,9 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 8 > .\doc\version.txt
+echo 9 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt
+if exist .\doc\version.txt del .\doc\version.txt >nul:
 exit /b
 
 :ReplaceText
@@ -28,8 +36,8 @@ echo %file%
 echo %oldtext%
 echo %newtext%
 if not exist .\helpers\replacetext.vbs call :CreateReplaceTextVBS
-cscript .\helpers\replacetext.vbs !file! !oldtext! !newtext! > nul
-del .\helpers\*.txt > nul
+cscript .\helpers\replacetext.vbs !file! !oldtext! !newtext! >nul:
+if exist .\helpers\*.txt del .\helpers\*.txt >nul:
 exit /b
 
 :ExtractInno
@@ -41,7 +49,7 @@ REM innounp should always be updated
 REM innounp should always be updated
 REM innounp should always be updated
 REM innounp should always be updated
-rmdir /s /q .\bin\innounp\
+if exist .\bin\innounp\ rmdir /s /q .\bin\innounp\
 REM innounp should always be updated
 REM innounp should always be updated
 REM innounp should always be updated
@@ -50,7 +58,7 @@ REM innounp should always be updated
 
 if not exist .\bin\innounp\innounp.exe call :DownloadInno
 .\bin\innounp\innounp.exe -q -x -y -d!folder! !file!
-del .\helpers\*.txt > nul
+if exist .\helpers\*.txt del .\helpers\*.txt >nul:
 exit /b
 
 :DownloadInno
@@ -59,7 +67,7 @@ if not exist .\bin\wget.exe call :DownloadWget
 if not exist "download@source=typ_redirect" goto :DownloadInno
 if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
 .\bin\7-ZipPortable\App\7-Zip\7z.exe x download@source=typ_redirect * -obin\innounp\
-del "download@source=typ_redirect"
+if exist "download@source=typ_redirect" del "download@source=typ_redirect" >nul:
 (goto) 2>nul
 
 :Extract7zip
@@ -67,7 +75,7 @@ set /p file=<.\helpers\file.txt
 set /p folder=<.\helpers\folder.txt
 if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
 .\bin\7-ZipPortable\App\7-Zip\7z.exe x !file! * -o!folder!
-del .\helpers\*.txt > nul
+if exist .\helpers\*.txt del .\helpers\*.txt >nul:
 exit /b
 
 :Download7Zip
@@ -80,7 +88,7 @@ echo README README README README
 echo PLEASE PROCEED THROUGH ALL DIALOGUE OPTIONS
 echo DO NOT HIT RUN
 echo PRESS ENTER WHEN READ
-pause>nul
+pause >nul:
 .\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
 (goto) 2>nul
 
@@ -88,8 +96,8 @@ pause>nul
 set /p file=<.\helpers\file.txt
 set /p folder=<.\helpers\folder.txt
 if not exist .\helpers\extractzip.vbs call :CreateExtractZipVBS
-cscript .\helpers\extractzip.vbs !file! !folder! > nul
-del .\helpers\*.txt > nul
+cscript .\helpers\extractzip.vbs !file! !folder! >nul:
+if exist .\helpers\*.txt del .\helpers\*.txt >nul:
 exit /b
 
 :CreateReplaceTextVBS
@@ -140,7 +148,7 @@ exit /b
 set /p file=<.\helpers\file.txt
 if not exist .\helpers\hide.vbs call :CreateHideVBS
 wscript .\helpers\hide.vbs !file!
-del .\helpers\*.txt > nul
+if exist .\helpers\*.txt del .\helpers\*.txt >nul:
 exit /b
 
 :CreateHideVBS
@@ -158,12 +166,12 @@ REM cscript .\helpers\download.vbs "%download%" "%file%"
 if not exist .\bin\wget.exe call :DownloadWget
 .\bin\wget.exe -q --show-progress %download% %file%
 
-del .\helpers\*.txt > nul
+if exist .\helpers\*.txt del .\helpers\*.txt >nul:
 exit /b
 
 :DownloadWget
 if not exist .\helpers\download.vbs call :CreateDownloadVBS
-cscript .\helpers\download.vbs https://eternallybored.org/misc/wget/current/wget.exe .\bin\wget.exe > nul
+cscript .\helpers\download.vbs https://eternallybored.org/misc/wget/current/wget.exe .\bin\wget.exe >nul:
 exit /b
 
 :CreateDownloadVBS
@@ -188,5 +196,5 @@ exit /b
 
 :Update
 if not exist .\helpers\download.vbs call :CreateDownloadVBS
-cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat > nul
+cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat >nul:
 exit /b

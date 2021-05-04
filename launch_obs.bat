@@ -4,14 +4,22 @@ setlocal enableextensions
 Color 0A
 cls
 title Portable OBS Launcher - Helper Edition
-set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
+set nag=Finally Getting Updates After 4 Years (Helper Update)
 set new_version=OFFLINE_OR_NO_UPDATES
-if exist replacer.bat del replacer.bat
-if exist "%~n0_poc.bat" del "%~n0_poc.bat"
+
+set "name=%~n0"
+set "name=!name:launch_=!"
+set "license=.\doc\!name!_license.txt"
+set "main_launcher=%~n0.bat"
+set "poc_launcher=%~n0_poc.bat"
+set "quick_launcher=quick%~n0.bat"
+
+if exist replacer.bat del replacer.bat >nul:
+if exist !poc_launcher! del !poc_launcher! >nul:
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
-call :Alpha-To-Number
+call :AlphaToNumber
 call :SetArch
 call :FolderCheck
 call :Version
@@ -45,7 +53,7 @@ echo f. relink source paths
 echo.
 set /p choice="enter a number and press enter to confirm: "
 :: sets errorlevel to 0 (?)
-ver > nul
+ver >nul:
 :: an incorrect call throws an errorlevel of 1
 :: replace all goto Main with (goto) 2>nul (if they are called by the main menu)
 call :%choice%
@@ -66,7 +74,7 @@ call :UpgradeOBS
 
 :2
 :LaunchOBS
-if not exist ".\bin\obs\bin\!arch!Bit\obs!arch!.exe" set "nag=PLEASE INSTALL OBS FIRST" && (goto) 2>nul
+if not exist ".\bin\obs\bin\!arch!Bit\obs!arch!.exe" set "nag=PLEASE INSTALL OBS FIRST" & (goto) 2>nul
 title DO NOT CLOSE
 set "Path=!PATH!;!folder!\dll\!arch!\;"
 cls
@@ -78,24 +86,24 @@ exit
 :3
 :ResetOBS
 taskkill /f /im obs!arch!.exe
-for /d %%i in (".\bin\obs\*") do if /i not "%%i"==".\bin\obs\bin" rmdir /s /q "%%i"
+for /d %%i in (".\bin\obs\*") do if /i not "%%i"==".\bin\obs\bin" if exist "%%i" rmdir /s /q "%%i"
 (goto) 2>nul
 
 :4
 :UninstallOBS
 taskkill /f /im obs!arch!.exe
-rmdir /s /q .\bin\obs\bin\
-del .\extra\OBS*.zip
+if exist .\bin\obs\bin\ rmdir /s /q .\bin\obs\bin\
+if exist .\extra\OBS*.zip del .\extra\OBS*.zip >nul:
 (goto) 2>nul
 
 :5
 :UpdateCheck
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 cls
 title Portable OBS Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 set new_version=%Line_8%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & (goto) 2>nul
 if %current_version% EQU %new_version% call :LatestBuild & (goto) 2>nul
@@ -107,8 +115,8 @@ call :ErrorOffline & (goto) 2>nul
 :6
 :About
 cls
-del .\doc\obs_license.txt
-start launch_obs.bat
+if exist !license! del !license! >nul:
+start %~n0
 exit
 
 :7
@@ -118,7 +126,7 @@ exit
 :DLLDownloaderCheck
 cls & title Portable OBS Launcher - Helper Edition - Download Dll Downloader
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
-cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
+cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul: & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
 (goto) 2>nul
 
@@ -126,7 +134,7 @@ cls & start launch_dlldownloader.bat
 :PortableEverything
 cls & title Portable OBS Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
-cls & if exist launch_everything.bat.1 del launch_everything.bat & rename launch_everything.bat.1 launch_everything.bat
+cls & if exist launch_everything.bat.1 del launch_everything.bat >nul: & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
 (goto) 2>nul
 
@@ -134,36 +142,39 @@ cls & start launch_everything.bat
 :QuicklauncherCheck
 cls
 title Portable OBS Launcher - Helper Edition - Quicklauncher Writer
-echo @echo off > quicklaunch_obs.bat
-echo Color 0A >> quicklaunch_obs.bat
-echo cls >> quicklaunch_obs.bat
-echo set arch=32 >> quicklaunch_obs.bat
-echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64" >> quicklaunch_obs.bat
-echo set "folder=%%CD%%" >> quicklaunch_obs.bat
-echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >> quicklaunch_obs.bat
-echo set "UserProfile=%%folder%%\data\" >> quicklaunch_obs.bat
-echo set "AppData=%%folder%%\data\AppData\Roaming\" >> quicklaunch_obs.bat
-echo set "LocalAppData=%%folder%%\data\AppData\Local\" >> quicklaunch_obs.bat
-echo cls >> quicklaunch_obs.bat
-echo cd .\bin\obs\bin\%%arch%%Bit\ >> quicklaunch_obs.bat
-echo start obs%%arch%%.exe --portable >> quicklaunch_obs.bat
-echo exit >> quicklaunch_obs.bat
-echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_obs.bat
-echo ENTER TO CONTINUE & pause>nul:
-(goto) 2>nul
+echo @echo off >!quick_launcher!
+echo Color 0A >>!quick_launcher!
+echo cls >>!quick_launcher!
+echo set arch=32 >>!quick_launcher!
+echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64" >>!quick_launcher!
+echo set "folder=%%CD%%" >>!quick_launcher!
+echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >>!quick_launcher!
+echo set "UserProfile=%%folder%%\data" >>!quick_launcher!
+echo set "AppData=%%folder%%\data\AppData\Roaming" >>!quick_launcher!
+echo set "LocalAppData=%%folder%%\data\AppData\Local" >>!quick_launcher!
+echo set "ProgramData=%%folder%%\data\ProgramData" >>!quick_launcher!
+echo cls >>!quick_launcher!
+echo cd .\bin\obs\bin\%%arch%%Bit\ >>!quick_launcher!
+echo start obs%%arch%%.exe --portable >>!quick_launcher!
+echo exit >>!quick_launcher!
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
+echo ENTER TO CONTINUE & pause >nul:
+exit
 
 :d
 :UpgradeOBS
 title Portable OBS Launcher - Helper Edition - OBS Update Check
-if exist latest del latest
-if exist latest.txt del latest.txt
-if exist download del download
+if exist latest del latest >nul:
+if exist latest.txt del latest.txt >nul:
+if exist download del download >nul:
 call :HelperDownload "https://obsproject.com/download" "download"
 set counter=0
 :UpgradeSearchLoop
 set /a counter+=1
+REM for /f tokens^=%counter%delims^=^" %%A in (
+REM   'findstr /i /c:"https://cdn-fastly.obsproject.com/downloads/OBS-Studio" download'
 for /f tokens^=%counter%delims^=^" %%A in (
-  'findstr /i /c:"https://cdn-fastly.obsproject.com/downloads/OBS-Studio" /c:"Download Zip" download'
+  'findstr /i /c:"Download Zip" download'
 ) Do > .\doc\obs_link.txt Echo:%%A
 set /p obs_link=<.\doc\obs_link.txt
 REM call :HelperDownload "https://api.github.com/repos/jp9000/obs-studio/releases/latest" "latest"
@@ -171,7 +182,7 @@ REM echo.> latest.txt
 REM TYPE latest | MORE /P > latest.txt
 REM :LoopOBSFile
 REM for /f tokens^=4delims^=^" %%A in (
-REM   'findstr /i /c:"browser_download_url" /c:"browser_download_url" latest.txt'
+REM   'findstr /i /c:"browser_download_url" latest.txt'
 REM ) Do > .\doc\obs_link.txt Echo:%%A
 REM set /p obs_link=<.\doc\obs_link.txt
 REM if "!obs_link:~-4!"==".dmg" echo "mac"
@@ -182,12 +193,12 @@ echo !counter!
 if "!obs_link:~0,53!"=="https://obsproject.com/downloads/torrents/OBS-Studio-" echo hit & goto ExitUpgradeSearchLoop
 goto UpgradeSearchLoop
 :ExitUpgradeSearchLoop
-if exist download del download
+if exist download del download >nul:
 set "obs_link=!obs_link:-Installer-x64.exe.torrent=-x64.zip!"
 set "obs_link=!obs_link:https://obsproject.com/=https://cdn-fastly.obsproject.com/!"
 set "obs_link=!obs_link:/torrents/=/!"
 echo "!obs_link!"
-echo PRESS ENTER TO CONTINUE & pause>nul
+echo PRESS ENTER TO CONTINUE & pause >nul:
 if "!arch!"=="32" set "obs_link=!obs_link:~0,-13!-Full-x86.zip"
 if "!arch!"=="64" set "obs_link=!obs_link:~0,-13!-Full-x64.zip"
 set "obs_temp=!obs_link!"
@@ -207,9 +218,9 @@ cls
 echo "!obs_zip:~11,-13!"
 echo "!obs_zip!"
 echo "!obs_link!"
-echo PRESS ENTER TO CONTINUE & pause>nul
-if exist download del download:
-if exist latest.txt del latest.txt
+echo PRESS ENTER TO CONTINUE & pause >nul:
+if exist download del download >nul:
+if exist latest.txt del latest.txt >nul:
 cls
 set broke=0
 if exist ".\extra\!obs_zip!" (
@@ -223,7 +234,7 @@ call :HelperDownload "!obs_link!" "!obs_zip!"
 :MoveOBS
 move "!obs_zip!" ".\extra\!obs_zip!"
 :ExtractOBS
-rmdir /s /q .\bin\obs\bin\
+if exist .\bin\obs\bin\ rmdir /s /q .\bin\obs\bin\
 call :HelperExtract "!folder!\extra\!obs_zip!" "!folder!\bin\obs\"
 (goto) 2>nul
 
@@ -278,43 +289,63 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
+set "UserProfile=!folder!\data"
+set "AppData=!folder!\data\AppData\Roaming"
+set "LocalAppData=!folder!\data\AppData\Local"
+set "ProgramData=!folder!\data\ProgramData"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\helpers\ mkdir .\helpers\
+if not exist .\ini\ mkdir .\ini\
 if not exist .\note\ mkdir .\note\
 if not exist .\data\AppData\Local\ mkdir .\data\AppData\Local\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
+if not exist .\data\ProgramData\ mkdir .\data\ProgramData\
+if not exist ".\data\3D Objects\" mkdir ".\data\3D Objects\"
+if not exist ".\data\Contacts\" mkdir ".\data\Contacts\"
+if not exist ".\data\Desktop\" mkdir ".\data\Desktop\"
+if not exist ".\data\Documents\" mkdir ".\data\Documents\"
+if not exist ".\data\Downloads\" mkdir ".\data\Downloads\"
+if not exist ".\data\Favorites\" mkdir ".\data\Favorites\"
+if not exist ".\data\Links\" mkdir ".\data\Links\"
+if not exist ".\data\Music\" mkdir ".\data\Music\"
+if not exist ".\data\OneDrive\" mkdir ".\data\OneDrive\"
+if not exist ".\data\Pictures\" mkdir ".\data\Pictures\"
+if not exist ".\data\Saved Games\" mkdir ".\data\Saved Games\"
+if not exist ".\data\Searches\" mkdir ".\data\Searches\"
+if not exist ".\data\Videos\" mkdir ".\data\Videos\"
 if exist .\data\obs\ call :Release-v21-Upgrade
 if not exist ".\bin\obs\bin\!arch!Bit\obs!arch!.exe" set nag=OBS IS NOT INSTALLED CHOOSE "D"
 (goto) 2>nul
 
 :Version
 cls
-echo 27 > .\doc\version.txt
+echo 28 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt
-:: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
+if exist .\doc\version.txt del .\doc\version.txt >nul:
 (goto) 2>nul
 
 :Credits
 cls
-if exist .\doc\obs_license.txt (goto) 2>nul
-echo ================================================== > .\doc\obs_license.txt
-echo =              Script by MarioMasta64            = >> .\doc\obs_license.txt
-echo =           Script Version: v%current_version%- release        = >> .\doc\obs_license.txt
-echo ================================================== >> .\doc\obs_license.txt
-echo =You may Modify this WITH consent of the original= >> .\doc\obs_license.txt
-echo = creator, as long as you include a copy of this = >> .\doc\obs_license.txt
-echo =      as you include a copy of the License      = >> .\doc\obs_license.txt
-echo ================================================== >> .\doc\obs_license.txt
-echo =    You may also modify this script without     = >> .\doc\obs_license.txt
-echo =         consent for PERSONAL USE ONLY          = >> .\doc\obs_license.txt
-echo ================================================== >> .\doc\obs_license.txt
+if exist !license! (goto) 2>nul
+echo ================================================== > !license!
+echo =              Script by MarioMasta64            = >> !license!
+set "extra_space="
+if %current_version% LSS 10 set "extra_space= "
+echo =           Script Version: v%current_version%- release        %extra_space%= >> !license!
+echo ================================================== >> !license!
+echo =You may Modify this WITH consent of the original= >> !license!
+echo = creator, as long as you include a copy of this = >> !license!
+echo =      as you include a copy of the License      = >> !license!
+echo ================================================== >> !license!
+echo =    You may also modify this script without     = >> !license!
+echo =         consent for PERSONAL USE ONLY          = >> !license!
+echo ================================================== >> !license!
 cls
 title Portable OBS Launcher - Helper Edition - About
-for /f "DELIMS=" %%i in (.\doc\obs_license.txt) do (echo %%i)
+for /f "DELIMS=" %%i in (!license!) do (echo %%i)
 pause
 call :PingInstall
 (goto) 2>nul
@@ -332,7 +363,7 @@ if not exist launch_helpers.bat call :DownloadHelpers
 (goto) 2>nul
 :DownloadHelpers
 if not exist .\helpers\download.vbs call :CreateDownloadVBS
-cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat > nul
+cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat >nul:
 (goto) 2>nul
 :CreateDownloadVBS
 echo Dim Arg, download, file > .\helpers\download.vbs
@@ -420,9 +451,11 @@ echo %sha1%
 set program=%~n0
 echo %program:~7%
 echo "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%"
+if exist new_install.php del new_install.php >nul:
+if exist serial.txt del serial.txt >nul:
 REM call :HelperDownload "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%" "new_install.php"
-del new_install.php*
-del serial.txt
+if exist new_install.php del new_install.php >nul:
+if exist serial.txt del serial.txt >nul:
 (goto) 2>nul
 
 :UpdateWget
@@ -436,8 +469,8 @@ title Portable OBS Launcher - Helper Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE & pause>nul:
-start launch_obs.bat
+echo ENTER TO CONTINUE & pause >nul:
+start %~n0
 exit
 
 :NewUpdate
@@ -457,8 +490,8 @@ goto NewUpdate
 
 :UpdateNow
 cls & title Portable OBS Launcher - Helper Edition - Updating Launcher
-call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_obs.bat" "launch_obs.bat.1"
-cls & if exist launch_obs.bat.1 goto ReplacerCreate
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/!main_launcher!" "!main_launcher!.1"
+cls & if exist %~n0.1 goto ReplacerCreate
 cls & call :ErrorOffline
 (goto) 2>nul
 
@@ -466,11 +499,11 @@ cls & call :ErrorOffline
 cls
 echo @echo off > replacer.bat
 echo Color 0A >> replacer.bat
-echo del launch_obs.bat >> replacer.bat
-echo rename launch_obs.bat.1 launch_obs.bat >> replacer.bat
-echo start launch_obs.bat >> replacer.bat
+echo del %~n0 >> replacer.bat
+echo rename %~n0.1 %~n0 >> replacer.bat
+echo start %~n0 >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
-echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> replacer.bat
+echo (goto) 2^ >nul: ^& del "%%~f0" ^& exit >> replacer.bat
 call :HelperHide "replacer.bat"
 exit
 
@@ -481,8 +514,8 @@ echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE & pause>nul:
-start launch_obs.bat
+echo ENTER TO CONTINUE & pause >nul:
+start %~n0
 exit
 
 :ErrorOffline
@@ -539,7 +572,7 @@ echo (C) Copyright Microsoft Corporation. All rights reserved
 echo.
 echo nice job finding me. have fun with my little cmd prompt.
 echo upon error (more likely than not) i will return to the menu.
-echo type "(goto) 2^>nul" or make me error to return.
+echo type "(goto) 2^ >nul:" or make me error to return.
 echo.
 :CmdLoop
 set /p "cmd=%cd%>"
@@ -554,12 +587,12 @@ echo cls >> relaunch.bat
 echo Color 0A >> relaunch.bat
 echo start %~f0 >> relaunch.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
-echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> relaunch.bat
+echo (goto) 2^ >nul: ^& del "%%~f0" ^& exit >> relaunch.bat
 call :HelperHide "relaunch.bat"
 exit
 
 :Release-v21-Upgrade
 if exist .\bin\obs\config\obs-studio\ rmdir /s /q .\bin\obs\config\obs-studio\
 xcopy .\data\obs\* .\bin\obs\config\obs-studio\ /e /i /y
-rmdir /s /q .\data\obs\
+if exist .\data\obs\ rmdir /s /q .\data\obs\
 (goto) 2>nul

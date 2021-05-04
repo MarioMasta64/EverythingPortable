@@ -4,14 +4,22 @@ setlocal enableextensions
 Color 0A
 cls
 title Portable Tor Launcher - Helper Edition
-set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
+set nag=Finally Getting Updates After 4 Years (Helper Update)
 set new_version=OFFLINE_OR_NO_UPDATES
-if exist replacer.bat del replacer.bat
-if exist "%~n0_poc.bat" del "%~n0_poc.bat"
+
+set "name=%~n0"
+set "name=!name:launch_=!"
+set "license=.\doc\!name!_license.txt"
+set "main_launcher=%~n0.bat"
+set "poc_launcher=%~n0_poc.bat"
+set "quick_launcher=quick%~n0.bat"
+
+if exist replacer.bat del replacer.bat >nul:
+if exist !poc_launcher! del !poc_launcher! >nul:
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
-call :Alpha-To-Number
+call :AlphaToNumber
 call :SetArch
 call :FolderCheck
 call :Version
@@ -43,7 +51,7 @@ echo e. install text-reader [update if had]
 echo.
 set /p choice="enter a number and press enter to confirm: "
 :: sets errorlevel to 0 (?)
-ver > nul
+ver >nul:
 :: an incorrect call throws an errorlevel of 1
 :: replace all goto Main with (goto) 2>nul (if they are called by the main menu)
 call :%choice%
@@ -64,11 +72,11 @@ call :UpgradeTor
 
 :2
 :LaunchTor
-if not exist ".\bin\tor\firefox.exe" set "nag=PLEASE INSTALL TOR FIRST" && (goto) 2>nul
+if not exist ".\bin\tor\firefox.exe" set "nag=PLEASE INSTALL TOR FIRST" & (goto) 2>nul
 title DO NOT CLOSE
 cls
 echo TOR IS RUNNING
-start .\bin\tor\firefox.exe "https://github.com/MarioMasta64/EverythingPortable/releases/latest/"
+start .\bin\tor\firefox.exe "https://github.com/MarioMasta64/EverythingPortable/"
 exit
 
 :3
@@ -83,12 +91,12 @@ call :Null
 
 :5
 :UpdateCheck
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 cls
 title Portable Tor Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 set new_version=%Line_18%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & (goto) 2>nul
 if %current_version% EQU %new_version% call :LatestBuild & (goto) 2>nul
@@ -100,8 +108,8 @@ call :ErrorOffline & (goto) 2>nul
 :6
 :About
 cls
-del .\doc\tor_license.txt
-start launch_tor.bat
+if exist !license! del !license! >nul:
+start %~n0
 exit
 
 :7
@@ -111,7 +119,7 @@ exit
 :DLLDownloaderCheck
 cls & title Portable Tor Launcher - Helper Edition - Download Dll Downloader
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
-cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
+cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul: & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
 (goto) 2>nul
 
@@ -119,7 +127,7 @@ cls & start launch_dlldownloader.bat
 :PortableEverything
 cls & title Portable Tor Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
-cls & if exist launch_everything.bat.1 del launch_everything.bat & rename launch_everything.bat.1 launch_everything.bat
+cls & if exist launch_everything.bat.1 del launch_everything.bat >nul: & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
 (goto) 2>nul
 
@@ -127,24 +135,26 @@ cls & start launch_everything.bat
 :QuicklauncherCheck
 cls
 title Portable Tor Launcher - Helper Edition - Quicklauncher Writer
-echo @echo off > quicklaunch_tor.bat
-echo Color 0A >> quicklaunch_tor.bat
-echo cls >> quicklaunch_tor.bat
-echo set "folder=%%CD%%" >> quicklaunch_tor.bat
-echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >> quicklaunch_tor.bat
-echo set "UserProfile=%%folder%%\data\" >> quicklaunch_tor.bat
-echo set "AppData=%%folder%%\data\AppData\Roaming\" >> quicklaunch_tor.bat
-echo set "LocalAppData=%%folder%%\data\AppData\Local\" >> quicklaunch_tor.bat
-echo cls >> quicklaunch_tor.bat
-echo start .\bin\tor\firefox.exe "https://github.com/MarioMasta64/EverythingPortable/releases/latest/" >> quicklaunch_tor.bat
-echo exit >> quicklaunch_tor.bat
-echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_tor.bat
-echo ENTER TO CONTINUE & pause>nul:
-(goto) 2>nul
+echo @echo off >!quick_launcher!
+echo Color 0A >>!quick_launcher!
+echo cls >>!quick_launcher!
+echo set "folder=%%CD%%" >>!quick_launcher!
+echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >>!quick_launcher!
+echo set "UserProfile=%%folder%%\data" >>!quick_launcher!
+echo set "AppData=%%folder%%\data\AppData\Roaming" >>!quick_launcher!
+echo set "LocalAppData=%%folder%%\data\AppData\Local" >>!quick_launcher!
+echo set "ProgramData=%%folder%%\data\ProgramData" >>!quick_launcher!
+echo cls >>!quick_launcher!
+echo start .\bin\tor\firefox.exe "https://github.com/MarioMasta64/EverythingPortable/" >>!quick_launcher!
+echo exit >>!quick_launcher!
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
+echo ENTER TO CONTINUE & pause >nul:
+exit
 
 :d
 :UpgradeTor
-title Portable Tor Launcher - Helper Edition - Tor Update Checkif exist index.html del index.html
+title Portable Tor Launcher - Helper Edition - Tor Update Check
+if exist index.html del index.html >nul:
 call :HelperDownload "https://www.torproject.org/download/" "index.html"
 for /f tokens^=4delims^=^" %%A in (
   'findstr /i /c:".exe" index.html'
@@ -170,7 +180,7 @@ for /f "delims=/" %%A in ("!tor_exe!") do set tor_exe=!tor_exe:%%~nxA/=!
 for /f "delims=/" %%A in ("!tor_exe!") do set tor_exe=!tor_exe:%%~nxA/=!
 for /f "delims=/" %%A in ("!tor_exe!") do set tor_exe=!tor_exe:%%~nxA/=!
 set tor_exe=!tor_exe:/=!
-if exist index.html del index.html
+if exist index.html del index.html >nul:
 cls
 if exist .\extra\!tor_exe! (
   echo vivaldi is updated.
@@ -179,15 +189,16 @@ if exist .\extra\!tor_exe! (
 )
 echo !tor_link!
 echo !tor_exe!
-if exist "!tor_exe!" del "!tor_exe!"
+pause
+if exist "!tor_exe!" del "!tor_exe!" >nul:
 call :HelperDownload "!tor_link!" "!tor_exe!"
 :MoveTor
 move "!tor_exe!" ".\extra\!tor_exe!"
 :ExtractTor
 call :HelperExtract7Zip "!folder!\extra\!tor_exe!" "!folder!\bin\tor\"
-rmdir /s /q .\bin\tor\$PLUGINSDIR\
+if exist .\bin\tor\$PLUGINSDIR\ rmdir /s /q .\bin\tor\$PLUGINSDIR\
 xcopy /q .\bin\tor\Browser\* .\bin\tor\ /e /i /y
-rmdir /s /q .\bin\tor\Browser\
+if exist .\bin\tor\Browser\ rmdir /s /q .\bin\tor\Browser\
 (goto) 2>nul
 
 :e
@@ -202,45 +213,62 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
-set "UserProfile=!folder!\data\"
-set "AppData=!folder!\data\AppData\Roaming\"
-set "LocalAppData=!folder!\data\AppData\Local\"
+set "UserProfile=!folder!\data"
+set "AppData=!folder!\data\AppData\Roaming"
+set "LocalAppData=!folder!\data\AppData\Local"
+set "ProgramData=!folder!\data\ProgramData"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\helpers\ mkdir .\helpers\
+if not exist .\ini\ mkdir .\ini\
 if not exist .\note\ mkdir .\note\
 if not exist .\data\AppData\Local\ mkdir .\data\AppData\Local\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
+if not exist .\data\ProgramData\ mkdir .\data\ProgramData\
+if not exist ".\data\3D Objects\" mkdir ".\data\3D Objects\"
+if not exist ".\data\Contacts\" mkdir ".\data\Contacts\"
+if not exist ".\data\Desktop\" mkdir ".\data\Desktop\"
+if not exist ".\data\Documents\" mkdir ".\data\Documents\"
+if not exist ".\data\Downloads\" mkdir ".\data\Downloads\"
+if not exist ".\data\Favorites\" mkdir ".\data\Favorites\"
+if not exist ".\data\Links\" mkdir ".\data\Links\"
+if not exist ".\data\Music\" mkdir ".\data\Music\"
+if not exist ".\data\OneDrive\" mkdir ".\data\OneDrive\"
+if not exist ".\data\Pictures\" mkdir ".\data\Pictures\"
+if not exist ".\data\Saved Games\" mkdir ".\data\Saved Games\"
+if not exist ".\data\Searches\" mkdir ".\data\Searches\"
+if not exist ".\data\Videos\" mkdir ".\data\Videos\"
 if not exist ".\bin\tor\firefox.exe" set nag=TOR IS NOT INSTALLED CHOOSE "D"
 (goto) 2>nul
 
 :Version
 cls
-echo 9 > .\doc\version.txt
+echo 10 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt
-:: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
+if exist .\doc\version.txt del .\doc\version.txt >nul:
 (goto) 2>nul
 
 :Credits
 cls
-if exist .\doc\tor_license.txt (goto) 2>nul
-echo ================================================== > .\doc\tor_license.txt
-echo =              Script by MarioMasta64            = >> .\doc\tor_license.txt
-echo =           Script Version: v%current_version%- release        = >> .\doc\tor_license.txt
-echo ================================================== >> .\doc\tor_license.txt
-echo =You may Modify this WITH consent of the original= >> .\doc\tor_license.txt
-echo = creator, as long as you include a copy of this = >> .\doc\tor_license.txt
-echo =      as you include a copy of the License      = >> .\doc\tor_license.txt
-echo ================================================== >> .\doc\tor_license.txt
-echo =    You may also modify this script without     = >> .\doc\tor_license.txt
-echo =         consent for PERSONAL USE ONLY          = >> .\doc\tor_license.txt
-echo ================================================== >> .\doc\tor_license.txt
+if exist !license! (goto) 2>nul
+echo ================================================== > !license!
+echo =              Script by MarioMasta64            = >> !license!
+set "extra_space="
+if %current_version% LSS 10 set "extra_space= "
+echo =           Script Version: v%current_version%- release        %extra_space%= >> !license!
+echo ================================================== >> !license!
+echo =You may Modify this WITH consent of the original= >> !license!
+echo = creator, as long as you include a copy of this = >> !license!
+echo =      as you include a copy of the License      = >> !license!
+echo ================================================== >> !license!
+echo =    You may also modify this script without     = >> !license!
+echo =         consent for PERSONAL USE ONLY          = >> !license!
+echo ================================================== >> !license!
 cls
 title Portable Tor Launcher - Helper Edition - About
-for /f "DELIMS=" %%i in (.\doc\tor_license.txt) do (echo %%i)
+for /f "DELIMS=" %%i in (!license!) do (echo %%i)
 pause
 call :PingInstall
 (goto) 2>nul
@@ -258,7 +286,7 @@ if not exist launch_helpers.bat call :DownloadHelpers
 (goto) 2>nul
 :DownloadHelpers
 if not exist .\helpers\download.vbs call :CreateDownloadVBS
-cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat > nul
+cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat >nul:
 (goto) 2>nul
 :CreateDownloadVBS
 echo Dim Arg, download, file > .\helpers\download.vbs
@@ -346,9 +374,11 @@ echo %sha1%
 set program=%~n0
 echo %program:~7%
 echo "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%"
+if exist new_install.php del new_install.php >nul:
+if exist serial.txt del serial.txt >nul:
 REM call :HelperDownload "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%" "new_install.php"
-del new_install.php*
-del serial.txt
+if exist new_install.php del new_install.php >nul:
+if exist serial.txt del serial.txt >nul:
 (goto) 2>nul
 
 :UpdateWget
@@ -362,8 +392,8 @@ title Portable Tor Launcher - Helper Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE & pause>nul:
-start launch_tor.bat
+echo ENTER TO CONTINUE & pause >nul:
+start %~n0
 exit
 
 :NewUpdate
@@ -383,8 +413,8 @@ goto NewUpdate
 
 :UpdateNow
 cls & title Portable Tor Launcher - Helper Edition - Updating Launcher
-call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_tor.bat" "launch_tor.bat.1"
-cls & if exist launch_tor.bat.1 goto ReplacerCreate
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/!main_launcher!" "!main_launcher!.1"
+cls & if exist %~n0.1 goto ReplacerCreate
 cls & call :ErrorOffline
 (goto) 2>nul
 
@@ -392,11 +422,11 @@ cls & call :ErrorOffline
 cls
 echo @echo off > replacer.bat
 echo Color 0A >> replacer.bat
-echo del launch_tor.bat >> replacer.bat
-echo rename launch_tor.bat.1 launch_tor.bat >> replacer.bat
-echo start launch_tor.bat >> replacer.bat
+echo del %~n0 >> replacer.bat
+echo rename %~n0.1 %~n0 >> replacer.bat
+echo start %~n0 >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
-echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> replacer.bat
+echo (goto) 2^ >nul: ^& del "%%~f0" ^& exit >> replacer.bat
 call :HelperHide "replacer.bat"
 exit
 
@@ -407,8 +437,8 @@ echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE & pause>nul:
-start launch_tor.bat
+echo ENTER TO CONTINUE & pause >nul:
+start %~n0
 exit
 
 :ErrorOffline
@@ -465,7 +495,7 @@ echo (C) Copyright Microsoft Corporation. All rights reserved
 echo.
 echo nice job finding me. have fun with my little cmd prompt.
 echo upon error (more likely than not) i will return to the menu.
-echo type "(goto) 2^>nul" or make me error to return.
+echo type "(goto) 2^ >nul:" or make me error to return.
 echo.
 :CmdLoop
 set /p "cmd=%cd%>"
@@ -480,348 +510,6 @@ echo cls >> relaunch.bat
 echo Color 0A >> relaunch.bat
 echo start %~f0 >> relaunch.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
-echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> relaunch.bat
+echo (goto) 2^ >nul: ^& del "%%~f0" ^& exit >> relaunch.bat
 call :HelperHide "relaunch.bat"
 exit
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@echo off
-setlocal enabledelayedexpansion
-Color 0A
-cls
-title PORTABLE TOR LAUNCHER
-set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
-set new_version=OFFLINE
-if exist replacer.bat del replacer.bat
-if "%~1" neq "" (call :%~1 & exit /b !current_version!)
-
-:FOLDERCHECK
-cls
-if not exist .\bin\tor\ mkdir .\bin\tor\
-if not exist .\doc\ mkdir .\doc\
-if not exist .\extra\ mkdir .\extra\
-call :VERSION
-goto CREDITS
-
-:VERSION
-cls
-echo 8 > .\doc\version.txt
-set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt
-exit /b
-
-:CREDITS
-cls
-if exist .\doc\tor_license.txt goto TORCHECK
-echo ================================================== > .\doc\tor_license.txt
-echo =              Script by MarioMasta64            = >> .\doc\tor_license.txt
-:: REMOVE SPACE AFTER VERSION HITS DOUBLE DIGITS
-echo =           Script Version: v%current_version%- release         = >> .\doc\tor_license.txt
-echo ================================================== >> .\doc\tor_license.txt
-echo =You may Modify this WITH consent of the original= >> .\doc\tor_license.txt
-echo = creator, as long as you include a copy of this = >> .\doc\tor_license.txt
-echo =      as you include a copy of the License      = >> .\doc\tor_license.txt
-echo ================================================== >> .\doc\tor_license.txt
-echo =    You may also modify this script without     = >> .\doc\tor_license.txt
-echo =         consent for PERSONAL USE ONLY          = >> .\doc\tor_license.txt
-echo ================================================== >> .\doc\tor_license.txt
-
-:CREDITSREAD
-cls
-title PORTABLE TOR LAUNCHER - ABOUT
-for /f "DELIMS=" %%i in (.\doc\tor_license.txt) do (echo %%i)
-pause
-
-:TORCHECK
-cls
-if not exist .\bin\tor\firefox.exe goto FILECHECK
-goto WGETUPDATE
-
-:FILECHECK
-cls
-if not exist .\extra\torbrowser-install-6.5.1_en-US.exe goto DOWNLOADTOR
-if not exist .\bin\7-ZipPortable\7-ZipPortable.exe goto 7ZIPINSTALLERCHECK
-.\bin\7-ZipPortable\App\7-Zip%arch%\7z.exe x .\extra\torbrowser-install-6.5.1_en-US.exe * -o.\bin\tor\
-rmdir /s /q .\bin\tor\$PLUGINSDIR\
-cd bin\tor\Browser
-xcopy /q .\* .. /e /i /y
-cd ..
-cd ..
-cd ..
-goto TORCHECK
-
-:DOWNLOADTOR
-cls
-title PORTABLE TOR LAUNCHER - DOWNLOAD TOR
-if exist torbrowser-install-6.5.1_en-US.exe goto MOVETOR
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://github.com/TheTorProject/gettorbrowser/releases/download/v6.5.1/torbrowser-install-6.5.1_en-US.exe
-
-:MOVETOR
-cls
-move torbrowser-install-6.5.1_en-US.exe .\extra\torbrowser-install-6.5.1_en-US.exe
-goto FILECHECK
-
-:7ZIPINSTALLERCHECK
-if not exist .\extra\7-ZipPortable_16.04.paf.exe goto DOWNLOAD7ZIP
-title PORTABLE TOR LAUNCHER - RUNNING 7ZIP INSTALLER
-.\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
-goto FILECHECK
-
-:DOWNLOAD7ZIP
-cls
-title PORTABLE TOR LAUNCHER - DOWNLOAD 7ZIP
-if exist 7-ZipPortable_16.04.paf.exe goto MOVE7ZIP
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
-
-:MOVE7ZIP
-cls
-move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
-goto FILECHECK
-
-:WGETUPDATE
-cls
-title PORTABLE TOR LAUNCHER - UPDATE WGET
-wget https://eternallybored.org/misc/wget/current/wget.exe
-move wget.exe .\bin\
-goto MENU
-
-:DOWNLOADWGET
-cls
-call :CHECKWGETDOWNLOADER
-exit /b
-
-:CHECKWGETDOWNLOADER
-cls
-if not exist .\bin\downloadwget.vbs call :CREATEWGETDOWNLOADER
-if exist .\bin\downloadwget.vbs call :EXECUTEWGETDOWNLOADER
-exit /b
-
-:CREATEWGETDOWNLOADER
-cls
-echo ' Set your settings > .\bin\downloadwget.vbs
-echo    strFileURL = "https://eternallybored.org/misc/wget/current/wget.exe" >> .\bin\downloadwget.vbs
-echo    strHDLocation = "wget.exe" >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo ' Fetch the file >> .\bin\downloadwget.vbs
-echo     Set objXMLHTTP = CreateObject("MSXML2.XMLHTTP") >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo     objXMLHTTP.open "GET", strFileURL, false >> .\bin\downloadwget.vbs
-echo     objXMLHTTP.send() >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo If objXMLHTTP.Status = 200 Then >> .\bin\downloadwget.vbs
-echo Set objADOStream = CreateObject("ADODB.Stream") >> .\bin\downloadwget.vbs
-echo objADOStream.Open >> .\bin\downloadwget.vbs
-echo objADOStream.Type = 1 'adTypeBinary >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo objADOStream.Write objXMLHTTP.ResponseBody >> .\bin\downloadwget.vbs
-echo objADOStream.Position = 0    'Set the stream position to the start >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo Set objFSO = Createobject("Scripting.FileSystemObject") >> .\bin\downloadwget.vbs
-echo If objFSO.Fileexists(strHDLocation) Then objFSO.DeleteFile strHDLocation >> .\bin\downloadwget.vbs
-echo Set objFSO = Nothing >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo objADOStream.SaveToFile strHDLocation >> .\bin\downloadwget.vbs
-echo objADOStream.Close >> .\bin\downloadwget.vbs
-echo Set objADOStream = Nothing >> .\bin\downloadwget.vbs
-echo End if >> .\bin\downloadwget.vbs
-echo. >> .\bin\downloadwget.vbs
-echo Set objXMLHTTP = Nothing >> .\bin\downloadwget.vbs
-exit /b
-
-:EXECUTEWGETDOWNLOADER
-cls
-title PORTABLE TOR LAUNCHER - DOWNLOAD WGET
-cscript.exe .\bin\downloadwget.vbs
-move wget.exe .\bin\
-exit /b
-
-:MENU
-cls
-title PORTABLE TOR LAUNCHER - MAIN MENU
-echo %NAG%
-set nag=SELECTION TIME!
-echo 1. reinstall tor [not a feature yet]
-echo 2. launch tor
-echo 3. reset tor [not a feature yet]
-echo 4. uninstall tor [not a feature yet]
-echo 5. update program
-echo 6. about
-echo 7. exit
-echo.
-echo b. download other projects
-echo.
-echo c. write a quicklauncher
-echo.
-set /p choice="enter a number and press enter to confirm: "
-if "%choice%"=="1" goto NEW
-if "%choice%"=="2" goto DEFAULT
-if "%choice%"=="3" goto SELECT
-if "%choice%"=="4" goto DELETE
-if "%choice%"=="5" goto UPDATECHECK
-if "%choice%"=="6" goto ABOUT
-if "%choice%"=="7" goto EXIT
-if "%CHOICE%"=="b" goto PORTABLEEVERYTHING
-if "%CHOICE%"=="c" goto QUICKLAUNCHERCHECK
-set nag="PLEASE SELECT A CHOICE 1-7 or b/c"
-goto MENU
-
-:NULL
-cls
-set nag="NOT A FEATURE YET!"
-goto MENU
-
-:NEW
-cls
-goto NULL
-
-:DEFAULT
-cls
-start .\bin\tor\firefox.exe
-exit
-
-:NOWRESETTING
-goto NULL
-
-:DELETE
-goto NULL
-
-:UPDATECHECK
-cls
-if exist version.txt del version.txt
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
-cls
-set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
-if exist version.txt del version.txt
-set new_version=%Line_18%
-if "%new_version%"=="OFFLINE" goto ERROROFFLINE
-if %current_version% EQU %new_version% goto LATEST
-if %current_version% LSS %new_version% goto NEWUPDATE
-if %current_version% GTR %new_version% goto NEWEST
-goto ERROROFFLINE
-
-:LATEST
-cls
-title PORTABLE TOR LAUNCHER - LATEST BUILD :D
-echo you are using the latest version!!
-echo Current Version: v%current_version%
-echo New Version: v%new_version%
-echo ENTER TO CONTINUE
-pause
-goto MENU
-
-:NEWUPDATE
-cls
-title PORTABLE TOR LAUNCHER - OLD BUILD D:
-echo %NAG%
-set nag=SELECTION TIME!
-echo you are using an older version
-echo enter yes or no
-echo Current Version: v%current_version%
-echo New Version: v%new_version%
-set /p choice="Update?: "
-if "%choice%"=="yes" goto UPDATE
-if "%choice%"=="no" goto MENU
-set nag="please enter YES or NO"
-goto NEWUPDATE
-
-:UPDATE
-cls
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_tor.bat
-cls
-if exist launch_tor.bat.1 goto REPLACERCREATE
-goto ERROROFFLINE
-
-:REPLACERCREATE
-cls
-echo @echo off > replacer.bat
-echo Color 0A >> replacer.bat
-echo del launch_tor.bat >> replacer.bat
-echo rename launch_tor.bat.1 launch_tor.bat >> replacer.bat
-echo start launch_tor.bat >> replacer.bat
-echo exit >> replacer.bat
-start replacer.bat
-exit
-
-:NEWEST
-cls
-title PORTABLE TOR LAUNCHER - TEST BUILD :0
-echo YOURE USING A TEST BUILD MEANING YOURE EITHER
-echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
-echo Current Version: v%current_version%
-echo New Version: v%new_version%
-echo ENTER TO CONTINUE
-pause
-start launch_tor.bat
-exit
-
-:ABOUT
-cls
-del .\doc\tor_license.txt
-start launch_tor.bat
-exit
-
-:PORTABLEEVERYTHING
-cls
-title PORTABLE TOR LAUNCHER - DOWNLOAD SUITE
-if not exist .\bin\wget.exe call :DOWNLOADWGET
-if not exist launch_everything.bat .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
-cls
-start launch_everything.bat
-exit
-
-:QUICKLAUNCHERCHECK
-cls
-title PORTABLE TOR LAUNCHER - QUICKLAUNCHER WRITER
-echo @echo off > quicklaunch_tor.bat
-echo Color 0A >> quicklaunch_tor.bat
-echo cls >> quicklaunch_tor.bat
-echo start .\bin\tor\firefox.exe >> quicklaunch_tor.bat
-echo exit >> quicklaunch_tor.bat
-echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_steam.bat
-pause
-exit
-
-:ERROROFFLINE
-cls
-set nag="YOU SEEM TO BE OFFLINE PLEASE RECONNECT TO THE INTERNET TO USE THIS FEATURE"
-goto MENU

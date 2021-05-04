@@ -3,9 +3,9 @@ setlocal enabledelayedexpansion
 Color 0A
 cls
 title PORTABLE MINECRAFT LAUNCHER
-set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
+set nag=Finally Getting Updates After 4 Years (Helper Update)
 set new_version=OFFLINE
-if exist replacer.bat del replacer.bat
+if exist replacer.bat del replacer.bat >nul:
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 
 :FOLDERCHECK
@@ -19,9 +19,9 @@ goto CREDITS
 
 :VERSION
 cls
-echo 11 > .\doc\version.txt
+echo 12 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt
+if exist .\doc\version.txt del .\doc\version.txt >nul:
 exit /b
 
 :CREDITS
@@ -29,7 +29,9 @@ cls
 if exist .\doc\minecraft_license.txt goto FILECHECK
 echo ================================================== > .\doc\minecraft_license.txt
 echo =              Script by MarioMasta64            = >> .\doc\minecraft_license.txt
-echo =           Script Version: v%current_version%- release        = >> .\doc\minecraft_license.txt
+set "extra_space="
+if %current_version% LSS 10 set "extra_space= "
+echo =           Script Version: v%current_version%- release        %extra_space%= >> .\doc\minecraft_license.txt
 echo ================================================== >> .\doc\minecraft_license.txt
 echo =You may Modify this WITH consent of the original= >> .\doc\minecraft_license.txt
 echo = creator, as long as you include a copy of this = >> .\doc\minecraft_license.txt
@@ -153,7 +155,7 @@ for /f "DELIMS=" %%i in ('type .\doc\profiles.txt') do (
     set /a Counter+=1
     set "Line_!Counter!=%%i"
 )
-if exist .\doc\profiles.txt del .\doc\profiles.txt
+if exist .\doc\profiles.txt del .\doc\profiles.txt >nul:
 exit /b
 
 :NEW
@@ -267,13 +269,13 @@ goto DELETE
 
 :NOWDELETING
 cls
-rmdir /s ".\data\minecraft\profiles\%PROFILE%\"
+if exist ".\data\minecraft\profiles\%PROFILE%\" rmdir /s ".\data\minecraft\profiles\%PROFILE%\"
 goto DELETE
 
 :DELETEMAIN
 cls
-rmdir /s .\data\minecraft\.minecraft\
-rmdir /s /q .\data\minecraft\java\
+if exist .\data\minecraft\.minecraft\ rmdir /s .\data\minecraft\.minecraft\
+if exist .\data\minecraft\java\ rmdir /s /q .\data\minecraft\java\
 goto DELETE
 
 :OSCHECK
@@ -324,12 +326,12 @@ goto JAVAINSTALLERCHECK
 
 :UPDATECHECK
 cls
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 cls
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 set new_version=%Line_4%
 if "%new_version%"=="OFFLINE" goto ERROROFFLINE
 if %current_version% EQU %new_version% goto LATEST
@@ -365,18 +367,18 @@ goto NEWUPDATE
 :UPDATE
 cls
 if not exist .\bin\wget.exe call :DOWNLOADWGET
-.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_minecraft.bat
+.\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/%~n0
 cls
-if exist launch_minecraft.bat.1 goto REPLACERCREATE
+if exist %~n0.1 goto REPLACERCREATE
 goto ERROROFFLINE
 
 :REPLACERCREATE
 cls
 echo @echo off > replacer.bat
 echo Color 0A >> replacer.bat
-echo del launch_minecraft.bat >> replacer.bat
-echo rename launch_minecraft.bat.1 launch_minecraft.bat >> replacer.bat
-echo start launch_minecraft.bat >> replacer.bat
+echo del %~n0 >> replacer.bat
+echo rename %~n0.1 %~n0 >> replacer.bat
+echo start %~n0 >> replacer.bat
 echo exit >> replacer.bat
 start replacer.bat
 exit
@@ -390,13 +392,13 @@ echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE
 pause
-start launch_minecraft.bat
+start %~n0
 exit
 
 :ABOUT
 cls
-del .\doc\minecraft_license.txt
-start launch_minecraft.bat
+if exist .\doc\minecraft_license.txt del .\doc\minecraft_license.txt >nul:
+start %~n0
 exit
 
 :PORTABLEEVERYTHING
@@ -411,13 +413,13 @@ exit
 :QUICKLAUNCHERCHECK
 cls
 title PORTABLE MINECRAFT LAUNCHER - QUICKLAUNCHER WRITER
-echo @echo off > quicklaunch_minecraft.bat
-echo Color 0A >> quicklaunch_minecraft.bat
-echo cls >> quicklaunch_minecraft.bat
-echo set APPDATA="%CD%\data\minecraft\" >> quicklaunch_minecraft.bat
-echo start "" .\bin\commonfiles\java64\bin\javaw.exe -jar .\bin\Minecraft.jar >> quicklaunch_minecraft.bat
-echo exit >> quicklaunch_minecraft.bat
-echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_minecraft.bat
+echo @echo off > quick%~n0
+echo Color 0A >> quick%~n0
+echo cls >> quick%~n0
+echo set APPDATA="%CD%\data\minecraft\" >> quick%~n0
+echo start "" .\bin\commonfiles\java64\bin\javaw.exe -jar .\bin\Minecraft.jar >> quick%~n0
+echo exit >> quick%~n0
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quick%~n0
 pause
 exit
 

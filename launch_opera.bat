@@ -4,14 +4,22 @@ setlocal enableextensions
 Color 0A
 cls
 title Portable Opera Launcher - Helper Edition
-set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
+set nag=Finally Getting Updates After 4 Years (Helper Update)
 set new_version=OFFLINE_OR_NO_UPDATES
-if exist replacer.bat del replacer.bat
-if exist "%~n0_poc.bat" del "%~n0_poc.bat"
+
+set "name=%~n0"
+set "name=!name:launch_=!"
+set "license=.\doc\!name!_license.txt"
+set "main_launcher=%~n0.bat"
+set "poc_launcher=%~n0_poc.bat"
+set "quick_launcher=quick%~n0.bat"
+
+if exist replacer.bat del replacer.bat >nul:
+if exist !poc_launcher! del !poc_launcher! >nul:
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
-call :Alpha-To-Number
+call :AlphaToNumber
 call :SetArch
 call :FolderCheck
 call :Version
@@ -43,7 +51,7 @@ echo e. install text-reader [update if had]
 echo.
 set /p choice="enter a number and press enter to confirm: "
 :: sets errorlevel to 0 (?)
-ver > nul
+ver >nul:
 :: an incorrect call throws an errorlevel of 1
 :: replace all goto Main with (goto) 2>nul (if they are called by the main menu)
 call :%choice%
@@ -64,7 +72,7 @@ call :UpgradeOpera
 
 :2
 :LaunchOpera
-if not exist ".\bin\opera\launcher.exe" set "nag=PLEASE INSTALL OPERA FIRST" && (goto) 2>nul
+if not exist ".\bin\opera\launcher.exe" set "nag=PLEASE INSTALL OPERA FIRST" & (goto) 2>nul
 title DO NOT CLOSE
 cls
 echo OPERA IS RUNNING
@@ -74,7 +82,7 @@ exit
 
 :3
 :ResetOpera
-rmdir /s /q .\bin\opera\profile\
+if exist .\bin\opera\profile\ rmdir /s /q .\bin\opera\profile\
 (goto) 2>nul
 
 :4
@@ -82,19 +90,19 @@ rmdir /s /q .\bin\opera\profile\
 taskkill /f /im launcher.exe
 taskkill /f /im opera.exe
 taskkill /f /im opera_crashreporter.exe
-for /d %%i in (".\bin\opera\*") do if /i not "%%i"==".\bin\opera\profile" rmdir /s /q "%%i"
-echo y | del .\bin\opera\*.*
-del .\extra\opera.exe
+for /d %%i in (".\bin\opera\*") do if /i not "%%i"==".\bin\opera\profile" if exist "%%i" rmdir /s /q "%%i"
+echo y | if exist .\bin\opera\*.* del .\bin\opera\*.* >nul:
+if exist .\extra\opera.exe del .\extra\opera.exe >nul:
 (goto) 2>nul
 
 :5
 :UpdateCheck
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 cls
 title Portable Opera Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 set new_version=%Line_26%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & (goto) 2>nul
 if %current_version% EQU %new_version% call :LatestBuild & (goto) 2>nul
@@ -106,8 +114,8 @@ call :ErrorOffline & (goto) 2>nul
 :6
 :About
 cls
-del .\doc\opera_license.txt
-start launch_opera.bat
+if exist !license! del !license! >nul:
+start %~n0
 exit
 
 :7
@@ -117,7 +125,7 @@ exit
 :DLLDownloaderCheck
 cls & title Portable Opera Launcher - Helper Edition - Download Dll Downloader
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
-cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
+cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul: & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
 (goto) 2>nul
 
@@ -125,7 +133,7 @@ cls & start launch_dlldownloader.bat
 :PortableEverything
 cls & title Portable Opera Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
-cls & if exist launch_everything.bat.1 del launch_everything.bat & rename launch_everything.bat.1 launch_everything.bat
+cls & if exist launch_everything.bat.1 del launch_everything.bat >nul: & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
 (goto) 2>nul
 
@@ -133,25 +141,26 @@ cls & start launch_everything.bat
 :QuicklauncherCheck
 cls
 title Portable Opera Launcher - Helper Edition - Quicklauncher Writer
-echo @echo off > quicklaunch_opera.bat
-echo Color 0A >> quicklaunch_opera.bat
-echo cls >> quicklaunch_opera.bat
-echo set "folder=%%CD%%" >> quicklaunch_opera.bat
-echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >> quicklaunch_opera.bat
-echo set "UserProfile=%%folder%%\data\" >> quicklaunch_opera.bat
-echo set "AppData=%%folder%%\data\AppData\Roaming\" >> quicklaunch_opera.bat
-echo set "LocalAppData=%%folder%%\data\AppData\Local\" >> quicklaunch_opera.bat
-echo cls >> quicklaunch_opera.bat
-echo .\bin\opera\launcher.exe https://github.com/MarioMasta64/EverythingPortable/releases/latest/ >> quicklaunch_opera.bat
-echo taskkill /f /im opera_crashreporter.exe >> quicklaunch_opera.bat
-echo exit >> quicklaunch_opera.bat
-echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_opera.bat
-echo ENTER TO CONTINUE & pause>nul:
-(goto) 2>nul
+echo @echo off >!quick_launcher!
+echo Color 0A >>!quick_launcher!
+echo cls >>!quick_launcher!
+echo set "folder=%%CD%%" >>!quick_launcher!
+echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >>!quick_launcher!
+echo set "UserProfile=%%folder%%\data" >>!quick_launcher!
+echo set "AppData=%%folder%%\data\AppData\Roaming" >>!quick_launcher!
+echo set "LocalAppData=%%folder%%\data\AppData\Local" >>!quick_launcher!
+echo set "ProgramData=%%folder%%\data\ProgramData" >>!quick_launcher!
+echo cls >>!quick_launcher!
+echo .\bin\opera\launcher.exe https://github.com/MarioMasta64/EverythingPortable/releases/latest/ >>!quick_launcher!
+echo taskkill /f /im opera_crashreporter.exe >>!quick_launcher!
+echo exit >>!quick_launcher!
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
+echo ENTER TO CONTINUE & pause >nul:
+exit
 
 :d
 :UpgradeOpera
-if exist "windows@http_referrer=missing_via_opera_com&utm_source=(direct)_via_opera_com&utm_medium=doc&utm_campaign=(direct)_via_opera_com&dl_token=39379966" del "windows@http_referrer=missing_via_opera_com&utm_source=(direct)_via_opera_com&utm_medium=doc&utm_campaign=(direct)_via_opera_com&dl_token=39379966"
+if exist "windows@http_referrer=missing_via_opera_com&utm_source=(direct)_via_opera_com&utm_medium=doc&utm_campaign=(direct)_via_opera_com&dl_token=39379966" del "windows@http_referrer=missing_via_opera_com&utm_source=(direct)_via_opera_com&utm_medium=doc&utm_campaign=(direct)_via_opera_com&dl_token=39379966" >nul:
 call :HelperDownload "http://net.geo.opera.com/opera_portable/stable/windows?http_referrer=missing_via_opera_com&utm_source=(direct)_via_opera_com&utm_medium=doc&utm_campaign=(direct)_via_opera_com&dl_token=39379966" "windows@http_referrer=missing_via_opera_com&utm_source=(direct)_via_opera_com&utm_medium=doc&utm_campaign=(direct)_via_opera_com&dl_token=39379966"
 :MoveOpera
 move "windows@http_referrer=missing_via_opera_com&utm_source=(direct)_via_opera_com&utm_medium=doc&utm_campaign=(direct)_via_opera_com&dl_token=39379966" ".\extra\opera.exe"
@@ -160,9 +169,9 @@ set "TMP=!folder!\data\AppData\Local\temp\"
 cls
 echo Please Wait, Opera Is Installing...
 .\extra\opera.exe /silent /installfolder=!folder!\bin\opera\ /allusers=0 /copyonly=1 /singleprofile=1 /setdefaultbrowser=0 /desktopshortcut=0 /startmenushortcut=0 /quicklaunchshortcut=0 /pintotaskbar=0 /import-browser-data=0 /enable-stats=0 /enable-installer-stats=0 /launchbrowser=0
-rmdir /s /q .\data\AppData\Local\temp\
+if exist .\data\AppData\Local\temp\ rmdir /s /q .\data\AppData\Local\temp\
 :CleanupPostInstall
-del *.log
+if exist *.log del *.log >nul:
 (goto) 2>nul
 
 :e
@@ -177,45 +186,62 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
-set "UserProfile=!folder!\data\"
-set "AppData=!folder!\data\AppData\Roaming\"
-set "LocalAppData=!folder!\data\AppData\Local\"
+set "UserProfile=!folder!\data"
+set "AppData=!folder!\data\AppData\Roaming"
+set "LocalAppData=!folder!\data\AppData\Local"
+set "ProgramData=!folder!\data\ProgramData"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\helpers\ mkdir .\helpers\
+if not exist .\ini\ mkdir .\ini\
 if not exist .\note\ mkdir .\note\
 if not exist .\data\AppData\Local\ mkdir .\data\AppData\Local\
 if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
+if not exist .\data\ProgramData\ mkdir .\data\ProgramData\
+if not exist ".\data\3D Objects\" mkdir ".\data\3D Objects\"
+if not exist ".\data\Contacts\" mkdir ".\data\Contacts\"
+if not exist ".\data\Desktop\" mkdir ".\data\Desktop\"
+if not exist ".\data\Documents\" mkdir ".\data\Documents\"
+if not exist ".\data\Downloads\" mkdir ".\data\Downloads\"
+if not exist ".\data\Favorites\" mkdir ".\data\Favorites\"
+if not exist ".\data\Links\" mkdir ".\data\Links\"
+if not exist ".\data\Music\" mkdir ".\data\Music\"
+if not exist ".\data\OneDrive\" mkdir ".\data\OneDrive\"
+if not exist ".\data\Pictures\" mkdir ".\data\Pictures\"
+if not exist ".\data\Saved Games\" mkdir ".\data\Saved Games\"
+if not exist ".\data\Searches\" mkdir ".\data\Searches\"
+if not exist ".\data\Videos\" mkdir ".\data\Videos\"
 if not exist ".\bin\opera\launcher.exe" set nag=OPERA IS NOT INSTALLED CHOOSE "D"
 (goto) 2>nul
 
 :Version
 cls
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt
-:: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
+if exist .\doc\version.txt del .\doc\version.txt >nul:
 (goto) 2>nul
 
 :Credits
 cls
-if exist .\doc\opera_license.txt (goto) 2>nul
-echo ================================================== > .\doc\opera_license.txt
-echo =              Script by MarioMasta64            = >> .\doc\opera_license.txt
-echo =           Script Version: v%current_version%- release        = >> .\doc\opera_license.txt
-echo ================================================== >> .\doc\opera_license.txt
-echo =You may Modify this WITH consent of the original= >> .\doc\opera_license.txt
-echo = creator, as long as you include a copy of this = >> .\doc\opera_license.txt
-echo =      as you include a copy of the License      = >> .\doc\opera_license.txt
-echo ================================================== >> .\doc\opera_license.txt
-echo =    You may also modify this script without     = >> .\doc\opera_license.txt
-echo =         consent for PERSONAL USE ONLY          = >> .\doc\opera_license.txt
-echo ================================================== >> .\doc\opera_license.txt
+if exist !license! (goto) 2>nul
+echo ================================================== > !license!
+echo =              Script by MarioMasta64            = >> !license!
+set "extra_space="
+if %current_version% LSS 10 set "extra_space= "
+echo =           Script Version: v%current_version%- release        %extra_space%= >> !license!
+echo ================================================== >> !license!
+echo =You may Modify this WITH consent of the original= >> !license!
+echo = creator, as long as you include a copy of this = >> !license!
+echo =      as you include a copy of the License      = >> !license!
+echo ================================================== >> !license!
+echo =    You may also modify this script without     = >> !license!
+echo =         consent for PERSONAL USE ONLY          = >> !license!
+echo ================================================== >> !license!
 cls
 title Portable Opera Launcher - Helper Edition - About
-for /f "DELIMS=" %%i in (.\doc\opera_license.txt) do (echo %%i)
+for /f "DELIMS=" %%i in (!license!) do (echo %%i)
 pause
 call :PingInstall
 (goto) 2>nul
@@ -233,7 +259,7 @@ if not exist launch_helpers.bat call :DownloadHelpers
 (goto) 2>nul
 :DownloadHelpers
 if not exist .\helpers\download.vbs call :CreateDownloadVBS
-cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat > nul
+cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat >nul:
 (goto) 2>nul
 :CreateDownloadVBS
 echo Dim Arg, download, file > .\helpers\download.vbs
@@ -321,9 +347,11 @@ echo %sha1%
 set program=%~n0
 echo %program:~7%
 echo "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%"
+if exist new_install.php del new_install.php >nul:
+if exist serial.txt del serial.txt >nul:
 REM call :HelperDownload "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%" "new_install.php"
-del new_install.php*
-del serial.txt
+if exist new_install.php del new_install.php >nul:
+if exist serial.txt del serial.txt >nul:
 (goto) 2>nul
 
 :UpdateWget
@@ -337,8 +365,8 @@ title Portable Opera Launcher - Helper Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE & pause>nul:
-start launch_opera.bat
+echo ENTER TO CONTINUE & pause >nul:
+start %~n0
 exit
 
 :NewUpdate
@@ -358,8 +386,8 @@ goto NewUpdate
 
 :UpdateNow
 cls & title Portable Opera Launcher - Helper Edition - Updating Launcher
-call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_opera.bat" "launch_opera.bat.1"
-cls & if exist launch_opera.bat.1 goto ReplacerCreate
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/!main_launcher!" "!main_launcher!.1"
+cls & if exist %~n0.1 goto ReplacerCreate
 cls & call :ErrorOffline
 (goto) 2>nul
 
@@ -367,11 +395,11 @@ cls & call :ErrorOffline
 cls
 echo @echo off > replacer.bat
 echo Color 0A >> replacer.bat
-echo del launch_opera.bat >> replacer.bat
-echo rename launch_opera.bat.1 launch_opera.bat >> replacer.bat
-echo start launch_opera.bat >> replacer.bat
+echo del %~n0 >> replacer.bat
+echo rename %~n0.1 %~n0 >> replacer.bat
+echo start %~n0 >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
-echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> replacer.bat
+echo (goto) 2^ >nul: ^& del "%%~f0" ^& exit >> replacer.bat
 call :HelperHide "replacer.bat"
 exit
 
@@ -382,8 +410,8 @@ echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE & pause>nul:
-start launch_opera.bat
+echo ENTER TO CONTINUE & pause >nul:
+start %~n0
 exit
 
 :ErrorOffline
@@ -440,7 +468,7 @@ echo (C) Copyright Microsoft Corporation. All rights reserved
 echo.
 echo nice job finding me. have fun with my little cmd prompt.
 echo upon error (more likely than not) i will return to the menu.
-echo type "(goto) 2^>nul" or make me error to return.
+echo type "(goto) 2^ >nul:" or make me error to return.
 echo.
 :CmdLoop
 set /p "cmd=%cd%>"
@@ -455,65 +483,6 @@ echo cls >> relaunch.bat
 echo Color 0A >> relaunch.bat
 echo start %~f0 >> relaunch.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
-echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> relaunch.bat
+echo (goto) 2^ >nul: ^& del "%%~f0" ^& exit >> relaunch.bat
 call :HelperHide "relaunch.bat"
 exit
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-:Download-Opera
-if exist "windows*" del /q "windows*"
-if exist Opera_PortableSetup.exe call :Move-Opera & (goto) 2>nul
-if not exist .\bin\wget.exe call :Download-Wget
-cls
-title Portable Opera Launcher - Experimental Edition - Download Opera
-.\bin\wget.exe -q --show-progress "http://net.geo.opera.com/opera_portable/stable/windows?http_referrer=missing_via_opera_com&utm_source=(direct)_via_opera_com&utm_medium=doc&utm_campaign=(direct)_via_opera_com&dl_token=39379966"
-
-:Rename-Opera
-if exist "windows*" rename "windows*" "Opera_PortableSetup.exe"
-
-:Move-Opera
-cls
-if not exist Opera_PortableSetup.exe (goto) 2>nul
-move Opera_PortableSetup.exe .\extra\Opera_PortableSetup.exe
-(goto) 2>nul
-
-:Install-Opera
-cls
-title Portable Opera Launcher - Experimental Edition - Install Opera
-echo Please Wait, Opera Is Installing...
-set "TMP=%CD%\data\AppData\Local\temp\"
-.\extra\Opera_PortableSetup.exe /silent /installfolder=%CD%\bin\opera\ /allusers=0 /copyonly=1 /singleprofile=1 /setdefaultbrowser=0 /desktopshortcut=0 /startmenushortcut=0 /quicklaunchshortcut=0 /pintotaskbar=0 /import-browser-data=0 /enable-stats=0 /enable-installer-stats=0 /launchbrowser=0
-rmdir /s /q .\data\AppData\Local\temp\
-del .\extra\debug.log
-(goto) 2>nul

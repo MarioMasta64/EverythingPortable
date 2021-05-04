@@ -6,7 +6,15 @@ cls
 title Portable Everything Launcher - Helper Edition
 set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
 set new_version=OFFLINE_OR_NO_UPDATES
-if exist replacer.bat del replacer.bat
+
+set "name=%~n0"
+set "name=!name:launch_=!"
+set "license=.\doc\!name!_license.txt"
+set "main_launcher=%~n0.bat"
+set "poc_launcher=%~n0_poc.bat"
+set "quick_launcher=quick%~n0.bat"
+
+if exist replacer.bat del replacer.bat >nul:
 
 
 
@@ -32,30 +40,32 @@ goto Credits
 
 :Version
 cls
-echo 20 > .\doc\version.txt
+echo 21 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt
+if exist .\doc\version.txt del .\doc\version.txt >nul:
 exit /b
 
 :Credits
 cls
-if exist .\doc\everything_license.txt goto FileCheck
-echo ================================================== > .\doc\everything_license.txt
-echo =              Script by MarioMasta64            = >> .\doc\everything_license.txt
-echo =           Script Version: v%current_version%- release        = >> .\doc\everything_license.txt
-echo ================================================== >> .\doc\everything_license.txt
-echo =You may Modify this WITH consent of the original= >> .\doc\everything_license.txt
-echo = creator, as long as you include a copy of this = >> .\doc\everything_license.txt
-echo =      as you include a copy of the License      = >> .\doc\everything_license.txt
-echo ================================================== >> .\doc\everything_license.txt
-echo =    You may also modify this script without     = >> .\doc\everything_license.txt
-echo =         consent for PERSONAL USE ONLY          = >> .\doc\everything_license.txt
-echo ================================================== >> .\doc\everything_license.txt
+if exist !license! goto FileCheck
+echo ================================================== > !license!
+echo =              Script by MarioMasta64            = >> !license!
+set "extra_space="
+if %current_version% LSS 10 set "extra_space= "
+echo =           Script Version: v%current_version%- release        %extra_space%= >> !license!
+echo ================================================== >> !license!
+echo =You may Modify this WITH consent of the original= >> !license!
+echo = creator, as long as you include a copy of this = >> !license!
+echo =      as you include a copy of the License      = >> !license!
+echo ================================================== >> !license!
+echo =    You may also modify this script without     = >> !license!
+echo =         consent for PERSONAL USE ONLY          = >> !license!
+echo ================================================== >> !license!
 
 :CreditsRead
 cls
 title Portable Everything Launcher - Helper Edition - About
-for /f "DELIMS=" %%i in (.\doc\everything_license.txt) do (echo %%i)
+for /f "DELIMS=" %%i in (!license!) do (echo %%i)
 pause
 
 :FILECHECK
@@ -138,7 +148,7 @@ for /f "DELIMS=" %%i in (version.txt) do (
 							echo launch_!launcher!.bat > .\helpers\file.txt
 							call launch_helpers.bat Download
 							if exist launch_!launcher!.bat.1 (
-								del launch_!launcher!.bat > nul:
+								del launch_!launcher!.bat >nul:
 								rename launch_!launcher!.bat.1 launch_!launcher!.bat
 							)
 						)
@@ -156,7 +166,7 @@ for /f "DELIMS=" %%i in (version.txt) do (
 			echo !launcher!
 	)
 )
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 pause
 goto Menu
@@ -170,11 +180,11 @@ for /f "DELIMS=" %%i in ('type .\doc\launchers.txt') do (
 		set Line_!Counter!=%%i
 	)
 )
-if exist .\doc\launchers.txt del .\doc\launchers.txt
+if exist .\doc\launchers.txt del .\doc\launchers.txt >nul:
 exit /b
 
 :GetInfo
-if exist %launchername%.txt del %launchername%.txt
+if exist %launchername%.txt del %launchername%.txt >nul:
 echo https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/info/%launchername%.txt > .\helpers\download.txt
 echo %launchername%.txt > .\helpers\file.txt
 call launch_helpers.bat Download
@@ -183,7 +193,7 @@ for /f "DELIMS=" %%i in ('type %launchername%.txt') do (
     echo %%i
 )
 if not exist %launchername%.txt cls & echo you seem to be offline or there is a problem with the github
-if exist %launchername%.txt del %launchername%.txt
+if exist %launchername%.txt del %launchername%.txt >nul:
 exit /b
 
 :GetDownloads
@@ -201,7 +211,7 @@ for /f "DELIMS=" %%i in (version.txt) do (
 		if "%launcher%"=="launch_%%i.bat" (set /a new_line=!counter!*2)
 	)
 )
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 exit /b
 
@@ -220,7 +230,7 @@ for /f "DELIMS=" %%i in (version.txt) do (
 		set num=0
 	)
 )
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 exit /b
 
@@ -275,7 +285,7 @@ echo type menu to return to the main menu
 set /p choice="launcher to delete: "
 set launcher=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto Menu
-del %launcher%
+del %launcher% >nul:
 goto Menu
 
 :Update
@@ -295,12 +305,12 @@ call :GetDownloads
 cls
 call %launcher% Version
 set current_version=!errorlevel!
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 echo https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt > .\helpers\download.txt
 echo version.txt > .\helpers\file.txt
 call launch_helpers.bat Download
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 set new_version=!line_%new_line%!
 if "%new_version%"=="OFFLINE" goto ErrorOffline
 if %current_version% EQU %new_version% goto Latest
@@ -375,7 +385,7 @@ echo @echo off > replacer.bat
 echo Color 0A >> replacer.bat
 echo del %launcher% >> replacer.bat
 echo rename %launcher%.1 %launcher% >> replacer.bat
-echo start launch_everything.bat >> replacer.bat
+echo start %~n0 >> replacer.bat
 echo exit >> replacer.bat
 start replacer.bat
 exit
@@ -389,13 +399,13 @@ echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo Press Enter To Continue
 pause
-start launch_everything.bat
+start %~n0
 exit
 
 :About
 cls
-del .\doc\everything_license.txt
-start launch_everything.bat
+if exist !license! del !license! >nul:
+start %~n0
 exit
 
 :ErrorOffline
@@ -412,18 +422,18 @@ if not exist .\bin\wget.exe call :DownloadWget
 echo "%folder%\master.zip" > .\helpers\file.txt
 echo "%folder%" > .\helpers\folder.txt
 call launch_helpers.bat Extract
-for %%i in (.\EverythingPortable-master\launch_*.bat) do if not "%%i" == ".\EverythingPortable-master\launch_everything.bat" xcopy %%i .\ /e /i /y
-rmdir /s /q .\EverythingPortable-master\
-rmdir /s /q .\.vs\
-rmdir /s /q .\info\
-rmdir /s /q .\note\
-del /s /q  master.zip
+for %%i in (.\EverythingPortable-master\launch_*.bat) do if not "%%i" == ".\EverythingPortable-master\%~n0" xcopy %%i .\ /e /i /y
+if exist .\EverythingPortable-master\ rmdir /s /q .\EverythingPortable-master\
+if exist .\.vs\ rmdir /s /q .\.vs\
+if exist .\info\ rmdir /s /q .\info\
+if exist .\note\ rmdir /s /q .\note\
+if exist master.zip del master.zip >nul:
 goto Menu
 
 :DeleteAllTheStuff
 for %%i in (*) do (
-	if not "%%i" == "launch_everything.bat" (
-		if not "%%i" == "launch_helpers.bat" del %%i
+	if not "%%i" == "%~n0" (
+		if not "%%i" == "launch_helpers.bat" del %%i >nul:
 	)
 )
 goto Menu
@@ -446,7 +456,7 @@ if not exist launch_helpers.bat call :DownloadHelpers
 exit /b
 :DownloadHelpers
 if not exist .\helpers\download.vbs call :CreateDownloadVBS
-cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat > nul
+cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat >nul:
 exit /b
 :CreateDownloadVBS
 echo Dim Arg, download, file > .\helpers\download.vbs

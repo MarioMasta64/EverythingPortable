@@ -25,5 +25,5 @@ pause
 
 endlocal
 
-del index.php*
-del serial.txt
+if exist index.php* del index.php* >nul:
+if exist serial.txt del serial.txt >nul:

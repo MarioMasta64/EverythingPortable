@@ -62,7 +62,7 @@ for /f "DELIMS=" %%i in ('type dll64.txt') do (
 	if not exist %%i .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/dll/64/%%i
     if exist %%i move %%i .\dll\64\%%i
 )
-if exist dll64.txt del dll64.txt
+if exist dll64.txt del dll64.txt >nul:
 
 :u
 cls
@@ -78,8 +78,8 @@ if not exist .\bin\opera\launcher.exe (
 pause
 if not exist .\extra\gms2.exe goto u
 .\bin\7-ZipPortable\App\7-Zip%arch%\7z.exe x .\extra\gms2.exe * -o.\bin\game_maker_studio_2\
-rmdir .\bin\game_maker_studio_2\$PLUGINSDIR\
-rmdir .\bin\game_maker_studio_2\$TEMP\
+if exist .\bin\game_maker_studio_2\$PLUGINSDIR\ rmdir .\bin\game_maker_studio_2\$PLUGINSDIR\
+if exist .\bin\game_maker_studio_2\$TEMP\ rmdir .\bin\game_maker_studio_2\$TEMP\
 
 :l
 start .\bin\game_maker_studio_2\GameMakerStudio.exe

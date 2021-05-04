@@ -4,14 +4,22 @@ setlocal enableextensions
 Color 0A
 cls
 title Portable Authy Launcher - Helper Edition
-set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
+set nag=Finally Getting Updates After 4 Years (Helper Update)
 set new_version=OFFLINE_OR_NO_UPDATES
-if exist replacer.bat del replacer.bat
-if exist "%~n0_poc.bat" del "%~n0_poc.bat"
+
+set "name=%~n0"
+set "name=!name:launch_=!"
+set "license=.\doc\!name!_license.txt"
+set "main_launcher=%~n0.bat"
+set "poc_launcher=%~n0_poc.bat"
+set "quick_launcher=quick%~n0.bat"
+
+if exist replacer.bat del replacer.bat >nul:
+if exist !poc_launcher! del !poc_launcher! >nul:
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
-call :Alpha-To-Number
+call :AlphaToNumber
 call :SetArch
 call :FolderCheck
 call :Version
@@ -43,7 +51,7 @@ echo e. install text-reader [update if had]
 echo.
 set /p choice="enter a number and press enter to confirm: "
 :: sets errorlevel to 0 (?)
-ver > nul
+ver >nul:
 :: an incorrect call throws an errorlevel of 1
 :: replace all goto Main with (goto) 2>nul (if they are called by the main menu)
 call :%choice%
@@ -64,7 +72,7 @@ call :UpgradeAuthy
 
 :2
 :LaunchAuthy
-if not exist ".\bin\authy\Authy Desktop.exe" set "nag=PLEASE INSTALL AUTHY FIRST" && (goto) 2>nul
+if not exist ".\bin\authy\Authy Desktop.exe" set "nag=PLEASE INSTALL AUTHY FIRST" & (goto) 2>nul
 title DO NOT CLOSE
 REM start "" "command" allows spaces in filenames (not launching a cmd window)
 start "" ".\bin\authy\Authy Desktop.exe"
@@ -73,24 +81,24 @@ exit
 :3
 :ResetAuthy
 cls
-rmdir /s /q ".\data\AppData\Roaming\Authy Desktop\"
+if exist ".\data\AppData\Roaming\Authy Desktop\" rmdir /s /q ".\data\AppData\Roaming\Authy Desktop\"
 (goto) 2>nul
 
 :4
 :UninstallAuthy
 cls
 taskkill /f /im "Authy Desktop.exe"
-rmdir /s /q ".\bin\authy\"
+if exist .\bin\authy\ rmdir /s /q .\bin\authy\
 (goto) 2>nul
 
 :5
 :UpdateCheck
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 cls
 title Portable Authy Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
-if exist version.txt del version.txt
+if exist version.txt del version.txt >nul:
 set new_version=%Line_54%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & (goto) 2>nul
 if %current_version% EQU %new_version% call :LatestBuild & (goto) 2>nul
@@ -102,8 +110,8 @@ call :ErrorOffline & (goto) 2>nul
 :6
 :About
 :cls
-del .\doc\authy_license.txt
-start launch_authy.bat
+if exist !license! del !license! >nul:
+start %~n0
 exit
 
 :7
@@ -113,7 +121,7 @@ exit
 :DLLDownloaderCheck
 cls & title Portable Authy Launcher - Helper Edition - Download Dll Downloader
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
-cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
+cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul: & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
 (goto) 2>nul
 
@@ -121,7 +129,7 @@ cls & start launch_dlldownloader.bat
 :PortableEverything
 cls & title Portable Authy Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
-cls & if exist launch_everything.bat.1 del launch_everything.bat & rename launch_everything.bat.1 launch_everything.bat
+cls & if exist launch_everything.bat.1 del launch_everything.bat >nul: & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
 (goto) 2>nul
 
@@ -129,17 +137,20 @@ cls & start launch_everything.bat
 :QuicklauncherCheck
 cls
 title Portable Authy Launcher - Helper Edition - Quicklauncher Writer
-echo @echo off > quicklaunch_authy.bat
-echo Color 0A >> quicklaunch_authy.bat
-echo cls >> quicklaunch_authy.bat
-echo set "folder=%%CD%%" >> quicklaunch_authy.bat
-echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >> quicklaunch_authy.bat
-echo set "UserProfile=%%folder%%\data\" >> quicklaunch_authy.bat
-echo start "" ".\bin\authy\Authy Desktop.exe" >> quicklaunch_authy.bat
-echo exit >> quicklaunch_authy.bat
-echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quicklaunch_authy.bat
-echo ENTER TO CONTINUE & pause>nul:
-(goto) 2>nul
+echo @echo off >!quick_launcher!
+echo Color 0A >>!quick_launcher!
+echo cls >>!quick_launcher!
+echo set "folder=%%CD%%" >>!quick_launcher!
+echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >>!quick_launcher!
+echo set "UserProfile=%%folder%%\data" >>!quick_launcher!
+echo set "AppData=%%folder%%\data\AppData\Roaming" >>!quick_launcher!
+echo set "LocalAppData=%%folder%%\data\AppData\Local" >>!quick_launcher!
+echo set "ProgramData=%%folder%%\data\ProgramData" >>!quick_launcher!
+echo start "" ".\bin\authy\Authy Desktop.exe" >>!quick_launcher!
+echo exit >>!quick_launcher!
+echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
+echo ENTER TO CONTINUE & pause >nul:
+exit
 
 :d
 :UpgradeAuthy
@@ -161,13 +172,10 @@ goto loop
 :extract
 move "Authy Desktop Setup !cycle1!.!cycle2!.!cycle3!.exe" ".\extra\Authy Desktop Setup !cycle1!.!cycle2!.!cycle3!.exe"
 call :HelperExtract7Zip ".\extra\Authy Desktop Setup !cycle1!.!cycle2!.!cycle3!.exe" ".\temp\"
-del .\temp\background.gif
-del .\temp\Update.exe
 for %%d in (.\temp\authy*.nupkg) do set authy=%%d
 call :HelperExtract7Zip "!authy!" ".\temp\"
-if "!authy!" NEQ "" del "!authy!"
 xcopy .\temp\lib\net45\* .\bin\authy\ /e /i /y
-rmdir /s /q .\temp\
+if exist .\temp\ rmdir /s /q .\temp\
 (goto) 2>nul
 
 :e
@@ -182,44 +190,63 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
-set "UserProfile=!folder!\data\"
-set "AppData=!folder!\data\AppData\Roaming\"
-set "LocalAppData=!folder!\data\AppData\Local\"
+set "UserProfile=!folder!\data"
+set "AppData=!folder!\data\AppData\Roaming"
+set "LocalAppData=!folder!\data\AppData\Local"
+set "ProgramData=!folder!\data\ProgramData"
 if not exist .\bin\ mkdir .\bin\
+if not exist .\data\ mkdir .\data\
 if not exist .\doc\ mkdir .\doc\
 if not exist .\extra\ mkdir .\extra\
 if not exist .\helpers\ mkdir .\helpers\
+if not exist .\ini\ mkdir .\ini\
 if not exist .\note\ mkdir .\note\
 if not exist .\data\AppData\Local\ mkdir .\data\AppData\Local\
-if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\ set nag=AUTHY IS NOT INSTALLED CHOOSE "D"Roaming\
+if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
+if not exist .\data\ProgramData\ mkdir .\data\ProgramData\
+if not exist ".\data\3D Objects\" mkdir ".\data\3D Objects\"
+if not exist ".\data\Contacts\" mkdir ".\data\Contacts\"
+if not exist ".\data\Desktop\" mkdir ".\data\Desktop\"
+if not exist ".\data\Documents\" mkdir ".\data\Documents\"
+if not exist ".\data\Downloads\" mkdir ".\data\Downloads\"
+if not exist ".\data\Favorites\" mkdir ".\data\Favorites\"
+if not exist ".\data\Links\" mkdir ".\data\Links\"
+if not exist ".\data\Music\" mkdir ".\data\Music\"
+if not exist ".\data\OneDrive\" mkdir ".\data\OneDrive\"
+if not exist ".\data\Pictures\" mkdir ".\data\Pictures\"
+if not exist ".\data\Saved Games\" mkdir ".\data\Saved Games\"
+if not exist ".\data\Searches\" mkdir ".\data\Searches\"
+if not exist ".\data\Videos\" mkdir ".\data\Videos\"
+
 if not exist ".\bin\authy\Authy Desktop.exe" set nag=AUTHY IS NOT INSTALLED CHOOSE "D"
 (goto) 2>nul
 
 :Version
 cls
-echo 5 > .\doc\version.txt
+echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt
-:: REPLACE ALL exit /b that dont need an error code (a value after it) with "exit"
+if exist .\doc\version.txt del .\doc\version.txt >nul:
 (goto) 2>nul
 
 :Credits
 cls
-if exist .\doc\authy_license.txt (goto) 2>nul
-echo ================================================== > .\doc\authy_license.txt
-echo =              Script by MarioMasta64            = >> .\doc\authy_license.txt
-echo =           Script Version: v%current_version%- release        = >> .\doc\authy_license.txt
-echo ================================================== >> .\doc\authy_license.txt
-echo =You may Modify this WITH consent of the original= >> .\doc\authy_license.txt
-echo = creator, as long as you include a copy of this = >> .\doc\authy_license.txt
-echo =      as you include a copy of the License      = >> .\doc\authy_license.txt
-echo ================================================== >> .\doc\authy_license.txt
-echo =    You may also modify this script without     = >> .\doc\authy_license.txt
-echo =         consent for PERSONAL USE ONLY          = >> .\doc\authy_license.txt
-echo ================================================== >> .\doc\authy_license.txt
+if exist !license! (goto) 2>nul
+echo ================================================== > !license!
+echo =              Script by MarioMasta64            = >> !license!
+set "extra_space="
+if %current_version% LSS 10 set "extra_space= "
+echo =           Script Version: v%current_version%- release        %extra_space%= >> !license!
+echo ================================================== >> !license!
+echo =You may Modify this WITH consent of the original= >> !license!
+echo = creator, as long as you include a copy of this = >> !license!
+echo =      as you include a copy of the License      = >> !license!
+echo ================================================== >> !license!
+echo =    You may also modify this script without     = >> !license!
+echo =         consent for PERSONAL USE ONLY          = >> !license!
+echo ================================================== >> !license!
 cls
 title Portable Authy Launcher - Helper Edition - About
-for /f "DELIMS=" %%i in (.\doc\authy_license.txt) do (echo %%i)
+for /f "DELIMS=" %%i in (!license!) do (echo %%i)
 pause
 call :PingInstall
 (goto) 2>nul
@@ -237,7 +264,7 @@ if not exist launch_helpers.bat call :DownloadHelpers
 (goto) 2>nul
 :DownloadHelpers
 if not exist .\helpers\download.vbs call :CreateDownloadVBS
-cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat > nul
+cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat >nul:
 (goto) 2>nul
 :CreateDownloadVBS
 echo Dim Arg, download, file > .\helpers\download.vbs
@@ -325,9 +352,11 @@ echo %sha1%
 set program=%~n0
 echo %program:~7%
 echo "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%"
+if exist new_install.php del new_install.php >nul:
+if exist serial.txt del serial.txt >nul:
 REM call :HelperDownload "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%" "new_install.php"
-del new_install.php*
-del serial.txt
+if exist new_install.php del new_install.php >nul:
+if exist serial.txt del serial.txt >nul:
 (goto) 2>nul
 
 :UpdateWget
@@ -341,8 +370,8 @@ title Portable Authy Launcher - Helper Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE & pause>nul:
-start launch_authy.bat
+echo ENTER TO CONTINUE & pause >nul:
+start %~n0
 exit
 
 :NewUpdate
@@ -362,8 +391,8 @@ goto New-Update
 
 :UpdateNow
 cls & title Portable Authy Launcher - Helper Edition - Updating Launcher
-call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_authy.bat" "launch_authy.bat.1"
-cls & if exist launch_authy.bat.1 goto ReplacerCreate
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/!main_launcher!" "!main_launcher!.1"
+cls & if exist %~n0.1 goto ReplacerCreate
 cls & call :ErrorOffline
 (goto) 2>nul
 
@@ -371,11 +400,11 @@ cls & call :ErrorOffline
 cls
 echo @echo off > replacer.bat
 echo Color 0A >> replacer.bat
-echo del launch_authy.bat >> replacer.bat
-echo rename launch_authy.bat.1 launch_authy.bat >> replacer.bat
-echo start launch_authy.bat >> replacer.bat
+echo del %~n0 >> replacer.bat
+echo rename %~n0.1 %~n0 >> replacer.bat
+echo start %~n0 >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
-echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> replacer.bat
+echo (goto) 2^ >nul: ^& del "%%~f0" ^& exit >> replacer.bat
 call :HelperHide "replacer.bat"
 exit
 
@@ -386,8 +415,8 @@ echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE & pause>nul:
-start launch_authy.bat
+echo ENTER TO CONTINUE & pause >nul:
+start %~n0
 exit
 
 :ErrorOffline
@@ -444,7 +473,7 @@ echo (C) Copyright Microsoft Corporation. All rights reserved
 echo.
 echo nice job finding me. have fun with my little cmd prompt.
 echo upon error (more likely than not) i will return to the menu.
-echo type "(goto) 2^>nul" or make me error to return.
+echo type "(goto) 2^ >nul:" or make me error to return.
 echo.
 :CmdLoop
 set /p "cmd=%cd%>"
@@ -459,6 +488,6 @@ echo cls >> relaunch.bat
 echo Color 0A >> relaunch.bat
 echo start %~f0 >> relaunch.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
-echo (goto) 2^>nul ^& del "%%~f0" ^& exit >> relaunch.bat
+echo (goto) 2^ >nul: ^& del "%%~f0" ^& exit >> relaunch.bat
 call :HelperHide "relaunch.bat"
 exit
