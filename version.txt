@@ -13,7 +13,7 @@ cemu
 lastpass
 12
 qtemu
-10
+11
 tor
 9
 teamviewer_host
