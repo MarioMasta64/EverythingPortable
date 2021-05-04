@@ -2,7 +2,7 @@
 
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40MarioMasta64)](https://twitter.com/MarioMasta64)
 
-# this project is currently being revived
+# this project has been revived
 
 **i finally started working on the project again after many years and everything works again aside whats notes in the issues below**
 
