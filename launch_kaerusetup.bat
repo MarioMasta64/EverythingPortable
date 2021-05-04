@@ -120,6 +120,8 @@ echo 5. Exit
 echo.
 echo a. Write the original work and launch it
 echo.
+echo b. open https://kaeru.world/go/gallerysetup
+echo.
 set /p choice="Enter a number and press enter to confirm: "
 if "%choice%"=="1" goto KAERUCIA
 if "%choice%"=="2" goto KAERUHANS
@@ -131,6 +133,10 @@ if "%choice%"=="a" goto original
 
 set nag="PLEASE SELECT A CHOICE 1-5"
 goto MENU
+
+:B
+start "https://kaeru.world/go/gallerysetup"
+exit /b
 
 :NULL
 cls
