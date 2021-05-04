@@ -39,7 +39,7 @@ obs_classic
 github_desktop
 4
 uwamp
-1
+2
 qbittorrent
 2
 ntlite
