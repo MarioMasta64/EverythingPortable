@@ -19,7 +19,7 @@ goto CREDITS
 
 :VERSION
 cls
-echo 10 > .\doc\version.txt
+echo 11 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt
 exit /b
@@ -108,6 +108,7 @@ exit /b
 
 :MENU
 cls
+set "nag=this project has been long since abandoned please visit https://kaeru.world/go/gallerysetup"
 title PORTABLE KAERU SETUP - JOIN TYPE
 echo %NAG%
 set nag=SELECTION TIME!
