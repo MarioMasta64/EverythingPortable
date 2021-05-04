@@ -4,7 +4,7 @@
 
 # this project is currently being revived
 
-**most things will work and i finally started working on the project again after many years**
+**i finally started working on the project again after many years and everything works again aside whats notes in the issues below**
 
 # also issues are to be reported here:
 
