@@ -5,7 +5,7 @@ cls
 title PORTABLE MINECRAFT LAUNCHER
 set nag=Finally Getting Updates After 4 Years (Helper Update)
 set new_version=OFFLINE
-if exist replacer.bat del replacer.bat >nul:
+if exist replacer.bat del replacer.bat >nul
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 
 :FOLDERCHECK
@@ -21,7 +21,7 @@ goto CREDITS
 cls
 echo 12 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt >nul:
+if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
 
 :CREDITS
@@ -155,7 +155,7 @@ for /f "DELIMS=" %%i in ('type .\doc\profiles.txt') do (
     set /a Counter+=1
     set "Line_!Counter!=%%i"
 )
-if exist .\doc\profiles.txt del .\doc\profiles.txt >nul:
+if exist .\doc\profiles.txt del .\doc\profiles.txt >nul
 exit /b
 
 :NEW
@@ -326,12 +326,12 @@ goto JAVAINSTALLERCHECK
 
 :UPDATECHECK
 cls
-if exist version.txt del version.txt >nul:
+if exist version.txt del version.txt >nul
 if not exist .\bin\wget.exe call :DOWNLOADWGET
 .\bin\wget.exe -q --show-progress https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 cls
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
-if exist version.txt del version.txt >nul:
+if exist version.txt del version.txt >nul
 set new_version=%Line_4%
 if "%new_version%"=="OFFLINE" goto ERROROFFLINE
 if %current_version% EQU %new_version% goto LATEST
@@ -397,7 +397,7 @@ exit
 
 :ABOUT
 cls
-if exist .\doc\minecraft_license.txt del .\doc\minecraft_license.txt >nul:
+if exist .\doc\minecraft_license.txt del .\doc\minecraft_license.txt >nul
 start %~n0
 exit
 

@@ -62,13 +62,13 @@ for /f "DELIMS=" %%i in ('type dll64.txt') do (
 	if not exist %%i .\bin\wget.exe https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/dll/64/%%i
     if exist %%i move %%i .\dll\64\%%i
 )
-if exist dll64.txt del dll64.txt >nul:
+if exist dll64.txt del dll64.txt >nul
 
 :u
 cls
 echo please download game maker studio 2 and save it as "%CD%\extra\gms2.exe"
 echo press enter to continue
-pause >nul:
+pause >nul
 if exist .\bin\opera\launcher.exe (
 	start .\bin\opera\launcher.exe https://account.yoyogames.com/downloads
 )

@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 setlocal enableextensions
 Color 0A
 cls
-title Portable Kodi Launcher - Helper Edition
+title Portable Twitch Launcher - Helper Edition
 set nag=Finally Getting Updates After 4 Years (Helper Update)
 set new_version=OFFLINE_OR_NO_UPDATES
 
@@ -28,13 +28,13 @@ call :HelperCheck
 
 :Menu
 cls
-title Portable Kodi Launcher - Helper Edition - Main Menu
+title Portable Twitch Launcher - Helper Edition - Main Menu
 echo %NAG%
 set nag="Selection Time!"
-echo 1. reinstall kodi [will remove kodi entirely]
-echo 2. launch kodi [launches kodi]
-echo 3. reset kodi [will remove everything kodi except the binary]
-echo 4. uninstall kodi [tired of plugins breaking?]
+echo 1. reinstall twitch [will remove twitch entirely]
+echo 2. launch twitch [launches twitch]
+echo 3. reset twitch [will remove everything twitch except the binary]
+echo 4. uninstall twitch [tired of twitches "wokeness"?]
 echo 5. update script [check for updates]
 echo 6. credits [credits]
 echo 7. exit [EXIT]
@@ -45,7 +45,7 @@ echo b. download other projects [check out my other stuff]
 echo.
 echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo.
-echo d. check for new kodi version [automatically check for a new version]
+echo d. check for new twitch version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
@@ -64,45 +64,40 @@ set nag="NOT A FEATURE YET!"
 (goto) 2>nul
 
 :1
-:ReinstallKodi
+:ReinstallTwitch
 cls
-call :UninstallKodi
-call :UpgradeKodi
+call :UninstallTwitch
+call :UpgradeTwitch
 (goto) 2>nul
 
 :2
-:LaunchKodi
-if not exist ".\bin\kodi\Kodi.exe" set "nag=PLEASE INSTALL KODI FIRST" & (goto) 2>nul
+:LaunchTwitch
+if not exist ".\data\AppData\Roaming\Twitch\Bin\twitch.exe" set "nag=PLEASE INSTALL TWITCH FIRST" & (goto) 2>nul
 title DO NOT CLOSE
 cls
-echo KODI IS RUNNING
-set "path=!path!;!folder!\dll\32\;"
-start .\bin\kodi\Kodi.exe -p
+echo TWITCH IS RUNNING
+start .\data\AppData\Roaming\Twitch\Bin\twitch.exe
 exit
 
 :3
-:ResetKodi
-taskkill /f /im Kodi.exe
-if exist .\bin\kodi\portable_data\ rmdir /s /q .\bin\kodi\portable_data\
+:ResetTwitch
+call :Null
 (goto) 2>nul
 
 :4
-:UninstallKodi
-taskkill /f /im Kodi.exe
-for /d %%i in (".\bin\kodi\*") do if /i not "%%i"==".\bin\kodi\portable_data" if exist "%%i" rmdir /s /q "%%i"
-echo y | if exist .\bin\kodi\*.* del .\bin\kodi\*.* >nul
-if exist .\extra\*kodi* del .\extra\*kodi* >nul
+:UninstallTwitch
+call :Null
 (goto) 2>nul
 
 :5
 :UpdateCheck
 if exist version.txt del version.txt >nul
 cls
-title Portable Kodi Launcher - Helper Edition - Checking For Update
+title Portable Twitch Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt >nul
-set new_version=%Line_26%
+set new_version=%Line_60%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & (goto) 2>nul
 if %current_version% EQU %new_version% call :LatestBuild & (goto) 2>nul
 if %current_version% LSS %new_version% call :NewUpdate & (goto) 2>nul
@@ -122,7 +117,7 @@ exit
 
 :a
 :DLLDownloaderCheck
-cls & title Portable Kodi Launcher - Helper Edition - Download Dll Downloader
+cls & title Portable Twitch Launcher - Helper Edition - Download Dll Downloader
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
 cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
@@ -130,7 +125,7 @@ cls & start launch_dlldownloader.bat
 
 :b
 :PortableEverything
-cls & title Portable Kodi Launcher - Helper Edition - Download Suite
+cls & title Portable Twitch Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
 cls & if exist launch_everything.bat.1 del launch_everything.bat >nul & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
@@ -139,7 +134,7 @@ cls & start launch_everything.bat
 :c
 :QuicklauncherCheck
 cls
-title Portable Kodi Launcher - Helper Edition - Quicklauncher Writer
+title Portable Twitch Launcher - Helper Edition - Quicklauncher Writer
 echo @echo off >!quick_launcher!
 echo Color 0A >>!quick_launcher!
 echo cls >>!quick_launcher!
@@ -149,42 +144,49 @@ echo set "UserProfile=%%folder%%\data" >>!quick_launcher!
 echo set "AppData=%%folder%%\data\AppData\Roaming" >>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\AppData\Local" >>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData" >>!quick_launcher!
-echo set "path=%%path%%;%%folder%%\dll\32\;" >>!quick_launcher!
 echo cls >>!quick_launcher!
-echo start .\bin\kodi\Kodi.exe -p >>!quick_launcher!
+echo start .\data\AppData\Roaming\Twitch\Bin\twitch.exe >>!quick_launcher!
 echo exit >>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 echo ENTER TO CONTINUE & pause >nul
 exit
 
 :d
-:UpgradeKodi
-if exist index.html del index.html >nul
-call :HelperDownload "https://mirrors.kodi.tv/releases/windows/win32/" "index.html"
-for /f tokens^=2delims^=^" %%A in (
-  'findstr /i /c:"-x86.exe" index.html'
-) Do > .\doc\kodi_link.txt Echo:%%A
-if exist index.html del index.html >nul
-set /p kodi_exe=<.\doc\kodi_link.txt
-set "kodi_link=https://mirrors.kodi.tv/releases/windows/win32/!kodi_exe!"
-echo !kodi_link!
-echo !kodi_exe!
-if exist .\extra\!kodi_exe! (
-  echo kodi is updated.
-  pause
-  exit /b
+:UpgradeTwitch
+title Portable Twitch Launcher - Helper Edition - Twitch Update Check
+:select
+cls
+echo Twitch Stable vs. Twitch Beta
+echo 1. Twitch Stable
+echo 2. Twitch Beta
+echo 3. exit
+set /p twitchver="Your Choice: "
+if "%twitchver%"=="1" (
+  set twitch=TwitchSetup.exe
+  goto exitselect
 )
-pause
-if exist "!kodi_exe!" del "!kodi_exe!" >nul
-call :HelperDownload "!kodi_link!" "!kodi_exe!"
-:MoveKodi
-move "!kodi_exe!" ".\extra\!kodi_exe!"
-:ExtractKodi
-call :HelperExtract7Zip "!folder!\extra\!kodi_exe!" "!folder!\bin\kodi\"
+if "%twitchver%"=="2" (
+  set twitch=TwitchBetaSetup.exe
+  goto exitselect
+)
+if "%twitchver%"=="3" (
+  (goto) 2>nul
+)
+goto select
+:exitselect
+if exist !twitch! del !twitch! >nul
+call :HelperDownload "https://updates.twitchapp.net/windows/installer/!twitch!" "!twitch!"
+:MoveTwitch
+move !twitch! .\extra\!twitch!
+:InstallTwitch
+cls
+echo GO THROUGH THE INSTALLER
+echo PRESS ENTER TO CONTINUE & pause>nul
+"!folder!\extra\!twitch!"
 (goto) 2>nul
 
 :e
-title Portable Kodi Launcher - Helper Edition - Text-Reader Update Check
+title Portable Twitch Launcher - Helper Edition - Text-Reader Update Check
 cls
 call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
 start "" "update-text-reader.bat"
@@ -222,12 +224,12 @@ if not exist ".\data\Pictures\" mkdir ".\data\Pictures\"
 if not exist ".\data\Saved Games\" mkdir ".\data\Saved Games\"
 if not exist ".\data\Searches\" mkdir ".\data\Searches\"
 if not exist ".\data\Videos\" mkdir ".\data\Videos\"
-if not exist ".\bin\kodi\Kodi.exe" set nag=KODI IS NOT INSTALLED CHOOSE "D"
+if not exist "start .\data\AppData\Roaming\Twitch\Bin\twitch.exe" set nag=TWITCH IS NOT INSTALLED CHOOSE "D"
 (goto) 2>nul
 
 :Version
 cls
-echo 7 > .\doc\version.txt
+echo 1 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 (goto) 2>nul
@@ -249,7 +251,7 @@ echo =    You may also modify this script without     = >> !license!
 echo =         consent for PERSONAL USE ONLY          = >> !license!
 echo ================================================== >> !license!
 cls
-title Portable Kodi Launcher - Helper Edition - About
+title Portable Twitch Launcher - Helper Edition - About
 for /f "DELIMS=" %%i in (!license!) do (echo %%i)
 pause
 call :PingInstall
@@ -259,7 +261,7 @@ REM if a script can be used between files then it can be put here and re-written
 REM stuff here will not be changed between programs
 
 :SetArch
-set arch=32
+set arch=
 if exist "%PROGRAMFILES(X86)%" set "arch=64"
 (goto) 2>nul
 
@@ -370,7 +372,7 @@ call launch_helpers.bat DownloadWget
 
 :LatestBuild
 cls
-title Portable Kodi Launcher - Helper Edition - Latest Build :D
+title Portable Twitch Launcher - Helper Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
@@ -380,7 +382,7 @@ exit
 
 :NewUpdate
 cls
-title Portable Kodi Launcher - Helper Edition - Old Build D:
+title Portable Twitch Launcher - Helper Edition - Old Build D:
 echo %NAG%
 set nag="Selection Time!"
 echo you are using an older version
@@ -394,7 +396,7 @@ set nag="please enter YES or NO"
 goto NewUpdate
 
 :UpdateNow
-cls & title Portable Kodi Launcher - Helper Edition - Updating Launcher
+cls & title Portable Twitch Launcher - Helper Edition - Updating Launcher
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/!main_launcher!" "!main_launcher!.1"
 cls & if exist %~n0.1 goto ReplacerCreate
 cls & call :ErrorOffline
@@ -414,7 +416,7 @@ exit
 
 :PreviewBuild
 cls
-title Portable Kodi Launcher - Helper Edition - Test Build :0
+title Portable Twitch Launcher - Helper Edition - Test Build :0
 echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
@@ -471,7 +473,7 @@ copy "%~f0" "%~f0.bak"
 
 :Cmd
 cls
-title Portable Kodi Launcher - Helper Edition - Command Prompt - By MarioMasta64
+title Portable Twitch Launcher - Helper Edition - Command Prompt - By MarioMasta64
 ver
 echo (C) Copyright Microsoft Corporation. All rights reserved
 echo.

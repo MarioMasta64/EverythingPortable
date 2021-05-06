@@ -79,7 +79,7 @@ pause
 goto main
 
 :inicl
-if exist .\ini\skype.ini del .\ini\skype.ini >nul:
+if exist .\ini\skype.ini del .\ini\skype.ini >nul
 echo .\ini\skype.ini has been removed
 pause
 goto main
@@ -471,11 +471,11 @@ if exist upx cd upx
 if exist upx* cd upx*
 if not exist ..\wget.exe xcopy *.* ..\ /e /i /y
 if not exist ..\wget.exe cd ..
-if exist temp.txt del temp.txt >nul:
+if exist temp.txt del temp.txt >nul
 for /D %%A IN ("upx*") DO echo "%%A">temp.txt
 if exist temp.txt set /p dir=<temp.txt
 if exist temp.txt rmdir /s /q %dir%
-if exist temp.txt del temp.txt >nul:
+if exist temp.txt del temp.txt >nul
 if exist ..\wget.exe cd ..
 if exist ..\launch_skype_poc.bat cd ..
 
@@ -495,11 +495,11 @@ rename .\bin\skype\api_ms_win_core_console_l1_1_0.dll api-ms-win-core-console-l1
 rename .\bin\skype\api_ms_win_core_datetime_l1_1_0.dll api-ms-win-core-datetime-l1-1-0.dll
 rename .\bin\skype\api_ms_win_core_debug_l1_1_0.dll api-ms-win-core-debug-l1-1-0.dll
 
-if exist .\bin\skype\api_ms_win_core_errorhandling_l1_1_0.dll del .\bin\skype\api_ms_win_core_errorhandling_l1_1_0.dll >nul:
-if exist .\bin\skype\SkypeDesktopIni del .\bin\skype\SkypeDesktopIni >nul:
-if exist .\bin\skype\Updater.exe del .\bin\skype\Updater.exe >nul:
-if exist .\bin\skype\Updater.dll del .\bin\skype\Updater.dll >nul:
-if exist .\bin\skype\SkypeBrowserHost.exe.8BC8B74C_C7CF_4DDC_9B88_774D97DA1209 del .\bin\skype\SkypeBrowserHost.exe.8BC8B74C_C7CF_4DDC_9B88_774D97DA1209 >nul:
+if exist .\bin\skype\api_ms_win_core_errorhandling_l1_1_0.dll del .\bin\skype\api_ms_win_core_errorhandling_l1_1_0.dll >nul
+if exist .\bin\skype\SkypeDesktopIni del .\bin\skype\SkypeDesktopIni >nul
+if exist .\bin\skype\Updater.exe del .\bin\skype\Updater.exe >nul
+if exist .\bin\skype\Updater.dll del .\bin\skype\Updater.dll >nul
+if exist .\bin\skype\SkypeBrowserHost.exe.8BC8B74C_C7CF_4DDC_9B88_774D97DA1209 del .\bin\skype\SkypeBrowserHost.exe.8BC8B74C_C7CF_4DDC_9B88_774D97DA1209 >nul
 
 Setlocal enabledelayedexpansion
 

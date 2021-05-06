@@ -14,8 +14,8 @@ set "main_launcher=%~n0.bat"
 set "poc_launcher=%~n0_poc.bat"
 set "quick_launcher=quick%~n0.bat"
 
-if exist replacer.bat del replacer.bat >nul:
-if exist !poc_launcher! del !poc_launcher! >nul:
+if exist replacer.bat del replacer.bat >nul
+if exist !poc_launcher! del !poc_launcher! >nul
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
@@ -54,7 +54,7 @@ echo f. download mod's [want cemu hook or something?]
 echo.
 set /p choice="enter a number and press enter to confirm: "
 :: sets errorlevel to 0 (?)
-ver >nul:
+ver >nul
 :: an incorrect call throws an errorlevel of 1
 :: replace all goto Main with (goto) 2>nul (if they are called by the main menu)
 call :%choice%
@@ -95,17 +95,17 @@ if exist ".\data\AppData\Local\Cemu\" rmdir /s /q ".\data\AppData\Local\Cemu\"
 cls
 taskkill /f /im "Cemu.exe"
 if exist .\bin\cemu\ rmdir /s /q .\bin\cemu\
-if exist .\extra\cemu* del .\extra\cemu* >nul:
+if exist .\extra\cemu* del .\extra\cemu* >nul
 (goto) 2>nul
 
 :5
 :UpdateCheck
-if exist version.txt del version.txt >nul:
+if exist version.txt del version.txt >nul
 cls
 title Portable Cemu Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
-if exist version.txt del version.txt >nul:
+if exist version.txt del version.txt >nul
 set new_version=%Line_12%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & (goto) 2>nul
 if %current_version% EQU %new_version% call :LatestBuild & (goto) 2>nul
@@ -117,7 +117,7 @@ call :ErrorOffline & (goto) 2>nul
 :6
 :About
 cls
-if exist !license! del !license! >nul:
+if exist !license! del !license! >nul
 start %~n0
 exit
 
@@ -128,7 +128,7 @@ exit
 :DLLDownloaderCheck
 cls & title Portable Cemu Launcher - Helper Edition - Download Dll Downloader
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
-cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul: & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
+cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
 (goto) 2>nul
 
@@ -136,7 +136,7 @@ cls & start launch_dlldownloader.bat
 :PortableEverything
 cls & title Portable Cemu Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
-cls & if exist launch_everything.bat.1 del launch_everything.bat >nul: & rename launch_everything.bat.1 launch_everything.bat
+cls & if exist launch_everything.bat.1 del launch_everything.bat >nul & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
 (goto) 2>nul
 
@@ -158,20 +158,20 @@ echo cls >>!quick_launcher!
 echo start .\bin\cemu\Cemu.exe >>!quick_launcher!
 echo exit >>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
-echo ENTER TO CONTINUE & pause >nul:
+echo ENTER TO CONTINUE & pause >nul
 exit
 
 :d
 :UpgradeCemu
 title Portable Cemu Launcher - Helper Edition - Cemu Update Check
-if exist index.html del index.html >nul:
+if exist index.html del index.html >nul
 call :HelperDownload "https://cemu.info/#Download" "index.html"
 for /f tokens^=2delims^=^" %%A in (
   'findstr /i /c:"https://cemu.info/releases/" index.html'
 ) Do > .\doc\cemu_link.txt Echo:%%A
 set /p cemu_link=<.\doc\cemu_link.txt
 set "cemu_zip=!cemu_link:~27,20!"
-if exist index.html del index.html >nul:
+if exist index.html del index.html >nul
 cls
 set broke=0
 if exist .\extra\!cemu_zip! (
@@ -190,7 +190,7 @@ pause
 if not exist ".\doc\!cemu_txt:~27!" call :HelperDownload "!cemu_txt!" "!cemu_txt:~27!" & move "!cemu_txt:~27!" ".\doc\!cemu_txt:~27!"
 if exist batch-read.bat pause & call batch-read ".\doc\!cemu_txt:~27!" 10 1
 echo upgrading to cemu v!cemu_zip:~5,-4!
-if exist cemu*.zip del /q cemu*.zip >nul:
+if exist cemu*.zip del /q cemu*.zip >nul
 call :HelperDownload "!cemu_link!" "!cemu_zip!"
 if not exist !cemu_zip! call :ErrorOffline & (goto) 2>nul
 if exist !cemu_zip! move !cemu_zip! .\extra\!cemu_zip!
@@ -223,7 +223,7 @@ start "" "update-text-reader.bat"
 :ModDownloaderCheck
 cls & title Portable Cemu Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://github.com/MarioMasta64/ModDownloaderPortable/raw/master/launch_cemu_moddownloader.bat" "launch_cemu_moddownloader.bat.1"
-cls & if exist launch_cemu_moddownloader.bat.1 del launch_cemu_moddownloader.bat >nul:
+cls & if exist launch_cemu_moddownloader.bat.1 del launch_cemu_moddownloader.bat >nul
 cls & start launch_cemu_moddownloader.bat
 (goto) 2>nul
 
@@ -266,7 +266,7 @@ if not exist ".\bin\cemu\Cemu.exe" set nag=CEMU IS NOT INSTALLED CHOOSE "D"
 cls
 echo 37 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt >nul:
+if exist .\doc\version.txt del .\doc\version.txt >nul
 (goto) 2>nul
 
 :Credits
@@ -305,7 +305,7 @@ if not exist launch_helpers.bat call :DownloadHelpers
 (goto) 2>nul
 :DownloadHelpers
 if not exist .\helpers\download.vbs call :CreateDownloadVBS
-cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat >nul:
+cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat >nul
 (goto) 2>nul
 :CreateDownloadVBS
 echo Dim Arg, download, file > .\helpers\download.vbs
@@ -393,11 +393,11 @@ echo %sha1%
 set program=%~n0
 echo %program:~7%
 echo "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%"
-if exist new_install.php del new_install.php >nul:
-if exist serial.txt del serial.txt >nul:
+if exist new_install.php del new_install.php >nul
+if exist serial.txt del serial.txt >nul
 REM call :HelperDownload "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%" "new_install.php"
-if exist new_install.php del new_install.php >nul:
-if exist serial.txt del serial.txt >nul:
+if exist new_install.php del new_install.php >nul
+if exist serial.txt del serial.txt >nul
 (goto) 2>nul
 
 :UpdateWget
@@ -411,7 +411,7 @@ title Portable Cemu Launcher - Helper Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE & pause >nul:
+echo ENTER TO CONTINUE & pause >nul
 start %~n0
 exit
 
@@ -445,7 +445,7 @@ echo del %~n0 >> replacer.bat
 echo rename %~n0.1 %~n0 >> replacer.bat
 echo start %~n0 >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
-echo (goto) 2^ >nul: ^& del "%%~f0" ^& exit >> replacer.bat
+echo (goto) 2^ >nul ^& del "%%~f0" ^& exit >> replacer.bat
 call :HelperHide "replacer.bat"
 exit
 
@@ -456,7 +456,7 @@ echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE & pause >nul:
+echo ENTER TO CONTINUE & pause >nul
 start %~n0
 exit
 
@@ -514,7 +514,7 @@ echo (C) Copyright Microsoft Corporation. All rights reserved
 echo.
 echo nice job finding me. have fun with my little cmd prompt.
 echo upon error (more likely than not) i will return to the menu.
-echo type "(goto) 2^ >nul:" or make me error to return.
+echo type "(goto) 2^ >nul" or make me error to return.
 echo.
 :CmdLoop
 set /p "cmd=%cd%>"
@@ -529,21 +529,21 @@ echo cls >> relaunch.bat
 echo Color 0A >> relaunch.bat
 echo start %~f0 >> relaunch.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
-echo (goto) 2^ >nul: ^& del "%%~f0" ^& exit >> relaunch.bat
+echo (goto) 2^ >nul ^& del "%%~f0" ^& exit >> relaunch.bat
 call :HelperHide "relaunch.bat"
 exit
 
 :: scripts that are made to cleanup or move directories and files between releases are below
 
 :v19UpgradeCheck
-if exist .\bin\temp.txt del .\bin\temp.txt >nul:
+if exist .\bin\temp.txt del .\bin\temp.txt >nul
 for /D %%A IN (".\bin\cemu*") DO echo "%%A">.\bin\temp.txt
 if exist .\bin\temp.txt set /p dir=<.\bin\temp.txt
 if "%dir%"=="".\bin\cemu"" goto Skip-Upgrade
 if exist .\bin\temp.txt xcopy %dir%\* .\bin\cemu\ /e /i /y
 if exist .\bin\temp.txt rmdir /s /q %dir%
 :Skip-Upgrade
-if exist .\bin\temp.txt del .\bin\temp.txt >nul:
+if exist .\bin\temp.txt del .\bin\temp.txt >nul
 (goto) 2>nul
 
 
@@ -552,15 +552,15 @@ REM LEFTOVER STUFF, REMOVE EVENTUALLY
 :MoTD
 if not exist .\bin\wget.exe call :Download-Wget
 title checking for message of the day
-set program=%~n0 >nul:
-.\bin\wget.exe -q --show-progress https://github.com/MarioMasta64/EverythingPortable/raw/master/note/motd.txt >nul:
-if exist motd.txt del .\note\motd.txt >nul:
+set program=%~n0 >nul
+.\bin\wget.exe -q --show-progress https://github.com/MarioMasta64/EverythingPortable/raw/master/note/motd.txt >nul
+if exist motd.txt del .\note\motd.txt >nul
 if exist motd.txt (
-  del /q .\note\motd.txt >nul:
+  del /q .\note\motd.txt >nul
   copy motd.txt .\note\motd.txt
 )
 if exist .\note\motd.txt for /f "DELIMS=" %%i in ('type .\note\motd.txt') do (set nag=%%i)
-del /q motd.txt* >nul:
+del /q motd.txt* >nul
 (goto) 2>nul
 
 REM replace %~n0 with %~f0

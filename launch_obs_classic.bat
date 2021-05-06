@@ -41,7 +41,7 @@ echo g. Restore OBS Folder [Fucked Up(?)]
 echo.
 set /p choice="enter a number and press enter to confirm: "
 :: sets errorlevel to 0 (?)
-ver >nul:
+ver >nul
 :: an incorrect call throws an errorlevel of 1
 :: replace all goto Main with exit /b 2 (if they are called by the main menu)
 call :%choice%
@@ -69,7 +69,7 @@ exit
 :3
 :Reset-OBS
 cls
-for %%i in (.\bin\obs_classic\*) do if not "%%i" == ".\bin\obs_classic\bin\%arch%\obs classic%arch%.exe" if exist "%%i" del "%%i" >nul:
+for %%i in (.\bin\obs_classic\*) do if not "%%i" == ".\bin\obs_classic\bin\%arch%\obs classic%arch%.exe" if exist "%%i" del "%%i" >nul
 for /d %%d in (.\bin\obs_classic\*) do if exist "%%d" rmdir /s /q "%%d"
 exit /b 2
 
@@ -82,13 +82,13 @@ exit
 
 :5
 :Update-Check
-if exist version.txt del version.txt >nul:
+if exist version.txt del version.txt >nul
 if not exist .\bin\wget.exe call :Download-Wget
 cls
 title Portable OBS Classic Launcher - Experimental Edition - Checking For Update
 .\bin\wget.exe -q --show-progress --continue https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
-if exist version.txt del version.txt >nul:
+if exist version.txt del version.txt >nul
 set new_version=%Line_38%
 if "%new_version%"=="OFFLINE" call :Error-Offline & exit /b 2
 if %current_version% EQU %new_version% call :Latest-Build & exit /b 2
@@ -99,7 +99,7 @@ call :Error-Offline & exit /b 2
 :6
 :About
 cls
-if exist .\doc\obs_classic_license.txt del .\doc\obs_classic_license.txt >nul:
+if exist .\doc\obs_classic_license.txt del .\doc\obs_classic_license.txt >nul
 start %~n0
 exit
 
@@ -111,7 +111,7 @@ exit
 cls & title Portable OBS Classic Launcher - Experimental Edition - Download Dll Downloader
 cls & if not exist .\bin\wget.exe call :Download-Wget
 cls & .\bin\wget.exe -q --show-progress --continue https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat
-cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul: & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
+cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
 exit /b 2
 
@@ -120,7 +120,7 @@ exit /b 2
 cls & title Portable OBS Classic Launcher - Experimental Edition - Download Suite
 cls & if not exist .\bin\wget.exe call :Download-Wget
 cls & .\bin\wget.exe -q --show-progress --continue https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat
-cls & if exist launch_everything.bat.1 del launch_everything.bat >nul: & rename launch_everything.bat.1 launch_everything.bat
+cls & if exist launch_everything.bat.1 del launch_everything.bat >nul & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
 exit /b 2
 
@@ -139,7 +139,7 @@ echo set "path=%%PATH%%;%%CD%%\dll\%%arch%%\;" >> quick%~n0
 echo start .\bin\obs_classic\%%arch%%bit\OBS.exe -portable >> quick%~n0
 echo exit >> quick%~n0
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO: quick%~n0
-echo ENTER TO CONTINUE & pause >nul:
+echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
 :d
@@ -151,7 +151,7 @@ exit /b 2
 :Upgrade-OBS
 title Portable OBS Launcher - Expiremental Edition - OBS Update Check
 if not exist .\bin\wget.exe call :Download-Wget
-if exist latest del latest >nul:
+if exist latest del latest >nul
 .\bin\wget.exe -q --show-progress https://api.github.com/repos/jp9000/obs/releases/latest
 :: create file or wont work (do not run on same file)
 echo.> latest.txt
@@ -185,8 +185,8 @@ echo "%obs_classic_zip%"
 echo "%obs_classic_link%"
 pause
 
-if exist latest del latest >nul:
-if exist latest.txt del latest.txt >nul:
+if exist latest del latest >nul
+if exist latest.txt del latest.txt >nul
 
 cls
 set broke=0
@@ -205,7 +205,7 @@ exit /b 2
 echo make sure
 echo "%CD%\data\obs_classic\"
 echo contains your data before pressing enter
-pause >nul:
+pause >nul
 cls
 echo BACKING UP OBS
 if exist .\backup\obs_classic\ rmdir /s /q c.\backup\obs_classic\
@@ -219,7 +219,7 @@ exit /b 2
 echo make sure
 echo "%CD%\backup\obs_classic\"
 echo contains your data before pressing enter
-pause >nul:
+pause >nul
 cls
 echo RESTORING OBS
 if exist .\backup\obs_classic\ rmdir /s /q .\data\obs_classic\
@@ -257,7 +257,7 @@ if not exist .\note\ mkdir .\note\
 cls
 echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt >nul:
+if exist .\doc\version.txt del .\doc\version.txt >nul
 (goto) 2>nul
 
 ########################################################################
@@ -399,8 +399,8 @@ echo %program:~7%
 echo http://old-school-gamer.tk/install/new_install.php?program=%program:~7%^&serial=%sha1%
 .\bin\wget -q --show-progress --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36" http://old-school-gamer.tk/install/new_install.php?program=%program:~7%^&serial=%sha1%
 endlocal
-if exist new_install.php* del new_install.php* >nul:
-if exist serial.txt del serial.txt >nul:
+if exist new_install.php* del new_install.php* >nul
+if exist serial.txt del serial.txt >nul
 (goto) 2>nul
 
 ########################################################################
@@ -408,15 +408,15 @@ if exist serial.txt del serial.txt >nul:
 :MoTD
 if not exist .\bin\wget.exe call :Download-Wget
 title checking for message of the day
-set program=%~n0 >nul:
-.\bin\wget.exe -q --show-progress https://github.com/MarioMasta64/EverythingPortable/raw/master/note/motd.txt >nul:
-if exist motd.txt del .\note\motd.txt >nul:
+set program=%~n0 >nul
+.\bin\wget.exe -q --show-progress https://github.com/MarioMasta64/EverythingPortable/raw/master/note/motd.txt >nul
+if exist motd.txt del .\note\motd.txt >nul
 if exist motd.txt (
-  del /s /q .\note\motd.txt >nul:
+  del /s /q .\note\motd.txt >nul
   copy motd.txt .\note\motd.txt
 )
 if exist .\note\motd.txt for /f "DELIMS=" %%i in ('type .\note\motd.txt') do (set nag=%%i)
-if exist motd.txt* del motd.txt* >nul:
+if exist motd.txt* del motd.txt* >nul
 (goto) 2>nul
 
 ########################################################################
@@ -459,8 +459,8 @@ move wget.exe .\bin\
 
 :Upgrade-OBS
 cls
-del .\bin\obs_classic\bin\32bit\obs32.exe >nul:
-del .\bin\obs_classic\bin\64bit\obs64.exe >nul:
+del .\bin\obs_classic\bin\32bit\obs32.exe >nul
+del .\bin\obs_classic\bin\64bit\obs64.exe >nul
 (goto) 2>nul
 
 ########################################################################
@@ -480,7 +480,7 @@ title Portable OBS Classic Launcher - Experimental Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE & pause >nul:
+echo ENTER TO CONTINUE & pause >nul
 start %~n0
 exit
 
@@ -515,7 +515,7 @@ echo del %~n0 >> replacer.bat
 echo rename %~n0.1 %~n0 >> replacer.bat
 echo start %~n0 >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
-echo (goto) 2^ >nul: ^& del "%%~f0" ^& exit >> replacer.bat
+echo (goto) 2^ >nul ^& del "%%~f0" ^& exit >> replacer.bat
 wscript "%CD%\bin\hide.vbs" "replacer.bat"
 exit
 
@@ -527,7 +527,7 @@ echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE
-echo ENTER TO CONTINUE & pause >nul:
+echo ENTER TO CONTINUE & pause >nul
 start %~n0
 exit
 
@@ -597,7 +597,7 @@ echo (C) Copyright Microsoft Corporation. All rights reserved
 echo.
 echo nice job finding me. have fun with my little cmd prompt.
 echo upon error (more likely than not) i will return to the menu.
-echo type "(goto) 2^ >nul:" or make me error to return.
+echo type "(goto) 2^ >nul" or make me error to return.
 echo.
 :cmd-loop
 set /p "cmd=%cd%>"
@@ -614,7 +614,7 @@ echo cls >> relauncher.bat
 echo Color 0A >> relaunch.bat
 echo start %~f0 >> relaunch.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
-echo (goto) 2^ >nul: ^& del "%%~f0" ^& exit >> relaunch.bat
+echo (goto) 2^ >nul ^& del "%%~f0" ^& exit >> relaunch.bat
 wscript "%CD%\bin\hide.vbs" "relaunch.bat"
 exit
 

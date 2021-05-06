@@ -14,7 +14,7 @@ set "main_launcher=%~n0.bat"
 set "poc_launcher=%~n0_poc.bat"
 set "quick_launcher=quick%~n0.bat"
 
-if exist replacer.bat del replacer.bat >nul:
+if exist replacer.bat del replacer.bat >nul
 
 
 
@@ -42,7 +42,7 @@ goto Credits
 cls
 echo 21 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt >nul:
+if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
 
 :Credits
@@ -148,7 +148,7 @@ for /f "DELIMS=" %%i in (version.txt) do (
 							echo launch_!launcher!.bat > .\helpers\file.txt
 							call launch_helpers.bat Download
 							if exist launch_!launcher!.bat.1 (
-								del launch_!launcher!.bat >nul:
+								del launch_!launcher!.bat >nul
 								rename launch_!launcher!.bat.1 launch_!launcher!.bat
 							)
 						)
@@ -166,7 +166,7 @@ for /f "DELIMS=" %%i in (version.txt) do (
 			echo !launcher!
 	)
 )
-if exist version.txt del version.txt >nul:
+if exist version.txt del version.txt >nul
 set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 pause
 goto Menu
@@ -180,11 +180,11 @@ for /f "DELIMS=" %%i in ('type .\doc\launchers.txt') do (
 		set Line_!Counter!=%%i
 	)
 )
-if exist .\doc\launchers.txt del .\doc\launchers.txt >nul:
+if exist .\doc\launchers.txt del .\doc\launchers.txt >nul
 exit /b
 
 :GetInfo
-if exist %launchername%.txt del %launchername%.txt >nul:
+if exist %launchername%.txt del %launchername%.txt >nul
 echo https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/info/%launchername%.txt > .\helpers\download.txt
 echo %launchername%.txt > .\helpers\file.txt
 call launch_helpers.bat Download
@@ -193,7 +193,7 @@ for /f "DELIMS=" %%i in ('type %launchername%.txt') do (
     echo %%i
 )
 if not exist %launchername%.txt cls & echo you seem to be offline or there is a problem with the github
-if exist %launchername%.txt del %launchername%.txt >nul:
+if exist %launchername%.txt del %launchername%.txt >nul
 exit /b
 
 :GetDownloads
@@ -211,7 +211,7 @@ for /f "DELIMS=" %%i in (version.txt) do (
 		if "%launcher%"=="launch_%%i.bat" (set /a new_line=!counter!*2)
 	)
 )
-if exist version.txt del version.txt >nul:
+if exist version.txt del version.txt >nul
 set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 exit /b
 
@@ -230,7 +230,7 @@ for /f "DELIMS=" %%i in (version.txt) do (
 		set num=0
 	)
 )
-if exist version.txt del version.txt >nul:
+if exist version.txt del version.txt >nul
 set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 exit /b
 
@@ -285,7 +285,7 @@ echo type menu to return to the main menu
 set /p choice="launcher to delete: "
 set launcher=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto Menu
-del %launcher% >nul:
+del %launcher% >nul
 goto Menu
 
 :Update
@@ -305,12 +305,12 @@ call :GetDownloads
 cls
 call %launcher% Version
 set current_version=!errorlevel!
-if exist version.txt del version.txt >nul:
+if exist version.txt del version.txt >nul
 echo https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt > .\helpers\download.txt
 echo version.txt > .\helpers\file.txt
 call launch_helpers.bat Download
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
-if exist version.txt del version.txt >nul:
+if exist version.txt del version.txt >nul
 set new_version=!line_%new_line%!
 if "%new_version%"=="OFFLINE" goto ErrorOffline
 if %current_version% EQU %new_version% goto Latest
@@ -404,7 +404,7 @@ exit
 
 :About
 cls
-if exist !license! del !license! >nul:
+if exist !license! del !license! >nul
 start %~n0
 exit
 
@@ -427,13 +427,13 @@ if exist .\EverythingPortable-master\ rmdir /s /q .\EverythingPortable-master\
 if exist .\.vs\ rmdir /s /q .\.vs\
 if exist .\info\ rmdir /s /q .\info\
 if exist .\note\ rmdir /s /q .\note\
-if exist master.zip del master.zip >nul:
+if exist master.zip del master.zip >nul
 goto Menu
 
 :DeleteAllTheStuff
 for %%i in (*) do (
 	if not "%%i" == "%~n0" (
-		if not "%%i" == "launch_helpers.bat" del %%i >nul:
+		if not "%%i" == "launch_helpers.bat" del %%i >nul
 	)
 )
 goto Menu
@@ -456,7 +456,7 @@ if not exist launch_helpers.bat call :DownloadHelpers
 exit /b
 :DownloadHelpers
 if not exist .\helpers\download.vbs call :CreateDownloadVBS
-cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat >nul:
+cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat >nul
 exit /b
 :CreateDownloadVBS
 echo Dim Arg, download, file > .\helpers\download.vbs

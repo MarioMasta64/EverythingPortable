@@ -14,8 +14,8 @@ set "main_launcher=%~n0.bat"
 set "poc_launcher=%~n0_poc.bat"
 set "quick_launcher=quick%~n0.bat"
 
-if exist replacer.bat del replacer.bat >nul:
-if exist !poc_launcher! del !poc_launcher! >nul:
+if exist replacer.bat del replacer.bat >nul
+if exist !poc_launcher! del !poc_launcher! >nul
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 
@@ -57,7 +57,7 @@ echo i. launch winscppwd [launches winscppwd]
 echo.
 set /p choice="enter a number and press enter to confirm: "
 :: sets errorlevel to 0 (?)
-ver >nul:
+ver >nul
 :: an incorrect call throws an errorlevel of 1
 :: replace all goto Main with (goto) 2>nul (if they are called by the main menu)
 call :%choice%
@@ -89,7 +89,7 @@ exit
 
 :3
 :ResetWinSCP
-if exist .\AppData\Roaming\winscp.rnd del .\AppData\Roaming\winscp.rnd >nul:
+if exist .\AppData\Roaming\winscp.rnd del .\AppData\Roaming\winscp.rnd >nul
 (goto) 2>nul
 
 :4
@@ -99,12 +99,12 @@ if exist .\bin\WinSCP\ rmdir /s /q .\bin\WinSCP\
 
 :5
 :UpdateCheck
-if exist version.txt del version.txt >nul:
+if exist version.txt del version.txt >nul
 cls
 title Portable WinSCP Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
-if exist version.txt del version.txt >nul:
+if exist version.txt del version.txt >nul
 set new_version=%Line_58%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & (goto) 2>nul
 if %current_version% EQU %new_version% call :LatestBuild & (goto) 2>nul
@@ -116,7 +116,7 @@ call :ErrorOffline & (goto) 2>nul
 :6
 :About
 cls
-if exist !license! del !license! >nul:
+if exist !license! del !license! >nul
 start %~n0
 exit
 
@@ -127,7 +127,7 @@ exit
 :DLLDownloaderCheck
 cls & title Portable WinSCP Launcher - Helper Edition - Download Dll Downloader
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
-cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul: & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
+cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
 (goto) 2>nul
 
@@ -135,7 +135,7 @@ cls & start launch_dlldownloader.bat
 :PortableEverything
 cls & title Portable WinSCP Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
-cls & if exist launch_everything.bat.1 del launch_everything.bat >nul: & rename launch_everything.bat.1 launch_everything.bat
+cls & if exist launch_everything.bat.1 del launch_everything.bat >nul & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
 (goto) 2>nul
 
@@ -157,20 +157,20 @@ echo cd .\bin\WinSCP\ >>!quick_launcher!
 echo start WinSCP.exe >>!quick_launcher!
 echo exit >>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
-echo ENTER TO CONTINUE & pause >nul:
+echo ENTER TO CONTINUE & pause >nul
 exit
 
 :d
 :UpgradeWinSCP
-if exist history del history >nul:
-if exist winscp_release.txt del winscp_release.txt >nul:
-if exist winscp_beta.txt del winscp_beta.txt >nul:
+if exist history del history >nul
+if exist winscp_release.txt del winscp_release.txt >nul
+if exist winscp_beta.txt del winscp_beta.txt >nul
 call :HelperDownload "https://winscp.net/eng/docs/history" "history"
 echo.> winscp_link.txt
 for /f tokens^=2delims^=^> %%A in (
   'findstr /i /c:"h2 id=" history'
 ) Do >> winscp_link.txt Echo:%%A
-if exist history del history >nul:
+if exist history del history >nul
 set /a release=0
 set /a beta=0
 set /a rc=0
@@ -210,12 +210,12 @@ for /F "tokens=*" %%A in (winscp_link.txt) do (
     )
   )
 )
-if exist winscp_link.txt del winscp_link.txt >nul:
+if exist winscp_link.txt del winscp_link.txt >nul
 echo.
 set /p winscp_release=<winscp_release.txt
 set /p winscp_beta=<winscp_beta.txt
-if exist winscp_release.txt del winscp_release.txt >nul:
-if exist winscp_beta.txt del winscp_beta.txt >nul:
+if exist winscp_release.txt del winscp_release.txt >nul
+if exist winscp_beta.txt del winscp_beta.txt >nul
 cls
 set "release_zip_link=https://winscp.net/download/WinSCP-!winscp_release!-Portable.zip"
 set "beta_zip_link=https://winscp.net/download/WinSCP-!winscp_beta!.beta-Portable.zip"
@@ -297,7 +297,7 @@ cd ..\..\
 if exist batch-read.bat call batch-read.bat "!folder!\password.txt" 10 1 & goto :SkipNotePad
 notepad.exe "!folder!\password.txt"
 :SkipNotePad
-if exist password.txt del password.txt >nul:
+if exist password.txt del password.txt >nul
 (goto) 2>nul
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
@@ -339,7 +339,7 @@ if not exist ".\bin\WinSCP\WinSCP.exe" set nag=WINSCP IS NOT INSTALLED CHOOSE "D
 cls
 echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt >nul:
+if exist .\doc\version.txt del .\doc\version.txt >nul
 (goto) 2>nul
 
 :Credits
@@ -378,7 +378,7 @@ if not exist launch_helpers.bat call :DownloadHelpers
 (goto) 2>nul
 :DownloadHelpers
 if not exist .\helpers\download.vbs call :CreateDownloadVBS
-cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat >nul:
+cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat >nul
 (goto) 2>nul
 :CreateDownloadVBS
 echo Dim Arg, download, file > .\helpers\download.vbs
@@ -466,11 +466,11 @@ echo %sha1%
 set program=%~n0
 echo %program:~7%
 echo "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%"
-if exist new_install.php del new_install.php >nul:
-if exist serial.txt del serial.txt >nul:
+if exist new_install.php del new_install.php >nul
+if exist serial.txt del serial.txt >nul
 REM call :HelperDownload "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%" "new_install.php"
-if exist new_install.php del new_install.php >nul:
-if exist serial.txt del serial.txt >nul:
+if exist new_install.php del new_install.php >nul
+if exist serial.txt del serial.txt >nul
 (goto) 2>nul
 
 :UpdateWget
@@ -484,7 +484,7 @@ title Portable WinSCP Launcher - Helper Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE & pause >nul:
+echo ENTER TO CONTINUE & pause >nul
 start %~n0
 exit
 
@@ -518,7 +518,7 @@ echo del %~n0 >> replacer.bat
 echo rename %~n0.1 %~n0 >> replacer.bat
 echo start %~n0 >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
-echo (goto) 2^ >nul: ^& del "%%~f0" ^& exit >> replacer.bat
+echo (goto) 2^ >nul ^& del "%%~f0" ^& exit >> replacer.bat
 call :HelperHide "replacer.bat"
 exit
 
@@ -529,7 +529,7 @@ echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
-echo ENTER TO CONTINUE & pause >nul:
+echo ENTER TO CONTINUE & pause >nul
 start %~n0
 exit
 
@@ -587,7 +587,7 @@ echo (C) Copyright Microsoft Corporation. All rights reserved
 echo.
 echo nice job finding me. have fun with my little cmd prompt.
 echo upon error (more likely than not) i will return to the menu.
-echo type "(goto) 2^ >nul:" or make me error to return.
+echo type "(goto) 2^ >nul" or make me error to return.
 echo.
 :CmdLoop
 set /p "cmd=%cd%>"
@@ -602,6 +602,6 @@ echo cls >> relaunch.bat
 echo Color 0A >> relaunch.bat
 echo start %~f0 >> relaunch.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
-echo (goto) 2^ >nul: ^& del "%%~f0" ^& exit >> relaunch.bat
+echo (goto) 2^ >nul ^& del "%%~f0" ^& exit >> relaunch.bat
 call :HelperHide "relaunch.bat"
 exit

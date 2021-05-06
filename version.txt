@@ -56,8 +56,8 @@ lightshot
 3
 winscp
 2
-twitch_poc
-0
+twitch
+1
 firefox
 2
 vivaldi

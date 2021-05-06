@@ -5,7 +5,7 @@ cls
 title PORTABLE KAERUSETUP LAUNCHER
 set nag=Finally Getting Updates After 4 Years (Helper Update)
 set new_version=OFFLINE
-if exist replacer.bat del replacer.bat >nul:
+if exist replacer.bat del replacer.bat >nul
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 
 :FOLDERCHECK
@@ -21,7 +21,7 @@ goto CREDITS
 cls
 echo 12 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
-if exist .\doc\version.txt del .\doc\version.txt >nul:
+if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
 
 :CREDITS
