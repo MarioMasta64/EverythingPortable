@@ -57,7 +57,7 @@ lightshot
 winscp
 2
 twitch
-1
+2
 firefox
 2
 vivaldi
