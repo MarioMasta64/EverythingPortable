@@ -35,7 +35,7 @@ opera
 citra
 3
 obs_classic
-2
+3
 github_desktop
 5
 uwamp
