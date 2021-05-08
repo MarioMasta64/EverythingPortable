@@ -23,7 +23,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 9 > .\doc\version.txt
+echo 10 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -68,7 +68,24 @@ if not exist "download@source=typ_redirect" goto :DownloadInno
 if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
 .\bin\7-ZipPortable\App\7-Zip\7z.exe x download@source=typ_redirect * -obin\innounp\
 if exist "download@source=typ_redirect" del "download@source=typ_redirect" >nul
-(goto) 2>nul
+exit /b
+
+:DownloadJava
+set arch=
+if exist "%PROGRAMFILES(X86)%" set arch=64
+if not exist .\bin\wget.exe call :DownloadWget
+if exist .\extra\jPortable%arch%_8_Update_291_online.paf.exe exit /b
+.\bin\wget.exe -q --show-progress "https://downloads.sourceforge.net/portableapps/jPortable%arch%_8_Update_291_online.paf.exe"
+if not exist jPortable%arch%_8_Update_291_online.paf.exe goto :DownloadJava
+move jPortable%arch%_8_Update_291_online.paf.exe .\extra\jPortable%arch%_8_Update_291_online.paf.exe
+cls
+echo README README README README
+echo PLEASE PROCEED THROUGH ALL DIALOGUE OPTIONS
+echo DO NOT HIT RUN
+echo PRESS ENTER WHEN READ
+pause >nul
+.\extra\jPortable%arch%_8_Update_291_online.paf.exe /destination="!folder!\bin\"
+exit /b
 
 :Extract7zip
 set /p file=<.\helpers\file.txt
@@ -90,7 +107,7 @@ echo DO NOT HIT RUN
 echo PRESS ENTER WHEN READ
 pause >nul
 .\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
-(goto) 2>nul
+exit /b
 
 :Extract
 set /p file=<.\helpers\file.txt
