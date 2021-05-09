@@ -362,6 +362,12 @@ echo %2 > .\helpers\folder.txt
 call launch_helpers.bat ExtractInno
 (goto) 2>nul
 
+:HelperDownloadJava
+REM v10+ Required But Always Updated Anyways
+echo 9999 > .\helpers\version.txt
+call launch_helpers.bat DownloadJava
+(goto) 2>nul
+
 :PingInstall
 for /F "skip=1 tokens=5" %%a in ('vol %~D0') do echo %%a>serial.txt
 set /a count=1 
