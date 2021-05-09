@@ -77,9 +77,8 @@ call :UpgradeMinecraft
 :2
 :LaunchMinecraft
 if not exist ".\bin\minecraft\Minecraft.jar" set "nag=PLEASE INSTALL MINECRAFT FIRST" & (goto) 2>nul
-if exist .\ini\minecraft.ini set /p Appdata=<.\ini\minecraft.ini
+if exist .\ini\minecraft.ini set /p Appdata=<.\ini\minecraft.ini & set "AppData=!Folder!!AppData!"
 if "!AppData!" EQU "!folder!\data\AppData\Roaming" set "nag=PLEASE USE G TO SELECT A PROFILE FIRST (IT WILL BE USED BY THE QUICKLAUNCHER AS WELL)" & (goto) 2>nul
-echo !AppData!>.\ini\minecraft.ini
 title DO NOT CLOSE
 cls
 echo MINECRAFT IS RUNNING
@@ -151,7 +150,7 @@ echo set "folder=%!Folder!%" >>!quick_launcher!
 echo if "%!Folder!%"=="%%~d0\" set "folder=%%CD:~0,2%%" >>!quick_launcher!
 echo set "UserProfile=%%folder%%\data" >>!quick_launcher!
 echo if not exist .\ini\minecraft.ini set "AppData=%%folder%%\data\minecraft" >>!quick_launcher! 
-echo if exist .\ini\minecraft.ini set /p Appdata=^<.\ini\minecraft.ini >>!quick_launcher!
+echo if exist .\ini\minecraft.ini set /p Appdata=^<.\ini\minecraft.ini ^& set "AppData=%%Folder%%%%AppData%%" >>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\AppData\Local" >>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData" >>!quick_launcher!
 echo cls >>!quick_launcher!
@@ -255,10 +254,12 @@ goto Create
 :Launch
 cls
 set "AppData=!Folder!\data\minecraft\profiles\!Profile!"
+echo \data\minecraft\profiles\!Profile!>.\ini\minecraft.ini
 goto 2
 :Default
 cls
 set "AppData=!Folder!\data\minecraft"
+echo \data\minecraft\profiles\!Profile!>.\ini\minecraft.ini
 goto 2
 
 :h
@@ -288,7 +289,7 @@ goto Delete
 cls
 rmdir /s ".\data\minecraft\profiles\!Profile!\"
 goto Delete
-:DELETEMAIN
+:DeleteMain
 cls
 rmdir /s .\data\minecraft\.minecraft\
 rmdir /s /q .\data\minecraft\java\
@@ -331,7 +332,7 @@ if not exist ".\bin\minecraft\Minecraft.jar" set nag=MINECRAFT IS NOT INSTALLED 
 
 :Version
 cls
-echo 13 > .\doc\version.txt
+echo 14 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 (goto) 2>nul
