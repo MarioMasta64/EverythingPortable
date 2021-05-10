@@ -110,7 +110,7 @@ call :ErrorOffline & (goto) 2>nul
 :About
 cls
 if exist !license! del !license! >nul
-start %~n0
+start "!main_launcher!"
 exit
 
 :7
@@ -363,7 +363,7 @@ echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE & pause >nul
-start %~n0
+start "!main_launcher!"
 exit
 
 :NewUpdate
@@ -384,7 +384,7 @@ goto NewUpdate
 :UpdateNow
 cls & title Portable TeamViewer Launcher - Helper Edition - Updating Launcher
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/!main_launcher!" "!main_launcher!.1"
-cls & if exist %~n0.1 goto ReplacerCreate
+cls & if exist "!main_launcher!.1" goto ReplacerCreate
 cls & call :ErrorOffline
 (goto) 2>nul
 
@@ -392,9 +392,9 @@ cls & call :ErrorOffline
 cls
 echo @echo off > replacer.bat
 echo Color 0A >> replacer.bat
-echo del %~n0 >> replacer.bat
-echo rename %~n0.1 %~n0 >> replacer.bat
-echo start %~n0 >> replacer.bat
+echo del "!main_launcher!" >> replacer.bat
+echo rename "!main_launcher!.1" "!main_launcher!" >> replacer.bat
+echo start "" "!main_launcher!" >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
 echo (goto) 2^ >nul ^& del "%%~f0" ^& exit >> replacer.bat
 call :HelperHide "replacer.bat"
@@ -408,7 +408,7 @@ echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE & pause >nul
-start %~n0
+start "!main_launcher!"
 exit
 
 :ErrorOffline

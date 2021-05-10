@@ -385,7 +385,7 @@ echo @echo off > replacer.bat
 echo Color 0A >> replacer.bat
 echo del %launcher% >> replacer.bat
 echo rename %launcher%.1 %launcher% >> replacer.bat
-echo start %~n0 >> replacer.bat
+echo start "" "!main_launcher!" >> replacer.bat
 echo exit >> replacer.bat
 start replacer.bat
 exit
@@ -399,13 +399,13 @@ echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo Press Enter To Continue
 pause
-start %~n0
+start "!main_launcher!"
 exit
 
 :About
 cls
 if exist !license! del !license! >nul
-start %~n0
+start "!main_launcher!"
 exit
 
 :ErrorOffline
