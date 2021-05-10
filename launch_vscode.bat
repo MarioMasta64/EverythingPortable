@@ -4,7 +4,7 @@ setlocal enableextensions
 Color 0A
 cls
 title Portable Vscode Launcher - Helper Edition
-set nag=BE SURE TO TURN CAPS LOCK OFF! (never said it was on just make sure)
+set nag=Finally Getting Updates After 4 Years (Helper Update)
 set new_version=OFFLINE_OR_NO_UPDATES
 
 set "name=%~n0"
