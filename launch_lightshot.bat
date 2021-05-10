@@ -211,7 +211,7 @@ if not exist ".\bin\lightshot\Lightshot.exe" set nag=LIGHTSHOT IS NOT INSTALLED 
 
 :Version
 cls
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 (goto) 2>nul
@@ -378,7 +378,7 @@ echo enter yes or no
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 set /p choice="Update?: "
-if "%choice%"=="yes" call :Update-Now & (goto) 2>nul
+if "%choice%"=="yes" call :UpdateNow & (goto) 2>nul
 if "%choice%"=="no" (goto) 2>nul
 set nag="please enter YES or NO"
 goto NewUpdate
