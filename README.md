@@ -31,5 +31,4 @@ suite can now update launchers ! (any old launchers must be updated manually fir
 # Known Issues:
 
 many of the launchers had a broken update process (goto Update-Now should've been goto UpdateNow)
-
 this has been fixed and is easily updateable anyways simply type "UpdateNow" at the menu
