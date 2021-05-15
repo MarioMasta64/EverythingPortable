@@ -89,7 +89,7 @@ echo 9. UPDATE EVERYTHING [ Broken Use Option 3 Instead ]
 echo 10. TROUBLESHOOTING
 REM echo 11. GET HELPER MANAGER
 echo.
-set /p choice="enter a number and press enter to confirm: "
+set /p choice="enter your choice and press enter to confirm: "
 if "%CHOICE%"=="1" goto Download
 if "%CHOICE%"=="2" goto Launch
 if "%CHOICE%"=="3" goto Update

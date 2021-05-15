@@ -52,7 +52,7 @@ echo.
 echo f. type your steam login [to automatically login between pc]
 echo g. remove steam login [to not login automatically]
 echo.
-set /p choice="enter a number and press enter to confirm: "
+set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
 :: an incorrect call throws an errorlevel of 1

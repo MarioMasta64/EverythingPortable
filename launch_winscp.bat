@@ -55,7 +55,7 @@ echo.
 echo h. launch putty [launches putty]
 echo i. launch winscppwd [launches winscppwd]
 echo.
-set /p choice="enter a number and press enter to confirm: "
+set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
 :: an incorrect call throws an errorlevel of 1

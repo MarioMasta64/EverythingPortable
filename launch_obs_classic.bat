@@ -54,7 +54,7 @@ echo g. Restore OBS Folder [Fucked Up(?)]
 echo.
 echo h. download obs studio launcher
 echo.
-set /p choice="enter a number and press enter to confirm: "
+set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
 :: an incorrect call throws an errorlevel of 1
