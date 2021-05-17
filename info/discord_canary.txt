@@ -5,6 +5,4 @@
 =  All-in-one voice and text chat for gamers that's free, secure, and works   =
 =    on both your desktop and phone. Stop paying for TeamSpeak servers and    =
 =             hassling with Skype. Simplify your life. - Discord              =
-=                                                                             =
-=    Try out the newest and latest features but expect lots of bugs - MM64    =
 ===============================================================================
