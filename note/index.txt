@@ -1,4 +1,0 @@
-head
-foot
-sendhelp
-ideas
