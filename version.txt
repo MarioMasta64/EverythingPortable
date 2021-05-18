@@ -68,3 +68,5 @@ game_maker_studio_2
 1
 telegram
 6
+skype
+1
