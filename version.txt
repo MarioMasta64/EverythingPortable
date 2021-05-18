@@ -46,7 +46,7 @@ ntlite
 3
 dolphin
 3
-skype_poc
+skype_legacy_poc
 0
 project64
 4
