@@ -161,7 +161,7 @@ exit
 title Portable Vivaldi Launcher - Helper Edition - Vivaldi Update Check
 if exist index.html del index.html >nul
 call :HelperDownload "https://vivaldi.com/download/" "index.html"
-for /f tokens^=4delims^=^" %%A in (
+for /f tokens^=6delims^=^" %%A in (
   'findstr /i /c:".exe" index.html'
 ) Do > .\doc\vivaldi_link.txt Echo:%%A
 set /p vivaldi_link=<.\doc\vivaldi_link.txt
@@ -238,7 +238,7 @@ if not exist ".\bin\vivaldi\Vivaldi.exe" set nag=VIVALDI IS NOT INSTALLED CHOOSE
 
 :Version
 cls
-echo 7 > .\doc\version.txt
+echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 (goto) 2>nul
