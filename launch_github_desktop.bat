@@ -77,6 +77,7 @@ title DO NOT CLOSE
 cls
 echo GITHUB DESKTOP IS RUNNING
 set "Path=!path!;!folder!\bin\github_desktop\resources\app\git\cmd\"
+set "Home=!folder!\data\github_desktop"
 start .\bin\github_desktop\GitHubDesktop.exe
 exit
 
@@ -84,6 +85,7 @@ exit
 :ResetGitHubDesktop
 taskkill /f /im GitHubDesktop.exe
 if exist ".\data\AppData\Roaming\GitHub Desktop\" rmdir /s /q ".\data\AppData\Roaming\GitHub Desktop\"
+if exist .\data\github_desktop\ rmdir /s /q .\data\github_desktop\
 (goto) 2>nul
 
 :4
@@ -149,6 +151,7 @@ echo set "AppData=%%folder%%\data\AppData\Roaming" >>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\AppData\Local" >>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData" >>!quick_launcher!
 echo set "Path=%%path%%;%%folder%%\bin\github_desktop\resources\app\git\cmd\" >>!quick_launcher!
+echo set "Home=%%folder%%\data\github_desktop" >>!quick_launcher!
 echo cls >>!quick_launcher!
 echo start .\bin\github_desktop\GitHubDesktop.exe >>!quick_launcher!
 echo exit >>!quick_launcher!
@@ -211,12 +214,13 @@ if not exist ".\data\Pictures\" mkdir ".\data\Pictures\"
 if not exist ".\data\Saved Games\" mkdir ".\data\Saved Games\"
 if not exist ".\data\Searches\" mkdir ".\data\Searches\"
 if not exist ".\data\Videos\" mkdir ".\data\Videos\"
+if not exist ".\data\github_desktop\" mkdir ".\data\github_desktop\"
 if not exist ".\bin\github_desktop\GitHubDesktop.exe" set nag=GITHUB DESKTOP IS NOT INSTALLED CHOOSE "D"
 (goto) 2>nul
 
 :Version
 cls
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 (goto) 2>nul
