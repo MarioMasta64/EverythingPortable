@@ -76,14 +76,15 @@ if not exist ".\bin\firefox\firefox.exe" set "nag=PLEASE INSTALL FIREFOX FIRST" 
 title DO NOT CLOSE
 cls
 echo FIREFOX IS RUNNING
-start .\bin\firefox\firefox.exe "https://github.com/MarioMasta64/EverythingPortable/"
+start .\bin\firefox\firefox.exe "https://github.com/MarioMasta64/EverythingPortable/" -profile "!folder!\data\firefox"
 exit
 
 :3
 :ResetFirefox
 taskkill /f /im firefox.exe
-if exist .\data\firefox\ rmdir /s /q .\data\AppData\Local\Mozilla\
-if exist .\data\firefox\ rmdir /s /q .\data\AppData\Roaming\Mozilla\
+if exist .\data\AppData\Local\Mozilla\ rmdir /s /q .\data\AppData\Local\Mozilla\
+if exist .\data\AppData\Roaming\Mozilla\ rmdir /s /q .\data\AppData\Roaming\Mozilla\
+if exist .\data\firefox\ rmdir /s /q .\data\firefox\
 (goto) 2>nul
 
 :4
@@ -148,7 +149,7 @@ echo set "AppData=%%folder%%\data\AppData\Roaming" >>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\AppData\Local" >>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData" >>!quick_launcher!
 echo cls >>!quick_launcher!
-echo start .\bin\firefox\firefox.exe "https://github.com/MarioMasta64/EverythingPortable/" >>!quick_launcher!
+echo start .\bin\firefox\firefox.exe "https://github.com/MarioMasta64/EverythingPortable/" -profile "%%folder%%\data\firefox" >>!quick_launcher!
 echo exit >>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 echo ENTER TO CONTINUE & pause >nul
@@ -225,7 +226,7 @@ if not exist ".\bin\firefox\firefox.exe" set nag=FIREFOX IS NOT INSTALLED CHOOSE
 
 :Version
 cls
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 (goto) 2>nul

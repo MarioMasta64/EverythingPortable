@@ -15,7 +15,7 @@ lastpass
 qtemu
 13
 tor
-11
+12
 teamviewer_host
 6
 teamviewer
@@ -59,7 +59,7 @@ winscp
 twitch
 3
 firefox
-3
+4
 vivaldi
 7
 virtual_dj

@@ -76,17 +76,19 @@ if not exist ".\bin\tor\firefox.exe" set "nag=PLEASE INSTALL TOR FIRST" & (goto)
 title DO NOT CLOSE
 cls
 echo TOR IS RUNNING
-start .\bin\tor\firefox.exe "https://github.com/MarioMasta64/EverythingPortable/"
+start .\bin\tor\firefox.exe "https://github.com/MarioMasta64/EverythingPortable/" -profile "!folder!\data\tor"
 exit
 
 :3
 :ResetTor
-call :Null
+taskkill /f /im firefox.exe
+if exist .\data\tor\ rmdir /s /q .\data\tor\
 (goto) 2>nul
 
 :4
 :UninstallTor
-call :Null
+taskkill /f /im firefox.exe
+if exist .\bin\tor\ rmdir /s /q .\bin\tor\
 (goto) 2>nul
 
 :5
@@ -145,7 +147,7 @@ echo set "AppData=%%folder%%\data\AppData\Roaming" >>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\AppData\Local" >>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData" >>!quick_launcher!
 echo cls >>!quick_launcher!
-echo start .\bin\tor\firefox.exe "https://github.com/MarioMasta64/EverythingPortable/" >>!quick_launcher!
+echo start .\bin\tor\firefox.exe "https://github.com/MarioMasta64/EverythingPortable/" -profile "%%folder%%\data\tor" >>!quick_launcher!
 echo exit >>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 echo ENTER TO CONTINUE & pause >nul
@@ -245,7 +247,7 @@ if not exist ".\bin\tor\firefox.exe" set nag=TOR IS NOT INSTALLED CHOOSE "D"
 
 :Version
 cls
-echo 11 > .\doc\version.txt
+echo 12 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 (goto) 2>nul
