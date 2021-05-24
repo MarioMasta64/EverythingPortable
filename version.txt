@@ -72,3 +72,5 @@ skype
 1
 bitwarden
 1
+sharex
+1
