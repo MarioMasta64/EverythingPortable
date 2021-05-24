@@ -56,7 +56,6 @@ set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
 :: an incorrect call throws an errorlevel of 1
-:: replace all goto Main with (goto) 2>nul (if they are called by the main menu)
 call :%choice%
 REM if "%ERRORLEVEL%" NEQ "2" set nag="PLEASE Select A CHOICE 1-7 or a/b/c/d/e"
 goto Menu
@@ -64,18 +63,18 @@ goto Menu
 :Null
 cls
 set nag="NOT A FEATURE YET!"
-(goto) 2>nul
+exit /b 2
 
 :1
 :ReinstallSteam
 cls
 call :UninstallSteam
 call :UpgradeSteam
-(goto) 2>nul
+exit /b 2
 
 :2
 :LaunchSteam
-if not exist ".\bin\steam\steam.exe" set "nag=PLEASE INSTALL STEAM FIRST" & (goto) 2>nul
+if not exist ".\bin\steam\steam.exe" set "nag=PLEASE INSTALL STEAM FIRST" & exit /b 2
 :: title DO NOT CLOSE - Steam is Running
 :: xcopy /q ".\data\AppData\locallow\*" "%UserProfile%\data\AppData\LocalLow" /e /i /y
 title DO NOT CLOSE
@@ -99,14 +98,14 @@ exit
 :ResetSteam
 cls
 call :Null
-(goto) 2>nul
+exit /b 2
 
 :4
 :UninstallSteam
 taskkill /f /im steam.exe
 if exist .\bin\steam\ rmdir /s /q .\bin\steam\
 if exist .\extra\SteamSetup.exe del .\extra\SteamSetup.exe >nul
-(goto) 2>nul
+exit /b 2
 
 :5
 :UpdateCheck
@@ -117,12 +116,12 @@ call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingP
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt >nul
 set new_version=%Line_6%
-if "%new_version%"=="OFFLINE" call :ErrorOffline & (goto) 2>nul
-if %current_version% EQU %new_version% call :LatestBuild & (goto) 2>nul
-if %current_version% LSS %new_version% call :NewUpdate & (goto) 2>nul
-if %current_version% GTR %new_version% call :PreviewBuild & (goto) 2>nul
-call :ErrorOffline & (goto) 2>nul
-(goto) 2>nul
+if "%new_version%"=="OFFLINE" call :ErrorOffline & exit /b 2
+if %current_version% EQU %new_version% call :LatestBuild & exit /b 2
+if %current_version% LSS %new_version% call :NewUpdate & exit /b 2
+if %current_version% GTR %new_version% call :PreviewBuild & exit /b 2
+call :ErrorOffline & exit /b 2
+exit /b 2
 
 :6
 :About
@@ -140,7 +139,7 @@ cls & title Portable Steam Launcher - Helper Edition - Download Dll Downloader
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
 cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
-(goto) 2>nul
+exit /b 2
 
 :b
 :PortableEverything
@@ -148,7 +147,7 @@ cls & title Portable Steam Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
 cls & if exist launch_everything.bat.1 del launch_everything.bat >nul & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
-(goto) 2>nul
+exit /b 2
 
 :c
 :QuicklauncherCheck
@@ -180,7 +179,7 @@ REM echo xcopy /q "%%UserProfile%%\data\data\AppData\LocalLow\*" .\data\AppData\
 REM echo if exist "%%UserProfile%%\data\AppData\LocalLow" rmdir /s /q "%%UserProfile%%\data\AppData\LocalLow" >>!quick_launcher!
 echo exit >>!quick_launcher!
 echo ENTER TO CONTINUE & pause >nul
-(goto) 2>nul
+exit /b 2
 
 :d
 :UpgradeSteam
@@ -191,14 +190,14 @@ call :HelperDownload "https://steamcdn-a.akamaihd.net/client/installer/SteamSetu
 move SteamSetup.exe .\extra\SteamSetup.exe
 :ExtractSteam
 call :HelperExtract7Zip "!folder!\extra\SteamSetup.exe" "!folder!\bin\steam\"
-(goto) 2>nul
+exit /b 2
 
 :e
 title Portable Steam Launcher - Helper Edition - Text-Reader Update Check
 cls
 call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
 start "" "update-text-reader.bat"
-(goto) 2>nul
+exit /b 2
 
 :f
 cls
@@ -209,11 +208,11 @@ echo "User:%username%"> .\ini\steam.ini
 echo "Pass:%password%">> .\ini\steam.ini
 echo steam login saved to .\ini\steam.ini
 echo PRESS ENTER TO CONTINUE & pause >nul
-(goto) 2>nul
+exit /b 2
 
 :g
 if exist .\ini\steam.ini del .\ini\steam.ini >nul
-(goto) 2>nul
+exit /b 2
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
@@ -248,18 +247,18 @@ if not exist ".\data\Saved Games\" mkdir ".\data\Saved Games\"
 if not exist ".\data\Searches\" mkdir ".\data\Searches\"
 if not exist ".\data\Videos\" mkdir ".\data\Videos\"
 if not exist ".\bin\steam\steam.exe" set nag=STEAM IS NOT INSTALLED CHOOSE "D"
-(goto) 2>nul
+exit /b 2
 
 :Version
 cls
-echo 18 > .\doc\version.txt
+echo 19 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
-(goto) 2>nul
+exit /b 2
 
 :Credits
 cls
-if exist !license! (goto) 2>nul
+if exist !license! exit /b 2
 echo ================================================== > !license!
 echo =              Script by MarioMasta64            = >> !license!
 set "extra_space="
@@ -278,7 +277,7 @@ title Portable Steam Launcher - Helper Edition - About
 for /f "DELIMS=" %%i in (!license!) do (echo %%i)
 pause
 call :PingInstall
-(goto) 2>nul
+exit /b 2
 
 REM if a script can be used between files then it can be put here and re-written only if it doesnt exist
 REM stuff here will not be changed between programs
@@ -286,15 +285,15 @@ REM stuff here will not be changed between programs
 :SetArch
 set arch=
 if exist "%PROGRAMFILES(X86)%" set "arch=64"
-(goto) 2>nul
+exit /b 2
 
 :HelperCheck
 if not exist launch_helpers.bat call :DownloadHelpers
-(goto) 2>nul
+exit /b 2
 :DownloadHelpers
 if not exist .\helpers\download.vbs call :CreateDownloadVBS
 cscript .\helpers\download.vbs https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_helpers.bat launch_helpers.bat >nul
-(goto) 2>nul
+exit /b 2
 :CreateDownloadVBS
 echo Dim Arg, download, file > .\helpers\download.vbs
 echo Set Arg = WScript.Arguments >> .\helpers\download.vbs
@@ -313,7 +312,7 @@ echo     .open >> .\helpers\download.vbs
 echo     .write xHttp.responseBody >> .\helpers\download.vbs
 echo     .savetofile file, 2 '//overwrite >> .\helpers\download.vbs
 echo end with >> .\helpers\download.vbs
-(goto) 2>nul
+exit /b 2
 
 :HelperDownload
 REM v1+ Required
@@ -321,13 +320,13 @@ echo 1 > .\helpers\version.txt
 echo %1 > .\helpers\download.txt
 echo %2 > .\helpers\file.txt
 call launch_helpers.bat Download
-(goto) 2>nul
+exit /b 2
 
 :HelperDownloadWget
 REM v3+ Required
 echo 3 > .\helpers\version.txt
 call launch_helpers.bat DownloadWget
-(goto) 2>nul
+exit /b 2
 
 :HelperExtract
 REM v1+ Required
@@ -335,7 +334,7 @@ echo 1 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\folder.txt
 call launch_helpers.bat Extract
-(goto) 2>nul
+exit /b 2
 
 :HelperExtract7Zip
 REM v3+ Required
@@ -343,14 +342,14 @@ echo 3 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\folder.txt
 call launch_helpers.bat Extract7Zip
-(goto) 2>nul
+exit /b 2
 
 :HelperHide
 REM v4+ Required
 echo 4 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
 call launch_helpers.bat Hide
-(goto) 2>nul
+exit /b 2
 
 :HelperReplaceText
 REM v5+ Required
@@ -359,7 +358,7 @@ echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\oldtext.txt
 echo %3 > .\helpers\newtext.txt
 call launch_helpers.bat ReplaceText
-(goto) 2>nul
+exit /b 2
 
 :HelperExtractInno
 REM v8+ Required
@@ -367,13 +366,13 @@ echo 8 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\folder.txt
 call launch_helpers.bat ExtractInno
-(goto) 2>nul
+exit /b 2
 
 :HelperDownloadJava
 REM v10+ Required But Always Updated Anyways
 echo 9999 > .\helpers\version.txt
 call launch_helpers.bat DownloadJava
-(goto) 2>nul
+exit /b 2
 
 :PingInstall
 for /F "skip=1 tokens=5" %%a in ('vol %~D0') do echo %%a>serial.txt
@@ -392,12 +391,12 @@ if exist serial.txt del serial.txt >nul
 REM call :HelperDownload "https://mariomasta64.me/install/new_install.php?program=%program:~7%^&serial=%sha1%" "new_install.php"
 if exist new_install.php del new_install.php >nul
 if exist serial.txt del serial.txt >nul
-(goto) 2>nul
+exit /b 2
 
 :UpdateWget
 cls
 call launch_helpers.bat DownloadWget
-(goto) 2>nul
+exit /b 2
 
 :LatestBuild
 cls
@@ -419,8 +418,8 @@ echo enter yes or no
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 set /p choice="Update?: "
-if "%choice%"=="yes" call :UpdateNow & (goto) 2>nul
-if "%choice%"=="no" (goto) 2>nul
+if "%choice%"=="yes" call :UpdateNow & exit /b 2
+if "%choice%"=="no" exit /b 2
 set nag="please enter YES or NO"
 goto NewUpdate
 
@@ -429,7 +428,7 @@ cls & title Portable Steam Launcher - Helper Edition - Updating Launcher
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/!main_launcher!" "!main_launcher!.1"
 cls & if exist "!main_launcher!.1" goto ReplacerCreate
 cls & call :ErrorOffline
-(goto) 2>nul
+exit /b 2
 
 :ReplacerCreate
 cls
@@ -457,7 +456,7 @@ exit
 :ErrorOffline
 cls
 set nag="YOU SEEM TO BE OFFLINE PLEASE RECONNECT TO THE INTERNET TO USE THIS FEATURE"
-(goto) 2>nul
+exit /b 2
 
 REM GENERAL PURPOSE SCRIPTS BELOW
 
@@ -488,17 +487,17 @@ set w=23
 set x=24
 set y=25
 set z=26
-(goto) 2>nul
+exit /b 2
 
 :ViewCode
 start notepad.exe "%~f0"
-(goto) 2>nul
+exit /b 2
 
 :MakeCopy
 :SaveCopy
 del "%~f0.bak"
 copy "%~f0" "%~f0.bak"
-(goto) 2>nul
+exit /b 2
 
 :Cmd
 cls
