@@ -214,7 +214,6 @@ if not exist ".\bin\bitwarden\!arch!Bit\Bitwarden.exe" set nag=BITWARDEN IS NOT 
 exit /b 2
 
 :Version
-cls
 echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul

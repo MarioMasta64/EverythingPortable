@@ -40,7 +40,7 @@ goto Credits
 
 :Version
 cls
-echo 21 > .\doc\version.txt
+echo 22 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -85,8 +85,10 @@ echo 5. about
 echo 6. exit
 echo 7. DOWNLOAD EVERYTHING
 echo 8. DELETE EVERYTHING
-echo 9. UPDATE EVERYTHING [ Broken Use Option 3 Instead ]
-echo 10. TROUBLESHOOTING
+if not exist .\extra\notfirstrun.txt echo 9. UPDATE EVERYTHING [ Run This Now ]
+if exist .\extra\notfirstrun.txt echo 9. UPDATE EVERYTHING
+echo 10. FORCE UPDATE EVERYTHING
+echo 11. TROUBLESHOOTING
 REM echo 11. GET HELPER MANAGER
 echo.
 set /p choice="enter your choice and press enter to confirm: "
@@ -99,7 +101,8 @@ if "%CHOICE%"=="6" exit
 if "%CHOICE%"=="7" goto GetAllTheStuff
 if "%CHOICE%"=="8" goto DeleteAllTheStuff
 if "%CHOICE%"=="9" goto UpdateAllTheStuff
-if "%CHOICE%"=="10" goto Troubleshooting
+if "%CHOICE%"=="10" goto ForceUpdateAllTheStuff
+if "%CHOICE%"=="11" goto Troubleshooting
 REM if "%CHOICE%"=="10" goto GetHelperManager
 set nag="PLEASE SELECT A CHOICE 1-10"
 goto Menu
@@ -123,9 +126,11 @@ echo github github.com/mariomasta64
 pause
 goto Menu
 
+:ForceUpdateAllTheStuff
+if exist .\extra\notfirstrun.txt del .\extra\notfirstrun.txt
 :UpdateAllTheStuff
 echo https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt > .\helpers\download.txt
-echo launch_!launcher!.bat > .\helpers\file.txt
+echo version.txt > .\helpers\file.txt
 call launch_helpers.bat Download
 cls
 set "num=1"
@@ -136,8 +141,9 @@ for /f "DELIMS=" %%i in (version.txt) do (
 		if !new_version! NEQ 0 (
 			if !launcher! NEQ everything (
 				if exist launch_!launcher!.bat (
-					call launch_!launcher!.bat Version
-					set current_version=!errorlevel!
+					if exist .\extra\notfirstrun.txt call launch_!launcher!.bat Version
+					if exist .\extra\notfirstrun.txt set current_version=!errorlevel!
+					if not exist .\extra\notfirstrun.txt set current_version=0
 					if !current_version! LSS !new_version! (
 :: this returns OFFLINE sometimes and im unsure why, it only seems to happen after a certain amount of launchers that are updated to the current version
 						if "!new_version!" NEQ "OFFLINE" (
@@ -166,6 +172,7 @@ for /f "DELIMS=" %%i in (version.txt) do (
 			echo !launcher!
 	)
 )
+if not exist .\extra\firstrun.txt echo.>.\extra\notfirstrun.txt
 if exist version.txt del version.txt >nul
 set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 pause

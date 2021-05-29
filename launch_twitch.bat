@@ -229,7 +229,6 @@ if not exist "start .\data\AppData\Roaming\Twitch\Bin\twitch.exe" set nag=TWITCH
 exit /b 2
 
 :Version
-cls
 echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul

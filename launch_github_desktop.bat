@@ -220,7 +220,6 @@ if not exist ".\bin\github_desktop\GitHubDesktop.exe" set nag=GITHUB DESKTOP IS 
 exit /b 2
 
 :Version
-cls
 echo 9 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul

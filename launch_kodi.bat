@@ -227,7 +227,6 @@ if not exist ".\bin\kodi\Kodi.exe" set nag=KODI IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-cls
 echo 10 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul

@@ -210,7 +210,6 @@ if not exist ".\bin\skype\Skype.exe" set nag=SKYPE IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-cls
 echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul

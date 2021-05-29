@@ -332,7 +332,6 @@ if not exist ".\bin\minecraft\Minecraft.jar" set nag=MINECRAFT IS NOT INSTALLED 
 exit /b 2
 
 :Version
-cls
 echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul

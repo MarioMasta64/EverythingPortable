@@ -209,7 +209,6 @@ if not exist ".\bin\telegram\Telegram.exe" set nag=TELEGRAM IS NOT INSTALLED CHO
 exit /b 2
 
 :Version
-cls
 echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul

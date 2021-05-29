@@ -242,7 +242,6 @@ if not exist ".\bin\qbittorrent\qBittorrent.exe" set nag=QBITTORRENT IS NOT INST
 exit /b 2
 
 :Version
-cls
 echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul

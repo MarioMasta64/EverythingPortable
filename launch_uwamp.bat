@@ -212,7 +212,6 @@ if not exist ".\bin\UwAmp\UwAmp.exe" set nag=UWAMP IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-cls
 echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul

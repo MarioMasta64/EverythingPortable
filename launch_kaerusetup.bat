@@ -17,8 +17,7 @@ if not exist .\extra\ mkdir .\extra\
 call :VERSION
 goto CREDITS
 
-:VERSION
-cls
+:Version
 echo 12 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul

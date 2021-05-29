@@ -212,7 +212,6 @@ if not exist ".\bin\lastpass\lastapp.exe" set nag=LASTPASS IS NOT INSTALLED CHOO
 exit /b 2
 
 :Version
-cls
 echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul

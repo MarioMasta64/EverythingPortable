@@ -216,7 +216,6 @@ if not exist ".\bin\discord_canary\DiscordCanary.exe" set nag=DISCORD IS NOT INS
 exit /b 2
 
 :Version
-cls
 echo 12 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
