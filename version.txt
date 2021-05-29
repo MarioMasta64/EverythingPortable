@@ -74,3 +74,5 @@ bitwarden
 2
 sharex
 2
+streamlabs_obs
+1
