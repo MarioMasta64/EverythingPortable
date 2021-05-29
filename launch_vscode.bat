@@ -140,22 +140,22 @@ exit /b 2
 :QuicklauncherCheck
 cls
 title Portable Vscode Launcher - Helper Edition - QuickLauncher Writer
-echo @echo off >!quick_launcher!
-echo Color 0A >>!quick_launcher!
-echo cls >>!quick_launcher!
-echo set arch=32 >>!quick_launcher!
-echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64" >>!quick_launcher!
-echo title DO NOT CLOSE >>!quick_launcher!
-echo set "folder=%%CD%%" >>!quick_launcher!
-echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >>!quick_launcher!
-echo set "UserProfile=%%folder%%\data" >>!quick_launcher!
-echo set "AppData=%%folder%%\data\AppData\Roaming" >>!quick_launcher!
-echo set "LocalAppData=%%folder%%\data\AppData\Local" >>!quick_launcher!
-echo set "ProgramData=%%folder%%\data\ProgramData" >>!quick_launcher!
-echo cls >>!quick_launcher!
-echo echo VSCODE IS RUNNING >>!quick_launcher!
-echo start .\bin\vscode%%arch%%\Code.exe >>!quick_launcher!
-echo exit >>!quick_launcher!
+echo @echo off>!quick_launcher!
+echo Color 0A>>!quick_launcher!
+echo cls>>!quick_launcher!
+echo set arch=32>>!quick_launcher!
+echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64">>!quick_launcher!
+echo title DO NOT CLOSE>>!quick_launcher!
+echo set "folder=%%CD%%">>!quick_launcher!
+echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%">>!quick_launcher!
+echo set "UserProfile=%%folder%%\data">>!quick_launcher!
+echo set "AppData=%%folder%%\data\AppData\Roaming">>!quick_launcher!
+echo set "LocalAppData=%%folder%%\data\AppData\Local">>!quick_launcher!
+echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
+echo cls>>!quick_launcher!
+echo echo VSCODE IS RUNNING>>!quick_launcher!
+echo start .\bin\vscode%%arch%%\Code.exe>>!quick_launcher!
+echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 echo ENTER TO CONTINUE & pause >nul
 exit
@@ -256,7 +256,7 @@ exit /b 2
 
 :Version
 cls
-echo 12 > .\doc\version.txt
+echo 13 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

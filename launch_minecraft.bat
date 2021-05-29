@@ -140,21 +140,21 @@ exit /b 2
 :QuicklauncherCheck
 cls
 title Portable Minecraft Launcher - Helper Edition - Quicklauncher Writer
-echo @echo off >!quick_launcher!
-echo Color 0A >>!quick_launcher!
-echo cls >>!quick_launcher!
-echo set arch= >>!quick_launcher!
-echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64" >>!quick_launcher!
-echo set "folder=%!Folder!%" >>!quick_launcher!
-echo if "%!Folder!%"=="%%~d0\" set "folder=%%CD:~0,2%%" >>!quick_launcher!
-echo set "UserProfile=%%folder%%\data" >>!quick_launcher!
-echo if not exist .\ini\minecraft.ini set "AppData=%%folder%%\data\minecraft" >>!quick_launcher! 
-echo if exist .\ini\minecraft.ini set /p Appdata=^<.\ini\minecraft.ini ^& set "AppData=%%Folder%%%%AppData%%" >>!quick_launcher!
-echo set "LocalAppData=%%folder%%\data\AppData\Local" >>!quick_launcher!
-echo set "ProgramData=%%folder%%\data\ProgramData" >>!quick_launcher!
-echo cls >>!quick_launcher!
-echo start "" ".\bin\commonfiles\java%%arch%%\bin\javaw.exe" -jar .\bin\minecraft\Minecraft.jar >>!quick_launcher!
-echo exit >>!quick_launcher!
+echo @echo off>!quick_launcher!
+echo Color 0A>>!quick_launcher!
+echo cls>>!quick_launcher!
+echo set arch=>>!quick_launcher!
+echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64">>!quick_launcher!
+echo set "folder=%!Folder!%">>!quick_launcher!
+echo if "%!Folder!%"=="%%~d0\" set "folder=%%CD:~0,2%%">>!quick_launcher!
+echo set "UserProfile=%%folder%%\data">>!quick_launcher!
+echo if not exist .\ini\minecraft.ini set "AppData=%%folder%%\data\minecraft">>!quick_launcher! 
+echo if exist .\ini\minecraft.ini set /p Appdata=^<.\ini\minecraft.ini ^& set "AppData=%%Folder%%%%AppData%%">>!quick_launcher!
+echo set "LocalAppData=%%folder%%\data\AppData\Local">>!quick_launcher!
+echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
+echo cls>>!quick_launcher!
+echo start "" ".\bin\commonfiles\java%%arch%%\bin\javaw.exe" -jar .\bin\minecraft\Minecraft.jar>>!quick_launcher!
+echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 echo ENTER TO CONTINUE & pause >nul
 exit
@@ -331,7 +331,7 @@ exit /b 2
 
 :Version
 cls
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

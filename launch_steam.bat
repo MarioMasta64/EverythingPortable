@@ -153,31 +153,31 @@ exit /b 2
 :QuicklauncherCheck
 cls
 title Portable Steam Launcher - Helper Edition - Quicklauncher Writer
-echo @echo off >!quick_launcher!
-echo Color 0A >>!quick_launcher!
-echo cls >>!quick_launcher!
-REM echo title DO NOT CLOSE - Steam is Running >>!quick_launcher!
-REM echo xcopy /q ".\data\AppData\locallow\*" "%%sUserProfile%%\data\AppData\LocalLow" /e /i /y >>!quick_launcher!
-echo set "folder=%%CD%%" >>!quick_launcher!
-echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%" >>!quick_launcher!
-echo set path="%%PATH%%;%%folder%%\dll\32\;" >>!quick_launcher!
-echo set "UserProfile=%%folder%%\data\" >>!quick_launcher!
-echo set "LocalAppData=%%folder%%\data\AppData\Local\" >>!quick_launcher!
-echo set "AppData=%%folder%%\data\AppData\Roaming\" >>!quick_launcher!
-echo set "ProgramData=%%folder%%\data\ProgramData\" >>!quick_launcher!
-echo setlocal enabledelayedexpansion >>!quick_launcher!
-echo if exist .\ini\steam.ini ( >>!quick_launcher!
-echo   for /f "delims=" %%%%a in (.\ini\steam.ini) do ( >>!quick_launcher!
-echo     set "a=%%%%a" >>!quick_launcher!
-echo     if "^!a:~1,5^!"=="User:" set "user=^!a:~6,-1^!" >>!quick_launcher!
-echo     if "^!a:~1,5^!"=="Pass:" set "pass=^!a:~6,-1^!" >>!quick_launcher!
-echo   ) >>!quick_launcher!
-echo   start .\bin\steam\steam.exe -login "^!user^!" "^!pass^!" >>!quick_launcher!
-echo ) >>!quick_launcher!
-echo if not exist .\ini\steam.ini start .\bin\steam\steam.exe >>!quick_launcher!
-REM echo xcopy /q "%%UserProfile%%\data\data\AppData\LocalLow\*" .\data\AppData\locallow /e /i /y >>!quick_launcher!
-REM echo if exist "%%UserProfile%%\data\AppData\LocalLow" rmdir /s /q "%%UserProfile%%\data\AppData\LocalLow" >>!quick_launcher!
-echo exit >>!quick_launcher!
+echo @echo off>!quick_launcher!
+echo Color 0A>>!quick_launcher!
+echo cls>>!quick_launcher!
+REM echo title DO NOT CLOSE - Steam is Running>>!quick_launcher!
+REM echo xcopy /q ".\data\AppData\locallow\*" "%%sUserProfile%%\data\AppData\LocalLow" /e /i /y>>!quick_launcher!
+echo set "folder=%%CD%%">>!quick_launcher!
+echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%">>!quick_launcher!
+echo set path="%%PATH%%;%%folder%%\dll\32\;">>!quick_launcher!
+echo set "UserProfile=%%folder%%\data\">>!quick_launcher!
+echo set "LocalAppData=%%folder%%\data\AppData\Local\">>!quick_launcher!
+echo set "AppData=%%folder%%\data\AppData\Roaming\">>!quick_launcher!
+echo set "ProgramData=%%folder%%\data\ProgramData\">>!quick_launcher!
+echo setlocal enabledelayedexpansion>>!quick_launcher!
+echo if exist .\ini\steam.ini (>>!quick_launcher!
+echo   for /f "delims=" %%%%a in (.\ini\steam.ini) do (>>!quick_launcher!
+echo     set "a=%%%%a">>!quick_launcher!
+echo     if "^!a:~1,5^!"=="User:" set "user=^!a:~6,-1^!">>!quick_launcher!
+echo     if "^!a:~1,5^!"=="Pass:" set "pass=^!a:~6,-1^!">>!quick_launcher!
+echo   )>>!quick_launcher!
+echo   start .\bin\steam\steam.exe -login "^!user^!" "^!pass^!">>!quick_launcher!
+echo )>>!quick_launcher!
+echo if not exist .\ini\steam.ini start .\bin\steam\steam.exe>>!quick_launcher!
+REM echo xcopy /q "%%UserProfile%%\data\data\AppData\LocalLow\*" .\data\AppData\locallow /e /i /y>>!quick_launcher!
+REM echo if exist "%%UserProfile%%\data\AppData\LocalLow" rmdir /s /q "%%UserProfile%%\data\AppData\LocalLow">>!quick_launcher!
+echo exit>>!quick_launcher!
 echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
@@ -251,7 +251,7 @@ exit /b 2
 
 :Version
 cls
-echo 19 > .\doc\version.txt
+echo 20 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
