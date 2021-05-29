@@ -7,6 +7,8 @@ title Portable Dolphin Launcher - Helper Edition
 set nag=Finally Getting Updates After 4 Years (Helper Update)
 set new_version=OFFLINE_OR_NO_UPDATES
 
+if "%~1" neq "" (call :%~1 & exit /b !current_version!)
+
 set "name=%~n0"
 set "name=!name:launch_=!"
 set "license=.\doc\!name!_license.txt"
