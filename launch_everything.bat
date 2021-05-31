@@ -94,6 +94,8 @@ exit /b 2
 
 :5
 :UpdateCheck
+REM fix wrong update being reported after updating everything (edge case, shouldnt be triggered)
+call :Version
 if exist version.txt del version.txt >nul
 cls
 title Portable Everything Launcher - Helper Edition - Checking For Update
