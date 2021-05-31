@@ -54,7 +54,7 @@ echo i. delete a program
 echo k. DOWNLOAD EVERYTHING
 echo k. DELETE EVERYTHING
 echo l. FORCE UPDATE EVERYTHING
-if exist .\extra\notfirstrun.txt echo n. UPDATE EVERYTHING
+if exist .\extra\notfirstrun.txt echo m. UPDATE EVERYTHING
 echo n. TROUBLESHOOTING
 echo.
 set /p choice="enter your choice and press enter to confirm: "
