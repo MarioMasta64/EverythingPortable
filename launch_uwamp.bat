@@ -1,26 +1,21 @@
+if "%~1" neq "" (call :%~1 & exit /b %current_version%)
 @echo off
 setlocal enabledelayedexpansion
 setlocal enableextensions
 Color 0A
 cls
-title Portable UwAmp Launcher - Helper Edition
 set nag=Finally Getting Updates After 4 Years (Helper Update)
 set new_version=OFFLINE_OR_NO_UPDATES
-
-if "%~1" neq "" (call :%~1 & exit /b !current_version!)
-
 set "name=%~n0"
 set "name=!name:launch_=!"
 set "license=.\doc\!name!_license.txt"
 set "main_launcher=%~n0.bat"
 set "poc_launcher=%~n0_poc.bat"
 set "quick_launcher=quick%~n0.bat"
-
 if exist replacer.bat del replacer.bat >nul
 if exist !poc_launcher! del !poc_launcher! >nul
 set "folder=%CD%"
 if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
-
 call :AlphaToNumber
 call :SetArch
 call :FolderCheck
@@ -116,7 +111,7 @@ exit /b 2
 :About
 cls
 if exist !license! del !license! >nul
-start "!main_launcher!"
+start "" "!main_launcher!"
 exit
 
 :7
@@ -212,7 +207,7 @@ if not exist ".\bin\UwAmp\UwAmp.exe" set nag=UWAMP IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -366,7 +361,7 @@ echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE & pause >nul
-start "!main_launcher!"
+start "" "!main_launcher!"
 exit
 
 :NewUpdate
@@ -411,7 +406,7 @@ echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
 echo ENTER TO CONTINUE & pause >nul
-start "!main_launcher!"
+start "" "!main_launcher!"
 exit
 
 :ErrorOffline
