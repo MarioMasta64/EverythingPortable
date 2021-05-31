@@ -6,7 +6,7 @@ steam
 21
 obs
 32
-kaerusetup_poc
+kaerusetup
 12
 cemu
 41
