@@ -206,7 +206,11 @@ if "!new_version!" NEQ "0" (
                     echo  - you seem to be offline?
                 )
             ) else (
-                echo  - you are using a greater or equal version - current: !current_version! - new: !new_version!
+                if !current_version! EQU !new_version! (
+                    echo  - you are using the current version - version: !current_version!
+                ) else (
+                    echo  - you are using a newer version (should only be dev, if not let me know) - current: !current_version! - new: !new_version!
+                )
             )
         ) else (
             if "!new_version!" NEQ "0" (
@@ -287,7 +291,7 @@ if not exist ".\bin\everything\Everything.exe" set nag=EVERYTHING IS NOT INSTALL
 exit /b 2
 
 :Version
-echo 25 > .\doc\version.txt
+echo 26 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
