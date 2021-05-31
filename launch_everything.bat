@@ -287,7 +287,6 @@ if not exist ".\data\Pictures\" mkdir ".\data\Pictures\"
 if not exist ".\data\Saved Games\" mkdir ".\data\Saved Games\"
 if not exist ".\data\Searches\" mkdir ".\data\Searches\"
 if not exist ".\data\Videos\" mkdir ".\data\Videos\"
-if not exist ".\bin\everything\Everything.exe" set nag=EVERYTHING IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
