@@ -1,4 +1,4 @@
-if "%~1" neq "" (call :%~1 & exit /b %current_version%)
+if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 @echo off
 setlocal enabledelayedexpansion
 setlocal enableextensions
