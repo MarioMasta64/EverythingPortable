@@ -51,7 +51,7 @@ echo f. download a program
 echo g. launch a program
 echo h. update a launcher
 echo i. delete a program
-echo k. DOWNLOAD EVERYTHING
+echo j. DOWNLOAD EVERYTHING
 echo k. DELETE EVERYTHING
 echo l. FORCE UPDATE EVERYTHING
 if exist .\extra\notfirstrun.txt echo m. UPDATE EVERYTHING
@@ -285,7 +285,7 @@ if not exist ".\bin\everything\Everything.exe" set nag=EVERYTHING IS NOT INSTALL
 exit /b 2
 
 :Version
-echo 24 > .\doc\version.txt
+echo 25 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -734,7 +734,7 @@ exit /b 2
 
 :DeleteAllTheStuff
 for %%i in (*) do (
-	if not "%%i" == "%~n0" (
+	if not "%%i" == "!main_launcher!" (
 		if not "%%i" == "launch_helpers.bat" del %%i >nul
 	)
 )

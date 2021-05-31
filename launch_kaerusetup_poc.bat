@@ -1,3 +1,4 @@
+if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 @echo off
 setlocal enabledelayedexpansion
 Color 0A
@@ -6,7 +7,6 @@ title PORTABLE KAERUSETUP LAUNCHER
 set nag=Finally Getting Updates After 4 Years (Helper Update)
 set new_version=OFFLINE
 if exist replacer.bat del replacer.bat >nul
-if "%~1" neq "" (call :%~1 & exit /b !current_version!)
 
 :FOLDERCHECK
 cls
