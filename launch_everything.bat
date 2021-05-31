@@ -206,7 +206,7 @@ if "!new_version!" NEQ "0" (
                     echo  - you seem to be offline?
                 )
             ) else (
-                if !current_version! EQU !new_version! (
+                if "!current_version!" EQU "!new_version!" (
                     echo  - you are using the current version - version: !current_version!
                 ) else (
                     echo  - you are using a newer version (should only be dev, if not let me know) - current: !current_version! - new: !new_version!
