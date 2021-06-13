@@ -76,3 +76,5 @@ sharex
 4
 streamlabs_obs
 3
+deep_shredder
+1
