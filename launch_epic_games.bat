@@ -170,7 +170,7 @@ echo set "LocalAppData=%%folder%%\data\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
 echo if exist C:\ProgramData\Epic\ rmdir /s /q C:\ProgramData\Epic\>>!quick_launcher!
-echo xcopy ".\data\ProgramData\Epic\*" "C:\ProgramData\Epic\*" /e /i /y>>!quick_launcher!
+echo xcopy ".\data\ProgramData\Epic\*" "C:\ProgramData\Epic\" /e /i /y>>!quick_launcher!
 echo start .\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe>>!quick_launcher!
 echo :program_loop>>!quick_launcher!
 echo tasklist /fi "ImageName eq EpicGamesLauncher.exe" /fo csv 2^>NUL ^| find /I "EpicGamesLauncher.exe"^>NUL>>!quick_launcher!
