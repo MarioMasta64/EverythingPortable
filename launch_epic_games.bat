@@ -83,9 +83,12 @@ if exist ".\bin\epic_games\Launcher\Portal\Extras\Redist\LauncherPrereqSetup_x!a
 ) else (
   set "Path=!PATH!;!folder!\dll\32\;"
 )
-if exist C:\ProgramData\Epic\ rmdir /s /q C:\ProgramData\Epic\
-xcopy ".\data\ProgramData\Epic\*" "C:\ProgramData\Epic\" /e /i /y
+REM if exist C:\ProgramData\Epic\ rmdir /s /q C:\ProgramData\Epic\
+REM xcopy ".\data\ProgramData\Epic\*" "C:\ProgramData\Epic\" /e /i /y
+set "SystemDrive=!folder!\data"
+REM system drive is changed to .\data\ because epic games is epic games removes the rest of the code being needed but i leave it here anyways
 start .\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe
+goto :exit_routine
 :program_loop
 tasklist /fi "ImageName eq EpicGamesLauncher.exe" /fo csv 2>NUL | find /I "EpicGamesLauncher.exe">NUL
 if "%ERRORLEVEL%"=="0" (
@@ -96,8 +99,8 @@ if "%ERRORLEVEL%"=="0" (
 TIMEOUT /T 10>nul
 goto program_loop
 :exit_routine
-if exist .\data\ProgramData\Epic\ rmdir /s /q .\data\ProgramData\Epic\
-xcopy "C:\ProgramData\Epic\*" ".\data\ProgramData\Epic\" /e /i /y
+REM if exist .\data\ProgramData\Epic\ rmdir /s /q .\data\ProgramData\Epic\
+REM xcopy "C:\ProgramData\Epic\*" ".\data\ProgramData\Epic\" /e /i /y
 exit
 
 :3
@@ -169,21 +172,8 @@ echo set "AppData=%%folder%%\data\AppData\Roaming">>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo if exist C:\ProgramData\Epic\ rmdir /s /q C:\ProgramData\Epic\>>!quick_launcher!
-echo xcopy ".\data\ProgramData\Epic\*" "C:\ProgramData\Epic\" /e /i /y>>!quick_launcher!
+echo set "SystemDrive=!folder!\data">>!quick_launcher!
 echo start .\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe>>!quick_launcher!
-echo :program_loop>>!quick_launcher!
-echo tasklist /fi "ImageName eq EpicGamesLauncher.exe" /fo csv 2^>NUL ^| find /I "EpicGamesLauncher.exe"^>NUL>>!quick_launcher!
-echo if "%%ERRORLEVEL%%"=="0" (>>!quick_launcher!
-echo   echo Program is running^>NUL>>!quick_launcher!
-echo ) else (>>!quick_launcher!
-echo   goto exit_routine>>!quick_launcher!
-echo )>>!quick_launcher!
-echo TIMEOUT /T 10^>nul>>!quick_launcher!
-echo goto :program_loop>>!quick_launcher!
-echo :exit_routine>>!quick_launcher!
-echo if exist .\data\ProgramData\Epic\ rmdir /s /q .\data\ProgramData\Epic\>>!quick_launcher!
-echo xcopy "C:\ProgramData\Epic\*" ".\data\ProgramData\Epic\" /e /i /y>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 echo ENTER TO CONTINUE & pause >nul
@@ -268,7 +258,7 @@ if not exist ".\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.
 exit /b 2
 
 :Version
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
