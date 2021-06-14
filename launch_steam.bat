@@ -153,11 +153,13 @@ title Portable Steam Launcher - Helper Edition - Quicklauncher Writer
 echo @echo off>!quick_launcher!
 echo Color 0A>>!quick_launcher!
 echo cls>>!quick_launcher!
+echo set "arch=32">>!quick_launcher!
+echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64">>!quick_launcher!
 REM echo title DO NOT CLOSE - Steam is Running>>!quick_launcher!
 REM echo xcopy /q ".\data\AppData\locallow\*" "%%sUserProfile%%\data\AppData\LocalLow" /e /i /y>>!quick_launcher!
 echo set "folder=%%CD%%">>!quick_launcher!
 echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%">>!quick_launcher!
-echo set path="%%PATH%%;%%folder%%\dll\32\;">>!quick_launcher!
+echo set "path=%%PATH%%;%%folder%%\dll\%%arch%%\;">>!quick_launcher!
 echo set "UserProfile=%%folder%%\data\">>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\AppData\Local\">>!quick_launcher!
 echo set "AppData=%%folder%%\data\AppData\Roaming\">>!quick_launcher!
@@ -247,7 +249,7 @@ if not exist ".\bin\steam\steam.exe" set nag=STEAM IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 21 > .\doc\version.txt
+echo 22 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
