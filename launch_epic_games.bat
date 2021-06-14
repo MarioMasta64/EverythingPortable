@@ -170,7 +170,7 @@ echo set "LocalAppData=%%folder%%\data\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
 echo if exist C:\ProgramData\Epic\ rmdir /s /q C:\ProgramData\Epic\>>!quick_launcher!
-echo xcopy ".\data\ProgramData\Epic\" "C:\ProgramData\Epic\*" /e /i /y>>!quick_launcher!
+echo xcopy ".\data\ProgramData\Epic\*" "C:\ProgramData\Epic\*" /e /i /y>>!quick_launcher!
 echo start .\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe>>!quick_launcher!
 echo :program_loop>>!quick_launcher!
 echo tasklist /fi "ImageName eq EpicGamesLauncher.exe" /fo csv 2^>NUL ^| find /I "EpicGamesLauncher.exe"^>NUL>>!quick_launcher!
@@ -268,7 +268,7 @@ if not exist ".\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
