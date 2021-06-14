@@ -11,7 +11,9 @@ set "license=.\doc\!name!_license.txt"
 set "main_launcher=%~n0.bat"
 set "poc_launcher=%~n0_poc.bat"
 set "quick_launcher=quick%~n0.bat"
-
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
+setlocal enabledelayedexpansion
 
 REM Check For Helper Updates
 if exist .\helpers\version.txt (
@@ -23,26 +25,176 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 10 > .\doc\version.txt
+echo 11 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
 
 :ReplaceText
-set /p file=<.\helpers\file.txt
+set /p filetxt=<.\helpers\file.txt
 set /p oldtext=<.\helpers\oldtext.txt
 set /p newtext=<.\helpers\newtext.txt
 echo %file%
 echo %oldtext%
 echo %newtext%
 if not exist .\helpers\replacetext.vbs call :CreateReplaceTextVBS
-cscript .\helpers\replacetext.vbs !file! !oldtext! !newtext! >nul
+cscript .\helpers\replacetext.vbs !filetxt! !oldtext! !newtext! >nul
 if exist .\helpers\*.txt del .\helpers\*.txt >nul
 exit /b
 
+:ExtractDirectX
+if not exist .\bin\directx\DXSETUP.exe call :DownloadDirectX
+if not exist .\dll\32\ mkdir .\dll\32\
+if not exist .\dll\64\ mkdir .\dll\64\
+FOR %%X in (.\bin\directx\*x86.cab) DO ( expand -R %%X .\dll\32\ -F:* )
+FOR %%X in (.\bin\directx\*x64.cab) DO ( expand -R %%X .\dll\64\ -F:* )
+exit /b
+
+:DownloadDirectX
+if not exist .\bin\wget.exe call :DownloadWget
+if exist directx_Jun2010_redist.exe del directx_Jun2010_redist.exe >nul
+.\bin\wget.exe -q --show-progress "https://download.microsoft.com/download/8/4/A/84A35BF1-DAFE-4AE8-82AF-AD2AE20B6B14/directx_Jun2010_redist.exe" ".directx_Jun2010_redist.exe"
+if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
+move directx_Jun2010_redist.exe .\extra\directx_Jun2010_redist.exe
+.\bin\7-ZipPortable\App\7-Zip\7z.exe x .\extra\directx_Jun2010_redist.exe * -obin\directx\
+exit /b
+
+:ExtractWix
+set /p filetxt=<.\helpers\file.txt
+set /p foldertxt=<.\helpers\folder.txt
+REM WIX WANTS AN ESCAPE CHARACTER IG
+set foldertxt=!foldertxt:\^"=\\^"!
+
+REM wix should always be updated
+REM wix should always be updated
+REM wix should always be updated
+REM wix should always be updated
+REM wix should always be updated
+if exist .\bin\wix\ rmdir /s /q .\bin\wix\
+REM wix should always be updated
+REM wix should always be updated
+REM wix should always be updated
+REM wix should always be updated
+REM wix should always be updated
+
+if not exist .\bin\wix\dark.exe call :DownloadWix
+.\bin\wix\dark.exe -x !foldertxt! !filetxt!
+if exist .\helpers\*.txt del .\helpers\*.txt >nul
+exit /b
+
+:DownloadWix
+if not exist .\bin\wget.exe call :DownloadWget
+.\bin\wget.exe -q --show-progress "https://github.com/wixtoolset/wix3/releases/latest" "latest"
+if not exist "latest" goto :DownloadWix
+echo.> latest.txt
+TYPE latest | MORE /P > latest.txt
+for /f tokens^=2delims^=^" %%A in (
+  'findstr /i /c:"-binaries.zip" latest.txt'
+) Do > .\doc\wix_link.txt Echo:%%A& goto ContinueWix
+:ContinueWix
+if exist latest del latest >nul
+if exist latest.txt del latest.txt >nul
+set /p wix_link=<.\doc\wix_link.txt
+set "wix_link=https://github.com!wix_link!"
+set "wix_zip=!wix_link!"
+REM listen, it works, im lazy, let it be, can handle a depth of 8 directories and helps future proof if they change the paths.
+for /f "delims=/" %%A in ("!wix_zip!") do set wix_zip=!wix_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!wix_zip!") do set wix_zip=!wix_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!wix_zip!") do set wix_zip=!wix_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!wix_zip!") do set wix_zip=!wix_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!wix_zip!") do set wix_zip=!wix_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!wix_zip!") do set wix_zip=!wix_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!wix_zip!") do set wix_zip=!wix_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!wix_zip!") do set wix_zip=!wix_zip:%%~nxA/=!
+set "wix_zip=!wix_zip:/=!"
+cls
+echo "!wix_link!"
+echo "!wix_zip!"
+if exist "!wix_zip!" "!wix_zip!" >nul
+if exist ".\extra\!wix_zip!" (
+  echo wix is updated.
+  REM pause
+  REM exit /b
+  goto ExtractWixZip
+)
+REM pause
+if not exist .\bin\wget.exe call :DownloadWget
+.\bin\wget.exe -q --show-progress "!wix_link!" "!wix_zip!"
+move "!wix_zip!" ".\extra\!wix_zip!"
+:ExtractWixZip
+if not exist .\helpers\extractzip.vbs call :CreateExtractZipVBS
+cscript .\helpers\extractzip.vbs "!folder!\extra\!wix_zip!" "!folder!\bin\wix\" >nul
+exit /b
+
+:ExtractMSI
+set /p filetxt=<.\helpers\file.txt
+set /p foldertxt=<.\helpers\folder.txt
+
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+if exist .\bin\lessmsi\ rmdir /s /q .\bin\lessmsi\
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+
+if not exist .\bin\lessmsi\lessmsi.exe call :DownloadMSI
+.\bin\lessmsi\lessmsi.exe x !filetxt! "!foldertxt!"
+if exist .\helpers\*.txt del .\helpers\*.txt >nul
+exit /b
+
+:DownloadMSI
+if not exist .\bin\wget.exe call :DownloadWget
+.\bin\wget.exe -q --show-progress "https://github.com/activescott/lessmsi/releases/latest" "latest"
+if not exist "latest" goto :DownloadMSI
+echo.> latest.txt
+TYPE latest | MORE /P > latest.txt
+for /f tokens^=2delims^=^" %%A in (
+  'findstr /i /c:".zip" latest.txt'
+) Do > .\doc\lessmsi_link.txt Echo:%%A& goto ContinueMSI
+:ContinueMSI
+if exist latest del latest >nul
+if exist latest.txt del latest.txt >nul
+set /p lessmsi_link=<.\doc\lessmsi_link.txt
+set "lessmsi_link=https://github.com!lessmsi_link!"
+set "lessmsi_zip=!lessmsi_link!"
+REM listen, it works, im lazy, let it be, can handle a depth of 8 directories and helps future proof if they change the paths.
+for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
+for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
+set "lessmsi_zip=!lessmsi_zip:/=!"
+cls
+echo "!lessmsi_link!"
+echo "!lessmsi_zip!"
+if exist "!lessmsi_zip!" "!lessmsi_zip!" >nul
+if exist ".\extra\!lessmsi_zip!" (
+  echo lessmsi is updated.
+  REM pause
+  REM exit /b
+  goto ExtractMSIZip
+)
+REM pause
+if not exist .\bin\wget.exe call :DownloadWget
+.\bin\wget.exe -q --show-progress "!lessmsi_link!" "!lessmsi_zip!"
+move "!lessmsi_zip!" ".\extra\!lessmsi_zip!"
+:ExtractMSIZip
+if not exist .\helpers\extractzip.vbs call :CreateExtractZipVBS
+echo cscript .\helpers\extractzip.vbs "!folder!\extra\!lessmsi_zip!" "!folder!\bin\lessmsi\" >nul
+cscript .\helpers\extractzip.vbs "!folder!\extra\!lessmsi_zip!" "!folder!\bin\lessmsi\" >nul
+exit /b
+
 :ExtractInno
-set /p file=<.\helpers\file.txt
-set /p folder=<.\helpers\folder.txt
+set /p filetxt=<.\helpers\file.txt
+set /p foldertxt=<.\helpers\folder.txt
 
 REM innounp should always be updated
 REM innounp should always be updated
@@ -57,7 +209,7 @@ REM innounp should always be updated
 REM innounp should always be updated
 
 if not exist .\bin\innounp\innounp.exe call :DownloadInno
-.\bin\innounp\innounp.exe -q -x -y -d!folder! !file!
+.\bin\innounp\innounp.exe -q -x -y -d!foldertxt! !filetxt!
 if exist .\helpers\*.txt del .\helpers\*.txt >nul
 exit /b
 
@@ -84,14 +236,14 @@ echo PLEASE PROCEED THROUGH ALL DIALOGUE OPTIONS
 echo DO NOT HIT RUN
 echo PRESS ENTER WHEN READ
 pause >nul
-.\extra\jPortable%arch%_8_Update_291_online.paf.exe /destination="!folder!\bin\"
+.\extra\jPortable%arch%_8_Update_291_online.paf.exe /destination="!foldertxt!\bin\"
 exit /b
 
 :Extract7zip
-set /p file=<.\helpers\file.txt
-set /p folder=<.\helpers\folder.txt
+set /p filetxt=<.\helpers\file.txt
+set /p foldertxt=<.\helpers\folder.txt
 if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
-.\bin\7-ZipPortable\App\7-Zip\7z.exe x !file! * -o!folder!
+.\bin\7-ZipPortable\App\7-Zip\7z.exe x !filetxt! * -o!foldertxt!
 if exist .\helpers\*.txt del .\helpers\*.txt >nul
 exit /b
 
@@ -110,10 +262,10 @@ pause >nul
 exit /b
 
 :Extract
-set /p file=<.\helpers\file.txt
-set /p folder=<.\helpers\folder.txt
+set /p filetxt=<.\helpers\file.txt
+set /p foldertxt=<.\helpers\folder.txt
 if not exist .\helpers\extractzip.vbs call :CreateExtractZipVBS
-cscript .\helpers\extractzip.vbs !file! !folder! >nul
+cscript .\helpers\extractzip.vbs !filetxt! !foldertxt! >nul
 if exist .\helpers\*.txt del .\helpers\*.txt >nul
 exit /b
 
@@ -162,9 +314,9 @@ echo Set objShell = Nothing >> .\helpers\extractzip.vbs
 exit /b
 
 :Hide
-set /p file=<.\helpers\file.txt
+set /p filetxt=<.\helpers\file.txt
 if not exist .\helpers\hide.vbs call :CreateHideVBS
-wscript .\helpers\hide.vbs !file!
+wscript .\helpers\hide.vbs !filetxt!
 if exist .\helpers\*.txt del .\helpers\*.txt >nul
 exit /b
 
@@ -174,7 +326,7 @@ exit /b
 
 :Download
 set /p download=<.\helpers\download.txt
-set /p file=<.\helpers\file.txt
+set /p filetxt=<.\helpers\file.txt
 
 REM Download Using VBS
 REM if not exist .\helpers\download.vbs call :CreateDownloadVBS
