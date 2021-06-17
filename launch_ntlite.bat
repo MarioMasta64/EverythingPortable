@@ -330,6 +330,36 @@ echo %2 > .\helpers\folder.txt
 call launch_helpers.bat ExtractInno
 exit /b 2
 
+:HelperDownloadJava
+REM v10+ Required But Always Updated Anyways
+echo 9999 > .\helpers\version.txt
+call launch_helpers.bat DownloadJava
+exit /b 2
+
+:HelperExtractDirectX
+REM v11+ Required
+echo 11 > .\helpers\version.txt
+echo %1 > .\helpers\file.txt
+echo %2 > .\helpers\folder.txt
+call launch_helpers.bat ExtractDirectX
+exit /b 2
+
+:HelperExtractMSI
+REM v11+ Required
+echo 11 > .\helpers\version.txt
+echo %1 > .\helpers\file.txt
+echo %2 > .\helpers\folder.txt
+call launch_helpers.bat ExtractMSI
+exit /b 2
+
+:HelperExtractWix
+REM v11+ Required
+echo 11 > .\helpers\version.txt
+echo %1 > .\helpers\file.txt
+echo %2 > .\helpers\folder.txt
+call launch_helpers.bat ExtractWix
+exit /b 2
+
 :PingInstall
 for /F "skip=1 tokens=5" %%a in ('vol %~D0') do echo %%a>serial.txt
 set /a count=1 
