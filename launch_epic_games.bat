@@ -52,6 +52,8 @@ if exist ".\bin\epic_games\Launcher\Portal\Extras\Redist\LauncherPrereqSetup_x!a
   echo f. unfortunately you must run 2 as admin at least once to download the prereq installer
 )
 echo.
+echo g. relink game paths
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -222,6 +224,45 @@ xcopy ".\temp\SourceDir\Win\System64\*" ".\dll\64\" /e /i /y
 if exist .\temp\ rmdir /s /q .\temp\
 exit /b 2
 
+:g
+cls
+for %%A in (.\data\ProgramData\Epic\EpicGamesLauncher\Data\Manifests\*.item) do (
+  set "A=%%A
+  for /f "DELIMS=" %%B in (%%A) do (
+    set "B=%%B"
+    if "!B:~2,16!" EQU "ManifestLocation" (
+      set "C=!B:~22,-11!"
+      if "!C:~0,1!" NEQ "C" (
+        if "!C:~0,1!" NEQ "A" (
+          if "!C:~0,1!" NEQ "B" (
+            set "D=!C:~0,1!"
+            set "E=!C:~2!"
+            set "K=!E:/=\!"
+            for /F "tokens=1*" %%G in ('fsutil fsinfo drives') do (
+              for %%I in (%%H) do (
+                for /F "tokens=3" %%J in ('fsutil fsinfo drivetype %%I') do (
+                  REM if %%J equ Removable (
+                    set "I=%%I"
+                    if "!D:~0,1!" NEQ "!I:~0,1!" (
+                      if exist "!I!!K:~1!" (
+                        echo "!D!:\ moved to !I! relinking..."
+                        call :HelperReplaceText "!A!" "!D!:!E!" "!I:~0,2!!E!"
+                        call :HelperReplaceText "!A!.bak" "!D!:!E!" "!I:~0,2!!E!"
+                      )
+                    )
+                  REM )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)
+pause
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -258,7 +299,7 @@ if not exist ".\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.
 exit /b 2
 
 :Version
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
