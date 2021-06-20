@@ -80,3 +80,5 @@ deep_shredder
 1
 epic_games
 4
+deluge
+1
