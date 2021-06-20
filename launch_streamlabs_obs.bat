@@ -194,7 +194,11 @@ for %%A in (.\data\AppData\Roaming\slobs-client\SceneCollections\*.json) do (
             for /F "tokens=1*" %%G in ('fsutil fsinfo drives') do (
               for %%I in (%%H) do (
                 for /F "tokens=3" %%J in ('fsutil fsinfo drivetype %%I') do (
-                  if %%J equ Fixed (
+                  if "%%J" neq "CD-Rom Drive" (
+                  if "%%J" neq "Remote/Network Drive" (
+                  if "%%J" neq "Ram Disk" (
+                  if "%%J" neq "Unknown Drive" (
+                  if "%%J" neq "No such Root Directory" (
                     set "I=%%I"
                     if "!D:~0,1!" NEQ "!I:~0,1!" (
                       if exist "!I!!K:~1!" (
@@ -203,6 +207,10 @@ for %%A in (.\data\AppData\Roaming\slobs-client\SceneCollections\*.json) do (
                         call :HelperReplaceText "!A!.bak" "!D:\=\\!:!E:\=\\!" "!I:~0,2!!E:\=\\!"
                       )
                     )
+                  )
+                  )
+                  )
+                  )
                   )
                 )
               )
@@ -252,7 +260,7 @@ if not exist ".\bin\streamlabs_obs\Streamlabs OBS.exe" set nag=STREAMLABS OBS IS
 exit /b 2
 
 :Version
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

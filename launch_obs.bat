@@ -258,7 +258,11 @@ for %%A in (.\bin\obs\config\obs-studio\basic\scenes\*.json) do (
             for /F "tokens=1*" %%G in ('fsutil fsinfo drives') do (
               for %%I in (%%H) do (
                 for /F "tokens=3" %%J in ('fsutil fsinfo drivetype %%I') do (
-                  if %%J equ Removable (
+                  if "%%J" neq "CD-Rom Drive" (
+                  if "%%J" neq "Remote/Network Drive" (
+                  if "%%J" neq "Ram Disk" (
+                  if "%%J" neq "Unknown Drive" (
+                  if "%%J" neq "No such Root Directory" (
                     set "I=%%I"
                     if "!D:~0,1!" NEQ "!I:~0,1!" (
                       if exist "!I!!K:~1!" (
@@ -267,6 +271,10 @@ for %%A in (.\bin\obs\config\obs-studio\basic\scenes\*.json) do (
                         call :HelperReplaceText "!A!.bak" "!D!:!E!" "!I:~0,2!!E!"
                       )
                     )
+                  )
+                  )
+                  )
+                  )
                   )
                 )
               )
@@ -317,7 +325,7 @@ if not exist ".\bin\obs\bin\!arch!Bit\obs!arch!.exe" set nag=OBS IS NOT INSTALLE
 exit /b 2
 
 :Version
-echo 32 > .\doc\version.txt
+echo 33 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
