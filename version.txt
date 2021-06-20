@@ -25,7 +25,7 @@ vscode
 kodi
 11
 ppsspp
-14
+15
 discord_canary
 13
 discord

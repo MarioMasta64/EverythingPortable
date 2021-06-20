@@ -78,9 +78,17 @@ if exist .\temp\memsticks.txt del .\temp\memsticks.txt >nul
 for /F "tokens=1*" %%a in ('fsutil fsinfo drives') do (
    for %%c in (%%b) do (
       for /F "tokens=3" %%d in ('fsutil fsinfo drivetype %%c') do (
-         if %%d equ Removable (
+         if "%%J" neq "CD-Rom Drive" (
+         if "%%J" neq "Remote/Network Drive" (
+         if "%%J" neq "Ram Disk" (
+         if "%%J" neq "Unknown Drive" (
+         if "%%J" neq "No such Root Directory" (
             if exist "%%c\pspemu\PSP\" echo %%cpspemu\>> .\temp\memsticks.txt
             if exist "%%c\PSP\" echo %%c>> .\temp\memsticks.txt
+         )
+         )
+         )
+         )
          )
       )
    )
@@ -278,7 +286,7 @@ if not exist ".\bin\ppsspp\PPSSPPWindows!arch!.exe" set nag=PPSSPP IS NOT INSTAL
 exit /b 2
 
 :Version
-echo 14 > .\doc\version.txt
+echo 15 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
