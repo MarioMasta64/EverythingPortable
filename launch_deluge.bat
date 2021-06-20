@@ -31,7 +31,7 @@ set nag="Selection Time!"
 echo 1. reinstall deluge [will remove deluge entirely]
 echo 2. launch deluge [launches deluge]
 echo 3. reset deluge [will remove everything deluge except the binary]
-echo 4. uninstall deluge [none of your friends on deluge?]
+echo 4. uninstall deluge [need more features than deluge provides?]
 echo 5. update script [check for updates]
 echo 6. credits [credits]
 echo 7. exit [EXIT]
