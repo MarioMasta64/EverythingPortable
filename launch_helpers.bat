@@ -25,7 +25,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 12 > .\doc\version.txt
+echo 13 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -223,8 +223,8 @@ if exist "download@source=typ_redirect" del "download@source=typ_redirect" >nul
 exit /b
 
 :DownloadJava
-set arch=
-if exist "%PROGRAMFILES(X86)%" set arch=64
+set "arch="
+if exist "%PROGRAMFILES(X86)%" set "arch=64"
 if not exist .\bin\wget.exe call :DownloadWget
 if exist .\extra\jPortable%arch%_8_Update_291_online.paf.exe exit /b
 .\bin\wget.exe -q --show-progress "https://downloads.sourceforge.net/portableapps/jPortable%arch%_8_Update_291_online.paf.exe"
@@ -236,7 +236,7 @@ echo PLEASE PROCEED THROUGH ALL DIALOGUE OPTIONS
 echo DO NOT HIT RUN
 echo PRESS ENTER WHEN READ
 pause >nul
-.\extra\jPortable%arch%_8_Update_291_online.paf.exe /destination="!foldertxt!\bin\"
+.\extra\jPortable%arch%_8_Update_291_online.paf.exe /destination="!folder!\bin\"
 exit /b
 
 :Extract7zip
