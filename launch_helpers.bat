@@ -25,7 +25,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 11 > .\doc\version.txt
+echo 12 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -56,7 +56,7 @@ if exist directx_Jun2010_redist.exe del directx_Jun2010_redist.exe >nul
 .\bin\wget.exe -q --show-progress "https://download.microsoft.com/download/8/4/A/84A35BF1-DAFE-4AE8-82AF-AD2AE20B6B14/directx_Jun2010_redist.exe" ".directx_Jun2010_redist.exe"
 if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
 move directx_Jun2010_redist.exe .\extra\directx_Jun2010_redist.exe
-.\bin\7-ZipPortable\App\7-Zip\7z.exe x .\extra\directx_Jun2010_redist.exe * -obin\directx\
+.\bin\7-ZipPortable\App\7-Zip\7z.exe x .\extra\directx_Jun2010_redist.exe * -obin\directx\ -aoa
 exit /b
 
 :ExtractWix
@@ -218,7 +218,7 @@ if not exist .\bin\wget.exe call :DownloadWget
 .\bin\wget.exe -q --show-progress "https://sourceforge.net/projects/innounp/files/latest/download?source=typ_redirect" "download@source=typ_redirect"
 if not exist "download@source=typ_redirect" goto :DownloadInno
 if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
-.\bin\7-ZipPortable\App\7-Zip\7z.exe x download@source=typ_redirect * -obin\innounp\
+.\bin\7-ZipPortable\App\7-Zip\7z.exe x download@source=typ_redirect * -obin\innounp\ -aoa
 if exist "download@source=typ_redirect" del "download@source=typ_redirect" >nul
 exit /b
 
@@ -243,7 +243,7 @@ exit /b
 set /p filetxt=<.\helpers\file.txt
 set /p foldertxt=<.\helpers\folder.txt
 if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
-.\bin\7-ZipPortable\App\7-Zip\7z.exe x !filetxt! * -o!foldertxt!
+.\bin\7-ZipPortable\App\7-Zip\7z.exe x !filetxt! * -o!foldertxt! -aoa
 if exist .\helpers\*.txt del .\helpers\*.txt >nul
 exit /b
 
