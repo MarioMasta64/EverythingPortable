@@ -250,12 +250,12 @@ goto Create
 :Launch
 cls
 set "AppData=!Folder!\data\minecraft_legacy\profiles\!Profile!"
-echo .\data\minecraft\profiles\!Profile!>.\ini\minecraft_legacy.ini
+echo ".\data\minecraft\profiles\!Profile!">.\ini\minecraft_legacy.ini
 goto 2
 :Default
 cls
 set "AppData=!Folder!\data\minecraft_legacy"
-echo .\data\minecraft\profiles\!Profile!>.\ini\minecraft_legacy.ini
+echo ".\data\minecraft\profiles\!Profile!">.\ini\minecraft_legacy.ini
 goto 2
 
 :h
@@ -328,7 +328,7 @@ if exist .\bin\minecraft\Minecraft.jar call :Releasev18Upgrade
 exit /b 2
 
 :Version
-echo 21 > .\doc\version.txt
+echo 22 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
