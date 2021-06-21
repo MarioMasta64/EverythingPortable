@@ -190,7 +190,7 @@ echo only use letters and numbers
 echo type menu to return to the main menu
 set /p profile="enter a name for the new profile: "
 if "!Profile!"=="menu" goto Menu
-if exist ".\data\minecraft\!Profile!\" then goto Exists
+if exist "!folder!\data\minecraft\profiles\!Profile!\" then goto Exists
 goto Create
 :Create
 cls
@@ -206,9 +206,9 @@ set nag="please enter YES or NO"
 goto Create
 :NowCreating
 cls
-if exist ".\data\minecraft\profiles\!Profile!\" goto Exists
-mkdir ".\data\minecraft\profiles\!Profile!\"
-if exist ".\data\minecraft\profiles\!Profile!\" goto Launch
+if exist "!folder!\data\minecraft\profiles\!Profile!\" goto Exists
+mkdir "!folder!\data\minecraft\profiles\!Profile!\"
+if exist "!folder!\data\minecraft\profiles\!Profile!\" goto Launch
 set LEGITCHECK="INVALID NAME"
 goto New
 :Exists
@@ -243,12 +243,12 @@ set /p choice="profile to launch: "
 set profile=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto Menu
 if "%CHOICE%"=="default" goto Default
-if ".\data\minecraft\profiles\!Profile!\"==".\data\minecraft\profiles\" goto set_create
-if exist ".\data\minecraft\profiles\!Profile!\" goto Launch
+if "!folder!\data\minecraft\profiles\!Profile!\"==".\data\minecraft\profiles\" goto set_create
+if exist "!folder!\data\minecraft\profiles\!Profile!\" goto Launch
 :set_create
 cls
 set "profile=%CHOICE%"
-if exist ".\data\minecraft\profiles\!Profile!\" goto Launch
+if exist "!folder!\data\minecraft\profiles\!Profile!\" goto Launch
 set nag=PROFILE "!Profile!" DOES NOT EXIST
 goto Create
 :Launch
@@ -276,18 +276,18 @@ set /p choice="profile to delete: "
 set profile=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto Menu
 if "%CHOICE%"=="default" goto DeleteMain
-if ".\data\minecraft\profiles\!Profile!\"==".\data\minecraft\profiles\" goto SetDelete
-if exist ".\data\minecraft\profiles\!Profile!\" goto NowDeleting
+if "!folder!\data\minecraft\profiles\!Profile!\"==".\data\minecraft\profiles\" goto SetDelete
+if exist "!folder!\data\minecraft\profiles\!Profile!\" goto NowDeleting
 goto :h
 :SetDelete
 cls
 set "profile=%CHOICE%"
-if exist ".\data\minecraft\profiles\!Profile!\" goto NowDeleting
+if exist "!folder!\data\minecraft\profiles\!Profile!\" goto NowDeleting
 set nag=PROFILE "!Profile!" DOES NOT EXIST
 goto Delete
 :NowDeleting
 cls
-rmdir /s ".\data\minecraft\profiles\!Profile!\"
+rmdir /s "!folder!\data\minecraft\profiles\!Profile!\"
 goto Delete
 :DeleteMain
 cls
@@ -340,7 +340,7 @@ if exist .\bin\minecraft\minecraft.jar call :LegacyReleasev18Upgrade
 exit /b 2
 
 :Version
-echo 20 > .\doc\version.txt
+echo 21 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

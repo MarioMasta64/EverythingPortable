@@ -1,7 +1,7 @@
 everything
 27
 minecraft
-20
+21
 steam
 22
 obs
@@ -83,4 +83,4 @@ epic_games
 deluge
 1
 minecraft_legacy
-20
+21
