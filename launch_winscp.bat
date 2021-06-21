@@ -296,6 +296,59 @@ notepad.exe "!folder!\password.txt"
 if exist password.txt del password.txt >nul
 exit /b 2
 
+:j
+for %%A in (.\bin\winscp\winscp.ini) do (
+  set "A=%%A"
+  for /f "DELIMS=" %%B in (%%A) do (
+    set "B=%%B"
+    if "!B:~0,14!" EQU "PublicKeyFile=" (
+      set "C=!B:~14!"
+      if "!C:~0,1!" NEQ "C" (
+        if "!C:~0,1!" NEQ "A" (
+          if "!C:~0,1!" NEQ "B" (
+            set "D=!C:~0,1!"
+            set "E=!C:~2!"
+            set "K=!E:/=\!"
+
+            powershell -command "[uri]::UnescapeDataString('!E!')">decoded.txt
+            set /p L=<decoded.txt
+            if exist decoded.txt del decoded.txt
+            REM powershell -command "[uri]::EscapeDataString('!output!')">input.txt
+            REM set /p input=<input.txt
+
+            for /F "tokens=1*" %%G in ('fsutil fsinfo drives') do (
+              for %%I in (%%H) do (
+                for /F "tokens=3" %%J in ('fsutil fsinfo drivetype %%I') do (
+                  if "%%J" neq "CD-Rom Drive" (
+                  if "%%J" neq "Remote/Network Drive" (
+                  if "%%J" neq "Ram Disk" (
+                  if "%%J" neq "Unknown Drive" (
+                  if "%%J" neq "No such Root Directory" (
+                    set "I=%%I"
+                    if "!D:~0,1!" NEQ "!I:~0,1!" (
+                      if exist "!I!!L!" (
+                        echo "!D!:\ moved to !I! relinking..."
+                        REM outputs correctly but when executed performs wrong due to % in file because batch is a bitch.
+                        echo call :HelperReplaceText "!A!" "!D!:!E!" "!I:~0,2!!E!"
+                      )
+                    )
+                  )
+                  )
+                  )
+                  )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)
+pause
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
