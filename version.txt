@@ -1,7 +1,7 @@
 everything
 27
 minecraft
-19
+20
 steam
 22
 obs
