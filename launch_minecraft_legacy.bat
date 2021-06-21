@@ -186,7 +186,7 @@ echo only use letters and numbers
 echo type menu to return to the main menu
 set /p profile="enter a name for the new profile: "
 if "!Profile!"=="menu" goto Menu
-if exist ".\data\minecraft_legacy\!Profile!\" then goto Exists
+if exist ".\data\minecraft\!Profile!\" then goto Exists
 goto Create
 :Create
 cls
@@ -202,9 +202,9 @@ set nag="please enter YES or NO"
 goto Create
 :NowCreating
 cls
-if exist ".\data\minecraft_legacy\profiles\!Profile!\" goto Exists
-mkdir ".\data\minecraft_legacy\profiles\!Profile!\"
-if exist ".\data\minecraft_legacy\profiles\!Profile!\" goto Launch
+if exist ".\data\minecraft\profiles\!Profile!\" goto Exists
+mkdir ".\data\minecraft\profiles\!Profile!\"
+if exist ".\data\minecraft\profiles\!Profile!\" goto Launch
 set LEGITCHECK="INVALID NAME"
 goto New
 :Exists
@@ -239,23 +239,23 @@ set /p choice="profile to launch: "
 set profile=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto Menu
 if "%CHOICE%"=="default" goto Default
-if ".\data\minecraft_legacy\profiles\!Profile!\"==".\data\minecraft_legacy\profiles\" goto set_create
-if exist ".\data\minecraft_legacy\profiles\!Profile!\" goto Launch
+if ".\data\minecraft\profiles\!Profile!\"==".\data\minecraft\profiles\" goto set_create
+if exist ".\data\minecraft\profiles\!Profile!\" goto Launch
 :set_create
 cls
 set "profile=%CHOICE%"
-if exist ".\data\minecraft_legacy\profiles\!Profile!\" goto Launch
+if exist ".\data\minecraft\profiles\!Profile!\" goto Launch
 set nag=PROFILE "!Profile!" DOES NOT EXIST
 goto Create
 :Launch
 cls
 set "AppData=!Folder!\data\minecraft_legacy\profiles\!Profile!"
-echo \data\minecraft_legacy\profiles\!Profile!>.\ini\minecraft_legacy.ini
+echo .\data\minecraft\profiles\!Profile!>.\ini\minecraft_legacy.ini
 goto 2
 :Default
 cls
 set "AppData=!Folder!\data\minecraft_legacy"
-echo \data\minecraft_legacy\profiles\!Profile!>.\ini\minecraft_legacy.ini
+echo .\data\minecraft\profiles\!Profile!>.\ini\minecraft_legacy.ini
 goto 2
 
 :h
@@ -272,23 +272,23 @@ set /p choice="profile to delete: "
 set profile=!Line_%CHOICE%!
 if "%CHOICE%"=="menu" goto Menu
 if "%CHOICE%"=="default" goto DeleteMain
-if ".\data\minecraft_legacy\profiles\!Profile!\"==".\data\minecraft_legacy\profiles\" goto SetDelete
-if exist ".\data\minecraft_legacy\profiles\!Profile!\" goto NowDeleting
+if ".\data\minecraft\profiles\!Profile!\"==".\data\minecraft\profiles\" goto SetDelete
+if exist ".\data\minecraft\profiles\!Profile!\" goto NowDeleting
 goto :h
 :SetDelete
 cls
 set "profile=%CHOICE%"
-if exist ".\data\minecraft_legacy\profiles\!Profile!\" goto NowDeleting
+if exist ".\data\minecraft\profiles\!Profile!\" goto NowDeleting
 set nag=PROFILE "!Profile!" DOES NOT EXIST
 goto Delete
 :NowDeleting
 cls
-rmdir /s ".\data\minecraft_legacy\profiles\!Profile!\"
+rmdir /s ".\data\minecraft\profiles\!Profile!\"
 goto Delete
 :DeleteMain
 cls
-rmdir /s .\data\minecraft_legacy\.minecraft\
-rmdir /s /q .\data\minecraft_legacy\java\
+rmdir /s .\data\minecraft\.minecraft\
+rmdir /s /q .\data\minecraft\java\
 goto Delete
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
@@ -328,7 +328,7 @@ if exist .\bin\minecraft\Minecraft.jar call :Releasev18Upgrade
 exit /b 2
 
 :Version
-echo 19 > .\doc\version.txt
+echo 20 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -634,8 +634,8 @@ REM Minecraft Legacy Specific
 REM Minecraft Legacy Specific
 
 :GetProfiles
-if not exist .\data\minecraft_legacy\profiles\ exit /b 2
-dir /ad /b .\data\minecraft_legacy\profiles\* > .\doc\profiles.txt
+if not exist .\data\minecraft\profiles\ exit /b 2
+dir /ad /b .\data\minecraft\profiles\* > .\doc\profiles.txt
 set Counter=0
 for /f "DELIMS=" %%i in ('type .\doc\profiles.txt') do (
     set /a Counter+=1
