@@ -30,6 +30,14 @@ set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
 
+:DecodeURL
+set /p input=<.\helpers\input.txt
+set /p output=<.\helpers\output.txt
+set "input=!input:%C5=\"
+echo !input!>decoded.txt
+if exist .\helpers\*.txt del .\helpers\*.txt >nul
+exit /b
+
 :ReplaceText
 set /p filetxt=<.\helpers\file.txt
 set /p oldtext=<.\helpers\oldtext.txt
