@@ -52,6 +52,8 @@ echo.
 echo h. launch putty [launches putty]
 echo i. launch winscppwd [launches winscppwd]
 echo.
+echo j. relink paths [assumes everything is on one drive]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -328,8 +330,9 @@ for %%A in (.\bin\winscp\winscp.ini) do (
                     if "!D:~0,1!" NEQ "!I:~0,1!" (
                       if exist "!I!!L!" (
                         echo "!D!:\ moved to !I! relinking..."
-                        REM outputs correctly but when executed performs wrong due to % in file because batch is a bitch.
-                        echo call :HelperReplaceText "!A!" "!D!:!E!" "!I:~0,2!!E!"
+                        REM outputs correctly but when executed performs wrong due to % in file because batch is a bitch. rather than changing all drive letters so keep in mind that all this will assume the drive is 1 drive and not many. it will stay commented out until i find a workaround
+                        REM echo call :HelperReplaceText "!A!" "!D!:!E!" "!I:~0,2!!E!"
+                        call :HelperReplaceText "!A!" "!D!" "!I:~0,1!"
                       )
                     )
                   )
@@ -385,7 +388,7 @@ if not exist ".\bin\WinSCP\WinSCP.exe" set nag=WINSCP IS NOT INSTALLED CHOOSE "D
 exit /b 2
 
 :Version
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
