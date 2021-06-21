@@ -73,7 +73,7 @@ exit /b 2
 :2
 :LaunchMinecraft
 if not exist ".\bin\minecraft_legacy\Minecraft.jar" set "nag=PLEASE INSTALL MINECRAFT LEGACY FIRST" & exit /b 2
-if exist .\ini\minecraft_legacy.ini set /p Appdata=<.\ini\minecraft_legacy.ini & set "AppData=!Folder!!AppData!"
+if exist .\ini\minecraft.ini set /p Appdata=<.\ini\minecraft.ini & set "AppData=!Folder!!AppData!"
 if "!AppData!" EQU "!folder!\data\AppData\Roaming" set "nag=PLEASE USE G TO SELECT A PROFILE FIRST (IT WILL BE USED BY THE QUICKLAUNCHER AS WELL)" & exit /b 2
 title DO NOT CLOSE
 cls
@@ -145,8 +145,8 @@ echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64">>!quick_launcher!
 echo set "folder=%!Folder!%">>!quick_launcher!
 echo if "%!Folder!%"=="%%~d0\" set "folder=%%CD:~0,2%%">>!quick_launcher!
 echo set "UserProfile=%%folder%%\data">>!quick_launcher!
-echo if not exist .\ini\minecraft_legacy.ini set "AppData=%%folder%%\data\minecraft_legacy">>!quick_launcher! 
-echo if exist .\ini\minecraft_legacy.ini set /p Appdata=^<.\ini\minecraft_legacy.ini ^& set "AppData=%%Folder%%%%AppData%%">>!quick_launcher!
+echo if not exist .\ini\minecraft.ini set "AppData=%%folder%%\data\minecraft_legacy">>!quick_launcher! 
+echo if exist .\ini\minecraft.ini set /p Appdata=^<.\ini\minecraft.ini ^& set "AppData=%%Folder%%%%AppData%%">>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
@@ -250,12 +250,12 @@ goto Create
 :Launch
 cls
 set "AppData=!Folder!\data\minecraft_legacy\profiles\!Profile!"
-echo "\data\minecraft\profiles\!Profile!">.\ini\minecraft_legacy.ini
+echo \data\minecraft\profiles\!Profile!>.\ini\minecraft.ini
 goto 2
 :Default
 cls
 set "AppData=!Folder!\data\minecraft_legacy"
-echo "\data\minecraft\profiles\!Profile!">.\ini\minecraft_legacy.ini
+echo \data\minecraft\profiles\!Profile!>.\ini\minecraft.ini
 goto 2
 
 :h
@@ -328,7 +328,7 @@ if exist .\bin\minecraft\Minecraft.jar call :Releasev18Upgrade
 exit /b 2
 
 :Version
-echo 22 > .\doc\version.txt
+echo 23 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
