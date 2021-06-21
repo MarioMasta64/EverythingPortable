@@ -52,8 +52,6 @@ echo.
 echo h. launch putty [launches putty]
 echo i. launch winscppwd [launches winscppwd]
 echo.
-echo j. relink publickey file paths
-echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -296,53 +294,6 @@ if exist batch-read.bat call batch-read.bat "!folder!\password.txt" 10 1 & goto 
 notepad.exe "!folder!\password.txt"
 :SkipNotePad
 if exist password.txt del password.txt >nul
-exit /b 2
-
-:j
-cls
-for %%A in (.\bin\obs\config\obs-studio\basic\scenes\*.json) do (
-  set "A=%%A"
-  for /f "DELIMS=" %%B in (%%A) do (
-    set "B=%%B"
-    if "!B:~17,4!" EQU "file" (
-      set "C=!B:~25,-1!"
-      if "!C:~0,1!" NEQ "C" (
-        if "!C:~0,1!" NEQ "A" (
-          if "!C:~0,1!" NEQ "B" (
-            set "D=!C:~0,1!"
-            set "E=!C:~2!"
-            set "K=!E:/=\!"
-            for /F "tokens=1*" %%G in ('fsutil fsinfo drives') do (
-              for %%I in (%%H) do (
-                for /F "tokens=3" %%J in ('fsutil fsinfo drivetype %%I') do (
-                  if "%%J" neq "CD-Rom Drive" (
-                  if "%%J" neq "Remote/Network Drive" (
-                  if "%%J" neq "Ram Disk" (
-                  if "%%J" neq "Unknown Drive" (
-                  if "%%J" neq "No such Root Directory" (
-                    set "I=%%I"
-                    if "!D:~0,1!" NEQ "!I:~0,1!" (
-                      if exist "!I!!K:~1!" (
-                        echo "!D!:\ moved to !I! relinking..."
-                        call :HelperReplaceText "!A!" "!D!:!E!" "!I:~0,2!!E!"
-                        call :HelperReplaceText "!A!.bak" "!D!:!E!" "!I:~0,2!!E!"
-                      )
-                    )
-                  )
-                  )
-                  )
-                  )
-                  )
-                )
-              )
-            )
-          )
-        )
-      )
-    )
-  )
-)
-pause
 exit /b 2
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW

@@ -30,15 +30,6 @@ set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
 
-:DecodeURL
-set /p input=<.\helpers\input.txt
-if not exist .\helpers\decodeurl.vbs call :CreateDecodeURLVBS
-cscript .\helpers\decodeurl.vbs
-set /p input=<.\helpers\input.txt
-echo !input!>decoded.txt
-if exist .\helpers\*.txt del .\helpers\*.txt >nul
-exit /b
-
 :ReplaceText
 set /p filetxt=<.\helpers\file.txt
 set /p oldtext=<.\helpers\oldtext.txt
