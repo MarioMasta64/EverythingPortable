@@ -250,12 +250,12 @@ goto Create
 :Launch
 cls
 set "AppData=!Folder!\data\minecraft_legacy\profiles\!Profile!"
-echo ".\data\minecraft\profiles\!Profile!">.\ini\minecraft_legacy.ini
+echo "!Folder!\data\minecraft\profiles\!Profile!">.\ini\minecraft_legacy.ini
 goto 2
 :Default
 cls
 set "AppData=!Folder!\data\minecraft_legacy"
-echo ".\data\minecraft\profiles\!Profile!">.\ini\minecraft_legacy.ini
+echo "!Folder!\data\minecraft\profiles\!Profile!">.\ini\minecraft_legacy.ini
 goto 2
 
 :h
