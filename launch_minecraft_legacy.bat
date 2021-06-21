@@ -159,11 +159,11 @@ exit
 :d
 :UpgradeMinecraft
 title Portable Minecraft Legacy Launcher - Helper Edition - Minecraft Legacy Update Check
-if exist Minecraft Legacy.jar del Minecraft Legacy.jar >nul
+if exist Minecraft.jar del Minecraft.jar >nul
 call :HelperDownload "https://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.jar" "Minecraft.jar"
 :MoveMinecraft
 if not exist .\bin\minecraft_legacy\ mkdir .\bin\minecraft_legacy\
-move Minecraft Legacy.jar .\bin\minecraft_legacy\Minecraft.jar
+move Minecraft.jar .\bin\minecraft_legacy\Minecraft.jar
 :DownloadJava
 call :HelperDownloadJava
 exit /b 2
