@@ -298,9 +298,9 @@ goto Delete
 :i
 :DownloadMinecraftLegacyLauncher
 cls & title Portable Minecraft Launcher - Helper Edition - Download Mimecraft Launcher
-call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_minecraft.bat" "launch_minecraft.bat.1"
-cls & if exist launch_minecraft.bat.1 del launch_minecraft.bat >nul & rename launch_minecraft.bat.1 launch_minecraft.bat
-cls & start launch_minecraft.bat
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_minecraft_legacy.bat" "launch_minecraft_legacy.bat.1"
+cls & if exist launch_minecraft_legacy.bat.1 del launch_minecraft_legacy.bat >nul & rename launch_minecraft_legacy.bat.1 launch_minecraft_legacy.bat
+cls & start launch_minecraft_legacy.bat
 exit
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
