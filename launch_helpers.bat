@@ -32,12 +32,11 @@ exit /b
 
 :DecodeURL
 set /p input=<.\helpers\input.txt
-if not exist .\helpers\replacetext.vbs call :CreateReplaceTextVBS
-cscript .\helpers\replacetext.vbs "!folder!\helpers\input.txt" "%20" " " >nul
-cscript .\helpers\replacetext.vbs "!folder!\helpers\input.txt" "%5C" "\" >nul
+if not exist .\helpers\decodeurl.vbs call :CreateDecodeURLVBS
+cscript .\helpers\decodeurl.vbs
 set /p input=<.\helpers\input.txt
 echo !input!>decoded.txt
-REM if exist .\helpers\*.txt del .\helpers\*.txt >nul
+if exist .\helpers\*.txt del .\helpers\*.txt >nul
 exit /b
 
 :ReplaceText
