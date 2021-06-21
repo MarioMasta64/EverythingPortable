@@ -50,6 +50,8 @@ echo f. new profile
 echo g. select profile
 echo h. delete profile
 echo.
+echo i. download minecraft legacy launcher
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -72,13 +74,13 @@ exit /b 2
 
 :2
 :LaunchMinecraft
-if not exist ".\bin\minecraft\Minecraft.jar" set "nag=PLEASE INSTALL MINECRAFT FIRST" & exit /b 2
+if not exist ".\bin\minecraft\bootstrap.exe" set "nag=PLEASE INSTALL MINECRAFT FIRST" & exit /b 2
 if exist .\ini\minecraft.ini set /p Appdata=<.\ini\minecraft.ini & set "AppData=!Folder!!AppData!"
 if "!AppData!" EQU "!folder!\data\AppData\Roaming" set "nag=PLEASE USE G TO SELECT A PROFILE FIRST (IT WILL BE USED BY THE QUICKLAUNCHER AS WELL)" & exit /b 2
 title DO NOT CLOSE
 cls
 echo MINECRAFT IS RUNNING
-start "" ".\bin\commonfiles\java!arch!\bin\javaw.exe" -jar .\bin\minecraft\Minecraft.jar
+start .\bin\minecraft\bootstrap.exe
 exit
 
 :3
@@ -150,7 +152,7 @@ echo if exist .\ini\minecraft.ini set /p Appdata=^<.\ini\minecraft.ini ^& set "A
 echo set "LocalAppData=%%folder%%\data\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo start "" ".\bin\commonfiles\java%%arch%%\bin\javaw.exe" -jar .\bin\minecraft\Minecraft.jar>>!quick_launcher!
+echo start .\bin\minecraft\bootstrap.exe>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 echo ENTER TO CONTINUE & pause >nul
@@ -159,13 +161,15 @@ exit
 :d
 :UpgradeMinecraft
 title Portable Minecraft Launcher - Helper Edition - Minecraft Update Check
-if exist Minecraft.jar del Minecraft.jar >nul
-call :HelperDownload "https://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.jar" "Minecraft.jar"
+if exist MinecraftInstaller.msi del MinecraftInstaller.msi >nul
+call :HelperDownload "https://launcher.mojang.com/download/MinecraftInstaller.msi" "MinecraftInstaller.msi"
 :MoveMinecraft
-if not exist .\bin\minecraft\ mkdir .\bin\minecraft\
-move Minecraft.jar .\bin\minecraft\Minecraft.jar
+move MinecraftInstaller.msi .\extra\MinecraftInstaller.msi
+:ExtractMinecraft
+call :HelperExtract7Zip "!folder!\extra\MinecraftInstaller.msi" "!folder!\bin\minecraft\"
+move .\bin\minecraft\*Exe .\bin\minecraft\bootstrap.exe
 :DownloadJava
-call :HelperDownloadJava
+REM call :HelperDownloadJava
 exit /b 2
 
 :e
@@ -291,6 +295,14 @@ rmdir /s .\data\minecraft\.minecraft\
 rmdir /s /q .\data\minecraft\java\
 goto Delete
 
+:i
+:DownloadMinecraftLegacyLauncher
+cls & title Portable Minecraft Launcher - Helper Edition - Download Mimecraft Launcher
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_minecraft.bat" "launch_minecraft.bat.1"
+cls & if exist launch_minecraft.bat.1 del launch_minecraft.bat >nul & rename launch_minecraft.bat.1 launch_minecraft.bat
+cls & start launch_minecraft.bat
+exit
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -323,11 +335,12 @@ if not exist ".\data\Pictures\" mkdir ".\data\Pictures\"
 if not exist ".\data\Saved Games\" mkdir ".\data\Saved Games\"
 if not exist ".\data\Searches\" mkdir ".\data\Searches\"
 if not exist ".\data\Videos\" mkdir ".\data\Videos\"
-if not exist ".\bin\minecraft\Minecraft.jar" set nag=MINECRAFT IS NOT INSTALLED CHOOSE "D"
+if not exist ".\bin\minecraft\bootstrap.exe" set nag=MINECRAFT IS NOT INSTALLED CHOOSE "D"
+if exist .\bin\minecraft\minecraft.jar call :LegacyReleasev18Upgrade
 exit /b 2
 
 :Version
-echo 18 > .\doc\version.txt
+echo 19 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -641,4 +654,9 @@ for /f "DELIMS=" %%i in ('type .\doc\profiles.txt') do (
     set "Line_!Counter!=%%i"
 )
 if exist .\doc\profiles.txt del .\doc\profiles.txt
+exit /b 2
+
+:LegacyReleasev18Upgrade
+taskkill /f /im javaw.exe
+move .\bin\minecraft .\bin\minecraft
 exit /b 2

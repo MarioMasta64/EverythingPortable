@@ -25,13 +25,13 @@ call :HelperCheck
 
 :Menu
 cls
-title Portable OBS Classic Launcher - Helper Edition - Main Menu
+title Portable Minecraft Legacy Launcher - Helper Edition - Main Menu
 echo %NAG%
 set nag="Selection Time!"
-echo 1. reinstall obs classic [will remove obs classic entirely]
-echo 2. launch obs classic [launches obs classic]
-echo 3. reset obs classic [will remove everything obs classic except the binary]
-echo 4. uninstall obs classic [finally ready to switch to obs studio?]
+echo 1. reinstall minecraft legacy [will remove minecraft legacy entirely]
+echo 2. launch minecraft legacy [launches minecraft legacy]
+echo 3. reset minecraft legacy [will remove everything minecraft legacy except the binary]
+echo 4. uninstall minecraft legacy [none of your friends on minecraft legacy?]
 echo 5. update script [check for updates]
 echo 6. credits [credits]
 echo 7. exit [EXIT]
@@ -42,14 +42,13 @@ echo b. download other projects [check out my other stuff]
 echo.
 echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo.
-echo d. check for new telegram version [automatically check for a new version]
+echo d. check for new minecraft legacy version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
-echo f. Backup OBS Folder [Just In Case]
-echo g. Restore OBS Folder [Fucked Up(?)]
-echo.
-echo h. download obs studio launcher
+echo f. new profile
+echo g. select profile
+echo h. delete profile
 echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
@@ -65,28 +64,30 @@ set nag="NOT A FEATURE YET!"
 exit /b 2
 
 :1
-:ReinstallOBSClassic
+:ReinstallMinecraft
 cls
-call :UninstallOBSClassic
-call :UpgradeOBSClassic
+call :UninstallMinecraft
+call :UpgradeMinecraft
 exit /b 2
 
 :2
-:LaunchOBSClassic
-if not exist ".\bin\obs_classic\!arch!bit\OBS.exe" set "nag=PLEASE INSTALL OBS CLASSIC FIRST" & exit /b 2
+:LaunchMinecraft
+if not exist ".\bin\minecraft_legacy\Minecraft.jar" set "nag=PLEASE INSTALL MINECRAFT LEGACY FIRST" & exit /b 2
+if exist .\ini\minecraft_legacy.ini set /p Appdata=<.\ini\minecraft_legacy.ini & set "AppData=!Folder!!AppData!"
+if "!AppData!" EQU "!folder!\data\AppData\Roaming" set "nag=PLEASE USE G TO SELECT A PROFILE FIRST (IT WILL BE USED BY THE QUICKLAUNCHER AS WELL)" & exit /b 2
 title DO NOT CLOSE
 cls
-echo OBS CLASSIC IS RUNNING
-start .\bin\obs_classic\!arch!bit\OBS.exe -portable
+echo MINECRAFT LEGACY IS RUNNING
+start "" ".\bin\commonfiles\java!arch!\bin\javaw.exe" -jar .\bin\minecraft_legacy\Minecraft.jar
 exit
 
 :3
-:ResetOBSClassic
+:ResetMinecraft
 call :Null
 exit /b 2
 
 :4
-:UninstallOBSClassic
+:UninstallMinecraft
 call :Null
 exit /b 2
 
@@ -94,11 +95,11 @@ exit /b 2
 :UpdateCheck
 if exist version.txt del version.txt >nul
 cls
-title Portable OBS Classic Launcher - Helper Edition - Checking For Update
+title Portable Minecraft Legacy Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt >nul
-set new_version=%Line_38%
+set new_version=%Line_86%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & exit /b 2
 if %current_version% EQU %new_version% call :LatestBuild & exit /b 2
 if %current_version% LSS %new_version% call :NewUpdate & exit /b 2
@@ -118,7 +119,7 @@ exit
 
 :a
 :DLLDownloaderCheck
-cls & title Portable OBS Classic Launcher - Helper Edition - Download Dll Downloader
+cls & title Portable Minecraft Legacy Launcher - Helper Edition - Download Dll Downloader
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
 cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
@@ -126,7 +127,7 @@ exit /b 2
 
 :b
 :PortableEverything
-cls & title Portable OBS Classic Launcher - Helper Edition - Download Suite
+cls & title Portable Minecraft Legacy Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
 cls & if exist launch_everything.bat.1 del launch_everything.bat >nul & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
@@ -135,110 +136,160 @@ exit /b 2
 :c
 :QuicklauncherCheck
 cls
-title Portable OBS Classic Launcher - Helper Edition - Quicklauncher Writer
+title Portable Minecraft Legacy Launcher - Helper Edition - Quicklauncher Writer
 echo @echo off>!quick_launcher!
 echo Color 0A>>!quick_launcher!
 echo cls>>!quick_launcher!
-echo set arch=32>>!quick_launcher!
+echo set arch=>>!quick_launcher!
 echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64">>!quick_launcher!
-echo set "folder=%%CD%%">>!quick_launcher!
-echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%">>!quick_launcher!
+echo set "folder=%!Folder!%">>!quick_launcher!
+echo if "%!Folder!%"=="%%~d0\" set "folder=%%CD:~0,2%%">>!quick_launcher!
 echo set "UserProfile=%%folder%%\data">>!quick_launcher!
-echo set "AppData=%%folder%%\data\AppData\Roaming">>!quick_launcher!
+echo if not exist .\ini\minecraft_legacy.ini set "AppData=%%folder%%\data\minecraft_legacy">>!quick_launcher! 
+echo if exist .\ini\minecraft_legacy.ini set /p Appdata=^<.\ini\minecraft_legacy.ini ^& set "AppData=%%Folder%%%%AppData%%">>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo start .\bin\obs_classic\%%arch%%bit\OBS.exe>>!quick_launcher!
+echo start "" ".\bin\commonfiles\java%%arch%%\bin\javaw.exe" -jar .\bin\minecraft_legacy\Minecraft.jar>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 echo ENTER TO CONTINUE & pause >nul
 exit
 
 :d
-:UpgradeOBSClassic
-title Portable OBS Classic Launcher - Helper Edition - OBS Classic Update Check
-if exist latest del latest >nul
-call :HelperDownload "https://api.github.com/repos/jp9000/obs/releases/latest" "latest"
-:: create file or wont work (do not run on same file)
-:: create file or wont work (do not run on same file)
-echo.> latest.txt
-TYPE latest | MORE /P > latest.txt
-for /f tokens^=4delims^=^" %%A in (
-  'findstr /i /c:"_With_Browser.zip" latest.txt'
-) Do > .\doc\obs_classic_link.txt Echo:%%A
-if exist latest del latest >nul
-if exist latest.txt del latest.txt >nul
-set /p obs_classic_link=<.\doc\obs_classic_link.txt
-set "obs_classic_zip=!obs_classic_link!"
-REM listen, it works, im lazy, let it be, can handle a depth of 8 directories and helps future proof if they change the paths.
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-set "obs_classic_zip=!obs_classic_zip:/=!"
-cls
-echo "!obs_classic_link!"
-echo "!obs_classic_zip!"
-if exist "!obs_classic_zip!" "!obs_classic_zip!" >nul
-if exist ".\extra\!obs_classic_zip!" (
-  echo obs classic is updated.
-  pause
-  exit /b
-)
-pause
-call :HelperDownload "!obs_classic_link!" "!obs_classic_zip!"
-:MoveOBSClassic
-move "!obs_classic_zip!" ".\extra\!obs_classic_zip!"
-:ExtractOBSClassic
-call :HelperExtract "!folder!\extra\!obs_classic_zip!" "!folder!\bin\obs_classic\"
+:UpgradeMinecraft
+title Portable Minecraft Legacy Launcher - Helper Edition - Minecraft Legacy Update Check
+if exist Minecraft Legacy.jar del Minecraft Legacy.jar >nul
+call :HelperDownload "https://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.jar" "Minecraft.jar"
+:MoveMinecraft
+if not exist .\bin\minecraft_legacy\ mkdir .\bin\minecraft_legacy\
+move Minecraft Legacy.jar .\bin\minecraft_legacy\Minecraft.jar
+:DownloadJava
+call :HelperDownloadJava
 exit /b 2
 
 :e
-title Portable OBS Classic Launcher - Helper Edition - Text-Reader Update Check
+title Portable Minecraft Legacy Launcher - Helper Edition - Text-Reader Update Check
 cls
 call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
 start "" "update-text-reader.bat"
 exit /b 2
 
 :f
-:BackupOBSFolder
-:: title Portable OBS Launcher - Expiremental Edition - Backing Up OBS Folder...
-echo make sure
-echo "!folder!\data\obs_classic\"
-echo contains your data before pressing enter
-pause >nul
+:New
 cls
-echo BACKING UP OBS
-if exist .\backup\obs_classic\ rmdir /s /q c.\backup\obs_classic\
-mkdir .\backup\obs_classic\
-xcopy .\data\obs_classic\* .\backup\obs_classic\ /e /i /y
-exit /b 2
+title PORTABLE MINECRAFT LEGACY LAUNCHER - NEW PROFILE
+echo %NAG%
+set nag=SELECTION TIME!
+echo type the name of the profile
+echo only use letters and numbers
+echo type menu to return to the main menu
+set /p profile="enter a name for the new profile: "
+if "!Profile!"=="menu" goto Menu
+if exist ".\data\minecraft_legacy\!Profile!\" then goto Exists
+goto Create
+:Create
+cls
+title PORTABLE MINECRAFT LEGACY LAUNCHER - CREATE PROFILE
+echo %NAG%
+set nag=SELECTION TIME!
+echo create profile "!Profile!"?
+echo type yes or no and press enter
+set /p choice="choice: "
+if "%CHOICE%"=="no" goto NewTitle
+if "%CHOICE%"=="yes" goto NowCreating
+set nag="please enter YES or NO"
+goto Create
+:NowCreating
+cls
+if exist ".\data\minecraft_legacy\profiles\!Profile!\" goto Exists
+mkdir ".\data\minecraft_legacy\profiles\!Profile!\"
+if exist ".\data\minecraft_legacy\profiles\!Profile!\" goto Launch
+set LEGITCHECK="INVALID NAME"
+goto New
+:Exists
+cls
+title PORTABLE MINECRAFT LEGACY LAUNCHER - LAUNCH PROFILE
+echo %NAG%
+set nag=SELECTION TIME!
+echo PROFILE "!Profile!" EXISTS
+echo launch it?
+echo type yes or no and press enter
+set /p choice="choice: "
+if "%CHOICE%"=="no" goto NewTitle
+if "%CHOICE%"=="yes" goto Launch
+set nag="please enter YES or NO"
+goto Exists
+:NewTitle
+cls
+set nag="ENTER A DIFFERENT TITLE THEN"
+goto New
 
 :g
-:RestoreOBSFolder
-:: title Portable OBS Launcher - Expiremental Edition - Restoring OBS Folder...
-echo make sure
-echo "!folder!\backup\obs_classic\"
-echo contains your data before pressing enter
-pause >nul
+:Select
 cls
-echo RESTORING OBS
-if exist .\backup\obs_classic\ rmdir /s /q .\data\obs_classic\
-mkdir .\data\obs_classic\
-xcopy .\backup\obs_classic\* .\data\obs_classic\ /e /i /y
-exit /b 2
+title PORTABLE MINECRAFT LEGACY LAUNCHER - SELECT PROFILE
+echo %NAG%
+set nag=SELECTION TIME!
+echo type default for default profile
+call :GetProfiles
+For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
+echo type menu to return to the main menu
+set /p choice="profile to launch: "
+set profile=!Line_%CHOICE%!
+if "%CHOICE%"=="menu" goto Menu
+if "%CHOICE%"=="default" goto Default
+if ".\data\minecraft_legacy\profiles\!Profile!\"==".\data\minecraft_legacy\profiles\" goto set_create
+if exist ".\data\minecraft_legacy\profiles\!Profile!\" goto Launch
+:set_create
+cls
+set "profile=%CHOICE%"
+if exist ".\data\minecraft_legacy\profiles\!Profile!\" goto Launch
+set nag=PROFILE "!Profile!" DOES NOT EXIST
+goto Create
+:Launch
+cls
+set "AppData=!Folder!\data\minecraft_legacy\profiles\!Profile!"
+echo \data\minecraft_legacy\profiles\!Profile!>.\ini\minecraft_legacy.ini
+goto 2
+:Default
+cls
+set "AppData=!Folder!\data\minecraft_legacy"
+echo \data\minecraft_legacy\profiles\!Profile!>.\ini\minecraft_legacy.ini
+goto 2
 
 :h
-:DownloadOBSLauncher
-cls & title Portable OBS Classic Launcher - Helper Edition - Download OBS Classic Launcher
-call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_obs.bat" "launch_obs.bat.1"
-cls & if exist launch_obs.bat.1 del launch_obs.bat >nul & rename launch_obs.bat.1 launch_obs.bat
-cls & start launch_obs.bat
-exit
+:Delete
+cls
+title PORTABLE MINECRAFT LEGACY LAUNCHER - DELETE PROFILE
+echo %NAG%
+set nag=SELECTION TIME!
+echo type default for default profile
+call :GetProfiles
+For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
+echo type menu to return to the main menu
+set /p choice="profile to delete: "
+set profile=!Line_%CHOICE%!
+if "%CHOICE%"=="menu" goto Menu
+if "%CHOICE%"=="default" goto DeleteMain
+if ".\data\minecraft_legacy\profiles\!Profile!\"==".\data\minecraft_legacy\profiles\" goto SetDelete
+if exist ".\data\minecraft_legacy\profiles\!Profile!\" goto NowDeleting
+goto :h
+:SetDelete
+cls
+set "profile=%CHOICE%"
+if exist ".\data\minecraft_legacy\profiles\!Profile!\" goto NowDeleting
+set nag=PROFILE "!Profile!" DOES NOT EXIST
+goto Delete
+:NowDeleting
+cls
+rmdir /s ".\data\minecraft_legacy\profiles\!Profile!\"
+goto Delete
+:DeleteMain
+cls
+rmdir /s .\data\minecraft_legacy\.minecraft\
+rmdir /s /q .\data\minecraft_legacy\java\
+goto Delete
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
@@ -272,11 +323,12 @@ if not exist ".\data\Pictures\" mkdir ".\data\Pictures\"
 if not exist ".\data\Saved Games\" mkdir ".\data\Saved Games\"
 if not exist ".\data\Searches\" mkdir ".\data\Searches\"
 if not exist ".\data\Videos\" mkdir ".\data\Videos\"
-if not exist ".\bin\obs_classic\!arch!bit\OBS.exe" set nag=OBS CLASSIC IS NOT INSTALLED CHOOSE "D"
+if not exist ".\bin\minecraft_legacy\Minecraft.jar" set nag=MINECRAFT LEGACY IS NOT INSTALLED CHOOSE "D"
+if exist .\bin\minecraft\Minecraft.jar call :Releasev18Upgrade
 exit /b 2
 
 :Version
-echo 7 > .\doc\version.txt
+echo 19 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -298,7 +350,7 @@ echo =    You may also modify this script without     = >> !license!
 echo =         consent for PERSONAL USE ONLY          = >> !license!
 echo ================================================== >> !license!
 cls
-title Portable OBS Classic Launcher - Helper Edition - About
+title Portable Minecraft Legacy Launcher - Helper Edition - About
 for /f "DELIMS=" %%i in (!license!) do (echo %%i)
 pause
 call :PingInstall
@@ -308,7 +360,7 @@ REM if a script can be used between files then it can be put here and re-written
 REM stuff here will not be changed between programs
 
 :SetArch
-set arch=32
+set arch=
 if exist "%PROGRAMFILES(X86)%" set "arch=64"
 exit /b 2
 
@@ -449,7 +501,7 @@ exit /b 2
 
 :LatestBuild
 cls
-title Portable OBS Classic Launcher - Helper Edition - Latest Build :D
+title Portable Minecraft Legacy Launcher - Helper Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
@@ -459,7 +511,7 @@ exit
 
 :NewUpdate
 cls
-title Portable OBS Classic Launcher - Helper Edition - Old Build D:
+title Portable Minecraft Legacy Launcher - Helper Edition - Old Build D:
 echo %NAG%
 set nag="Selection Time!"
 echo you are using an older version
@@ -473,7 +525,7 @@ set nag="please enter YES or NO"
 goto NewUpdate
 
 :UpdateNow
-cls & title Portable OBS Classic Launcher - Helper Edition - Updating Launcher
+cls & title Portable Minecraft Legacy Launcher - Helper Edition - Updating Launcher
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/!main_launcher!" "!main_launcher!.1"
 cls & if exist "!main_launcher!.1" goto ReplacerCreate
 cls & call :ErrorOffline
@@ -493,7 +545,7 @@ exit
 
 :PreviewBuild
 cls
-title Portable OBS Classic Launcher - Helper Edition - Test Build :0
+title Portable Minecraft Legacy Launcher - Helper Edition - Test Build :0
 echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
@@ -550,7 +602,7 @@ exit /b 2
 
 :Cmd
 cls
-title Portable OBS Classic Launcher - Helper Edition - Command Prompt - By MarioMasta64
+title Portable Minecraft Legacy Launcher - Helper Edition - Command Prompt - By MarioMasta64
 ver
 echo (C) Copyright Microsoft Corporation. All rights reserved
 echo.
@@ -574,3 +626,25 @@ echo start %~f0 >> relaunch.bat
 echo (goto) 2^ >nul ^& del "%%~f0" ^& exit >> relaunch.bat
 call :HelperHide "relaunch.bat"
 exit
+
+REM Minecraft Legacy Specific
+REM Minecraft Legacy Specific
+REM Minecraft Legacy Specific
+REM Minecraft Legacy Specific
+REM Minecraft Legacy Specific
+
+:GetProfiles
+if not exist .\data\minecraft_legacy\profiles\ exit /b 2
+dir /ad /b .\data\minecraft_legacy\profiles\* > .\doc\profiles.txt
+set Counter=0
+for /f "DELIMS=" %%i in ('type .\doc\profiles.txt') do (
+    set /a Counter+=1
+    set "Line_!Counter!=%%i"
+)
+if exist .\doc\profiles.txt del .\doc\profiles.txt
+exit /b 2
+
+:Releasev18Upgrade
+taskkill /f /im javaw.exe
+move .\bin\minecraft .\bin\minecraft_legacy
+exit /b 2
