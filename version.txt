@@ -84,3 +84,5 @@ deluge
 1
 minecraft_legacy
 23
+tightvnc_viewer
+1
