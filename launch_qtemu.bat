@@ -22,6 +22,7 @@ call :FolderCheck
 call :Version
 call :Credits
 call :HelperCheck
+call :DataUpgrade
 
 :Menu
 cls
@@ -138,16 +139,16 @@ echo Color 0A>>!quick_launcher!
 echo cls>>!quick_launcher!
 echo set "folder=%%CD%%">>!quick_launcher!
 echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%">>!quick_launcher!
-echo set "UserProfile=%%folder%%\data">>!quick_launcher!
-echo set "AppData=%%folder%%\data\AppData\Roaming">>!quick_launcher!
-echo set "LocalAppData=%%folder%%\data\AppData\Local">>!quick_launcher!
+echo set "UserProfile=%%folder%%\data\Users\MarioMasta64">>!quick_launcher!
+echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_launcher!
+echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
 echo start .\bin\qtemu\qtemu.exe>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 echo ENTER TO CONTINUE & pause >nul
-exit
+exit /b 2
 
 :d
 :UpgradeQTEmu
@@ -174,10 +175,21 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
-set "UserProfile=!folder!\data"
-set "AppData=!folder!\data\AppData\Roaming"
-set "LocalAppData=!folder!\data\AppData\Local"
+set "AllUsersProfile=!folder!\data\ProgramData"
+set "AppData=!folder!\Users\MarioMasta64\AppData\Roaming"
+set "CommonProgramFiles=!folder!\Program Files\Common Files"
+set "CommonProgramFiles(x86)=!folder!\Program Files (x86)\Common Files"
+set "HomeDrive=!folder!\data"
+set "HomePath=!folder!\data\Users\MarioMasta64"
+set "LocalAppData=!folder!\data\Users\MarioMasta64\AppData\Local"
 set "ProgramData=!folder!\data\ProgramData"
+set "ProgramFiles=!folder!\data\Program Files"
+set "ProgramFiles(x86)=!folder!\data\Program Files (x86)"
+set "ProgramW6432=!folder!\data\ProgramData"
+set "SystemDrive=!folder!\data"
+REM set "SystemRoot=!folder!\Windows"
+set "UserName=MarioMasta64"
+set "UserProfile=!folder!\data\Users\MarioMasta64"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
 if not exist .\doc\ mkdir .\doc\
@@ -185,27 +197,30 @@ if not exist .\extra\ mkdir .\extra\
 if not exist .\helpers\ mkdir .\helpers\
 if not exist .\ini\ mkdir .\ini\
 if not exist .\note\ mkdir .\note\
-if not exist .\data\AppData\Local\ mkdir .\data\AppData\Local\
-if not exist .\data\AppData\Roaming\ mkdir .\data\AppData\Roaming\
-if not exist .\data\ProgramData\ mkdir .\data\ProgramData\
-if not exist ".\data\3D Objects\" mkdir ".\data\3D Objects\"
-if not exist ".\data\Contacts\" mkdir ".\data\Contacts\"
-if not exist ".\data\Desktop\" mkdir ".\data\Desktop\"
-if not exist ".\data\Documents\" mkdir ".\data\Documents\"
-if not exist ".\data\Downloads\" mkdir ".\data\Downloads\"
-if not exist ".\data\Favorites\" mkdir ".\data\Favorites\"
-if not exist ".\data\Links\" mkdir ".\data\Links\"
-if not exist ".\data\Music\" mkdir ".\data\Music\"
-if not exist ".\data\OneDrive\" mkdir ".\data\OneDrive\"
-if not exist ".\data\Pictures\" mkdir ".\data\Pictures\"
-if not exist ".\data\Saved Games\" mkdir ".\data\Saved Games\"
-if not exist ".\data\Searches\" mkdir ".\data\Searches\"
-if not exist ".\data\Videos\" mkdir ".\data\Videos\"
+if not exist ".\data\Program Files\Common Files\" mkdir ".\data\Program Files\Common Files\"
+if not exist ".\data\Program Files (x86)\Common Files\" mkdir ".\data\Program Files (x86)\Common Files\"
+if not exist ".\data\ProgramData\" mkdir ".\data\ProgramData\"
+if not exist ".\data\Users\MarioMasta64\" mkdir ".\data\Users\MarioMasta64\"
+if not exist ".\data\Users\MarioMasta64\AppData\Local\" mkdir ".\data\Users\MarioMasta64\AppData\Local\"
+if not exist ".\data\Users\MarioMasta64\AppData\Roaming\" mkdir ".\data\Users\MarioMasta64\AppData\Roaming\"
+if not exist ".\data\Users\MarioMasta64\3D Objects\" mkdir ".\data\Users\MarioMasta64\3D Objects\"
+if not exist ".\data\Users\MarioMasta64\Contacts\" mkdir ".\data\Users\MarioMasta64\Contacts\"
+if not exist ".\data\Users\MarioMasta64\Desktop\" mkdir ".\data\Users\MarioMasta64\Desktop\"
+if not exist ".\data\Users\MarioMasta64\Documents\" mkdir ".\data\Users\MarioMasta64\Documents\"
+if not exist ".\data\Users\MarioMasta64\Downloads\" mkdir ".\data\Users\MarioMasta64\Downloads\"
+if not exist ".\data\Users\MarioMasta64\Favorites\" mkdir ".\data\Users\MarioMasta64\Favorites\"
+if not exist ".\data\Users\MarioMasta64\Links\" mkdir ".\data\Users\MarioMasta64\Links\"
+if not exist ".\data\Users\MarioMasta64\Music\" mkdir ".\data\Users\MarioMasta64\Music\"
+if not exist ".\data\Users\MarioMasta64\OneDrive\" mkdir ".\data\Users\MarioMasta64\OneDrive\"
+if not exist ".\data\Users\MarioMasta64\Pictures\" mkdir ".\data\Users\MarioMasta64\Pictures\"
+if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioMasta64\Saved Games\"
+if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
+if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
 if not exist ".\bin\qtemu\qtemu.exe" set nag=qtemu IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -503,3 +518,43 @@ echo start %~f0 >> relaunch.bat
 echo (goto) 2^ >nul ^& del "%%~f0" ^& exit >> relaunch.bat
 call :HelperHide "relaunch.bat"
 exit
+
+:DataUpgrade
+cls
+echo PLEASE WAIT.. UPGRADING DATA FOLDER
+REM if move failed (which it does do sometimes for MANY dumb reasons) continue with xcopy
+if exist ".\data\.vscode\" move ".\data\.vscode" ".\data\Users\MarioMasta64"
+if exist ".\data\.vscode\" xcopy ".\data\.vscode\" ".\data\Users\MarioMasta64\.vscode\" /e /i /y & rmdir /s /q ".\data\.vscode\"
+if exist ".\data\3D Objects\" move ".\data\3D Objects" ".\data\Users\MarioMasta64"
+if exist ".\data\3D Objects\" xcopy ".\data\3D Objects\" ".\data\Users\MarioMasta64\3D Objects\" /e /i /y & rmdir /s /q ".\data\3D Objects\"
+if exist ".\data\AppData\" move ".\data\AppData" ".\data\Users\MarioMasta64"
+if exist ".\data\AppData\" xcopy ".\data\AppData\" ".\data\Users\MarioMasta64\AppData\" /e /i /y & rmdir /s /q ".\data\AppData\"
+if exist ".\data\Contacts\" move ".\data\Contacts" ".\data\Users\MarioMasta64"
+if exist ".\data\Contacts\" xcopy ".\data\Contacts\" ".\data\Users\MarioMasta64\Contacts\" /e /i /y & rmdir /s /q ".\data\Contacts\"
+if exist ".\data\Cookies\" move ".\data\Cookies" ".\data\Users\MarioMasta64"
+if exist ".\data\Cookies\" xcopy ".\data\Cookies\" ".\data\Users\MarioMasta64\Cookies\" /e /i /y & rmdir /s /q ".\data\Cookies\"
+if exist ".\data\Desktop\" move ".\data\Desktop" ".\data\Users\MarioMasta64"
+if exist ".\data\Desktop\" xcopy ".\data\Desktop\" ".\data\Users\MarioMasta64\Desktop\" /e /i /y & rmdir /s /q ".\data\Desktop\"
+if exist ".\data\Documents\" move ".\data\Documents" ".\data\Users\MarioMasta64"
+if exist ".\data\Documents\" xcopy ".\data\Documents\" ".\data\Users\MarioMasta64\Documents\" /e /i /y & rmdir /s /q ".\data\Documents\"
+if exist ".\data\Downloads\" move ".\data\Downloads" ".\data\Users\MarioMasta64"
+if exist ".\data\Downloads\" xcopy ".\data\Downloads\" ".\data\Users\MarioMasta64\Downloads\" /e /i /y & rmdir /s /q ".\data\Downloads\"
+if exist ".\data\Favorites\" move ".\data\Favorites" ".\data\Users\MarioMasta64"
+if exist ".\data\Favorites\" xcopy ".\data\Favorites\" ".\data\Users\MarioMasta64\Favorites\" /e /i /y & rmdir /s /q ".\data\Favorites\"
+if exist ".\data\Links\" move ".\data\Links" ".\data\Users\MarioMasta64"
+if exist ".\data\Links\" xcopy ".\data\Links\" ".\data\Users\MarioMasta64\Links\" /e /i /y & rmdir /s /q ".\data\Links\"
+if exist ".\data\Local Settings\" move ".\data\Local Settings" ".\data\Users\MarioMasta64"
+if exist ".\data\Local Settings\" xcopy ".\data\Local Settings\" ".\data\Users\MarioMasta64\Local Settings\" /e /i /y & rmdir /s /q ".\data\Local Settings\"
+if exist ".\data\Music\" move ".\data\Music" ".\data\Users\MarioMasta64"
+if exist ".\data\Music\" xcopy ".\data\Music\" ".\data\Users\MarioMasta64\Music\" /e /i /y & rmdir /s /q ".\data\Music\"
+if exist ".\data\OneDrive\" move ".\data\OneDrive" ".\data\Users\MarioMasta64"
+if exist ".\data\OneDrive\" xcopy ".\data\OneDrive\" ".\data\Users\MarioMasta64\OneDrive\" /e /i /y & rmdir /s /q ".\data\OneDrive\"
+if exist ".\data\Pictures\" move ".\data\Pictures" ".\data\Users\MarioMasta64"
+if exist ".\data\Pictures\" xcopy ".\data\Pictures\" ".\data\Users\MarioMasta64\Pictures\" /e /i /y & rmdir /s /q ".\data\Pictures\"
+if exist ".\data\Saved Games\" move ".\data\Saved Games" ".\data\Users\MarioMasta64"
+if exist ".\data\Saved Games\" xcopy ".\data\Saved Games\" ".\data\Users\MarioMasta64\Saved Games\" /e /i /y & rmdir /s /q ".\data\Saved Games\"
+if exist ".\data\Searches\" move ".\data\Searches" ".\data\Users\MarioMasta64"
+if exist ".\data\Searches\" xcopy ".\data\Searches\" ".\data\Users\MarioMasta64\Searches\" /e /i /y & rmdir /s /q ".\data\Searches\"
+if exist ".\data\Videos\" move ".\data\Videos" ".\data\Users\MarioMasta64"
+if exist ".\data\Videos\" xcopy ".\data\Videos\" ".\data\Users\MarioMasta64\Videos\" /e /i /y & rmdir /s /q ".\data\Videos\"
+exit /b 2
