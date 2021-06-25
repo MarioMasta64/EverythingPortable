@@ -41,7 +41,7 @@ echo a. download dll's [dll errors anyone?]
 echo.
 echo b. download other projects [check out my other stuff]
 echo.
-c. write all quicklauncher [MAKE IT EVEN FASTER] [make sure to run m first]
+echo c. write all quicklauncher [MAKE IT EVEN FASTER] [make sure to run m first]
 echo.
 REM echo d. check for new everything version [automatically check for a new version]
 REM echo.
@@ -329,7 +329,7 @@ if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta6
 exit /b 2
 
 :Version
-echo 30 > .\doc\version.txt
+echo 31 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
