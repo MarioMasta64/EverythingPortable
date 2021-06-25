@@ -144,8 +144,8 @@ set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+
 set Max_Lines=!Counter!
 cls
 set "launcher_counter=1"
-:loop_file
-if !launcher_counter! GEQ !Max_Lines! goto :exit_loop
+:loop_file_quicklauncher
+if !launcher_counter! GEQ !Max_Lines! goto :exit_loop_quicklauncher
 REM set /a launcher_counter+=2
 set /a version_counter=!launcher_counter!+1
 set "launcher=!Line_%launcher_counter%!"
@@ -154,12 +154,13 @@ REM echo text without making a new line by saying SET /P var=<text><nul
 SET /P var=!launcher!<nul
 if "!new_version!" NEQ "0" (
     if "!launcher!" NEQ "everything" (
+        set "quick_launcher=quicklaunch_!launcher!.bat"
         if exist launch_!launcher!.bat call launch_!launcher!.bat c
     )
 )
 set /a launcher_counter+=2
-goto :loop_file
-:exit_loop
+goto :loop_file_quicklauncher
+:exit_loop_quicklauncher
 if exist version.txt del version.txt >nul
 REM set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
 pause
@@ -328,7 +329,7 @@ if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta6
 exit /b 2
 
 :Version
-echo 28 > .\doc\version.txt
+echo 29 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
