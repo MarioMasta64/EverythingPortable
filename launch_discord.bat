@@ -31,7 +31,7 @@ echo %NAG%
 set nag="Selection Time!"
 echo 1. reinstall discord [will remove discord entirely]
 echo 2. launch discord [launches discord]
-echo 3. reset discord [will remove everything discord except the binary]
+echo 3. reset discord [will remove everything discord except the binary] [note: discord will auto-launch]
 echo 4. uninstall discord [IM TIRED OF THESE SHITTY MEMES]
 echo 5. update script [check for updates]
 echo 6. credits [credits]
@@ -69,11 +69,14 @@ exit /b 2
 
 :2
 :LaunchDiscord
-if not exist ".\bin\discord\Discord.exe" set "nag=PLEASE INSTALL DISCORD FIRST" & exit /b 2
+if not exist ".\data\Users\MarioMasta64\AppData\Local\discord\Update.exe" set "nag=PLEASE INSTALL DISCORD FIRST" & exit /b 2
 title DO NOT CLOSE
 cls
 echo DISCORD IS RUNNING
-start .\bin\discord\Discord.exe
+REM start .\data\Users\MarioMasta64\AppData\Local\discord\Update.exe
+start .\data\Users\MarioMasta64\AppData\Local\discord\Update.exe --processStart Discord.exe
+REM cd .\data\Users\MarioMasta64\AppData\Local\discord\app*
+REM start Discord.exe
 exit
 
 :3
@@ -145,7 +148,7 @@ echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_la
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo start .\bin\discord\discord.exe>>!quick_launcher!
+echo start .\data\Users\MarioMasta64\AppData\Local\discord\Update.exe --processStart Discord.exe>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 echo ENTER TO CONTINUE & pause >nul
@@ -155,17 +158,48 @@ exit /b 2
 :UpgradeDiscord
 if exist "download?platform=win" del "download?platform=win" >nul
 call :HelperDownload "https://discordapp.com/api/download?platform=win" "download?platform=win"
+REM call :HelperDownload "https://dl.discordapp.net/apps/win/0.0.309/DiscordSetup.exe" "DiscordSetup.exe"
 :MoveDiscord
-move "download?platform=win" ".\extra\DiscordSetup.exe"
+move "DiscordSetup.exe" ".\extra\DiscordSetup.exe"
+:InstallDiscord
+.\extra\DiscordSetup.exe
+exit /b 2
 :ExtractDiscord
-call :HelperExtract7Zip "!folder!\extra\DiscordSetup.exe" "!folder!\temp\"
+REM call :HelperExtract7Zip "!folder!\extra\DiscordSetup.exe" "!folder!\data\Users\MarioMasta64\AppData\Local\discord\"
 :ExtractDiscordNupkg
-for %%d in ("!folder!\temp\Discord*.nupkg") do set "discord=%%d"
-echo !discord! & pause
-call :HelperExtract7Zip "!discord!" "!folder!\temp\"
+for %%d in ("!folder!\data\Users\MarioMasta64\AppData\Local\discord\Discord*.nupkg") do set "discord=%%d"
+REM echo !discord! & pause
+call :HelperExtract7Zip "!discord!" "!folder!\bin\discord\"
 :MoveDiscordFiles
-xcopy .\temp\lib\net45\* .\bin\discord\ /e /i /y
-if exist .\temp\ rmdir /s /q .\temp\
+REM xcopy .\temp\lib\net45\* .\bin\discord\ /e /i /y
+REM if exist .\temp\ rmdir /s /q .\temp\
+:aaaaaaaaaaaaaaaaaaafuckdiscordandthereshittyinstallerthisdidntevenendupworkingintheendfuckinginconsistentinstallerstateblahblahthisblahblahthatwejustinstallingtoappdatanow
+if not exist .\data\Users\MarioMasta64\AppData\Local\discord\packages\ mkdir .\data\Users\MarioMasta64\AppData\Local\discord\packages\
+move "!discord!" .\data\Users\MarioMasta64\AppData\Local\discord\packages\
+move .\data\Users\MarioMasta64\AppData\Local\discord\RELEASES .\data\Users\MarioMasta64\AppData\Local\discord\packages\
+for %%d in ("!folder!\data\Users\MarioMasta64\AppData\Local\discord\packages\*.nupkg") do set "discord=%%d"
+set "discord_temp=!discord!"
+set /a counter=0
+:LoopSlashCheck
+if "!discord_temp:~-1!" NEQ "\" (
+  if "!discord_temp:~-2!" NEQ "2F" (
+    set "discord_temp=!discord_temp:~0,-1!"
+    set /a counter+=1
+    goto LoopSlashCheck
+  )
+)
+if "%discord_temp:~-2%"=="2F" (
+  set /a counter-=2
+  echo !discord:~-%counter%!>.\doc\discord_nuget.txt
+)
+if "%discord_temp:~-1%"=="\" (
+  set /a counter-=1
+  echo !discord:~-%counter%!>.\doc\discord_nuget.txt
+)
+set /p discord_nuget=<.\doc\discord_nuget.txt
+call :HelperExtract7Zip "!discord!" "!folder!\temp\"
+xcopy ".\temp\lib\net45\*" "!folder!\data\Users\MarioMasta64\AppData\Local\discord\app-!discord_nuget:~8,-11!" /e /i /y
+pause
 exit /b 2
 
 :e
@@ -221,11 +255,12 @@ if not exist ".\data\Users\MarioMasta64\Pictures\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioMasta64\Saved Games\"
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
-if not exist ".\bin\discord\Discord.exe" set nag=DISCORD IS NOT INSTALLED CHOOSE "D"
+if not exist ".\data\Users\MarioMasta64\AppData\Local\discord\Update.exe" set nag=DISCORD IS NOT INSTALLED CHOOSE "D"
+if exist .\bin\discord\ call :Releasev15Upgrade
 exit /b 2
 
 :Version
-echo 15 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -562,4 +597,9 @@ if exist ".\data\Searches\" move ".\data\Searches" ".\data\Users\MarioMasta64"
 if exist ".\data\Searches\" xcopy ".\data\Searches\" ".\data\Users\MarioMasta64\Searches\" /e /i /y & rmdir /s /q ".\data\Searches\"
 if exist ".\data\Videos\" move ".\data\Videos" ".\data\Users\MarioMasta64"
 if exist ".\data\Videos\" xcopy ".\data\Videos\" ".\data\Users\MarioMasta64\Videos\" /e /i /y & rmdir /s /q ".\data\Videos\"
+exit /b 2
+
+:Releasev15Upgrade
+if exist .\bin\app* rmdir /s /q .\bin\app*
+if exist .\bin\discord\ rmdir /s /q .\bin\discord\
 exit /b 2

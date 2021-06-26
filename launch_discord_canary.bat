@@ -69,11 +69,11 @@ exit /b 2
 
 :2
 :LaunchDiscordCanary
-if not exist ".\bin\discord_canary\DiscordCanary.exe" set "nag=PLEASE INSTALL DISCORD FIRST" & exit /b 2
+if not exist ".\data\Users\MarioMasta64\AppData\Local\DiscordCanary\Update.exe" set "nag=PLEASE INSTALL DISCORD FIRST" & exit /b 2
 title DO NOT CLOSE
 cls
 echo DISCORD IS RUNNING
-start .\bin\discord_canary\DiscordCanary.exe
+start .\data\Users\MarioMasta64\AppData\Local\DiscordCanary\Update.exe --processStart DiscordCanary.exe
 exit
 
 :3
@@ -146,7 +146,7 @@ echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_la
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo start .\bin\discord_canary\discord.exe>>!quick_launcher!
+echo start .\data\Users\MarioMasta64\AppData\Local\DiscordCanary\Update.exe --processStart DiscordCanary.exe>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 echo ENTER TO CONTINUE & pause >nul
@@ -158,6 +158,9 @@ if exist "download?platform=win" del "download?platform=win" >nul
 call :HelperDownload "https://discordapp.com/api/download/canary?platform=win" "canary?platform=win"
 :MoveDiscordCanary
 move "canary?platform=win" ".\extra\DiscordCanarySetup.exe"
+:InstallDiscordCanary
+.\extra\DiscordCanary.exe
+exit /b 2
 :ExtractDiscordCanary
 call :HelperExtract7Zip "!folder!\extra\DiscordCanarySetup.exe" "!folder!\temp\"
 :ExtractDiscordCanaryNupkg
@@ -222,11 +225,12 @@ if not exist ".\data\Users\MarioMasta64\Pictures\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioMasta64\Saved Games\"
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
-if not exist ".\bin\discord_canary\DiscordCanary.exe" set nag=DISCORD IS NOT INSTALLED CHOOSE "D"
+if not exist ".\data\Users\MarioMasta64\AppData\Local\DiscordCanary\Update.exe" set nag=DISCORD IS NOT INSTALLED CHOOSE "D"
+if exist .\bin\discord_canary\ call :Releasev14Upgrade
 exit /b 2
 
 :Version
-echo 14 > .\doc\version.txt
+echo 15 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -563,4 +567,9 @@ if exist ".\data\Searches\" move ".\data\Searches" ".\data\Users\MarioMasta64"
 if exist ".\data\Searches\" xcopy ".\data\Searches\" ".\data\Users\MarioMasta64\Searches\" /e /i /y & rmdir /s /q ".\data\Searches\"
 if exist ".\data\Videos\" move ".\data\Videos" ".\data\Users\MarioMasta64"
 if exist ".\data\Videos\" xcopy ".\data\Videos\" ".\data\Users\MarioMasta64\Videos\" /e /i /y & rmdir /s /q ".\data\Videos\"
+exit /b 2
+
+:Releasev14Upgrade
+if exist .\bin\app* rmdir /s /q .\bin\app*
+if exist .\bin\discord_canary\ rmdir /s /q .\bin\discord_canary\
 exit /b 2
