@@ -86,3 +86,5 @@ minecraft_legacy
 24
 tightvnc_viewer
 2
+amazon_games
+1
