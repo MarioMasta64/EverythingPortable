@@ -189,6 +189,7 @@ set "ProgramW6432=!folder!\data\ProgramData"
 set "SystemDrive=!folder!\data"
 REM set "SystemRoot=!folder!\Windows"
 set "UserName=MarioMasta64"
+if "!UserProfile!" neq "!folder!\data\Users\MarioMasta64" set "RealUserProfile=!UserProfile!"
 set "UserProfile=!folder!\data\Users\MarioMasta64"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\

@@ -170,6 +170,13 @@ call :HelperExtract7Zip "!discord!" "!folder!\temp\"
 :MoveDiscordCanaryFiles
 xcopy .\temp\lib\net45\* .\bin\discord_canary\ /e /i /y
 if exist .\temp\ rmdir /s /q .\temp\
+:CleanupDiscordCanary
+taskkill /f /im DiscordCanary.exe
+taskkill /f /im Updater.exe
+echo y | reg delete HKEY_USERS\S-1-5-21-1589965034-2326289270-2253047584-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v DiscordCanary
+echo y | reg delete HKEY_USERS\S-1-5-21-1589965034-2326289270-2253047584-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\DiscordCanary
+echo y | reg delete HKEY_USERS\S-1-5-21-1589965034-2326289270-2253047584-1001\SOFTWARE\Classes\DiscordCanary
+if exist "!RealUserProfile!\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Discord Inc\" rmdir /s /q "!RealUserProfile!\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Discord Inc\"
 exit /b 2
 
 :e
@@ -198,6 +205,7 @@ set "ProgramW6432=!folder!\data\ProgramData"
 set "SystemDrive=!folder!\data"
 REM set "SystemRoot=!folder!\Windows"
 set "UserName=MarioMasta64"
+if "!UserProfile!" neq "!folder!\data\Users\MarioMasta64" set "RealUserProfile=!UserProfile!"
 set "UserProfile=!folder!\data\Users\MarioMasta64"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
@@ -230,7 +238,7 @@ if exist .\bin\discord_canary\ call :Releasev14Upgrade
 exit /b 2
 
 :Version
-echo 15 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

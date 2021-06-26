@@ -162,8 +162,10 @@ call :HelperDownload "https://download.amazongames.com/AmazonGamesSetup.exe" "Am
 move AmazonGamesSetup.exe .\extra\AmazonGamesSetup.exe
 :InstallAmazonGames
 .\extra\AmazonGamesSetup.exe
-:KillAmazonGames
+:CleanupAmazonGames
 taskkill /f /im "Amazon Games.exe"
+echo y | reg delete HKEY_USERS\S-1-5-21-1589965034-2326289270-2253047584-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{4DD10B06-78A4-4E6F-AA39-25E9C38FA568}
+if exist "!RealUserProfile!\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Amazon Games.lnk" del "!RealUserProfile!\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Amazon Games.lnk" >nul
 exit /b 2
 :ExtractAmazonGames
 exit /b 2
@@ -203,6 +205,7 @@ set "ProgramW6432=!folder!\data\ProgramData"
 set "SystemDrive=!folder!\data"
 REM set "SystemRoot=!folder!\Windows"
 set "UserName=MarioMasta64"
+if "!UserProfile!" neq "!folder!\data\Users\MarioMasta64" set "RealUserProfile=!UserProfile!"
 set "UserProfile=!folder!\data\Users\MarioMasta64"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
@@ -234,7 +237,7 @@ if not exist ".\data\Users\MarioMasta64\AppData\Local\Amazon Games\App\Amazon Ga
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

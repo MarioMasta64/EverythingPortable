@@ -180,6 +180,10 @@ cls
 echo GO THROUGH THE INSTALLER
 echo PRESS ENTER TO CONTINUE & pause>nul
 "!folder!\extra\!twitch!"
+:CleanupTwitch
+taskkill /f /im twitch.exe
+echo y | reg delete HKEY_USERS\S-1-5-21-1589965034-2326289270-2253047584-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{DEE70742-F4E9-44CA-B2B9-EE95DCF37295}
+if exist "!RealUserProfile!\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Twitch.lnk" del "!RealUserProfile!\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Twitch.lnk" >nul
 exit /b 2
 
 :e
@@ -208,6 +212,7 @@ set "ProgramW6432=!folder!\data\ProgramData"
 set "SystemDrive=!folder!\data"
 REM set "SystemRoot=!folder!\Windows"
 set "UserName=MarioMasta64"
+if "!UserProfile!" neq "!folder!\data\Users\MarioMasta64" set "RealUserProfile=!UserProfile!"
 set "UserProfile=!folder!\data\Users\MarioMasta64"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
@@ -239,7 +244,7 @@ if not exist "start .\data\Users\MarioMasta64\AppData\Roaming\Twitch\Bin\twitch.
 exit /b 2
 
 :Version
-echo 7 > .\doc\version.txt
+echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

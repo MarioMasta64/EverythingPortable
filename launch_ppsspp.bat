@@ -269,8 +269,8 @@ set "ProgramW6432=!folder!\data\ProgramData"
 set "SystemDrive=!folder!\data"
 REM set "SystemRoot=!folder!\Windows"
 set "UserName=MarioMasta64"
-REM breaks memory stick detection SOMEHOW
-REM set "UserProfile=!folder!\data\Users\MarioMasta64"
+if "!UserProfile!" neq "!folder!\data\Users\MarioMasta64" set "RealUserProfile=!UserProfile!"
+set "UserProfile=!folder!\data\Users\MarioMasta64"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
 if not exist .\doc\ mkdir .\doc\
@@ -298,7 +298,7 @@ if not exist ".\bin\ppsspp\PPSSPPWindows!arch!.exe" set nag=PPSSPP IS NOT INSTAL
 exit /b 2
 
 :Version
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
