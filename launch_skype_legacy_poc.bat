@@ -2,8 +2,9 @@
 cls
 Color 0A
 
-set "folder=%CD%"
-if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
+set "folder=%~dp0"
+if "%~dp0"=="%~d0\" set "folder=%~dp0:~0,2%"
+cd "!folder!" & "!folder:~0,2!"
 
 set "rm=yes"
 set "dp=yes"

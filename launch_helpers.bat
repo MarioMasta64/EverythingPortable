@@ -11,8 +11,9 @@ set "license=.\doc\!name!_license.txt"
 set "main_launcher=%~n0.bat"
 set "poc_launcher=%~n0_poc.bat"
 set "quick_launcher=quick%~n0.bat"
-set "folder=%CD%"
-if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
+set "folder=%~dp0"
+if "%~dp0"=="%~d0\" set "folder=%~dp0:~0,2%"
+cd "!folder!" & "!folder:~0,2!"
 setlocal enabledelayedexpansion
 
 REM Check For Helper Updates
