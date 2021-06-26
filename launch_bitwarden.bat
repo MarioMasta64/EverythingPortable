@@ -14,9 +14,8 @@ set "poc_launcher=%~n0_poc.bat"
 set "quick_launcher=quick%~n0.bat"
 if exist replacer.bat del replacer.bat >nul
 if exist !poc_launcher! del !poc_launcher! >nul
-set "folder=%~dp0"
-if "%~dp0"=="%~d0\" set "folder=%~dp0:~0,2%"
-cd "!folder!" & "!folder:~0,2!"
+set "folder=%CD%"
+if "%CD%"=="%~d0\" set "folder=%CD:~0,2%"
 call :AlphaToNumber
 call :SetArch
 call :FolderCheck
