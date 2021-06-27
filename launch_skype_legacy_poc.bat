@@ -4,7 +4,7 @@ Color 0A
 
 set "folder=%~dp0"
 if "!folder!"=="%~d0\" set "folder=!folder:~0,2!"
-cd "!folder!" & "!folder:~0,2!"
+pushd "!folder!"
 
 set "rm=yes"
 set "dp=yes"

@@ -13,7 +13,7 @@ set "poc_launcher=%~n0_poc.bat"
 set "quick_launcher=quick%~n0.bat"
 set "folder=%~dp0"
 if "!folder!"=="%~d0\" set "folder=!folder:~0,2!"
-cd "!folder!" & "!folder:~0,2!"
+pushd "!folder!"
 setlocal enabledelayedexpansion
 
 REM Check For Helper Updates

@@ -16,7 +16,7 @@ if exist replacer.bat del replacer.bat >nul
 if exist !poc_launcher! del !poc_launcher! >nul
 set "folder=%~dp0"
 if "!folder!"=="%~d0\" set "folder=!folder:~0,2!"
-cd "!folder!" & "!folder:~0,2!"
+pushd "!folder!"
 call :AlphaToNumber
 call :SetArch
 call :FolderCheck
