@@ -15,7 +15,7 @@ set "quick_launcher=quick%~n0.bat"
 if exist replacer.bat del replacer.bat >nul
 if exist !poc_launcher! del !poc_launcher! >nul
 set "folder=%~dp0"
-if "%~dp0"=="%~d0\" set "folder=%~dp0:~0,2%"
+if "!folder!"=="%~d0\" set "folder=!folder:~0,2!"
 cd "!folder!" & "!folder:~0,2!"
 call :AlphaToNumber
 call :SetArch
@@ -277,7 +277,7 @@ if not exist ".\bin\streamlabs_obs\Streamlabs OBS.exe" set nag=STREAMLABS OBS IS
 exit /b 2
 
 :Version
-echo 5 > .\doc\version.txt
+echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
