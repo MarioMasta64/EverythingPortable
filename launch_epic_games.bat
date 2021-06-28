@@ -279,9 +279,9 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 :FolderCheck
 cls
 set "AllUsersProfile=!folder!\data\ProgramData"
-set "AppData=!folder!\Users\MarioMasta64\AppData\Roaming"
-set "CommonProgramFiles=!folder!\Program Files\Common Files"
-set "CommonProgramFiles(x86)=!folder!\Program Files (x86)\Common Files"
+set "AppData=!folder!\data\Users\MarioMasta64\AppData\Roaming"
+set "CommonProgramFiles=!folder!\data\Program Files\Common Files"
+set "CommonProgramFiles(x86)=!folder!\data\Program Files (x86)\Common Files"
 set "HomeDrive=!folder!\data"
 set "HomePath=!folder!\data\Users\MarioMasta64"
 set "LocalAppData=!folder!\data\Users\MarioMasta64\AppData\Local"
@@ -324,7 +324,7 @@ if not exist ".\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.
 exit /b 2
 
 :Version
-echo 9 > .\doc\version.txt
+echo 10 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -661,4 +661,6 @@ if exist ".\data\Searches\" move ".\data\Searches" ".\data\Users\MarioMasta64"
 if exist ".\data\Searches\" xcopy ".\data\Searches\" ".\data\Users\MarioMasta64\Searches\" /e /i /y & rmdir /s /q ".\data\Searches\"
 if exist ".\data\Videos\" move ".\data\Videos" ".\data\Users\MarioMasta64"
 if exist ".\data\Videos\" xcopy ".\data\Videos\" ".\data\Users\MarioMasta64\Videos\" /e /i /y & rmdir /s /q ".\data\Videos\"
+if exist ".\data\Videos\" move ".\Users\" ".\data\Users\"
+if exist ".\data\Videos\" xcopy ".\Users\" ".\data\Users\" /e /i /y & rmdir /s /q ".\Users\"
 exit /b 2

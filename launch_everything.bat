@@ -198,6 +198,7 @@ call :DeleteAllTheStuff & exit /b 2
 :l
 if exist .\extra\notfirstrun.txt del .\extra\notfirstrun.txt >nul
 :m
+echo.>.\doc\everything_quicklaunch.txt
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!counter!=%%i")
 set Max_Lines=!Counter!
@@ -228,6 +229,10 @@ if "!new_version!" NEQ "0" (
                     if exist launch_!launcher!.bat.1 (
                         if exist launch_!launcher!.bat del launch_!launcher!.bat >nul
                         rename launch_!launcher!.bat.1 launch_!launcher!.bat
+                        if exist quicklaunch_!launcher!.bat (
+                            set "quick_launcher=quicklaunch_!launcher!.bat"
+                            call launch_!launcher!.bat c
+                        )
                     ) else (
                         echo  - update failed?
                     )
@@ -261,6 +266,7 @@ goto :loop_file
 if not exist .\extra\notfirstrun.txt echo.>.\extra\notfirstrun.txt
 if exist version.txt del version.txt >nul
 REM set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
+if exist .\doc\everything_quicklaunch.txt del .\doc\everything_quicklaunch.txt >nul
 pause
 exit /b 2
 
@@ -290,9 +296,9 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 :FolderCheck
 cls
 set "AllUsersProfile=!folder!\data\ProgramData"
-set "AppData=!folder!\Users\MarioMasta64\AppData\Roaming"
-set "CommonProgramFiles=!folder!\Program Files\Common Files"
-set "CommonProgramFiles(x86)=!folder!\Program Files (x86)\Common Files"
+set "AppData=!folder!\data\Users\MarioMasta64\AppData\Roaming"
+set "CommonProgramFiles=!folder!\data\Program Files\Common Files"
+set "CommonProgramFiles(x86)=!folder!\data\Program Files (x86)\Common Files"
 set "HomeDrive=!folder!\data"
 set "HomePath=!folder!\data\Users\MarioMasta64"
 set "LocalAppData=!folder!\data\Users\MarioMasta64\AppData\Local"
@@ -334,7 +340,7 @@ if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta6
 exit /b 2
 
 :Version
-echo 33 > .\doc\version.txt
+echo 35 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -851,4 +857,6 @@ if exist ".\data\Searches\" move ".\data\Searches" ".\data\Users\MarioMasta64"
 if exist ".\data\Searches\" xcopy ".\data\Searches\" ".\data\Users\MarioMasta64\Searches\" /e /i /y & rmdir /s /q ".\data\Searches\"
 if exist ".\data\Videos\" move ".\data\Videos" ".\data\Users\MarioMasta64"
 if exist ".\data\Videos\" xcopy ".\data\Videos\" ".\data\Users\MarioMasta64\Videos\" /e /i /y & rmdir /s /q ".\data\Videos\"
+if exist ".\data\Videos\" move ".\Users\" ".\data\Users\"
+if exist ".\data\Videos\" xcopy ".\Users\" ".\data\Users\" /e /i /y & rmdir /s /q ".\Users\"
 exit /b 2

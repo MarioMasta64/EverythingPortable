@@ -28,13 +28,13 @@ call :DataUpgrade
 
 :Menu
 cls
-title Portable Skype Launcher - Helper Edition - Main Menu
+title Portable itch.io Launcher - Helper Edition - Main Menu
 echo %NAG%
 set nag="Selection Time!"
-echo 1. reinstall skype [will remove skype entirely]
-echo 2. launch skype [launches skype]
-echo 3. reset skype [will remove everything skype except the binary]
-echo 4. uninstall skype [moving to discord?]
+echo 1. reinstall itch.io [will remove itch.io entirely]
+echo 2. launch itch.io [launches itch.io]
+echo 3. reset itch.io [will remove everything itch.io except the binary]
+echo 4. uninstall itch.io [tired of seeing all the porn games?]
 echo 5. update script [check for updates]
 echo 6. credits [credits]
 echo 7. exit [EXIT]
@@ -45,7 +45,7 @@ echo b. download other projects [check out my other stuff]
 echo.
 echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo.
-echo d. check for new skype version [automatically check for a new version]
+echo d. check for new itch.io version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
@@ -63,41 +63,42 @@ set nag="NOT A FEATURE YET!"
 exit /b 2
 
 :1
-:ReinstallSkype
+:Reinstallitchio
 cls
-call :UninstallSkype
-call :UpgradeSkype
+call :Uninstallitchio
+call :Upgradeitchio
 exit /b 2
 
 :2
-:LaunchSkype
-if not exist ".\bin\skype\Skype.exe" set "nag=PLEASE INSTALL SKYPE FIRST" & exit /b 2
+:Launchitchio
+if not exist ".\data\Users\MarioMasta64\AppData\Local\itch\itch-setup.exe" set "nag=PLEASE INSTALL ITCH.IO FIRST" & exit /b 2
 title DO NOT CLOSE
 cls
-echo SKYPE IS RUNNING
-start .\bin\skype\Skype.exe
+echo ITCH.IO IS RUNNING
+start "" "!folder!\data\Users\MarioMasta64\AppData\Local\itch\itch-setup.exe" --prefer-launch --appname itch
 exit
 
 :3
-:ResetSkype
-call :Null
+:Resetitchio
+taskkill /f /im itch.exe
+if exist .\data\Users\MarioMasta64\AppData\Roaming\itch rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\itch
 exit /b 2
 
 :4
-:UninstallSkype
-taskkill /f /im Skype.exe
-if exist .\bin\skype\ rmdir /s /q .\bin\skype\
+:Uninstallitchio
+taskkill /f /im itch.exe
+if exist .\data\Users\MarioMasta64\AppData\Local\itch\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Local\itch\
 exit /b 2
 
 :5
 :UpdateCheck
 if exist version.txt del version.txt >nul
 cls
-title Portable Skype Launcher - Helper Edition - Checking For Update
+title Portable itch.io Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt >nul
-set new_version=%Line_72%
+set new_version=%Line_92%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & exit /b 2
 if %current_version% EQU %new_version% call :LatestBuild & exit /b 2
 if %current_version% LSS %new_version% call :NewUpdate & exit /b 2
@@ -117,7 +118,7 @@ exit
 
 :a
 :DLLDownloaderCheck
-cls & title Portable Skype Launcher - Helper Edition - Download Dll Downloader
+cls & title Portable itch.io Launcher - Helper Edition - Download Dll Downloader
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
 cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
@@ -125,7 +126,7 @@ exit /b 2
 
 :b
 :PortableEverything
-cls & title Portable Skype Launcher - Helper Edition - Download Suite
+cls & title Portable itch.io Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
 cls & if exist launch_everything.bat.1 del launch_everything.bat >nul & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
@@ -134,7 +135,7 @@ exit /b 2
 :c
 :QuicklauncherCheck
 if not exist .\doc\everything_quicklaunch.txt cls
-title Portable Skype Launcher - Helper Edition - Quicklauncher Writer
+title Portable itch.io Launcher - Helper Edition - Quicklauncher Writer
 echo @echo off>!quick_launcher!
 echo Color 0A>>!quick_launcher!
 echo cls>>!quick_launcher!
@@ -145,28 +146,29 @@ echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_la
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo start .\bin\skype\Skype.exe>>!quick_launcher!
+echo start "" "%%folder%%\data\Users\MarioMasta64\AppData\Local\itch\itch-setup.exe" --prefer-launch --appname itch>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
 :d
-:UpgradeSkype
-title Portable Skype Launcher - Helper Edition - Skype Update Check
-if exist windows.desktop.download del windows.desktop.download >nul
-call :HelperDownload "https://go.skype.com/windows.desktop.download" "windows.desktop.download"
-:MoveSkype
-move windows.desktop.download .\extra\SkypeSetup.exe
-:ExtractSkype
-call :HelperExtractInno "!folder!\extra\SkypeSetup.exe" "!folder!\bin\skype\"
-if exist .\bin\skype\install_script.iss del .\bin\skype\install_script.iss >nul
-xcopy /q ".\bin\skype\{app}\*" ".\bin\skype\" /e /i /y
-if exist ".\bin\skype\{app}\" rmdir /s /q ".\bin\skype\{app}\"
+:Upgradeitchio
+title Portable itch.io Launcher - Helper Edition - itch.io Update Check
+if exist "download@platform=windows" del "download@platform=windows" >nul
+call :HelperDownload "https://itch.io/app/download?platform=windows" "download@platform=windows"
+:Moveitchio
+move "download@platform=windows" ".\extra\itch-setup.exe"
+:Installitchio
+.\extra\itch-setup.exe
+taskkill /f /im itch.exe
+:Cleanupitchio
+echo y | reg delete HKEY_USERS\S-1-5-21-1589965034-2326289270-2253047584-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\itch\
+:Extractitchio
 exit /b 2
 
 :e
-title Portable Skype Launcher - Helper Edition - Text-Reader Update Check
+title Portable itch.io Launcher - Helper Edition - Text-Reader Update Check
 cls
 call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
 start "" "update-text-reader.bat"
@@ -219,11 +221,11 @@ if not exist ".\data\Users\MarioMasta64\Pictures\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioMasta64\Saved Games\"
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
-if not exist ".\bin\skype\Skype.exe" set nag=SKYPE IS NOT INSTALLED CHOOSE "D"
+if not exist ".\data\Users\MarioMasta64\AppData\Local\itch\itch-setup.exe" set nag=ITCH.IO IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 8 > .\doc\version.txt
+echo 1 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -245,7 +247,7 @@ echo =    You may also modify this script without     = >> !license!
 echo =         consent for PERSONAL USE ONLY          = >> !license!
 echo ================================================== >> !license!
 cls
-title Portable Skype Launcher - Helper Edition - About
+title Portable itch.io Launcher - Helper Edition - About
 for /f "DELIMS=" %%i in (!license!) do (echo %%i)
 pause
 call :PingInstall
@@ -396,7 +398,7 @@ exit /b 2
 
 :LatestBuild
 cls
-title Portable Skype Launcher - Helper Edition - Latest Build :D
+title Portable itch.io Launcher - Helper Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
@@ -406,7 +408,7 @@ exit
 
 :NewUpdate
 cls
-title Portable Skype Launcher - Helper Edition - Old Build D:
+title Portable itch.io Launcher - Helper Edition - Old Build D:
 echo %NAG%
 set nag="Selection Time!"
 echo you are using an older version
@@ -420,7 +422,7 @@ set nag="please enter YES or NO"
 goto NewUpdate
 
 :UpdateNow
-cls & title Portable Skype Launcher - Helper Edition - Updating Launcher
+cls & title Portable itch.io Launcher - Helper Edition - Updating Launcher
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/!main_launcher!" "!main_launcher!.1"
 cls & if exist "!main_launcher!.1" goto ReplacerCreate
 cls & call :ErrorOffline
@@ -440,7 +442,7 @@ exit
 
 :PreviewBuild
 cls
-title Portable Skype Launcher - Helper Edition - Test Build :0
+title Portable itch.io Launcher - Helper Edition - Test Build :0
 echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
@@ -497,7 +499,7 @@ exit /b 2
 
 :Cmd
 cls
-title Portable Skype Launcher - Helper Edition - Command Prompt - By MarioMasta64
+title Portable itch.io Launcher - Helper Edition - Command Prompt - By MarioMasta64
 ver
 echo (C) Copyright Microsoft Corporation. All rights reserved
 echo.

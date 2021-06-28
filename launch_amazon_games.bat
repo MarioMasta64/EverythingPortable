@@ -34,7 +34,7 @@ set nag="Selection Time!"
 echo 1. reinstall amazon games [will remove amazon games entirely]
 echo 2. launch amazon games [launches amazon games]
 echo 3. reset amazon games [will remove everything amazon games except the binary]
-echo 4. uninstall amazon games [no longer want to support ama?]
+echo 4. uninstall amazon games [no longer want to support amazon?]
 echo 5. update script [check for updates]
 echo 6. credits [credits]
 echo 7. exit [EXIT]
@@ -194,9 +194,9 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 :FolderCheck
 cls
 set "AllUsersProfile=!folder!\data\ProgramData"
-set "AppData=!folder!\Users\MarioMasta64\AppData\Roaming"
-set "CommonProgramFiles=!folder!\Program Files\Common Files"
-set "CommonProgramFiles(x86)=!folder!\Program Files (x86)\Common Files"
+set "AppData=!folder!\data\Users\MarioMasta64\AppData\Roaming"
+set "CommonProgramFiles=!folder!\data\Program Files\Common Files"
+set "CommonProgramFiles(x86)=!folder!\data\Program Files (x86)\Common Files"
 set "HomeDrive=!folder!\data"
 set "HomePath=!folder!\data\Users\MarioMasta64"
 set "LocalAppData=!folder!\data\Users\MarioMasta64\AppData\Local"
@@ -239,7 +239,7 @@ if not exist ".\data\Users\MarioMasta64\AppData\Local\Amazon Games\App\Amazon Ga
 exit /b 2
 
 :Version
-echo 4 > .\doc\version.txt
+echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
