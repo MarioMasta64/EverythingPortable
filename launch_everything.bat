@@ -154,7 +154,7 @@ set /a version_counter=!launcher_counter!+1
 set "launcher=!Line_%launcher_counter%!"
 set "new_version=!Line_%version_counter%!"
 REM echo text without making a new line by saying SET /P var=<text><nul
-SET /P var=!launcher!<nul
+REM SET /P var=!launcher!<nul
 if "!new_version!" NEQ "0" (
     if "!launcher!" NEQ "everything" (
         set "quick_launcher=quicklaunch_!launcher!.bat"
