@@ -14,6 +14,7 @@ set "poc_launcher=%~n0_poc.bat"
 set "quick_launcher=quick%~n0.bat"
 if exist replacer.bat del replacer.bat >nul
 if exist !poc_launcher! del !poc_launcher! >nul
+if exist .\doc\everything_quicklaunch.txt del .\doc\everything_quicklaunch.txt >nul
 set "folder=%~dp0"
 if "!folder!"=="%~d0\" set "folder=!folder:~0,2!"
 pushd "!folder!"
@@ -135,7 +136,7 @@ exit /b 2
 
 :c
 :QuicklauncherCheck
-cls
+if not exist .\doc\everything_quicklaunch.txt cls
 title Portable Dolphin Launcher - Helper Edition - Quicklauncher Writer
 echo @echo off>!quick_launcher!
 echo Color 0A>>!quick_launcher!
@@ -151,7 +152,7 @@ echo set "Path=%%path%%;%%folder%%\dll\64\;">>!quick_launcher!
 echo start .\bin\dolphin\dolphin.exe -u "%%folder%%\data\dolphin">>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
-echo ENTER TO CONTINUE & pause >nul
+if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
 :d
@@ -223,7 +224,7 @@ if not exist ".\bin\dolphin\dolphin.exe" set nag=DOLPHIN IS NOT INSTALLED CHOOSE
 exit /b 2
 
 :Version
-echo 8 > .\doc\version.txt
+echo 9 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

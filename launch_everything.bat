@@ -14,6 +14,7 @@ set "poc_launcher=%~n0_poc.bat"
 set "quick_launcher=quick%~n0.bat"
 if exist replacer.bat del replacer.bat >nul
 if exist !poc_launcher! del !poc_launcher! >nul
+if exist .\doc\everything_quicklaunch.txt del .\doc\everything_quicklaunch.txt >nul
 set "folder=%~dp0"
 if "!folder!"=="%~d0\" set "folder=!folder:~0,2!"
 pushd "!folder!"
@@ -140,6 +141,7 @@ exit /b 2
 
 :c
 :QuicklauncherCheck
+echo.>.\doc\everything_quicklaunch.txt
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!counter!=%%i")
 set Max_Lines=!Counter!
@@ -164,6 +166,7 @@ goto :loop_file_quicklauncher
 :exit_loop_quicklauncher
 if exist version.txt del version.txt >nul
 REM set nag="if it wasnt for http://stackoverflow.com/users/5269570/sam-denty this wouldnt work"
+if exist .\doc\everything_quicklaunch.txt del .\doc\everything_quicklaunch.txt >nul
 pause
 exit /b 2
 
@@ -331,7 +334,7 @@ if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta6
 exit /b 2
 
 :Version
-echo 32 > .\doc\version.txt
+echo 33 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

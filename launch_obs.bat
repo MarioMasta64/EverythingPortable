@@ -14,6 +14,7 @@ set "poc_launcher=%~n0_poc.bat"
 set "quick_launcher=quick%~n0.bat"
 if exist replacer.bat del replacer.bat >nul
 if exist !poc_launcher! del !poc_launcher! >nul
+if exist .\doc\everything_quicklaunch.txt del .\doc\everything_quicklaunch.txt >nul
 set "folder=%~dp0"
 if "!folder!"=="%~d0\" set "folder=!folder:~0,2!"
 pushd "!folder!"
@@ -138,7 +139,7 @@ exit /b 2
 
 :c
 :QuicklauncherCheck
-cls
+if not exist .\doc\everything_quicklaunch.txt cls
 title Portable OBS Launcher - Helper Edition - Quicklauncher Writer
 echo @echo off>!quick_launcher!
 echo Color 0A>>!quick_launcher!
@@ -156,7 +157,7 @@ echo cd .\bin\obs\bin\%%arch%%Bit\>>!quick_launcher!
 echo start obs%%arch%%.exe --portable>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
-echo ENTER TO CONTINUE & pause >nul
+if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
 :d
@@ -342,7 +343,7 @@ if not exist ".\bin\obs\bin\!arch!Bit\obs!arch!.exe" set nag=OBS IS NOT INSTALLE
 exit /b 2
 
 :Version
-echo 35 > .\doc\version.txt
+echo 36 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
