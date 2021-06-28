@@ -175,8 +175,8 @@ echo set "UserProfile=%%folder%%\data\Users\MarioMasta64">>!quick_launcher!
 echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
+echo set "SystemDrive=%%folder%%\data">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo set "SystemDrive=!folder!\data">>!quick_launcher!
 echo start .\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
@@ -323,7 +323,7 @@ if not exist ".\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.
 exit /b 2
 
 :Version
-echo 7 > .\doc\version.txt
+echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

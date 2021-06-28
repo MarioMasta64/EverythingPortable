@@ -279,27 +279,30 @@ if not exist .\extra\ mkdir .\extra\
 if not exist .\helpers\ mkdir .\helpers\
 if not exist .\ini\ mkdir .\ini\
 if not exist .\note\ mkdir .\note\
-if not exist .\data\Users\MarioMasta64\AppData\Local\ mkdir .\data\Users\MarioMasta64\AppData\Local\
-if not exist .\data\Users\MarioMasta64\AppData\Roaming\ mkdir .\data\Users\MarioMasta64\AppData\Roaming\
-if not exist .\data\ProgramData\ mkdir .\data\ProgramData\
-if not exist ".\data\3D Objects\" mkdir ".\data\3D Objects\"
-if not exist ".\data\Contacts\" mkdir ".\data\Contacts\"
-if not exist ".\data\Desktop\" mkdir ".\data\Desktop\"
-if not exist ".\data\Documents\" mkdir ".\data\Documents\"
-if not exist ".\data\Downloads\" mkdir ".\data\Downloads\"
-if not exist ".\data\Favorites\" mkdir ".\data\Favorites\"
-if not exist ".\data\Links\" mkdir ".\data\Links\"
-if not exist ".\data\Music\" mkdir ".\data\Music\"
-if not exist ".\data\OneDrive\" mkdir ".\data\OneDrive\"
-if not exist ".\data\Pictures\" mkdir ".\data\Pictures\"
-if not exist ".\data\Saved Games\" mkdir ".\data\Saved Games\"
-if not exist ".\data\Searches\" mkdir ".\data\Searches\"
-if not exist ".\data\Videos\" mkdir ".\data\Videos\"
+if not exist ".\data\Program Files\Common Files\" mkdir ".\data\Program Files\Common Files\"
+if not exist ".\data\Program Files (x86)\Common Files\" mkdir ".\data\Program Files (x86)\Common Files\"
+if not exist ".\data\ProgramData\" mkdir ".\data\ProgramData\"
+if not exist ".\data\Users\MarioMasta64\" mkdir ".\data\Users\MarioMasta64\"
+if not exist ".\data\Users\MarioMasta64\AppData\Local\" mkdir ".\data\Users\MarioMasta64\AppData\Local\"
+if not exist ".\data\Users\MarioMasta64\AppData\Roaming\" mkdir ".\data\Users\MarioMasta64\AppData\Roaming\"
+if not exist ".\data\Users\MarioMasta64\3D Objects\" mkdir ".\data\Users\MarioMasta64\3D Objects\"
+if not exist ".\data\Users\MarioMasta64\Contacts\" mkdir ".\data\Users\MarioMasta64\Contacts\"
+if not exist ".\data\Users\MarioMasta64\Desktop\" mkdir ".\data\Users\MarioMasta64\Desktop\"
+if not exist ".\data\Users\MarioMasta64\Documents\" mkdir ".\data\Users\MarioMasta64\Documents\"
+if not exist ".\data\Users\MarioMasta64\Downloads\" mkdir ".\data\Users\MarioMasta64\Downloads\"
+if not exist ".\data\Users\MarioMasta64\Favorites\" mkdir ".\data\Users\MarioMasta64\Favorites\"
+if not exist ".\data\Users\MarioMasta64\Links\" mkdir ".\data\Users\MarioMasta64\Links\"
+if not exist ".\data\Users\MarioMasta64\Music\" mkdir ".\data\Users\MarioMasta64\Music\"
+if not exist ".\data\Users\MarioMasta64\OneDrive\" mkdir ".\data\Users\MarioMasta64\OneDrive\"
+if not exist ".\data\Users\MarioMasta64\Pictures\" mkdir ".\data\Users\MarioMasta64\Pictures\"
+if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioMasta64\Saved Games\"
+if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
+if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
 if not exist ".\bin\ppsspp\PPSSPPWindows!arch!.exe" set nag=PPSSPP IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 18 > .\doc\version.txt
+echo 19 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

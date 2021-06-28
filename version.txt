@@ -25,7 +25,7 @@ vscode
 kodi
 13
 ppsspp
-18
+19
 discord_canary
 17
 discord
@@ -79,7 +79,7 @@ streamlabs_obs
 deep_shredder
 3
 epic_games
-7
+8
 deluge
 3
 minecraft_legacy
