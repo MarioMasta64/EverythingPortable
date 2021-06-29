@@ -205,7 +205,7 @@ set "ProgramData=!folder!\data\ProgramData"
 set "ProgramFiles=!folder!\data\Program Files"
 set "ProgramFiles(x86)=!folder!\data\Program Files (x86)"
 set "ProgramW6432=!folder!\data\ProgramData"
-set "SystemDrive=!folder!\data"
+REM set "SystemDrive=!folder!\data"
 REM set "SystemRoot=!folder!\Windows"
 set "UserName=MarioMasta64"
 if "!UserProfile!" neq "!folder!\data\Users\MarioMasta64" set "RealUserProfile=!UserProfile!"
@@ -240,7 +240,7 @@ if not exist ".\bin\kodi\Kodi.exe" set nag=KODI IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 15 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

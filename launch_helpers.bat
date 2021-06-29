@@ -35,9 +35,9 @@ exit /b
 set /p filetxt=<.\helpers\file.txt
 set /p oldtext=<.\helpers\oldtext.txt
 set /p newtext=<.\helpers\newtext.txt
-echo %file%
-echo %oldtext%
-echo %newtext%
+echo "%file%"
+echo "%oldtext%"
+echo "%newtext%"
 if not exist .\helpers\replacetext.vbs call :CreateReplaceTextVBS
 cscript .\helpers\replacetext.vbs !filetxt! !oldtext! !newtext! >nul
 if exist .\helpers\*.txt del .\helpers\*.txt >nul
