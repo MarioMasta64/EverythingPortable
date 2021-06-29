@@ -106,6 +106,7 @@ call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingP
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!counter!=%%i")
 if exist version.txt del version.txt >nul
 set new_version=%Line_2%
+REM echo %Line_2%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & exit /b 2
 if %current_version% EQU %new_version% call :LatestBuild & exit /b 2
 if %current_version% LSS %new_version% call :NewUpdate & exit /b 2
