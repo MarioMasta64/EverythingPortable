@@ -285,7 +285,7 @@ if not exist ".\bin\lunascape\Luna.exe" set nag=LUNASCAPE IS NOT INSTALLED CHOOS
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
