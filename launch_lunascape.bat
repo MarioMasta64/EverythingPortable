@@ -198,8 +198,6 @@ call :HelperExtract7Zip "!folder!\extra\!lunascape_exe!" "!folder!\bin\lunascape
 if exist ".\bin\lunascape\$_68_\" rmdir /s /q ".\bin\lunascape\$_68_\"
 if exist ".\bin\lunascape\$PLUGINSDIR\" rmdir /s /q ".\bin\lunascape\$PLUGINSDIR\"
 if exist ".\bin\lunascape\tmp\" rmdir /s /q ".\bin\lunascape\tmp\"
-REM maybe remove this in the future if locales upgrading is required
-if exist ".\bin\lunascape\Luna.ini" exit /b 2
 :f
 REM unfortunately as far as i can see there is no easy way to get these out of the installer without having to run this as admin so theyll be manually installed
 :DownloadLunascapeLocales
@@ -282,7 +280,7 @@ if not exist ".\bin\lunascape\Luna.exe" set nag=LUNASCAPE IS NOT INSTALLED CHOOS
 exit /b 2
 
 :Version
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
