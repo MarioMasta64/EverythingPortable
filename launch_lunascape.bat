@@ -49,10 +49,7 @@ echo d. check for new lunascape version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
-if not exist .\bin\lunascape\Luna.ini (
-    echo f. install lunascape locales (required)
-    echo.
-)
+if not exist .\bin\lunascape\Locales\ echo f. install lunascape locales (required) & echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -285,7 +282,7 @@ if not exist ".\bin\lunascape\Luna.exe" set nag=LUNASCAPE IS NOT INSTALLED CHOOS
 exit /b 2
 
 :Version
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
