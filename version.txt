@@ -7,7 +7,7 @@ steam
 obs
 39
 kaerusetup
-14
+13
 cemu
 49
 lastpass
