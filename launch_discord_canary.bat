@@ -235,7 +235,7 @@ if not exist ".\data\Users\MarioMasta64\Pictures\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioMasta64\Saved Games\"
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
-if not exist ".\data\Users\MarioMasta64\AppData\Local\DiscordCanary\Update.exe" set nag=DISCORD IS NOT INSTALLED CHOOSE "D"
+if not exist ".\data\Users\MarioMasta64\AppData\Local\DiscordCanary\Update.exe" set nag=DISCORD CANARY =IS NOT INSTALLED CHOOSE "D"
 if exist .\bin\discord_canary\ call :Releasev14Upgrade
 exit /b 2
 
