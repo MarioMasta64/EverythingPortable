@@ -146,7 +146,7 @@ echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
 echo cd .\bin\teamviewer_host\>>!quick_launcher!
-eho start TeamViewer.exe>>!quick_launcher!
+echo start TeamViewer.exe>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
@@ -224,7 +224,7 @@ if not exist ".\bin\teamviewer_host\TeamViewer.exe" set nag=TEAMVIEWER HOST IS N
 exit /b 2
 
 :Version
-echo 15 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
