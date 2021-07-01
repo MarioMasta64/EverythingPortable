@@ -71,10 +71,10 @@ exit /b 2
 
 :2
 :LaunchDiscordCanary
-if not exist ".\data\Users\MarioMasta64\AppData\Local\DiscordCanary\Update.exe" set "nag=PLEASE INSTALL DISCORD FIRST" & exit /b 2
+if not exist ".\data\Users\MarioMasta64\AppData\Local\DiscordCanary\Update.exe" set "nag=PLEASE INSTALL DISCORD CANARY FIRST" & exit /b 2
 title DO NOT CLOSE
 cls
-echo DISCORD IS RUNNING
+echo DISCORD CANARY IS RUNNING
 start .\data\Users\MarioMasta64\AppData\Local\DiscordCanary\Update.exe --processStart DiscordCanary.exe
 exit
 
