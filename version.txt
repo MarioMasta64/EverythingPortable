@@ -9,7 +9,7 @@ obs
 kaerusetup
 14
 cemu
-47
+48
 lastpass
 22
 qtemu
@@ -35,7 +35,7 @@ opera
 citra
 11
 obs_classic
-13
+14
 github_desktop
 15
 uwamp
