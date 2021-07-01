@@ -7,7 +7,7 @@ steam
 obs
 39
 kaerusetup
-15
+14
 cemu
 49
 lastpass
@@ -49,7 +49,7 @@ dolphin
 skype_legacy_poc
 0
 project64
-13
+14
 authy
 15
 lightshot
