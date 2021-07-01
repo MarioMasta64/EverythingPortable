@@ -158,8 +158,10 @@ REM echo text without making a new line by saying SET /P var=<text><nul
 REM SET /P var=!launcher!<nul
 if "!new_version!" NEQ "0" (
     if "!launcher!" NEQ "everything" (
-        set "quick_launcher=quicklaunch_!launcher!.bat"
-        if exist launch_!launcher!.bat call launch_!launcher!.bat c
+        if "!launcher!" NEQ "kaerusetup" (
+            set "quick_launcher=quicklaunch_!launcher!.bat"
+            if exist launch_!launcher!.bat call launch_!launcher!.bat c
+        )
     )
 )
 set /a launcher_counter+=2
@@ -341,7 +343,7 @@ if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta6
 exit /b 2
 
 :Version
-echo 37 > .\doc\version.txt
+echo 38 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
