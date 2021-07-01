@@ -16,7 +16,7 @@ if exist replacer.bat del replacer.bat >nul
 if exist !poc_launcher! del !poc_launcher! >nul
 if exist .\doc\everything_quicklaunch.txt del .\doc\everything_quicklaunch.txt >nul
 set "folder=%~dp0"
-if "!folder!"=="%~d0\" set "folder=!folder:~0,2!"
+set "folder=!folder:~0,-1!"
 pushd "!folder!"
 call :AlphaToNumber
 call :SetArch
@@ -144,7 +144,7 @@ echo @echo off>!quick_launcher!
 echo Color 0A>>!quick_launcher!
 echo cls>>!quick_launcher!
 echo set "folder=%%CD%%">>!quick_launcher!
-echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%">>!quick_launcher!
+echo set "folder=%%folder:~0,-1%%">>!quick_launcher!
 echo set "UserProfile=%%folder%%\data\Users\MarioMasta64">>!quick_launcher!
 echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
@@ -160,31 +160,29 @@ exit /b 2
 :UpgradeProject64
 cls
 title Portable Project64 Launcher - Helper Edition - Project64 Update Check
-if exist project64-latest* del project64-latest* >nul
-call :HelperDownload "http://www.pj64-emu.com/download/project64-latest" "project64-latest"
-for /f tokens^=2delims^=^" %%A in (
-  'findstr /i /c:"project64-" project64-latest'
-) Do > project64_link.txt Echo:%%A
 if exist project64-latest del project64-latest >nul
-set /p project64_link=<project64_link.txt
-set "project64_exe=Setup Project64 v!project64_link:~23,1!.!project64_link:~25,1!.!project64_link:~27,1!-!project64_link:~29,3!-!project64_link:~33,-1!.exe"
+if exist nightly-builds del nightly-builds >nul
+call :HelperDownload "https://www.pj64-emu.com/nightly-builds" "nightly-builds"
+for /f tokens^=10delims^=^" %%A in (
+  'findstr /i /c:"Windows Zip" nightly-builds'
+) Do > .\doc\project64_link.txt Echo:%%A& goto :ExitSearch
+:ExitSearch
+if exist nightly-builds del nightly-builds >nul
+set /p project64_link=<.\doc\project64_link.txt
+set "project64_zip=Project64-Dev-!project64_link:~20,1!.!project64_link:~22,1!.!project64_link:~24,1!!project64_link:~25,-1!.zip"
 echo "http://www.pj64-emu.com!project64_link!"
-echo "!project64_exe!"
-if exist project64_link.txt del project64_link.txt >nul
-REM pause
+echo "!project64_zip!"
 :DownloadProject64
-if exist .\extra\!project64_exe! (
+if exist .\extra\!project64_zip! (
   echo project64 is updated.
   pause
   exit /b
 )
-call :HelperDownload "http://www.pj64-emu.com!project64_link!" "!project64_exe!"
+call :HelperDownload "http://www.pj64-emu.com!project64_link!" "!project64_zip!"
 :MoveProject64
-move "index.html" ".\extra\!project64_exe!"
+move "index.html" ".\extra\!project64_zip!"
 :ExtractProject64
-call :HelperExtractInno "!folder!\extra\!project64_exe!" "!folder!\temp\"
-xcopy .\temp\{app}\* .\bin\project64\ /e /i /y
-if exist .\temp\ rmdir /s /q .\temp\
+call :HelperExtract "!folder!\extra\!project64_zip!" "!folder!\bin\project64\"
 exit /b 2
 
 :e
@@ -245,7 +243,7 @@ if not exist ".\bin\project64\Project64.exe" set nag=PROJECT46 IS NOT INSTALLED 
 exit /b 2
 
 :Version
-echo 12 > .\doc\version.txt
+echo 14 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
