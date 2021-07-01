@@ -12,7 +12,7 @@ set "main_launcher=%~n0.bat"
 set "poc_launcher=%~n0_poc.bat"
 set "quick_launcher=quick%~n0.bat"
 set "folder=%~dp0"
-if "!folder!"=="%~d0\" set "folder=!folder:~0,2!"
+set "folder=!folder:~0,-1!"
 pushd "!folder!"
 setlocal enabledelayedexpansion
 
@@ -26,7 +26,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 14 > .\doc\version.txt
+echo 15 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b

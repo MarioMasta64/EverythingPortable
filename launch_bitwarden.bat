@@ -16,7 +16,7 @@ if exist replacer.bat del replacer.bat >nul
 if exist !poc_launcher! del !poc_launcher! >nul
 if exist .\doc\everything_quicklaunch.txt del .\doc\everything_quicklaunch.txt >nul
 set "folder=%~dp0"
-if "!folder!"=="%~d0\" set "folder=!folder:~0,2!"
+set "folder=!folder:~0,-1!"
 pushd "!folder!"
 call :AlphaToNumber
 call :SetArch
@@ -143,7 +143,7 @@ echo cls>>!quick_launcher!
 echo set arch=32>>!quick_launcher!
 echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64">>!quick_launcher!
 echo set "folder=%%CD%%">>!quick_launcher!
-echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%">>!quick_launcher!
+echo set "folder=%%folder:~0,-1%%">>!quick_launcher!
 echo set "UserProfile=%%folder%%\data\Users\MarioMasta64">>!quick_launcher!
 echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
@@ -227,7 +227,7 @@ if not exist ".\bin\bitwarden\!arch!Bit\Bitwarden.exe" set nag=BITWARDEN IS NOT 
 exit /b 2
 
 :Version
-echo 9 > .\doc\version.txt
+echo 10 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

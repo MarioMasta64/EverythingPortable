@@ -16,7 +16,7 @@ if exist replacer.bat del replacer.bat >nul
 if exist !poc_launcher! del !poc_launcher! >nul
 if exist .\doc\everything_quicklaunch.txt del .\doc\everything_quicklaunch.txt >nul
 set "folder=%~dp0"
-if "!folder!"=="%~d0\" set "folder=!folder:~0,2!"
+set "folder=!folder:~0,-1!"
 pushd "!folder!"
 call :AlphaToNumber
 call :SetArch
@@ -144,7 +144,7 @@ echo @echo off>!quick_launcher!
 echo Color 0A>>!quick_launcher!
 echo cls>>!quick_launcher!
 echo set "folder=%%CD%%">>!quick_launcher!
-echo if "%%CD%%"=="%%~d0\" set "folder=%%CD:~0,2%%">>!quick_launcher!
+echo set "folder=%%folder:~0,-1%%">>!quick_launcher!
 echo set "UserProfile=%%folder%%\data\Users\MarioMasta64">>!quick_launcher!
 echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
@@ -270,7 +270,7 @@ if exist .\bin\discord\ call :Releasev15Upgrade
 exit /b 2
 
 :Version
-echo 21 > .\doc\version.txt
+echo 22 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

@@ -3,7 +3,7 @@ cls
 Color 0A
 
 set "folder=%~dp0"
-if "!folder!"=="%~d0\" set "folder=!folder:~0,2!"
+set "folder=!folder:~0,-1!"
 pushd "!folder!"
 
 set "rm=yes"
