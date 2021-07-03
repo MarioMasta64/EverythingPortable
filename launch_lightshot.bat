@@ -292,13 +292,13 @@ REM v1+ Required
 echo 1 > .\helpers\version.txt
 echo %1 > .\helpers\download.txt
 echo %2 > .\helpers\file.txt
-call launch_helpers.bat Download
+call "!folder!\launch_helpers.bat" Download
 exit /b 2
 
 :HelperDownloadWget
 REM v3+ Required
 echo 3 > .\helpers\version.txt
-call launch_helpers.bat DownloadWget
+call "!folder!\launch_helpers.bat" DownloadWget
 exit /b 2
 
 :HelperExtract
@@ -306,7 +306,7 @@ REM v1+ Required
 echo 1 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\folder.txt
-call launch_helpers.bat Extract
+call "!folder!\launch_helpers.bat" Extract
 exit /b 2
 
 :HelperExtract7Zip
@@ -314,14 +314,14 @@ REM v3+ Required
 echo 3 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\folder.txt
-call launch_helpers.bat Extract7Zip
+call "!folder!\launch_helpers.bat" Extract7Zip
 exit /b 2
 
 :HelperHide
 REM v4+ Required
 echo 4 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
-call launch_helpers.bat Hide
+call "!folder!\launch_helpers.bat" Hide
 exit /b 2
 
 :HelperReplaceText
@@ -330,7 +330,7 @@ echo 5 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\oldtext.txt
 echo %3 > .\helpers\newtext.txt
-call launch_helpers.bat ReplaceText
+call "!folder!\launch_helpers.bat" ReplaceText
 exit /b 2
 
 :HelperExtractInno
@@ -338,13 +338,13 @@ REM v8+ Required
 echo 8 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\folder.txt
-call launch_helpers.bat ExtractInno
+call "!folder!\launch_helpers.bat" ExtractInno
 exit /b 2
 
 :HelperDownloadJava
 REM v10+ Required But Always Updated Anyways
 echo 9999 > .\helpers\version.txt
-call launch_helpers.bat DownloadJava
+call "!folder!\launch_helpers.bat" DownloadJava
 exit /b 2
 
 :HelperExtractDirectX
@@ -352,7 +352,7 @@ REM v11+ Required
 echo 11 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\folder.txt
-call launch_helpers.bat ExtractDirectX
+call "!folder!\launch_helpers.bat" ExtractDirectX
 exit /b 2
 
 :HelperExtractMSI
@@ -360,7 +360,7 @@ REM v11+ Required
 echo 11 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\folder.txt
-call launch_helpers.bat ExtractMSI
+call "!folder!\launch_helpers.bat" ExtractMSI
 exit /b 2
 
 :HelperExtractWix
@@ -368,7 +368,7 @@ REM v11+ Required
 echo 11 > .\helpers\version.txt
 echo %1 > .\helpers\file.txt
 echo %2 > .\helpers\folder.txt
-call launch_helpers.bat ExtractWix
+call "!folder!\launch_helpers.bat" ExtractWix
 exit /b 2
 
 :PingInstall
@@ -392,7 +392,7 @@ exit /b 2
 
 :UpdateWget
 cls
-call launch_helpers.bat DownloadWget
+call "!folder!\launch_helpers.bat" DownloadWget
 exit /b 2
 
 :LatestBuild
