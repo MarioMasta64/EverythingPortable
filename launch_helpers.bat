@@ -26,7 +26,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 15 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -35,7 +35,7 @@ exit /b
 set /p filetxt=<.\helpers\file.txt
 set /p oldtext=<.\helpers\oldtext.txt
 set /p newtext=<.\helpers\newtext.txt
-echo "%file%"
+echo "%filetxt%"
 echo "%oldtext%"
 echo "%newtext%"
 if not exist .\helpers\replacetext.vbs call :CreateReplaceTextVBS

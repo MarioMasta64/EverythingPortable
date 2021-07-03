@@ -92,3 +92,5 @@ itchio
 3
 lunascape
 5
+uplay
+1
