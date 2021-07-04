@@ -362,10 +362,10 @@ exit /b
 echo strCommand = Wscript.Arguments(0) > .\helpers\runasadmin.vbs
 echo strParameters = Wscript.Arguments(1) >> .\helpers\runasadmin.vbs
 echo strDirectory = Wscript.Arguments(2) >> .\helpers\runasadmin.vbs
-echo strWindow = Wscript.Arguments(3) >> .\helpers\runasadmin.vbs
+echo strMode = Wscript.Arguments(3) >> .\helpers\runasadmin.vbs
 echo. >> .\helpers\runasadmin.vbs
 echo Set oShell = CreateObject("Shell.Application") >> .\helpers\runasadmin.vbs
-echo oShell.ShellExecute strCommand, strParameters, strDirectory, "runas", 1 >> .\helpers\runasadmin.vbs
+echo oShell.ShellExecute strCommand, strParameters, strDirectory, "runas", strMode >> .\helpers\runasadmin.vbs
 exit /b
 
 :CreateHideVBS
