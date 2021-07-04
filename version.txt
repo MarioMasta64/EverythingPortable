@@ -94,3 +94,5 @@ lunascape
 5
 uplay
 1
+wechat
+1
