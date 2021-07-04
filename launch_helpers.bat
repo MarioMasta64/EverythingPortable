@@ -26,7 +26,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -270,6 +270,50 @@ cscript .\helpers\extractzip.vbs !filetxt! !foldertxt! >nul
 if exist .\helpers\*.txt del .\helpers\*.txt >nul
 exit /b
 
+:RunAsAdmin
+set /p commandtxt=<.\helpers\command.txt
+set /p paramstxt=<.\helpers\params.txt
+set /p foldertxt=<.\helpers\folder.txt
+set /p modetxt=<.\helpers\mode.txt
+:LoopAskForAdmin
+net session>nul 2>&1
+if %ERRORLEVEL% neq 0 (
+  cls
+  echo PLEASE SAY YES TO ADMIN IN ORDER TO RUN THIS COMMAND
+  echo "!commandtxt:~1,-1! !paramstxt:~1,-1!"
+  pause
+)
+if not exist .\helpers\runasadmin.vbs call :CreateRunAsAdminVBS
+cscript .\helpers\runasadmin.vbs !commandtxt! !paramstxt! !foldertxt! !modetxt!>nul
+if exist .\helpers\*.txt del .\helpers\*.txt >nul
+exit /b
+
+:Hide
+set /p filetxt=<.\helpers\file.txt
+if not exist .\helpers\hide.vbs call :CreateHideVBS
+wscript .\helpers\hide.vbs !filetxt!
+if exist .\helpers\*.txt del .\helpers\*.txt >nul
+exit /b
+
+:Download
+set /p download=<.\helpers\download.txt
+set /p filetxt=<.\helpers\file.txt
+
+REM Download Using VBS
+REM if not exist .\helpers\download.vbs call :CreateDownloadVBS
+REM cscript .\helpers\download.vbs "%download%" "%file%"
+
+if not exist .\bin\wget.exe call :DownloadWget
+.\bin\wget.exe -q --show-progress %download% %file%
+
+if exist .\helpers\*.txt del .\helpers\*.txt >nul
+exit /b
+
+:DownloadWget
+if not exist .\helpers\download.vbs call :CreateDownloadVBS
+cscript .\helpers\download.vbs https://eternallybored.org/misc/wget/current/wget.exe .\bin\wget.exe >nul
+exit /b
+
 :CreateReplaceTextVBS
 echo Const ForReading = 1 > .\helpers\replacetext.vbs
 echo Const ForWriting = 2 >> .\helpers\replacetext.vbs
@@ -314,34 +358,18 @@ echo Set fso = Nothing >> .\helpers\extractzip.vbs
 echo Set objShell = Nothing >> .\helpers\extractzip.vbs
 exit /b
 
-:Hide
-set /p filetxt=<.\helpers\file.txt
-if not exist .\helpers\hide.vbs call :CreateHideVBS
-wscript .\helpers\hide.vbs !filetxt!
-if exist .\helpers\*.txt del .\helpers\*.txt >nul
+:CreateRunAsAdminVBS
+echo strCommand = Wscript.Arguments(0) > .\helpers\runasadmin.vbs
+echo strParameters = Wscript.Arguments(1) >> .\helpers\runasadmin.vbs
+echo strDirectory = Wscript.Arguments(2) >> .\helpers\runasadmin.vbs
+echo strWindow = Wscript.Arguments(3) >> .\helpers\runasadmin.vbs
+echo. >> .\helpers\runasadmin.vbs
+echo Set oShell = CreateObject("Shell.Application") >> .\helpers\runasadmin.vbs
+echo oShell.ShellExecute strCommand, strParameters, strDirectory, "runas", 1 >> .\helpers\runasadmin.vbs
 exit /b
 
 :CreateHideVBS
 echo CreateObject("Wscript.Shell").Run """" ^& WScript.Arguments(0) ^& """", 0, False > .\helpers\hide.vbs
-exit /b
-
-:Download
-set /p download=<.\helpers\download.txt
-set /p filetxt=<.\helpers\file.txt
-
-REM Download Using VBS
-REM if not exist .\helpers\download.vbs call :CreateDownloadVBS
-REM cscript .\helpers\download.vbs "%download%" "%file%"
-
-if not exist .\bin\wget.exe call :DownloadWget
-.\bin\wget.exe -q --show-progress %download% %file%
-
-if exist .\helpers\*.txt del .\helpers\*.txt >nul
-exit /b
-
-:DownloadWget
-if not exist .\helpers\download.vbs call :CreateDownloadVBS
-cscript .\helpers\download.vbs https://eternallybored.org/misc/wget/current/wget.exe .\bin\wget.exe >nul
 exit /b
 
 :CreateDownloadVBS

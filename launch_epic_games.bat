@@ -389,86 +389,102 @@ exit /b 2
 
 :HelperDownload
 REM v1+ Required
-echo 1 > .\helpers\version.txt
-echo %1 > .\helpers\download.txt
-echo %2 > .\helpers\file.txt
+echo 1> .\helpers\version.txt
+echo %1> .\helpers\download.txt
+echo %2> .\helpers\file.txt
 call "!folder!\launch_helpers.bat" Download
 exit /b 2
 
 :HelperDownloadWget
 REM v3+ Required
-echo 3 > .\helpers\version.txt
+echo 3> .\helpers\version.txt
 call "!folder!\launch_helpers.bat" DownloadWget
 exit /b 2
 
 :HelperExtract
 REM v1+ Required
-echo 1 > .\helpers\version.txt
-echo %1 > .\helpers\file.txt
-echo %2 > .\helpers\folder.txt
+echo 1> .\helpers\version.txt
+echo %1> .\helpers\file.txt
+echo %2> .\helpers\folder.txt
 call "!folder!\launch_helpers.bat" Extract
 exit /b 2
 
 :HelperExtract7Zip
 REM v3+ Required
-echo 3 > .\helpers\version.txt
-echo %1 > .\helpers\file.txt
-echo %2 > .\helpers\folder.txt
+echo 3> .\helpers\version.txt
+echo %1> .\helpers\file.txt
+echo %2> .\helpers\folder.txt
 call "!folder!\launch_helpers.bat" Extract7Zip
 exit /b 2
 
 :HelperHide
 REM v4+ Required
-echo 4 > .\helpers\version.txt
-echo %1 > .\helpers\file.txt
+echo 4> .\helpers\version.txt
+echo %1> .\helpers\file.txt
 call "!folder!\launch_helpers.bat" Hide
 exit /b 2
 
 :HelperReplaceText
 REM v5+ Required
-echo 5 > .\helpers\version.txt
-echo %1 > .\helpers\file.txt
-echo %2 > .\helpers\oldtext.txt
-echo %3 > .\helpers\newtext.txt
+echo 5> .\helpers\version.txt
+echo %1> .\helpers\file.txt
+echo %2> .\helpers\oldtext.txt
+echo %3> .\helpers\newtext.txt
 call "!folder!\launch_helpers.bat" ReplaceText
 exit /b 2
 
 :HelperExtractInno
 REM v8+ Required
-echo 8 > .\helpers\version.txt
-echo %1 > .\helpers\file.txt
-echo %2 > .\helpers\folder.txt
+echo 8> .\helpers\version.txt
+echo %1> .\helpers\file.txt
+echo %2> .\helpers\folder.txt
 call "!folder!\launch_helpers.bat" ExtractInno
 exit /b 2
 
 :HelperDownloadJava
 REM v10+ Required But Always Updated Anyways
-echo 9999 > .\helpers\version.txt
+echo 9999> .\helpers\version.txt
 call "!folder!\launch_helpers.bat" DownloadJava
 exit /b 2
 
 :HelperExtractDirectX
 REM v11+ Required
-echo 11 > .\helpers\version.txt
-echo %1 > .\helpers\file.txt
-echo %2 > .\helpers\folder.txt
+echo 11> .\helpers\version.txt
+echo %1> .\helpers\file.txt
+echo %2> .\helpers\folder.txt
 call "!folder!\launch_helpers.bat" ExtractDirectX
 exit /b 2
 
 :HelperExtractMSI
 REM v11+ Required
-echo 11 > .\helpers\version.txt
-echo %1 > .\helpers\file.txt
-echo %2 > .\helpers\folder.txt
+echo 11> .\helpers\version.txt
+echo %1> .\helpers\file.txt
+echo %2> .\helpers\folder.txt
 call "!folder!\launch_helpers.bat" ExtractMSI
 exit /b 2
 
 :HelperExtractWix
 REM v11+ Required
-echo 11 > .\helpers\version.txt
-echo %1 > .\helpers\file.txt
-echo %2 > .\helpers\folder.txt
+echo 11> .\helpers\version.txt
+echo %1> .\helpers\file.txt
+echo %2> .\helpers\folder.txt
 call "!folder!\launch_helpers.bat" ExtractWix
+exit /b 2
+
+:Test
+REM call :HelperRunAsAdmin "cmd" "/c !systemroot!\notepad.exe !folder!\helpers\runasadmin.vbs" "0"
+call :HelperRunAsAdmin "!systemroot!\notepad.exe" "!folder!\helpers\runasadmin.vbs" "0"
+pause
+exit /b 2
+
+:HelperRunAsAdmin
+REM v17+ Required
+echo 17> .\helpers\version.txt
+echo %1> .\helpers\command.txt
+echo %2> .\helpers\params.txt
+echo "!folder!"> .\helpers\folder.txt
+echo %3> .\helpers\mode.txt
+call "!folder!\launch_helpers.bat" RunAsAdmin
 exit /b 2
 
 :PingInstall
