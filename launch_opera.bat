@@ -81,6 +81,9 @@ exit
 
 :3
 :ResetOpera
+taskkill /f /im launcher.exe
+taskkill /f /im opera.exe
+taskkill /f /im opera_crashreporter.exe
 if exist .\bin\opera\profile\ rmdir /s /q .\bin\opera\profile\
 exit /b 2
 
@@ -231,7 +234,7 @@ if not exist ".\bin\opera\launcher.exe" set nag=OPERA IS NOT INSTALLED CHOOSE "D
 exit /b 2
 
 :Version
-echo 13 > .\doc\version.txt
+echo 14 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

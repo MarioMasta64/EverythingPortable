@@ -31,7 +31,7 @@ discord_canary
 discord
 22
 opera
-13
+14
 citra
 12
 obs_classic
@@ -95,4 +95,6 @@ lunascape
 uplay
 1
 wechat
+1
+opera_gx
 1
