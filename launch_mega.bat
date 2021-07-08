@@ -168,6 +168,12 @@ move MEGAsyncSetup64.exe .\extra\MEGAsyncSetup64.exe
 :ExtractMega
 call :HelperExtract7Zip "!folder!\extra\MEGAsyncSetup32.exe" "!folder!\bin\mega\32\"
 call :HelperExtract7Zip "!folder!\extra\MEGAsyncSetup64.exe" "!folder!\bin\mega\64\"
+if exist .\bin\mega\32\$PLUGINSDIR\ rmdir /s /q .\bin\mega\64\$PLUGINSDIR\
+if exist .\bin\mega\64\$PLUGINSDIR\ rmdir /s /q .\bin\mega\64\$PLUGINSDIR\
+if exist .\bin\mega\32\$R0 del .\bin\mega\32\$R0 >nul
+if exist .\bin\mega\64\$R0 del .\bin\mega\64\$R0 >nul
+if exist .\bin\mega\32\uninst.exe del .\bin\mega\32\uninst.exe >nul
+if exist .\bin\mega\64\uninst.exe del .\bin\mega\64\uninst.exe >nul
 exit /b 2
 
 :e
@@ -228,7 +234,7 @@ if not exist ".\bin\mega\!arch!\MEGAsync.exe" set nag=MEGA IS NOT INSTALLED CHOO
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
