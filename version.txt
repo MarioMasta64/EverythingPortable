@@ -98,3 +98,5 @@ wechat
 1
 opera_gx
 1
+mega
+1
