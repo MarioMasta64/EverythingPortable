@@ -100,3 +100,5 @@ opera_gx
 1
 mega
 2
+thunderbird
+1
