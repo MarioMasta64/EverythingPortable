@@ -101,4 +101,4 @@ opera_gx
 mega
 2
 thunderbird
-1
+2

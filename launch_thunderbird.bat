@@ -81,14 +81,14 @@ exit
 :3
 :ResetThunderbird
 taskkill /f /im thunderbird.exe
-if exist .\bin\thunderbird\tdata\ rmdir /s /q .\bin\thunderbird\tdata\
+if exist .\bin\thunderbird\ rmdir /s /q .\bin\thunderbird\
 exit /b 2
 
 :4
 :UninstallThunderbird
 taskkill /f /im thunderbird.exe
-for /d %%i in (".\bin\thunderbird\*") do if /i not "%%i"==".\bin\thunderbird\tdata" if exist "%%i" rmdir /s /q "%%i"
-if exist .\extra\win*_portable.zip del .\extra\win*_portable.zip >nul
+if exist .\data\thunderbird\ rmdir /s /q .\data\thunderbird\
+if exist ".\extra\Thunderbird Setup*" del ".\extra\Thunderbird Setup*" >nul
 exit /b 2
 
 :5
@@ -234,7 +234,7 @@ if not exist ".\bin\thunderbird\!arch!\thunderbird.exe" set nag=THUNDERBIRD IS N
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
