@@ -160,8 +160,8 @@ exit /b 2
 title Portable Thunderbird Launcher - Helper Edition - Thunderbird Update Check
 if exist "index.html@product=thunderbird-latest-SSL&os=win&lang=en-US" del "index.html@product=thunderbird-latest-SSL&os=win&lang=en-US" >nul
 if exist "index.html@product=thunderbird-latest-SSL&os=win64&lang=en-US" del "index.html@product=thunderbird-latest-SSL&os=win64&lang=en-US" >nul
-call :HelperDownload "https://download.mozilla.org/?product=thunderbird-latest-SSL&os=win&lang=en-US" "win!arch!_portable"
-call :HelperDownload "https://download.mozilla.org/?product=thunderbird-latest-SSL&os=win64&lang=en-US" "win!arch!_portable"
+call :HelperDownload "https://download.mozilla.org/?product=thunderbird-latest-SSL&os=win&lang=en-US" "index.html@product=thunderbird-latest-SSL&os=win&lang=en-US"
+call :HelperDownload "https://download.mozilla.org/?product=thunderbird-latest-SSL&os=win64&lang=en-US" "index.html@product=thunderbird-latest-SSL&os=win64&lang=en-US"
 :MoveThunderbird
 move "index.html@product=thunderbird-latest-SSL&os=win&lang=en-US" ".\extra\Thunderbird Setup Win32.exe"
 move "index.html@product=thunderbird-latest-SSL&os=win64&lang=en-US" ".\extra\Thunderbird Setup Win64.exe"
