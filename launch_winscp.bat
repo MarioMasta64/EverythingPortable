@@ -265,12 +265,16 @@ exit /b 2
 
 :f
 :DownloadPutty
+if not exist ".\data\Program Files\Putty\" mkdir ".\data\Program Files\Putty\"
+if exist .\bin\winscp\putty.exe del .\bin\winscp\putty.exe >nul
+if exist .\bin\winscp\puttygen.exe del .\bin\winscp\puttygen.exe >nul
+if exist .\bin\winscp\pageant.exe del .\bin\winscp\pageant.exe >nul
 call :HelperDownload "https://winscp.net/download/putty.exe" "putty.exe"
-move putty.exe .\bin\WinSCP\putty.exe
+move "putty.exe" ".\data\Program Files\Putty\putty.exe"
 call :HelperDownload "https://winscp.net/download/puttygen.exe" "puttygen.exe"
-move puttygen.exe .\bin\WinSCP\puttygen.exe
+move "puttygen.exe" ".\data\Program Files\Putty\puttygen.exe"
 call :HelperDownload "https://winscp.net/download/pageant.exe" "pageant.exe"
-move pageant.exe .\bin\WinSCP\pageant.exe
+move "pageant.exe" ".\data\Program Files\Putty\pageant.exe"
 exit /b 2
 
 :g
@@ -406,7 +410,7 @@ if not exist ".\bin\WinSCP\WinSCP.exe" set nag=WINSCP IS NOT INSTALLED CHOOSE "D
 exit /b 2
 
 :Version
-echo 13 > .\doc\version.txt
+echo 14 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

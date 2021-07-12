@@ -55,7 +55,7 @@ authy
 lightshot
 13
 winscp
-13
+14
 twitch
 13
 firefox
