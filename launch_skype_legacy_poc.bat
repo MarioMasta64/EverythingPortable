@@ -435,7 +435,7 @@ move wget.exe .\bin\wget.exe
 move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
 .\extra\7-ZipPortable_16.04.paf.exe /destination="%folder%\bin\"
 
-.\bin\wget.exe https://download.skype.com/msi/SkypeSetup_7.39.0.102.msi
+.\bin\wget.exe https://web.archive.org/web/20171001183831/http://download.skype.com/msi/SkypeSetup_7.39.0.102.msi
 move SkypeSetup_7.39.0.102.msi .\extra\SkypeSetup_7.39.0.102.msi
 
 goto SKIP
