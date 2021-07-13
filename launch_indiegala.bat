@@ -73,6 +73,7 @@ exit /b 2
 :LaunchIndieGala
 if not exist ".\bin\indiegala\IGClient.exe" set "nag=PLEASE INSTALL INDIEGALA FIRST" & exit /b 2
 if exist .\data\Users\MarioMasta64\AppData\Local\igclient-updater\pending\IGClientSetup.exe (
+    taskkill /f /im IGClient.exe
     move .\data\Users\MarioMasta64\AppData\Local\igclient-updater\pending\IGClientSetup.exe .\extra\IGClientSetup.exe
     call :ExtractIndieGala
     goto 2
@@ -87,6 +88,7 @@ echo "!folder!\data\indiegala">"!folder!\data\Users\MarioMasta64\AppData\Roaming
 echo ["!gamefolder!"]>"!folder!\data\Users\MarioMasta64\AppData\Roaming\IGClient\storage\install-path.json"
 start .\bin\indiegala\IGClient.exe
 if exist .\data\Users\MarioMasta64\AppData\Local\igclient-updater\pending\IGClientSetup.exe (
+    taskkill /f /im IGClient.exe
     move .\data\Users\MarioMasta64\AppData\Local\igclient-updater\pending\IGClientSetup.exe .\extra\IGClientSetup.exe
     call :ExtractIndieGala
     goto 2
