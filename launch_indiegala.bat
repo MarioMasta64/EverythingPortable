@@ -82,10 +82,10 @@ title DO NOT CLOSE
 cls
 echo INDIEGALA IS RUNNING
 REM doesnt actually work.. indiegala resets this
-set "gamefolder=!folder!\data\indiegala"
-set "gamefolder=!gamefolder:\=\\!"
-echo "!folder!\data\indiegala">"!folder!\data\Users\MarioMasta64\AppData\Roaming\IGClient\storage\default-install-path.json"
-echo ["!gamefolder!"]>"!folder!\data\Users\MarioMasta64\AppData\Roaming\IGClient\storage\install-path.json"
+REM set "gamefolder=!folder!\data\indiegala"
+REM set "gamefolder=!gamefolder:\=\\!"
+REM echo "!folder!\data\indiegala">"!folder!\data\Users\MarioMasta64\AppData\Roaming\IGClient\storage\default-install-path.json"
+REM echo ["!gamefolder!"]>"!folder!\data\Users\MarioMasta64\AppData\Roaming\IGClient\storage\install-path.json"
 start .\bin\indiegala\IGClient.exe
 if exist .\data\Users\MarioMasta64\AppData\Local\igclient-updater\pending\IGClientSetup.exe (
     taskkill /f /im IGClient.exe
@@ -227,7 +227,7 @@ if not exist ".\bin\indiegala\IGClient.exe" set nag=INDIEGALA IS NOT INSTALLED C
 exit /b 2
 
 :Version
-echo 2 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
