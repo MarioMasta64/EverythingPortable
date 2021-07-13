@@ -72,6 +72,11 @@ exit /b 2
 :2
 :LaunchIndieGala
 if not exist ".\bin\indiegala\IGClient.exe" set "nag=PLEASE INSTALL INDIEGALA FIRST" & exit /b 2
+if exist .\data\Users\MarioMasta64\AppData\Local\igclient-updater\pending\IGClientSetup.exe (
+    move .\data\Users\MarioMasta64\AppData\Local\igclient-updater\pending\IGClientSetup.exe .\extra\IGClientSetup.exe
+    call :ExtractIndieGala
+    goto 2
+)
 title DO NOT CLOSE
 cls
 echo INDIEGALA IS RUNNING
@@ -220,7 +225,7 @@ if not exist ".\bin\indiegala\IGClient.exe" set nag=INDIEGALA IS NOT INSTALLED C
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
