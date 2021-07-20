@@ -84,7 +84,7 @@ exit
 :ResetGitHubDesktop
 taskkill /f /im GitHubDesktop.exe
 if exist ".\data\Users\MarioMasta64\AppData\Roaming\GitHub Desktop\" rmdir /s /q ".\data\Users\MarioMasta64\AppData\Roaming\GitHub Desktop\"
-if exist .\data\github_desktop\ rmdir /s /q .\data\github_desktop\
+if exist .\data\Users\MarioMasta64\.gitconfig del .\data\Users\MarioMasta64\.gitconfig >nul
 exit /b 2
 
 :4
@@ -232,7 +232,7 @@ if not exist ".\bin\github_desktop\GitHubDesktop.exe" set nag=GITHUB DESKTOP IS 
 exit /b 2
 
 :Version
-echo 19 > .\doc\version.txt
+echo 20 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
