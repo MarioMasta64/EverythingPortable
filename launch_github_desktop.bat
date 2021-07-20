@@ -232,7 +232,7 @@ if not exist ".\bin\github_desktop\GitHubDesktop.exe" set nag=GITHUB DESKTOP IS 
 exit /b 2
 
 :Version
-echo 17 > .\doc\version.txt
+echo 18 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -587,5 +587,5 @@ if exist ".\data\Videos\" move ".\data\Videos" ".\data\Users\MarioMasta64"
 if exist ".\data\Videos\" xcopy ".\data\Videos\" ".\data\Users\MarioMasta64\Videos\" /e /i /y & rmdir /s /q ".\data\Videos\"
 if exist ".\data\Users\" move ".\Users" ".\data"
 if exist ".\data\Users\" xcopy ".\Users\" ".\data\Users\" /e /i /y & rmdir /s /q ".\Users\"
-if exist ".\data\github_desktop\" xcopy ".\data\github_desktop\*" ".\data\Users\MarioMasta64\" \e \i \y & rmdir /s /q ".\Users\"
+if exist ".\data\github_desktop\" xcopy ".\data\github_desktop\*" ".\data\Users\MarioMasta64\" /e /i /y & rmdir /s /q ".\Users\"
 exit /b 2
