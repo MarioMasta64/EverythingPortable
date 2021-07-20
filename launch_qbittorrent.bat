@@ -165,20 +165,9 @@ set /p qbittorrent_link=<.\doc\qbittorrent_link.txt
 REM no 64bit yet, lazy
 set "qbittorrent_link=!qbittorrent_link:_x64=!"
 set "qbittorrent_link=!qbittorrent_link:/download=!"
-set "qbittorrent_exe=!qbittorrent_link!"
-REM listen, it works, im lazy, let it be, can handle a depth of 10 directories and helps future proof if they change the paths.
-for /f "delims=/" %%A in ("!qbittorrent_exe!") do set qbittorrent_exe=!qbittorrent_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!qbittorrent_exe!") do set qbittorrent_exe=!qbittorrent_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!qbittorrent_exe!") do set qbittorrent_exe=!qbittorrent_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!qbittorrent_exe!") do set qbittorrent_exe=!qbittorrent_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!qbittorrent_exe!") do set qbittorrent_exe=!qbittorrent_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!qbittorrent_exe!") do set qbittorrent_exe=!qbittorrent_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!qbittorrent_exe!") do set qbittorrent_exe=!qbittorrent_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!qbittorrent_exe!") do set qbittorrent_exe=!qbittorrent_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!qbittorrent_exe!") do set qbittorrent_exe=!qbittorrent_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!qbittorrent_exe!") do set qbittorrent_exe=!qbittorrent_exe:%%~nxA/=!
-REM remove slash
-set "qbittorrent_exe=!qbittorrent_exe:/=!"
+set "tempstr=!qbittorrent_link!"
+set "result=%tempstr:/=" & set "result=%"
+set "qbittorrent_exe=!result!"
 if exist .\extra\!qbittorrent_exe! (
   echo qbittorrent is updated.
   pause
@@ -255,7 +244,7 @@ if not exist ".\bin\qbittorrent\qBittorrent.exe" set nag=QBITTORRENT IS NOT INST
 exit /b 2
 
 :Version
-echo 13 > .\doc\version.txt
+echo 14 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

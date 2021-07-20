@@ -168,15 +168,9 @@ for /f tokens^=!counter!delims^=^" %%A in (
 set /p vivaldi_link=<.\doc\vivaldi_link.txt
 set /a counter=2
 if "!vivaldi_link:~-4!" NEQ ".exe" goto :loopsearch
-set "vivaldi_exe=!vivaldi_link!"
-REM listen, it works, im lazy, let it be, can handle a depth of 6 directories and helps future proof if they change the paths.
-for /f "delims=/" %%A in ("!vivaldi_exe!") do set vivaldi_exe=!vivaldi_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!vivaldi_exe!") do set vivaldi_exe=!vivaldi_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!vivaldi_exe!") do set vivaldi_exe=!vivaldi_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!vivaldi_exe!") do set vivaldi_exe=!vivaldi_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!vivaldi_exe!") do set vivaldi_exe=!vivaldi_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!vivaldi_exe!") do set vivaldi_exe=!vivaldi_exe:%%~nxA/=!
-set vivaldi_exe=!vivaldi_exe:/=!
+set "tempstr=!vivaldi_link!"
+set "result=%tempstr:/=" & set "result=%"
+set "vivaldi_exe=!result!"
 if exist index.html del index.html >nul
 cls
 if exist .\extra\!vivaldi_exe! (
@@ -255,7 +249,7 @@ if not exist ".\bin\vivaldi\Vivaldi.exe" set nag=VIVALDI IS NOT INSTALLED CHOOSE
 exit /b 2
 
 :Version
-echo 17 > .\doc\version.txt
+echo 18 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

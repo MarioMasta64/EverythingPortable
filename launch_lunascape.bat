@@ -169,17 +169,9 @@ for /f tokens^=4delims^=^" %%A in (
 if exist latest del latest >nul
 if exist latest.txt del latest.txt >nul
 set /p lunascape_link=<.\doc\lunascape_link.txt
-set "lunascape_exe=!lunascape_link!"
-REM listen, it works, im lazy, let it be, can handle a depth of 8 directories and helps future proof if they change the paths.
-for /f "delims=/" %%A in ("!lunascape_exe!") do set lunascape_exe=!lunascape_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!lunascape_exe!") do set lunascape_exe=!lunascape_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!lunascape_exe!") do set lunascape_exe=!lunascape_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!lunascape_exe!") do set lunascape_exe=!lunascape_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!lunascape_exe!") do set lunascape_exe=!lunascape_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!lunascape_exe!") do set lunascape_exe=!lunascape_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!lunascape_exe!") do set lunascape_exe=!lunascape_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!lunascape_exe!") do set lunascape_exe=!lunascape_exe:%%~nxA/=!
-set "lunascape_exe=!lunascape_exe:/=!"
+set "tempstr=!lunascape_link!"
+set "result=%tempstr:/=" & set "result=%"
+set "lunascape_exe=!result!"
 cls
 echo "!lunascape_link!"
 echo "!lunascape_exe!"
@@ -280,7 +272,7 @@ if not exist ".\bin\lunascape\Luna.exe" set nag=LUNASCAPE IS NOT INSTALLED CHOOS
 exit /b 2
 
 :Version
-echo 5 > .\doc\version.txt
+echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

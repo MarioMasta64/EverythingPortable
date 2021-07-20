@@ -179,19 +179,9 @@ echo "!tightvnc_viewer_link!"
 echo PRESS ENTER TO CONTINUE & pause >nul
 if "!arch!"=="32" set "tightvnc_viewer_link=!tightvnc_viewer_link:~0,-9!32bit.msi"
 if "!arch!"=="64" set "tightvnc_viewer_link=!tightvnc_viewer_link:~0,-9!64bit.msi"
-set "tightvnc_viewer_temp=!tightvnc_viewer_link!"
-set /a counter=0
-:LoopSlashCheck
-if "!tightvnc_viewer_temp:~-1!" NEQ "/" (
-  set "tightvnc_viewer_temp=!tightvnc_viewer_temp:~0,-1!"
-  set /a counter+=1
-  goto LoopSlashCheck
-)
-if "%tightvnc_viewer_temp:~-1%"=="/" (
-  set /a counter-=1
-  echo !tightvnc_viewer_link:~-%counter%!>.\doc\tightvnc_viewer_msi.txt
-)
-set /p tightvnc_viewer_msi=<.\doc\tightvnc_viewer_msi.txt
+set "tempstr=!tightvnc_viewer_link!"
+set "result=%tempstr:/=" & set "result=%"
+set "tightvnc_viewer_msi=!result!"
 cls
 echo "!tightvnc_viewer_msi:~9,-20!"
 echo "!tightvnc_viewer_msi!"
@@ -281,7 +271,7 @@ if not exist ".\bin\tightvnc_viewer\tvnviewer.exe" set nag=TIGHTVNC VIEWER IS NO
 exit /b 2
 
 :Version
-echo 7 > .\doc\version.txt
+echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

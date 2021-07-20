@@ -200,19 +200,23 @@ echo "!obs_link!"
 echo PRESS ENTER TO CONTINUE & pause >nul
 if "!arch!"=="32" set "obs_link=!obs_link:~0,-13!-Full-x86.zip"
 if "!arch!"=="64" set "obs_link=!obs_link:~0,-13!-Full-x64.zip"
-set "obs_temp=!obs_link!"
-set /a counter=0
-:LoopSlashCheck
-if "!obs_temp:~-1!" NEQ "/" (
-  set "obs_temp=!obs_temp:~0,-1!"
-  set /a counter+=1
-  goto LoopSlashCheck
-)
-if "%obs_temp:~-1%"=="/" (
-  set /a counter-=1
-  echo !obs_link:~-%counter%!>.\doc\obs_zip.txt
-)
-set /p obs_zip=<.\doc\obs_zip.txt
+REM set "obs_temp=!obs_link!"
+REM set /a counter=0
+REM goto continue_execution
+REM :LoopSlashCheck
+REM if "!obs_temp:~-1!" NEQ "/" (
+REM   set "obs_temp=!obs_temp:~0,-1!"
+REM   set /a counter+=1
+REM   goto LoopSlashCheck
+REM )
+REM if "%obs_temp:~-1%"=="/" (
+REM   set /a counter-=1
+REM   echo !obs_link:~-%counter%!>.\doc\obs_zip.txt
+REM )
+REM :continue_execution
+set "tempstr=!obs_link!"
+set "result=%tempstr:/=" & set "result=%"
+set "obs_zip=!result!"
 cls
 echo "!obs_zip:~11,-13!"
 echo "!obs_zip!"
@@ -343,7 +347,7 @@ if not exist ".\bin\obs\bin\!arch!Bit\obs!arch!.exe" set nag=OBS IS NOT INSTALLE
 exit /b 2
 
 :Version
-echo 39 > .\doc\version.txt
+echo 40 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

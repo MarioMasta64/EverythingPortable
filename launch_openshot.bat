@@ -178,19 +178,9 @@ set "openshot_link32=!openshot_link64:x86_64=x86!"
 echo "!openshot_link32!"
 echo "!openshot_link64!"
 echo PRESS ENTER TO CONTINUE & pause >nul
-set "openshot_temp=!openshot_link64!"
-set /a counter=0
-:LoopSlashCheck
-if "!openshot_temp:~-1!" NEQ "/" (
-  set "openshot_temp=!openshot_temp:~0,-1!"
-  set /a counter+=1
-  goto LoopSlashCheck
-)
-if "%openshot_temp:~-1%"=="/" (
-  set /a counter-=1
-  echo !openshot_link64:~-%counter%!>.\doc\openshot_exe.txt
-)
-set /p openshot_exe64=<.\doc\openshot_exe.txt
+set "tempstr=!openshot_link64!"
+set "result=%tempstr:/=" & set "result=%"
+set "openshot_exe64=!result!"
 set "openshot_exe32=!openshot_exe64:x86_64=x86!"
 cls
 echo "!openshot_exe64:~10,-11!"
@@ -283,7 +273,7 @@ if not exist ".\bin\openshot\!arch!\openshot-qt.exe" set nag=OPENSHOT IS NOT INS
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

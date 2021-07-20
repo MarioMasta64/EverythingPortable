@@ -167,15 +167,9 @@ for /f tokens^=2delims^=^" %%A in (
 :stop_search
 set /p sharex_link=<.\doc\sharex_link.txt
 set "sharex_link=https://github.com!sharex_link:~0,-1!"
-set "sharex_zip=!sharex_link!"
-REM listen, it works, im lazy, let it be, can handle a depth of 6 directories and helps future proof if they change the paths.
-for /f "delims=/" %%A in ("!sharex_zip!") do set sharex_zip=!sharex_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!sharex_zip!") do set sharex_zip=!sharex_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!sharex_zip!") do set sharex_zip=!sharex_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!sharex_zip!") do set sharex_zip=!sharex_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!sharex_zip!") do set sharex_zip=!sharex_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!sharex_zip!") do set sharex_zip=!sharex_zip:%%~nxA/=!
-set sharex_zip=!sharex_zip:/=!
+set "tempstr=!sharex_link!"
+set "result=%tempstr:/=" & set "result=%"
+set "sharex_zip=!result!"
 if exist index.html del index.html >nul
 cls
 echo "!sharex_link!"
@@ -247,7 +241,7 @@ if not exist ".\bin\sharex\ShareX.exe" set nag=SHAREX IS NOT INSTALLED CHOOSE "D
 exit /b 2
 
 :Version
-echo 10 > .\doc\version.txt
+echo 11 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

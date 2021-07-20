@@ -172,19 +172,13 @@ REM no x64 yet
 REM no x64 yet
 echo !tor_link!
 set "tor_link=https://www.torproject.org!tor_link:.asc=!"
-set "tor_exe=!tor_link!"
-REM listen, it works, im lazy, let it be, can handle a depth of 6 directories and helps future proof if they change the paths.
-for /f "delims=/" %%A in ("!tor_exe!") do set tor_exe=!tor_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!tor_exe!") do set tor_exe=!tor_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!tor_exe!") do set tor_exe=!tor_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!tor_exe!") do set tor_exe=!tor_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!tor_exe!") do set tor_exe=!tor_exe:%%~nxA/=!
-for /f "delims=/" %%A in ("!tor_exe!") do set tor_exe=!tor_exe:%%~nxA/=!
-set tor_exe=!tor_exe:/=!
+set "tempstr=!tor_link!"
+set "result=%tempstr:/=" & set "result=%"
+set "tor_exe=!result!"
 if exist index.html del index.html >nul
 cls
 if exist .\extra\!tor_exe! (
-  echo vivaldi is updated.
+  echo tor is updated.
   pause
   exit /b
 )
@@ -260,7 +254,7 @@ if not exist ".\bin\tor\firefox.exe" set nag=TOR IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 21 > .\doc\version.txt
+echo 22 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

@@ -174,17 +174,9 @@ for /f tokens^=4delims^=^" %%A in (
 if exist latest del latest >nul
 if exist latest.txt del latest.txt >nul
 set /p obs_classic_link=<.\doc\obs_classic_link.txt
-set "obs_classic_zip=!obs_classic_link!"
-REM listen, it works, im lazy, let it be, can handle a depth of 8 directories and helps future proof if they change the paths.
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!obs_classic_zip!") do set obs_classic_zip=!obs_classic_zip:%%~nxA/=!
-set "obs_classic_zip=!obs_classic_zip:/=!"
+set "tempstr=!obs_classic_link!"
+set "result=%tempstr:/=" & set "result=%"
+set "obs_classic_zip=!result!"
 cls
 echo "!obs_classic_link!"
 echo "!obs_classic_zip!"
@@ -296,7 +288,7 @@ if not exist ".\bin\obs_classic\!arch!bit\OBS.exe" set nag=OBS CLASSIC IS NOT IN
 exit /b 2
 
 :Version
-echo 15 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

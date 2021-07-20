@@ -225,15 +225,10 @@ for /f tokens^=4delims^=^" %%A in (
 ) Do > .\doc\ppsspp_link.txt Echo:%%A
 if exist downloads.html del downloads.html >nul
 set /p ppsspp_link=<.\doc\ppsspp_link.txt
-set "ppsspp_zip=!ppsspp_link!"
-REM listen, it works, im lazy, let it be, can handle a depth of 6 directories and helps future proof if they change the paths.
-for /f "delims=/" %%A in ("!ppsspp_zip!") do set ppsspp_zip=!ppsspp_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!ppsspp_zip!") do set ppsspp_zip=!ppsspp_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!ppsspp_zip!") do set ppsspp_zip=!ppsspp_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!ppsspp_zip!") do set ppsspp_zip=!ppsspp_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!ppsspp_zip!") do set ppsspp_zip=!ppsspp_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!ppsspp_zip!") do set ppsspp_zip=!ppsspp_zip:%%~nxA/=!
 set "ppsspp_link=https://www.ppsspp.org/!ppsspp_link!"
+set "tempstr=!ppsspp_link!"
+set "result=%tempstr:/=" & set "result=%"
+set "ppsspp_zip=!result!"
 echo "!ppsspp_link!"
 echo "!ppsspp_zip!"
 pause
@@ -303,7 +298,7 @@ if not exist ".\bin\ppsspp\PPSSPPWindows!arch!.exe" set nag=PPSSPP IS NOT INSTAL
 exit /b 2
 
 :Version
-echo 23 > .\doc\version.txt
+echo 24 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
