@@ -76,7 +76,7 @@ title DO NOT CLOSE
 cls
 echo GITHUB DESKTOP IS RUNNING
 set "Path=!path!;!folder!\bin\github_desktop\resources\app\git\cmd\"
-set "Home=!folder!\data\github_desktop"
+set "Home=!folder!\data\Users\MarioMasta64"
 start .\bin\github_desktop\GitHubDesktop.exe
 exit
 
@@ -150,7 +150,7 @@ echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_la
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo set "Path=%%path%%;%%folder%%\bin\github_desktop\resources\app\git\cmd\">>!quick_launcher!
-echo set "Home=%%folder%%\data\github_desktop">>!quick_launcher!
+echo set "Home=%%folder%%\data\Users\MarioMasta64">>!quick_launcher!
 echo cls>>!quick_launcher!
 echo start .\bin\github_desktop\GitHubDesktop.exe>>!quick_launcher!
 echo exit>>!quick_launcher!
@@ -228,12 +228,11 @@ if not exist ".\data\Users\MarioMasta64\Pictures\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioMasta64\Saved Games\"
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
-if not exist ".\data\github_desktop\" mkdir ".\data\github_desktop\"
 if not exist ".\bin\github_desktop\GitHubDesktop.exe" set nag=GITHUB DESKTOP IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -586,6 +585,7 @@ if exist ".\data\Searches\" move ".\data\Searches" ".\data\Users\MarioMasta64"
 if exist ".\data\Searches\" xcopy ".\data\Searches\" ".\data\Users\MarioMasta64\Searches\" /e /i /y & rmdir /s /q ".\data\Searches\"
 if exist ".\data\Videos\" move ".\data\Videos" ".\data\Users\MarioMasta64"
 if exist ".\data\Videos\" xcopy ".\data\Videos\" ".\data\Users\MarioMasta64\Videos\" /e /i /y & rmdir /s /q ".\data\Videos\"
-if exist ".\data\Videos\" move ".\Users\" ".\data\Users\"
-if exist ".\data\Videos\" xcopy ".\Users\" ".\data\Users\" /e /i /y & rmdir /s /q ".\Users\"
+if exist ".\data\Users\" move ".\Users" ".\data"
+if exist ".\data\Users\" xcopy ".\Users\" ".\data\Users\" /e /i /y & rmdir /s /q ".\Users\"
+if exist ".\data\github_desktop\" xcopy ".\data\github_desktop\*" ".\data\Users\MarioMasta64\" \e \i \y & rmdir /s /q ".\Users\"
 exit /b 2
