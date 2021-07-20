@@ -104,3 +104,5 @@ thunderbird
 2
 indiegala
 4
+openshot
+1

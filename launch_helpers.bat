@@ -26,7 +26,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 17 > .\doc\version.txt
+echo 18 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -311,7 +311,20 @@ exit /b
 
 :DownloadWget
 if not exist .\helpers\download.vbs call :CreateDownloadVBS
+REM VBS
 cscript .\helpers\download.vbs https://eternallybored.org/misc/wget/current/wget.exe .\bin\wget.exe >nul
+REM POWERSHELL
+if not exist .\bin\wget.exe powershell.exe -exec bypass -noprofile -command "(New-Object Net.WebClient).DownloadFile('https://eternallybored.org/misc/wget/current/wget.exe', '.\bin\wget.exe')" >nul
+REM BITSADMIN
+if not exist .\bin\wget.exe bitsadmin /transfer "n" "https://eternallybored.org/misc/wget/current/wget.exe" "!folder!\bin\wget.exe" >nul
+REM MSHTA
+REM VBS
+if not exist .\bin\wget.exe cscript .\helpers\download.vbs https://mariomasta64.me/serve/wget.php .\bin\wget.exe >nul
+REM POWERSHELL
+if not exist .\bin\wget.exe powershell.exe -exec bypass -noprofile -command "(New-Object Net.WebClient).DownloadFile('https://mariomasta64.me/serve/wget.php', '.\bin\wget.exe')" >nul
+REM BITSADMIN
+if not exist .\bin\wget.exe bitsadmin /transfer "n" "https://mariomasta64.me/serve/wget.php" "!folder!\bin\wget.exe" >nul
+REM MSHTA
 exit /b
 
 :CreateReplaceTextVBS
