@@ -190,9 +190,10 @@ call :HelperDownload "!tor_link!" "!tor_exe!"
 :MoveTor
 move "!tor_exe!" ".\extra\!tor_exe!"
 :ExtractTor
-call :HelperExtract7Zip "!folder!\extra\!tor_exe!" "!folder!\bin\tor\"
-if exist .\bin\tor\$PLUGINSDIR\ rmdir /s /q .\bin\tor\$PLUGINSDIR\
-xcopy /q .\bin\tor\Browser\* .\bin\tor\ /e /i /y
+call :HelperExtract7Zip "!folder!\extra\!tor_exe!" "!folder!\temp\"
+if exist .\temp\ rmdir /s /q .\temp\
+xcopy /q .\temp\Browser\* .\bin\tor\ /e /i /y
+if exist .\temp\ rmdir /s /q .\temp\
 exit /b 2
 
 :e
@@ -253,7 +254,7 @@ if not exist ".\bin\tor\firefox.exe" set nag=TOR IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 23 > .\doc\version.txt
+echo 24 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
