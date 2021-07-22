@@ -75,7 +75,10 @@ if not exist ".\bin\tor\firefox.exe" set "nag=PLEASE INSTALL TOR FIRST" & exit /
 title DO NOT CLOSE
 cls
 echo TOR IS RUNNING
-start .\bin\tor\firefox.exe "https://github.com/MarioMasta64/EverythingPortable/" -profile "!folder!\data\tor"
+cd .\bin\tor\
+start firefox.exe "https://github.com/MarioMasta64/EverythingPortable/"
+REM start firefox.exe "https://github.com/MarioMasta64/EverythingPortable/" -profile "!folder!\data\tor"
+cd "!folder!"
 exit
 
 :3
@@ -146,7 +149,9 @@ echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_la
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo start .\bin\tor\firefox.exe "https://github.com/MarioMasta64/EverythingPortable/" -profile "%%folder%%\data\tor">>!quick_launcher!
+echo cd .\bin\tor\>>!quick_launcher!
+echo start firefox.exe "https://github.com/MarioMasta64/EverythingPortable/">>!quick_launcher!
+echo cd "%folder%">>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
@@ -253,7 +258,7 @@ if not exist ".\bin\tor\firefox.exe" set nag=TOR IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 25 > .\doc\version.txt
+echo 26 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -608,4 +613,6 @@ if exist ".\data\Videos\" move ".\data\Videos" ".\data\Users\MarioMasta64"
 if exist ".\data\Videos\" xcopy ".\data\Videos\" ".\data\Users\MarioMasta64\Videos\" /e /i /y & rmdir /s /q ".\data\Videos\"
 if exist ".\Users\" move ".\Users" ".\data"
 if exist ".\Users\" xcopy ".\Users\" ".\data\Users\" /e /i /y & rmdir /s /q ".\Users\"
+if exist ".\Tor\" move ".\Tor" ".\bin\tor"
+if exist ".\Tor\" xcopy ".\Tor\" ".\data\Tor\" /e /i /y & rmdir /s /q ".\Tor\"
 exit /b 2
