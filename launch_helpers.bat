@@ -26,7 +26,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 18 > .\doc\version.txt
+echo 19 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -55,9 +55,9 @@ exit /b
 if not exist .\bin\wget.exe call :DownloadWget
 if exist directx_Jun2010_redist.exe del directx_Jun2010_redist.exe >nul
 .\bin\wget.exe -q --show-progress "https://download.microsoft.com/download/8/4/A/84A35BF1-DAFE-4AE8-82AF-AD2AE20B6B14/directx_Jun2010_redist.exe" ".directx_Jun2010_redist.exe"
-if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
+if not exist .\bin\7zip\32\7z.exe call :Download7zip
 move directx_Jun2010_redist.exe .\extra\directx_Jun2010_redist.exe
-.\bin\7-ZipPortable\App\7-Zip\7z.exe x .\extra\directx_Jun2010_redist.exe * -obin\directx\ -aoa
+.\bin\7zip\32\7z.exe x .\extra\directx_Jun2010_redist.exe * -obin\directx\ -aoa
 exit /b
 
 :ExtractWix
@@ -162,17 +162,9 @@ if exist latest del latest >nul
 if exist latest.txt del latest.txt >nul
 set /p lessmsi_link=<.\doc\lessmsi_link.txt
 set "lessmsi_link=https://github.com!lessmsi_link!"
-set "lessmsi_zip=!lessmsi_link!"
-REM listen, it works, im lazy, let it be, can handle a depth of 8 directories and helps future proof if they change the paths.
-for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
-for /f "delims=/" %%A in ("!lessmsi_zip!") do set lessmsi_zip=!lessmsi_zip:%%~nxA/=!
-set "lessmsi_zip=!lessmsi_zip:/=!"
+set "tempstr=!lessmsi_link!"
+set "result=%tempstr:/=" & set "result=%"
+set "lessmsi_zip=!result!"
 cls
 echo "!lessmsi_link!"
 echo "!lessmsi_zip!"
@@ -218,8 +210,8 @@ exit /b
 if not exist .\bin\wget.exe call :DownloadWget
 .\bin\wget.exe -q --show-progress "https://sourceforge.net/projects/innounp/files/latest/download?source=typ_redirect" "download@source=typ_redirect"
 if not exist "download@source=typ_redirect" goto :DownloadInno
-if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
-.\bin\7-ZipPortable\App\7-Zip\7z.exe x download@source=typ_redirect * -obin\innounp\ -aoa
+if not exist .\bin\7zip\32\7z.exe call :Download7zip
+.\bin\7zip\32\7z.exe x download@source=typ_redirect * -obin\innounp\ -aoa
 if exist "download@source=typ_redirect" del "download@source=typ_redirect" >nul
 exit /b
 
@@ -243,23 +235,35 @@ exit /b
 :Extract7zip
 set /p filetxt=<.\helpers\file.txt
 set /p foldertxt=<.\helpers\folder.txt
-if not exist .\bin\7-ZipPortable\App\7-Zip\7z.exe call :Download7Zip
-.\bin\7-ZipPortable\App\7-Zip\7z.exe x !filetxt! * -o!foldertxt! -aoa
+if not exist .\bin\7zip\32\7z.exe call :Download7zip
+.\bin\7zip\32\7z.exe x !filetxt! * -o!foldertxt! -aoa
 if exist .\helpers\*.txt del .\helpers\*.txt >nul
 exit /b
 
-:Download7Zip
+:Download7zip
 if not exist .\bin\wget.exe call :DownloadWget
-.\bin\wget.exe -q --show-progress "http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe"
-if not exist 7-ZipPortable_16.04.paf.exe goto :Download7zip
-move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
-cls
-echo README README README README
-echo PLEASE PROCEED THROUGH ALL DIALOGUE OPTIONS
-echo DO NOT HIT RUN
-echo PRESS ENTER WHEN READ
-pause >nul
-.\extra\7-ZipPortable_16.04.paf.exe /destination="%CD%\bin\"
+.\bin\wget.exe -q --show-progress "https://www.7-zip.org/a/7z1900.msi"
+if not exist 7z1900.msi goto :Download7zip
+move 7z1900.msi .\extra\7z1900.msi
+
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+if exist .\bin\lessmsi\ rmdir /s /q .\bin\lessmsi\
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+
+if not exist .\bin\lessmsi\lessmsi.exe call :DownloadMSI
+.\bin\lessmsi\lessmsi.exe x "!folder!\extra\7z1900.msi" "!folder!\temp\"
+xcopy ".\temp\SourceDir\Files\7-Zip\" ".\bin\7zip\32\" /e /i /y
+if exist .\temp\*duplicate1 del .\temp\*duplicate1 >nul
+pause
+if exist .\temp\ rmdir /s /q .\temp\
 exit /b
 
 :Extract
