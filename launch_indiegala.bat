@@ -153,7 +153,7 @@ exit /b 2
 
 :c
 :QuicklauncherCheck
-call :Null
+if not exist .\doc\everything_quicklaunch.txt call :Null
 exit /b 2
 
 :d
@@ -227,7 +227,7 @@ if not exist ".\bin\indiegala\IGClient.exe" set nag=INDIEGALA IS NOT INSTALLED C
 exit /b 2
 
 :Version
-echo 4 > .\doc\version.txt
+echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
