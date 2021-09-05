@@ -83,12 +83,25 @@ start "" "!folder!\bin\virtualdj\virtualdj.exe"
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetVirtualDJ
 taskkill /f /im virtualdj.exe
 if exist .\data\virtualdj\ rmdir /s /q .\data\virtualdj\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallVirtualDJ
 taskkill /f /im virtualdj.exe
 if exist .\bin\virtualdj\ rmdir /s /q .\bin\virtualdj\
@@ -229,7 +242,7 @@ if not exist ".\bin\virtualdj\virtualdj.exe" set nag=VIRTUAL DJ IS NOT INSTALLED
 exit /b 2
 
 :Version
-echo 12 > .\doc\version.txt
+echo 13 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

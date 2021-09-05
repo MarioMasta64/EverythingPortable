@@ -78,12 +78,25 @@ start "" ".\bin\authy\Authy Desktop.exe"
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetAuthy
 cls
 if exist ".\data\Users\MarioMasta64\AppData\Roaming\Authy Desktop\" rmdir /s /q ".\data\Users\MarioMasta64\AppData\Roaming\Authy Desktop\"
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallAuthy
 cls
 taskkill /f /im "Authy Desktop.exe"
@@ -151,7 +164,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeAuthy
 cls
 set /a cycle1=2
@@ -235,7 +256,7 @@ if not exist ".\bin\authy\Authy Desktop.exe" set nag=AUTHY IS NOT INSTALLED CHOO
 exit /b 2
 
 :Version
-echo 15 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

@@ -82,13 +82,26 @@ start "" ".\bin\vscode!arch!\Code.exe"
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetVscode
 taskkill /f /im Code.exe
 if exist .\data\Users\MarioMasta64\.vscode\ rmdir /s /q .\data\Users\MarioMasta64\.vscode\
 if exist .\data\Users\MarioMasta64\AppData\Roaming\Code\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\Code\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallVscode
 taskkill /f /im Code.exe
 if exist .\bin\vscode* rmdir /s /q .\bin\vscode*
@@ -270,7 +283,7 @@ if not exist ".\bin\vscode!arch!\Code.exe" set nag=VSCODE IS NOT INSTALLED CHOOS
 exit /b 2
 
 :Version
-echo 20 > .\doc\version.txt
+echo 21 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

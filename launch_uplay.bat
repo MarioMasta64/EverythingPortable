@@ -81,12 +81,25 @@ start .\bin\uplay\UbisoftConnect.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetUPlay
 taskkill /f /im UbisoftConnect.exe
 if exist .\bin\uplay\ rmdir /s /q .\bin\uplay\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallUPlay
 taskkill /f /im UbisoftConnect.exe
 if exist ".\data\Users\MarioMasta64\AppData\Local\Ubisoft Game Launcher\" rmdir /s /q ".\data\Users\MarioMasta64\AppData\Local\Ubisoft Game Launcher\"
@@ -286,7 +299,7 @@ if not exist .\data\Users\MarioMasta64\Pictures\UbisoftConnect\ mkdir .\data\Use
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

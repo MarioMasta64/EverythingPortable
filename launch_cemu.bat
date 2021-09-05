@@ -84,12 +84,25 @@ start Cemu.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetCemu
 cls
 if exist ".\data\Users\MarioMasta64\AppData\Local\Cemu\" rmdir /s /q ".\data\Users\MarioMasta64\AppData\Local\Cemu\"
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallCemu
 cls
 taskkill /f /im "Cemu.exe"
@@ -160,7 +173,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeCemu
 title Portable Cemu Launcher - Helper Edition - Cemu Update Check
 if exist index.html del index.html >nul
@@ -276,7 +297,7 @@ if not exist ".\bin\cemu\Cemu.exe" set nag=CEMU IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 49 > .\doc\version.txt
+echo 50 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

@@ -79,13 +79,26 @@ start .\bin\wechat\WeChat.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetWeChat
 taskkill /f /im WeChat.exe
 if exist .\data\Users\MarioMasta64\AppData\Roaming\Tencent\WeChat\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\Tencent\WeChat\
 if exist .\data\Users\MarioMasta64\AppData\Roaming\Tencent\WeChatApp\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\Tencent\WeChatApp\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallWeChat
 taskkill /f /im WeChat.exe
 if exist .\bin\wechat\ rmdir /s /q .\bin\wechat\
@@ -223,7 +236,7 @@ if not exist ".\bin\wechat\WeChat.exe" set nag=WECHAT IS NOT INSTALLED CHOOSE "D
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

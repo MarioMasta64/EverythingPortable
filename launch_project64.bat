@@ -79,6 +79,12 @@ start .\bin\project64\Project64.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetProject64
 if exist .\bin\project64\Config\ rmdir /s /q .\bin\project64\Config\
 if exist .\bin\project64\Logs\ rmdir /s /q .\bin\project64\Logs\
@@ -86,7 +92,14 @@ if exist .\bin\project64\Save\ rmdir /s /q .\bin\project64\Save\
 if exist .\bin\project64\Screenshots\ rmdir /s /q .\bin\project64\Screenshots\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallProject64
 taskkill /f /im Project64.exe
 if exist .\bin\project64\Project64.exe del .\bin\project64\Project64.exe >nul
@@ -243,7 +256,7 @@ if not exist ".\bin\project64\Project64.exe" set nag=PROJECT46 IS NOT INSTALLED 
 exit /b 2
 
 :Version
-echo 14 > .\doc\version.txt
+echo 15 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

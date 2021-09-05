@@ -79,12 +79,25 @@ start .\bin\telegram\Telegram.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetTelegram
 taskkill /f /im Telegram.exe
 if exist .\bin\telegram\tdata\ rmdir /s /q .\bin\telegram\tdata\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallTelegram
 taskkill /f /im Telegram.exe
 for /d %%i in (".\bin\telegram\*") do if /i not "%%i"==".\bin\telegram\tdata" if exist "%%i" rmdir /s /q "%%i"
@@ -222,7 +235,7 @@ if not exist ".\bin\telegram\Telegram.exe" set nag=TELEGRAM IS NOT INSTALLED CHO
 exit /b 2
 
 :Version
-echo 15 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

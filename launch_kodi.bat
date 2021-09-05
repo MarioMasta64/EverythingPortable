@@ -80,12 +80,26 @@ start .\bin\kodi\Kodi.exe -p
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :ResetKodi
 taskkill /f /im Kodi.exe
 if exist .\bin\kodi\portable_data\ rmdir /s /q .\bin\kodi\portable_data\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallKodi
 taskkill /f /im Kodi.exe
 for /d %%i in (".\bin\kodi\*") do if /i not "%%i"==".\bin\kodi\portable_data" if exist "%%i" rmdir /s /q "%%i"
@@ -156,7 +170,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeKodi
 if exist index.html del index.html >nul
 call :HelperDownload "https://mirrors.kodi.tv/releases/windows/win32/" "index.html"
@@ -240,7 +262,7 @@ if not exist ".\bin\kodi\Kodi.exe" set nag=KODI IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 17 > .\doc\version.txt
+echo 18 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

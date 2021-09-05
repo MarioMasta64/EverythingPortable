@@ -119,13 +119,26 @@ start .\bin\ppsspp\PPSSPPWindows!arch!.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetPPSSPP
 taskkill /f /im PPSSPPWindows!arch!.exe
 REM if exist .\bin\ppsspp\memstick\ rmdir /s /q .\bin\ppsspp\memstick\
 if exist .\data\ppsspp\ rmdir /s /q .\data\ppsspp\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallPPSSPP
 taskkill /f /im PPSSPPWindows!arch!.exe
 REM for /d %%i in (".\bin\ppsspp\*") do if /i not "%%i"==".\bin\ppsspp\memstick" if exist "%%i" rmdir /s /q "%%i"
@@ -298,7 +311,7 @@ if not exist ".\bin\ppsspp\PPSSPPWindows!arch!.exe" set nag=PPSSPP IS NOT INSTAL
 exit /b 2
 
 :Version
-echo 24 > .\doc\version.txt
+echo 25 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

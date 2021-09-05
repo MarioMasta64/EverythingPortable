@@ -83,12 +83,26 @@ start obs!arch!.exe --portable
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :ResetOBS
 taskkill /f /im obs!arch!.exe
 for /d %%i in (".\bin\obs\*") do if /i not "%%i"==".\bin\obs\bin" if exist "%%i" rmdir /s /q "%%i"
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallOBS
 taskkill /f /im obs!arch!.exe
 if exist .\bin\obs\bin\ rmdir /s /q .\bin\obs\bin\
@@ -160,7 +174,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeOBS
 title Portable OBS Launcher - Helper Edition - OBS Update Check
 if exist latest del latest >nul
@@ -347,7 +369,7 @@ if not exist ".\bin\obs\bin\!arch!Bit\obs!arch!.exe" set nag=OBS IS NOT INSTALLE
 exit /b 2
 
 :Version
-echo 40 > .\doc\version.txt
+echo 41 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

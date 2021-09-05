@@ -79,13 +79,26 @@ start .\bin\tightvnc_viewer\tvnviewer.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetTightVNCViewer
 taskkill /f /im tvnviewer.exe
 if exist .\data\AppData\TeamViewer\ rmdir /s /q .\data\AppData\TeamViewer\
 call :Null
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallTightVNCViewer
 taskkill /f /im tvnviewer.exe
 if exist .\bin\TeamViewer\ rmdir /s /q .\bin\TeamViewer\
@@ -271,7 +284,7 @@ if not exist ".\bin\tightvnc_viewer\tvnviewer.exe" set nag=TIGHTVNC VIEWER IS NO
 exit /b 2
 
 :Version
-echo 8 > .\doc\version.txt
+echo 9 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

@@ -79,13 +79,26 @@ start .\bin\qbittorrent\qbittorrent.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetqBittorrent
 taskkill /f /im qbittorrent.exe
 if exist .\data\Users\MarioMasta64\AppData\Local\qBittorent\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Local\qBittorent\
 if exist .\data\Users\MarioMasta64\AppData\Roaming\qBittorent\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\qBittorent\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallqBittorrent
 taskkill /f /im qbittorrent.exe
 if exist .\bin\qbittorrent\ rmdir /s /q .\bin\qbittorrent\
@@ -244,7 +257,7 @@ if not exist ".\bin\qbittorrent\qBittorrent.exe" set nag=QBITTORRENT IS NOT INST
 exit /b 2
 
 :Version
-echo 14 > .\doc\version.txt
+echo 15 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

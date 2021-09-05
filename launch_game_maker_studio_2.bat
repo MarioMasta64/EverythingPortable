@@ -79,11 +79,25 @@ start .\bin\game_maker_studio_2\GameMakerStudio.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :ResetGameMakerStudio2
 call :Null
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallGameMakerStudio2
 call :Null
 exit /b 2
@@ -150,7 +164,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeGameMakerStudio2
 title Portable Game Maker Studio 2 Launcher - Helper Edition - Game Maker Studio 2 Update Check
 REM add more browser choices later
@@ -228,7 +250,7 @@ if not exist ".\bin\game_maker_studio_2\GameMakerStudio.exe" set nag=GAME MAKER 
 exit /b 2
 
 :Version
-echo 10 > .\doc\version.txt
+echo 11 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

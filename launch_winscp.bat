@@ -89,11 +89,24 @@ REM add registry pull sometime
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetWinSCP
 if exist .\data\Users\MarioMasta64\AppData\Roaming\winscp.rnd del .\data\Users\MarioMasta64\AppData\Roaming\winscp.rnd >nul
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallWinSCP
 if exist .\bin\WinSCP\ rmdir /s /q .\bin\WinSCP\
 exit /b 2
@@ -411,7 +424,7 @@ if not exist ".\bin\WinSCP\WinSCP.exe" set nag=WINSCP IS NOT INSTALLED CHOOSE "D
 exit /b 2
 
 :Version
-echo 15 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

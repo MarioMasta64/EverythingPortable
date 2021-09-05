@@ -81,6 +81,12 @@ start "" ".\bin\streamlabs_obs\Streamlabs OBS.exe"
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetStreamlabsOBS
 taskkill /f /im "Streamlabs OBS.exe"
 if exist .\data\Users\MarioMasta64\AppData\Roaming\obs-studio-node-server\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\obs-studio-node-server\
@@ -89,7 +95,14 @@ if exist .\data\Users\MarioMasta64\AppData\Roaming\slobs-plugins\ rmdir /s /q .\
 if exist ".\data\Users\MarioMasta64\AppData\Roaming\Streamlabs OBS\" rmdir /s /q ".\data\Users\MarioMasta64\AppData\Roaming\Streamlabs OBS\"
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallStreamlabsOBS
 taskkill /f /im "Streamlabs OBS.exe"
 if exist .\bin\streamlabs_obs\ rmdir /s /q .\bin\streamlabs_obs\
@@ -278,7 +291,7 @@ if not exist ".\bin\streamlabs_obs\Streamlabs OBS.exe" set nag=STREAMLABS OBS IS
 exit /b 2
 
 :Version
-echo 10 > .\doc\version.txt
+echo 11 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

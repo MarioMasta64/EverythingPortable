@@ -80,6 +80,12 @@ taskkill /f /im opera_crashreporter.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetOperaGX
 taskkill /f /im launcher.exe
 taskkill /f /im opera.exe
@@ -87,7 +93,14 @@ taskkill /f /im opera_crashreporter.exe
 if exist .\bin\opera_gx\profile\ rmdir /s /q .\bin\opera_gx\profile\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallOperaGX
 taskkill /f /im launcher.exe
 taskkill /f /im opera.exe
@@ -234,7 +247,7 @@ if not exist ".\bin\opera_gx\launcher.exe" set nag=OPERA GX IS NOT INSTALLED CHO
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

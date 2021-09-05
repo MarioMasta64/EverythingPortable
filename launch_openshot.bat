@@ -79,12 +79,25 @@ start "" ".\bin\openshot\!arch!\openshot-qt.exe"
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetOpenShot
 taskkill /f /im openshot-qt.exe
 if exist .\data\Users\MarioMasta64\.openshot_qt\ rmdir /s /q .\data\Users\MarioMasta64\.openshot_qt\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallOpenShot
 taskkill /f /im openshot-qt.exe
 if exist .\bin\openshot\ rmdir /s /q .\bin\openshot\
@@ -273,7 +286,7 @@ if not exist ".\bin\openshot\!arch!\openshot-qt.exe" set nag=OPENSHOT IS NOT INS
 exit /b 2
 
 :Version
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

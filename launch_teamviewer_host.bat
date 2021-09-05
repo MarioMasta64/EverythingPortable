@@ -80,11 +80,24 @@ start TeamViewer.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetTeamViewerHost
 call :Null
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallTeamViewerHost
 call :Null
 exit /b 2
@@ -224,7 +237,7 @@ if not exist ".\bin\teamviewer_host\TeamViewer.exe" set nag=TEAMVIEWER HOST IS N
 exit /b 2
 
 :Version
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

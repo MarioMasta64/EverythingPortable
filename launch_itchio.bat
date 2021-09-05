@@ -79,12 +79,26 @@ start "" "!folder!\data\Users\MarioMasta64\AppData\Local\itch\itch-setup.exe" --
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :Resetitchio
 taskkill /f /im itch.exe
 if exist .\data\Users\MarioMasta64\AppData\Roaming\itch rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\itch
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :Uninstallitchio
 taskkill /f /im itch.exe
 if exist .\data\Users\MarioMasta64\AppData\Local\itch\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Local\itch\
@@ -152,7 +166,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :Upgradeitchio
 title Portable itch.io Launcher - Helper Edition - itch.io Update Check
 if exist "download@platform=windows" del "download@platform=windows" >nul
@@ -225,7 +247,7 @@ if not exist ".\data\Users\MarioMasta64\AppData\Local\itch\itch-setup.exe" set n
 exit /b 2
 
 :Version
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

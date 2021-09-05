@@ -79,12 +79,25 @@ start "" ".\bin\bitwarden\!arch!Bit\Bitwarden.exe"
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetBitwarden
 taskkill /f /im Bitwarden.exe
 if exist .\data\Users\MarioMasta64\AppData\Roaming\Bitwarden\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\Bitwarden\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallBitwarden
 taskkill /f /im Bitwarden.exe
 if exist .\bin\bitwarden\ rmdir /s /q .\bin\bitwarden\
@@ -155,7 +168,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeBitwarden
 title Portable Bitwarden Launcher - Helper Edition - Bitwarden Update Check
 if exist "index.html@app=desktop&platform=windows&variant=portable" del "index.html@app=desktop&platform=windows&variant=portable" >nul
@@ -227,7 +248,7 @@ if not exist ".\bin\bitwarden\!arch!Bit\Bitwarden.exe" set nag=BITWARDEN IS NOT 
 exit /b 2
 
 :Version
-echo 10 > .\doc\version.txt
+echo 11 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

@@ -96,13 +96,27 @@ if exist .\data\Users\MarioMasta64\AppData\Local\igclient-updater\pending\IGClie
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :ResetIndieGala
 taskkill /f /im IGClient.exe
 if exist .\data\Users\MarioMasta64\AppData\Local\igclient-updater\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Local\igclient-updater\
 if exist .\data\Users\MarioMasta64\AppData\Roaming\IGClient\ rmdir /s /q .if exist .\data\Users\MarioMasta64\AppData\Local\igclient-updater\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\IGClient\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallIndieGala
 taskkill /f /im IGClient.exe
 if exist .\bin\indiegala\ rmdir /s /q .\bin\indiegala\
@@ -156,7 +170,15 @@ exit /b 2
 if not exist .\doc\everything_quicklaunch.txt call :Null
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeIndieGala
 title Portable IndieGala Launcher - Helper Edition - IndieGala Update Check
 if exist IGClientSetup.exe del IGClientSetup.exe >nul
@@ -225,9 +247,7 @@ if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
 if not exist ".\bin\indiegala\IGClient.exe" set nag=INDIEGALA IS NOT INSTALLED CHOOSE "D"
 exit /b 2
-
-:Version
-echo 5 > .\doc\version.txt
+6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

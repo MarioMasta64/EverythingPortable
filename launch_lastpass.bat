@@ -79,13 +79,27 @@ start .\bin\lastpass\lastapp.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :ResetLastPass
 taskkill /f /im lastapp.exe
 if exist .\data\Users\MarioMasta64\AppData\Local\Lastpass\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Local\Lastpass\
 if exist .\data\Users\MarioMasta64\AppData\Roaming\Lastpass\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\Lastpass\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallLastPass
 taskkill /f /im lastapp.exe
 if exist .\bin\lastpass\ rmdir /s /q .\bin\lastpass\
@@ -154,7 +168,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeLastPass
 title Portable LastPass Launcher - Helper Edition - LastPass Update Check
 if exist lastappinstall.exe del lastappinstall.exe >nul
@@ -225,7 +247,7 @@ if not exist ".\bin\lastpass\lastapp.exe" set nag=LASTPASS IS NOT INSTALLED CHOO
 exit /b 2
 
 :Version
-echo 23 > .\doc\version.txt
+echo 24 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

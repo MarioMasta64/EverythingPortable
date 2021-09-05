@@ -79,13 +79,26 @@ start .\bin\UwAmp\UwAmp.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetUwAmp
 taskkill /f /im mysqld.exe
 taskkill /f /im UwAmp.exe
 for /d %%i in (".\bin\UwAmp\*") do if /i not "%%i"==".\bin\UwAmp\bin" if exist "%%i" rmdir /s /q "%%i"
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallUwAmp
 taskkill /f /im mysqld.exe
 taskkill /f /im UwAmp.exe
@@ -225,7 +238,7 @@ if not exist ".\bin\UwAmp\UwAmp.exe" set nag=UWAMP IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 13 > .\doc\version.txt
+echo 14 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

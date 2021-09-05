@@ -80,12 +80,25 @@ start .\bin\dolphin\dolphin.exe -u "!folder!\data\dolphin"
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetDolphin
 taskkill /f /im dolphin.exe
 if exist .\data\dolphin\ rmdir /s /q .\data\dolphin\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallDolphin
 taskkill /f /im dolphin.exe
 if exist .\bin\dolphin\ rmdir /s /q .\bin\dolphin\
@@ -155,7 +168,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeDolphin
 title Portable Dolphin Launcher - Helper Edition - Dolphin Update Check
 if exist win!arch!_portable.zip del win!arch!_portable.zip >nul
@@ -224,7 +245,7 @@ if not exist ".\bin\dolphin\dolphin.exe" set nag=DOLPHIN IS NOT INSTALLED CHOOSE
 exit /b 2
 
 :Version
-echo 12 > .\doc\version.txt
+echo 13 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

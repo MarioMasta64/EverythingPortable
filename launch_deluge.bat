@@ -79,12 +79,25 @@ start .\bin\deluge\deluge.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetDeluge
 taskkill /f /im deluge.exe
 if exist .\bin\deluge\ rmdir /s /q .\bin\deluge\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallDeluge
 taskkill /f /im deluge.exe
 if exist .\data\Users\MarioMasta64\AppData\Roaming\deluge\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\deluge\
@@ -152,7 +165,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeDeluge
 title Portable Deluge Launcher - Helper Edition - Deluge Update Check
 if exist "index.html@C=M;O=D" del "index.html@C=M;O=D" >nul
@@ -238,7 +259,7 @@ if not exist ".\bin\deluge\deluge.exe" set nag=DELUGE IS NOT INSTALLED CHOOSE "D
 exit /b 2
 
 :Version
-echo 7 > .\doc\version.txt
+echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

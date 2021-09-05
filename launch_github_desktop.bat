@@ -81,13 +81,34 @@ start .\bin\github_desktop\GitHubDesktop.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :ResetGitHubDesktop
 taskkill /f /im GitHubDesktop.exe
 if exist ".\data\Users\MarioMasta64\AppData\Roaming\GitHub Desktop\" rmdir /s /q ".\data\Users\MarioMasta64\AppData\Roaming\GitHub Desktop\"
 if exist .\data\Users\MarioMasta64\.gitconfig del .\data\Users\MarioMasta64\.gitconfig >nul
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallGitHubDesktop
 taskkill /f /im GitHubDesktop.exe
 if exist .\bin\github_desktop\ rmdir /s /q .\bin\github_desktop\
@@ -158,7 +179,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeGitHubDesktop
 title Portable Github Desktop Launcher - Helper Edition - Github Desktop Update Check
 if exist win32 del win32 >nul
@@ -232,7 +261,7 @@ if not exist ".\bin\github_desktop\GitHubDesktop.exe" set nag=GITHUB DESKTOP IS 
 exit /b 2
 
 :Version
-echo 20 > .\doc\version.txt
+echo 21 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

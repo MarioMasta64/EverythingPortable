@@ -95,12 +95,25 @@ REM if exist "%UserProfile%\data\AppData\LocalLow" rmdir /s /q "%UserProfile%\da
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetSteam
 cls
 call :Null
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallSteam
 taskkill /f /im steam.exe
 if exist .\bin\steam\ rmdir /s /q .\bin\steam\
@@ -268,7 +281,7 @@ if not exist ".\bin\steam\steam.exe" set nag=STEAM IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 28 > .\doc\version.txt
+echo 29 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

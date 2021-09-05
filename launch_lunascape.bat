@@ -80,12 +80,26 @@ start .\bin\lunascape\Luna.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :ResetLunascape
 taskkill /f /im Luna.exe
 if exist .\bin\lunascape\UserSetting\2.0\Profile\ rmdir /s /q .\bin\lunascape\UserSetting\2.0\Profile\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallLunascape
 taskkill /f /im Luna.exe
 FOR %%a IN ("!folder!\bin\lunascape\*") DO IF /i NOT "%%~nxa"=="Luna.ini" DEL "%%a" >nul
@@ -154,7 +168,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeLunascape
 title Portable Lunascape Launcher - Helper Edition - Lunascape Update Checkz
 if exist latest del latest >nul
@@ -272,7 +294,7 @@ if not exist ".\bin\lunascape\Luna.exe" set nag=LUNASCAPE IS NOT INSTALLED CHOOS
 exit /b 2
 
 :Version
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

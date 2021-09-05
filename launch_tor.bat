@@ -82,12 +82,25 @@ cd "!folder!"
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetTor
 taskkill /f /im firefox.exe
 if exist .\data\tor\ rmdir /s /q .\data\tor\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallTor
 taskkill /f /im firefox.exe
 if exist .\bin\tor\ rmdir /s /q .\bin\tor\
@@ -258,7 +271,7 @@ if not exist ".\bin\tor\firefox.exe" set nag=TOR IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 26 > .\doc\version.txt
+echo 27 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

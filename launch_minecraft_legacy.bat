@@ -85,11 +85,25 @@ start "" ".\bin\commonfiles\java!arch!\bin\javaw.exe" -jar .\bin\minecraft_legac
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :ResetMinecraft
 call :Null
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallMinecraft
 call :Null
 exit /b 2
@@ -159,7 +173,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeMinecraft
 title Portable Minecraft Legacy Launcher - Helper Edition - Minecraft Legacy Update Check
 if exist Minecraft.jar del Minecraft.jar >nul
@@ -346,7 +368,7 @@ if exist .\bin\minecraft\Minecraft.jar call :Releasev18Upgrade
 exit /b 2
 
 :Version
-echo 29 > .\doc\version.txt
+echo 30 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

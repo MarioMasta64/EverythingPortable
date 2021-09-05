@@ -82,12 +82,25 @@ REM start Discord.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetDiscord
 taskkill /f /im Discord.exe
 if exist .\data\Users\MarioMasta64\AppData\Roaming\discord\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\discord\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallDiscord
 taskkill /f /im Discord.exe
 if exist .\bin\discord\ rmdir /s /q .\bin\discord\
@@ -156,7 +169,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeDiscord
 if exist "download?platform=win" del "download?platform=win" >nul
 call :HelperDownload "https://discordapp.com/api/download?platform=win" "download?platform=win"
@@ -270,7 +291,7 @@ if exist .\bin\discord\ call :Releasev15Upgrade
 exit /b 2
 
 :Version
-echo 22 > .\doc\version.txt
+echo 23 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

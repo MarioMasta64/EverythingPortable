@@ -80,12 +80,25 @@ start .\bin\citra\citra-qt.exe
 exit
 
 :3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :Reset-Citra
 taskkill /f /im citra-qt.exe
 rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\Citra\
 exit /b 2
 
+
 :4
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
 :Uninstall-Citra
 cls
 taskkill /f /im citra-qt.exe
@@ -155,7 +168,15 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-:d
+
+:3
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO RESET?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:Reset
 :UpgradeCitra
 title Portable Citra Launcher - Helper Edition - Citra Update Check
 if exist citra-setup-windows.exe del citra-setup-windows.exe >nul
@@ -238,7 +259,7 @@ if not exist ".\bin\citra\citra-qt.exe" set nag=CITRA IS NOT INSTALLED CHOOSE "D
 exit /b 2
 
 :Version
-echo 12 > .\doc\version.txt
+echo 13 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
