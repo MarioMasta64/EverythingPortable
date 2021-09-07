@@ -229,6 +229,8 @@ if "!new_version!" NEQ "0" (
     if "!launcher!" NEQ "everything" (
         if exist launch_!launcher!.bat (
             if exist .\extra\notfirstrun.txt (
+                REM in case version is not set assume "0"
+                set current_version=0
                 call launch_!launcher!.bat Version
                 set current_version=!errorlevel!
             ) else (
@@ -357,7 +359,7 @@ if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta6
 exit /b 2
 
 :Version
-echo 40 > .\doc\version.txt
+echo 41 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
