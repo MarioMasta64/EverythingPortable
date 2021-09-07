@@ -38,15 +38,10 @@ echo 4. uninstall everything [no longer want everything?]
 echo 5. update script [check for updates]
 echo 6. credits [credits]
 echo 7. exit [EXIT]
-echo.
 echo a. download dll's [dll errors anyone?]
-echo.
 echo b. download other projects [check out my other stuff]
-echo.
 echo c. write all quicklauncher [MAKE IT EVEN FASTER] [make sure to run m first]
-echo.
 REM echo d. check for new everything version [automatically check for a new version]
-REM echo.
 echo e. install text-reader [update if had]
 echo.
 echo legacy options [ being merged in ]
