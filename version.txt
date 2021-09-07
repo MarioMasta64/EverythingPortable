@@ -27,9 +27,9 @@ kodi
 ppsspp
 26
 discord_canary
-23
-discord
 24
+discord
+25
 opera
 16
 citra

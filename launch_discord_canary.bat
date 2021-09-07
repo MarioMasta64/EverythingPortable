@@ -175,7 +175,7 @@ exit /b 2
 if exist "download?platform=win" del "download?platform=win" >nul
 call :HelperDownload "https://discordapp.com/api/download/canary?platform=win" "canary?platform=win"
 :MoveDiscordCanary
-move "canary?platform=win" ".\extra\DiscordCanarySetup.exe"
+move "canary@platform=win" ".\extra\DiscordCanarySetup.exe"
 :InstallDiscordCanary
 .\extra\DiscordCanary.exe
 exit /b 2
@@ -269,7 +269,7 @@ if exist .\bin\discord_canary\ call :Releasev14Upgrade
 exit /b 2
 
 :Version
-echo 23 > .\doc\version.txt
+echo 24 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
