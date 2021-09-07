@@ -178,7 +178,7 @@ if exist "download?platform=win" del "download?platform=win" >nul
 call :HelperDownload "https://discordapp.com/api/download?platform=win" "download?platform=win"
 REM call :HelperDownload "https://dl.discordapp.net/apps/win/0.0.309/DiscordSetup.exe" "DiscordSetup.exe"
 :MoveDiscord
-move "DiscordSetup.exe" ".\extra\DiscordSetup.exe"
+move "download@platform=win" ".\extra\DiscordSetup.exe"
 :InstallDiscord
 .\extra\DiscordSetup.exe
 :CleanupDiscord
@@ -299,7 +299,7 @@ if exist .\bin\discord\ call :Releasev15Upgrade
 exit /b 2
 
 :Version
-echo 24 > .\doc\version.txt
+echo 25 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
