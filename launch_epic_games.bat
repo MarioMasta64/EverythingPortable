@@ -57,6 +57,8 @@ if exist ".\bin\epic_games\Launcher\Portal\Extras\Redist\LauncherPrereqSetup_x!a
 echo.
 echo g. relink game paths
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -116,18 +118,19 @@ echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetEpicGames
+cls
 call :Null
 exit /b 2
-
 
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallEpicGames
+cls
 call :Null
 exit /b 2
 
@@ -197,15 +200,7 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-
-:3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
+:d
 :UpgradeEpicGames
 title Portable Epic Games Launcher - Helper Edition - Epic Games Update Check
 if exist EpicGamesLauncherInstaller.msi del EpicGamesLauncherInstaller.msi >nul
@@ -294,6 +289,19 @@ for %%A in (.\data\ProgramData\Epic\EpicGamesLauncher\Data\Manifests\*.item) do 
 pause
 exit /b 2
 
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeEpicGames
+call :ResetEpicGames
+call :UninstallEpicGames
+start /b "" cmd /c del "%~f0"&exit /b
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -345,7 +353,7 @@ if not exist ".\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.
 exit /b 2
 
 :Version
-echo 13 > .\doc\version.txt
+echo 14 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

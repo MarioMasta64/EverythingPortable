@@ -49,6 +49,8 @@ echo d. check for new indiegala version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -102,22 +104,22 @@ echo DO YOU REALLY WANT TO RESET?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
 :ResetIndieGala
+cls
 taskkill /f /im IGClient.exe
 if exist .\data\Users\MarioMasta64\AppData\Local\igclient-updater\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Local\igclient-updater\
 if exist .\data\Users\MarioMasta64\AppData\Roaming\IGClient\ rmdir /s /q .if exist .\data\Users\MarioMasta64\AppData\Local\igclient-updater\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\IGClient\
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallIndieGala
+cls
 taskkill /f /im IGClient.exe
 if exist .\bin\indiegala\ rmdir /s /q .\bin\indiegala\
 if exist .\extra\IGClientSetup.exe del .\extra\IGClientSetup.exe >nul
@@ -170,15 +172,7 @@ exit /b 2
 if not exist .\doc\everything_quicklaunch.txt call :Null
 exit /b 2
 
-
-:3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
+:d
 :UpgradeIndieGala
 title Portable IndieGala Launcher - Helper Edition - IndieGala Update Check
 if exist IGClientSetup.exe del IGClientSetup.exe >nul
@@ -196,6 +190,19 @@ title Portable IndieGala Launcher - Helper Edition - Text-Reader Update Check
 cls
 call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
 start "" "update-text-reader.bat"
+exit /b 2
+
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeIndieGala
+call :ResetIndieGala
+call :UninstallIndieGala
+start /b "" cmd /c del "%~f0"&exit /b
 exit /b 2
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
@@ -247,7 +254,9 @@ if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
 if not exist ".\bin\indiegala\IGClient.exe" set nag=INDIEGALA IS NOT INSTALLED CHOOSE "D"
 exit /b 2
-6 > .\doc\version.txt
+
+:Version
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

@@ -52,6 +52,8 @@ echo e. install text-reader [update if had]
 echo.
 echo f. download mod's [want cemu hook or something?]
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -92,14 +94,14 @@ set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetCemu
 cls
+taskkill /f /im "Cemu.exe"
 if exist ".\data\Users\MarioMasta64\AppData\Local\Cemu\" rmdir /s /q ".\data\Users\MarioMasta64\AppData\Local\Cemu\"
 exit /b 2
-
 
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
@@ -173,15 +175,7 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-
-:3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
+:d
 :UpgradeCemu
 title Portable Cemu Launcher - Helper Edition - Cemu Update Check
 if exist index.html del index.html >nul
@@ -246,6 +240,19 @@ cls & if exist launch_cemu_moddownloader.bat.1 del launch_cemu_moddownloader.bat
 cls & start launch_cemu_moddownloader.bat
 exit /b 2
 
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeCemu
+call :ResetCemu
+call :UninstallCemu
+start /b "" cmd /c del "%~f0"&exit /b
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -297,7 +304,7 @@ if not exist ".\bin\cemu\Cemu.exe" set nag=CEMU IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 50 > .\doc\version.txt
+echo 51 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -624,7 +631,6 @@ if exist .\bin\temp.txt rmdir /s /q %dir%
 :Skip-Upgrade
 if exist .\bin\temp.txt del .\bin\temp.txt >nul
 exit /b 2
-
 
 REM LEFTOVER STUFF, REMOVE EVENTUALLY
 

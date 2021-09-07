@@ -54,6 +54,8 @@ echo g. Restore OBS Folder [Fucked Up(?)]
 echo.
 echo h. download obs studio launcher
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -91,20 +93,20 @@ echo DO YOU REALLY WANT TO RESET?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
 :ResetOBSClassic
+cls
 call :Null
 exit /b 2
-
 
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallOBSClassic
+cls
 call :Null
 exit /b 2
 
@@ -173,15 +175,7 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-
-:3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
+:d
 :UpgradeOBSClassic
 title Portable OBS Classic Launcher - Helper Edition - OBS Classic Update Check
 if exist latest del latest >nul
@@ -259,6 +253,19 @@ cls & if exist launch_obs.bat.1 del launch_obs.bat >nul & rename launch_obs.bat.
 cls & start launch_obs.bat
 exit
 
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeOBSClassic
+call :ResetOBSClassic
+call :UninstallOBSClassic
+start /b "" cmd /c del "%~f0"&exit /b
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -310,7 +317,7 @@ if not exist ".\bin\obs_classic\!arch!bit\OBS.exe" set nag=OBS CLASSIC IS NOT IN
 exit /b 2
 
 :Version
-echo 17 > .\doc\version.txt
+echo 18 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

@@ -50,6 +50,8 @@ echo.
 echo e. install text-reader [update if had]
 echo.
 if not exist .\bin\lunascape\Locales\ echo f. install lunascape locales (required) & echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -86,21 +88,21 @@ echo DO YOU REALLY WANT TO RESET?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
 :ResetLunascape
+cls
 taskkill /f /im Luna.exe
 if exist .\bin\lunascape\UserSetting\2.0\Profile\ rmdir /s /q .\bin\lunascape\UserSetting\2.0\Profile\
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallLunascape
+cls
 taskkill /f /im Luna.exe
 FOR %%a IN ("!folder!\bin\lunascape\*") DO IF /i NOT "%%~nxa"=="Luna.ini" DEL "%%a" >nul
 del .\extra\LunaSetup* >nul
@@ -168,15 +170,7 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-
-:3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
+:d
 :UpgradeLunascape
 title Portable Lunascape Launcher - Helper Edition - Lunascape Update Checkz
 if exist latest del latest >nul
@@ -243,6 +237,19 @@ call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-read
 start "" "update-text-reader.bat"
 exit /b 2
 
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeLunascape
+call :ResetLunascape
+call :UninstallLunascape
+start /b "" cmd /c del "%~f0"&exit /b
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -294,7 +301,7 @@ if not exist ".\bin\lunascape\Luna.exe" set nag=LUNASCAPE IS NOT INSTALLED CHOOS
 exit /b 2
 
 :Version
-echo 7 > .\doc\version.txt
+echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

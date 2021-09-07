@@ -49,6 +49,8 @@ echo d. check for new vivaldi version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -87,19 +89,20 @@ echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetVivaldi
+cls
 taskkill /f /im Vivaldi.exe
 if exist .\data\vivaldi\ rmdir /s /q .\data\vivaldi\
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallVivaldi
+cls
 taskkill /f /im Vivaldi.exe
 if exist .\bin\vivaldi\ rmdir /s /q .\bin\vivaldi\
 if exist .\extra\Vivaldi* del .\extra\Vivaldi* >nul
@@ -211,6 +214,19 @@ call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-read
 start "" "update-text-reader.bat"
 exit /b 2
 
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeVivaldi
+call :ResetVivaldi
+call :UninstallVivaldi
+start /b "" cmd /c del "%~f0"&exit /b
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -262,7 +278,7 @@ if not exist ".\bin\vivaldi\Vivaldi.exe" set nag=VIVALDI IS NOT INSTALLED CHOOSE
 exit /b 2
 
 :Version
-echo 19 > .\doc\version.txt
+echo 20 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

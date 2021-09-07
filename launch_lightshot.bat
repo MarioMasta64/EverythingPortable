@@ -49,6 +49,8 @@ echo d. check for new lightshot version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -85,21 +87,21 @@ echo DO YOU REALLY WANT TO RESET?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
 :ResetLightshot
+cls
 taskkill /f /im Lightshot.exe
 if exist .\data\Documents\Lightshot\ rmdir /s /q .\data\Documents\Lightshot\
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallLightshot
+cls
 taskkill /f /im Lightshot.exe
 if exist .\bin\lightshot\ rmdir /s /q .\bin\lightshot\
 if exist .\extra\setup-lightshot.exe del .\extra\setup-lightshot.exe >nul
@@ -167,15 +169,7 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-
-:3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
+:d
 :UpgradeLightshot
 title Portable Lightshot Launcher - Helper Edition - Lightshot Update Check
 if exist setup-lightshot.exe del setup-lightshot.exe >nul
@@ -193,6 +187,19 @@ title Portable Lightshot Launcher - Helper Edition - Text-Reader Update Check
 cls
 call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
 start "" "update-text-reader.bat"
+exit /b 2
+
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeLightshot
+call :ResetLightshot
+call :UninstallLightshot
+start /b "" cmd /c del "%~f0"&exit /b
 exit /b 2
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
@@ -246,7 +253,7 @@ if not exist ".\bin\lightshot\Lightshot.exe" set nag=LIGHTSHOT IS NOT INSTALLED 
 exit /b 2
 
 :Version
-echo 14 > .\doc\version.txt
+echo 15 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

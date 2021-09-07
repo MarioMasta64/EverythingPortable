@@ -60,6 +60,8 @@ echo l. FORCE UPDATE EVERYTHING
 if exist .\extra\notfirstrun.txt echo m. UPDATE EVERYTHING
 echo n. TROUBLESHOOTING
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -93,14 +95,14 @@ echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetEverything
+cls
 call :Null
 exit /b 2
-
 
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
@@ -186,15 +188,7 @@ if exist .\doc\everything_quicklaunch.txt del .\doc\everything_quicklaunch.txt >
 pause
 exit /b 2
 
-
-:3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
+:d
 :UpgradeEverything
 set "nag=use the legacy option UPDATE EVERYTHING or FORCE UPDATE EVERYTHING"
 exit /b 2
@@ -314,6 +308,10 @@ echo.
 echo PRESS ENTER TO CONTINUE & pause >nul
 exit /b
 
+:z
+call :Null
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -364,7 +362,7 @@ if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta6
 exit /b 2
 
 :Version
-echo 39 > .\doc\version.txt
+echo 40 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

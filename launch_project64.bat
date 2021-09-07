@@ -49,6 +49,8 @@ echo d. check for new project64 version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -86,21 +88,23 @@ echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetProject64
+cls
+taskkill /f /im Project64.exe
 if exist .\bin\project64\Config\ rmdir /s /q .\bin\project64\Config\
 if exist .\bin\project64\Logs\ rmdir /s /q .\bin\project64\Logs\
 if exist .\bin\project64\Save\ rmdir /s /q .\bin\project64\Save\
 if exist .\bin\project64\Screenshots\ rmdir /s /q .\bin\project64\Screenshots\
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallProject64
+cls
 taskkill /f /im Project64.exe
 if exist .\bin\project64\Project64.exe del .\bin\project64\Project64.exe >nul
 if exist .\bin\project64\Plugin\ rmdir /s /q .\bin\project64\Plugin\
@@ -205,6 +209,19 @@ call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-read
 start "" "update-text-reader.bat"
 exit /b 2
 
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeProject64
+call :ResetProject64
+call :UninstallProject64
+start /b "" cmd /c del "%~f0"&exit /b
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -256,7 +273,7 @@ if not exist ".\bin\project64\Project64.exe" set nag=PROJECT46 IS NOT INSTALLED 
 exit /b 2
 
 :Version
-echo 15 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

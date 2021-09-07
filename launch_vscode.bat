@@ -52,6 +52,8 @@ echo.
 echo f. backup vscode folder [just in case]
 echo g. restore vscode folder [fucked up(?)]
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -89,20 +91,21 @@ echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetVscode
+cls
 taskkill /f /im Code.exe
 if exist .\data\Users\MarioMasta64\.vscode\ rmdir /s /q .\data\Users\MarioMasta64\.vscode\
 if exist .\data\Users\MarioMasta64\AppData\Roaming\Code\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\Code\
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallVscode
+cls
 taskkill /f /im Code.exe
 if exist .\bin\vscode* rmdir /s /q .\bin\vscode*
 exit /b 2
@@ -229,6 +232,19 @@ mkdir .\data\Users\MarioMasta64\.vscode\
 xcopy .\backup\.vscode\* .\data\Users\MarioMasta64\.vscode\ /e /i /y
 exit /b 2
 
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeVscode
+call :ResetVscode
+call :UninstallVscode
+start /b "" cmd /c del "%~f0"&exit /b
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -283,7 +299,7 @@ if not exist ".\bin\vscode!arch!\Code.exe" set nag=VSCODE IS NOT INSTALLED CHOOS
 exit /b 2
 
 :Version
-echo 21 > .\doc\version.txt
+echo 22 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

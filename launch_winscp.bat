@@ -57,6 +57,8 @@ echo i. launch winscppwd [launches winscppwd]
 echo.
 echo j. relink paths [assumes everything is on one drive]
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -96,18 +98,21 @@ echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetWinSCP
+cls
+taskkill /f /im WinSCP.exe
 if exist .\data\Users\MarioMasta64\AppData\Roaming\winscp.rnd del .\data\Users\MarioMasta64\AppData\Roaming\winscp.rnd >nul
 exit /b 2
-
 
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallWinSCP
+cls
+taskkill /f /im WinSCP.exe
 if exist .\bin\WinSCP\ rmdir /s /q .\bin\WinSCP\
 exit /b 2
 
@@ -373,6 +378,19 @@ for %%A in (.\bin\winscp\winscp.ini) do (
 pause
 exit /b 2
 
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeWinSCP
+call :ResetWinSCP
+call :UninstallWinSCP
+start /b "" cmd /c del "%~f0"&exit /b
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -424,7 +442,7 @@ if not exist ".\bin\WinSCP\WinSCP.exe" set nag=WINSCP IS NOT INSTALLED CHOOSE "D
 exit /b 2
 
 :Version
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

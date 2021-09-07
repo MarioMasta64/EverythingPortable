@@ -49,6 +49,8 @@ echo d. check for new mega version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -85,21 +87,21 @@ echo DO YOU REALLY WANT TO RESET?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
 :ResetMega
+cls
 taskkill /f /im MEGAsync.exe
 if exist ".\data\Users\MarioMasta64\AppData\Local\Mega Limited\" rmdir /s /q ".\data\Users\MarioMasta64\AppData\Local\Mega Limited\"
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallMega
+cls
 taskkill /f /im MEGAsync.exe
 if exist .\bin\mega\ rmdir /s /q .\bin\mega\
 if exist .\extra\MEGAsyncSetup32.exe del .\extra\MEGAsyncSetup32.exe >nul
@@ -170,15 +172,7 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-
-:3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
+:d
 :UpgradeMega
 title Portable Mega Launcher - Helper Edition - Mega Update Check
 if exist MEGAsyncSetup* del MEGAsyncSetup* >nul
@@ -203,6 +197,19 @@ title Portable Mega Launcher - Helper Edition - Text-Reader Update Check
 cls
 call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
 start "" "update-text-reader.bat"
+exit /b 2
+
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeMega
+call :ResetMega
+call :UninstallMega
+start /b "" cmd /c del "%~f0"&exit /b
 exit /b 2
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
@@ -256,7 +263,7 @@ if not exist ".\bin\mega\!arch!\MEGAsync.exe" set nag=MEGA IS NOT INSTALLED CHOO
 exit /b 2
 
 :Version
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

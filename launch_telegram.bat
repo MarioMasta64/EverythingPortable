@@ -49,6 +49,8 @@ echo d. check for new telegram version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -86,19 +88,20 @@ echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetTelegram
+cls
 taskkill /f /im Telegram.exe
 if exist .\bin\telegram\tdata\ rmdir /s /q .\bin\telegram\tdata\
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallTelegram
+cls
 taskkill /f /im Telegram.exe
 for /d %%i in (".\bin\telegram\*") do if /i not "%%i"==".\bin\telegram\tdata" if exist "%%i" rmdir /s /q "%%i"
 if exist .\extra\win*_portable.zip del .\extra\win*_portable.zip >nul
@@ -184,6 +187,19 @@ call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-read
 start "" "update-text-reader.bat"
 exit /b 2
 
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeTelegram
+call :ResetTelegram
+call :UninstallTelegram
+start /b "" cmd /c del "%~f0"&exit /b
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -235,7 +251,7 @@ if not exist ".\bin\telegram\Telegram.exe" set nag=TELEGRAM IS NOT INSTALLED CHO
 exit /b 2
 
 :Version
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

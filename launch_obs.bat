@@ -51,6 +51,8 @@ echo e. install text-reader [update if had]
 echo.
 echo f. relink source paths
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -89,21 +91,21 @@ echo DO YOU REALLY WANT TO RESET?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
 :ResetOBS
+cls
 taskkill /f /im obs!arch!.exe
 for /d %%i in (".\bin\obs\*") do if /i not "%%i"==".\bin\obs\bin" if exist "%%i" rmdir /s /q "%%i"
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallOBS
+cls
 taskkill /f /im obs!arch!.exe
 if exist .\bin\obs\bin\ rmdir /s /q .\bin\obs\bin\
 if exist .\extra\OBS*.zip del .\extra\OBS*.zip >nul
@@ -174,15 +176,7 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-
-:3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
+:d
 :UpgradeOBS
 title Portable OBS Launcher - Helper Edition - OBS Update Check
 if exist latest del latest >nul
@@ -317,6 +311,19 @@ for %%A in (.\bin\obs\config\obs-studio\basic\scenes\*.json) do (
 pause
 exit /b 2
 
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeOBS
+call :ResetOBS
+call :UninstallOBS
+start /b "" cmd /c del "%~f0"&exit /b
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -369,7 +376,7 @@ if not exist ".\bin\obs\bin\!arch!Bit\obs!arch!.exe" set nag=OBS IS NOT INSTALLE
 exit /b 2
 
 :Version
-echo 41 > .\doc\version.txt
+echo 42 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

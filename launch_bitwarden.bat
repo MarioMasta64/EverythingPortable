@@ -49,6 +49,8 @@ echo d. check for new bitwarden version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -86,15 +88,15 @@ echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetBitwarden
+cls
 taskkill /f /im Bitwarden.exe
 if exist .\data\Users\MarioMasta64\AppData\Roaming\Bitwarden\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\Bitwarden\
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
@@ -168,15 +170,7 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-
-:3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
+:d
 :UpgradeBitwarden
 title Portable Bitwarden Launcher - Helper Edition - Bitwarden Update Check
 if exist "index.html@app=desktop&platform=windows&variant=portable" del "index.html@app=desktop&platform=windows&variant=portable" >nul
@@ -195,6 +189,19 @@ title Portable Bitwarden Launcher - Helper Edition - Text-Reader Update Check
 cls
 call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
 start "" "update-text-reader.bat"
+exit /b 2
+
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeBitwarden
+call :ResetBitwarden
+call :UninstallBitwarden
+start /b "" cmd /c del "%~f0"&exit /b
 exit /b 2
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
@@ -248,7 +255,7 @@ if not exist ".\bin\bitwarden\!arch!Bit\Bitwarden.exe" set nag=BITWARDEN IS NOT 
 exit /b 2
 
 :Version
-echo 11 > .\doc\version.txt
+echo 12 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

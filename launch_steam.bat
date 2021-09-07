@@ -52,6 +52,8 @@ echo.
 echo f. type your steam login [to automatically login between pc]
 echo g. remove steam login [to not login automatically]
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -106,15 +108,15 @@ cls
 call :Null
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallSteam
+cls
 taskkill /f /im steam.exe
 if exist .\bin\steam\ rmdir /s /q .\bin\steam\
 if exist .\extra\SteamSetup.exe del .\extra\SteamSetup.exe >nul
@@ -230,6 +232,19 @@ exit /b 2
 if exist .\ini\steam.ini del .\ini\steam.ini >nul
 exit /b 2
 
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeSteam
+call :ResetSteam
+call :UninstallSteam
+start /b "" cmd /c del "%~f0"&exit /b
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -281,7 +296,7 @@ if not exist ".\bin\steam\steam.exe" set nag=STEAM IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 29 > .\doc\version.txt
+echo 30 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

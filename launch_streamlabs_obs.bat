@@ -51,6 +51,8 @@ echo e. install text-reader [update if had]
 echo.
 echo f. relink source paths
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -88,6 +90,7 @@ echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetStreamlabsOBS
+cls
 taskkill /f /im "Streamlabs OBS.exe"
 if exist .\data\Users\MarioMasta64\AppData\Roaming\obs-studio-node-server\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\obs-studio-node-server\
 if exist .\data\Users\MarioMasta64\AppData\Roaming\slobs-client\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\slobs-client\
@@ -95,15 +98,15 @@ if exist .\data\Users\MarioMasta64\AppData\Roaming\slobs-plugins\ rmdir /s /q .\
 if exist ".\data\Users\MarioMasta64\AppData\Roaming\Streamlabs OBS\" rmdir /s /q ".\data\Users\MarioMasta64\AppData\Roaming\Streamlabs OBS\"
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallStreamlabsOBS
+cls
 taskkill /f /im "Streamlabs OBS.exe"
 if exist .\bin\streamlabs_obs\ rmdir /s /q .\bin\streamlabs_obs\
 if exist .\data\StreamlabsOBSSetup.exe del .\data\StreamlabsOBSSetup.exe >nul
@@ -240,6 +243,19 @@ for %%A in (.\data\Users\MarioMasta64\AppData\Roaming\slobs-client\SceneCollecti
 pause
 exit /b 2
 
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeStreamlabsOBS
+call :ResetStreamlabsOBS
+call :UninstallStreamlabsOBS
+start /b "" cmd /c del "%~f0"&exit /b
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -291,7 +307,7 @@ if not exist ".\bin\streamlabs_obs\Streamlabs OBS.exe" set nag=STREAMLABS OBS IS
 exit /b 2
 
 :Version
-echo 11 > .\doc\version.txt
+echo 12 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

@@ -49,6 +49,8 @@ echo d. check for new tightvnc viewer version [automatically check for a new ver
 echo.
 echo e. install text-reader [update if had]
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -86,20 +88,21 @@ echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetTightVNCViewer
+cls
 taskkill /f /im tvnviewer.exe
 if exist .\data\AppData\TeamViewer\ rmdir /s /q .\data\AppData\TeamViewer\
 call :Null
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallTightVNCViewer
+cls
 taskkill /f /im tvnviewer.exe
 if exist .\bin\TeamViewer\ rmdir /s /q .\bin\TeamViewer\
 exit /b 2
@@ -233,6 +236,19 @@ call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-read
 start "" "update-text-reader.bat"
 exit /b 2
 
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeTightVNCViewer
+call :ResetTightVNCViewer
+call :UninstallTightVNCViewer
+start /b "" cmd /c del "%~f0"&exit /b
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -284,7 +300,7 @@ if not exist ".\bin\tightvnc_viewer\tvnviewer.exe" set nag=TIGHTVNC VIEWER IS NO
 exit /b 2
 
 :Version
-echo 9 > .\doc\version.txt
+echo 10 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

@@ -51,7 +51,8 @@ echo e. install text-reader [update if had]
 echo.
 echo f. relink game paths
 echo.
-
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -93,11 +94,10 @@ taskkill /f /im "Amazon Games.exe"
 if exist ".\data\Users\MarioMasta64\AppData\Local\Amazon Games\data\" rmdir /s /q ".\data\Users\MarioMasta64\AppData\Local\Amazon Games\data\"
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
@@ -168,15 +168,7 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-
-:3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
+:d
 :UpgradeAmazonGames
 title Portable Amazon Games Launcher - Helper Edition - Amazon Games Update Check
 if exist AmazonGamesSetup.exe del AmazonGamesSetup.exe >nul
@@ -260,7 +252,7 @@ if not exist ".\data\Users\MarioMasta64\AppData\Local\Amazon Games\App\Amazon Ga
 exit /b 2
 
 :Version
-echo 8 > .\doc\version.txt
+echo 9 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

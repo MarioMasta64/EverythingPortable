@@ -49,6 +49,8 @@ echo d. check for new wechat version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -86,20 +88,21 @@ echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetWeChat
+cls
 taskkill /f /im WeChat.exe
 if exist .\data\Users\MarioMasta64\AppData\Roaming\Tencent\WeChat\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\Tencent\WeChat\
 if exist .\data\Users\MarioMasta64\AppData\Roaming\Tencent\WeChatApp\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\Tencent\WeChatApp\
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallWeChat
+cls
 taskkill /f /im WeChat.exe
 if exist .\bin\wechat\ rmdir /s /q .\bin\wechat\
 if exist .\extra\WeChatSetup.exe del .\extra\WeChatSetup.exe >nul
@@ -185,6 +188,19 @@ call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-read
 start "" "update-text-reader.bat"
 exit /b 2
 
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeWeChat
+call :ResetWeChat
+call :UninstallWeChat
+start /b "" cmd /c del "%~f0"&exit /b
+exit /b 2
+
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
 REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
@@ -236,7 +252,7 @@ if not exist ".\bin\wechat\WeChat.exe" set nag=WECHAT IS NOT INSTALLED CHOOSE "D
 exit /b 2
 
 :Version
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

@@ -49,6 +49,8 @@ echo d. check for new firefox version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
+echo z. purge current install [ reset, uninstall, and delete launcher]
+echo.
 set /p choice="enter your choice and press enter to confirm: "
 :: sets errorlevel to 0 (?)
 ver >nul
@@ -86,21 +88,22 @@ echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetFirefox
+cls
 taskkill /f /im firefox.exe
 if exist .\data\Users\MarioMasta64\AppData\Local\Mozilla\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Local\Mozilla\
 if exist .\data\Users\MarioMasta64\AppData\Roaming\Mozilla\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\Mozilla\
 if exist .\data\firefox\ rmdir /s /q .\data\firefox\
 exit /b 2
 
-
 :4
 echo %NAG%
 set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
+echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallFirefox
+cls
 taskkill /f /im firefox.exe
 if exist .\bin\firefox\ rmdir /s /q .\bin\firefox\
 exit /b 2
@@ -167,15 +170,7 @@ echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
-
-:3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
-:Reset
+:d
 :UpgradeFirefox
 if exist index.html del index.html >nul
 call :HelperDownload "http://ftp.mozilla.org/pub/firefox/nightly/latest-mozilla-central/" "index.html"
@@ -207,6 +202,19 @@ title Portable Firefox Launcher - Helper Edition - Text-Reader Update Check
 cls
 call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
 start "" "update-text-reader.bat"
+exit /b 2
+
+:z
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU REALLY WANT TO PURGE?
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+:PurgeFirefox
+call :ResetFirefox
+call :UninstallFirefox
+start /b "" cmd /c del "%~f0"&exit /b
 exit /b 2
 
 REM PROGRAM SPECIFIC STUFF THAT CAN BE EASILY CHANGED BELOW
@@ -260,7 +268,7 @@ if not exist ".\bin\firefox\firefox.exe" set nag=FIREFOX IS NOT INSTALLED CHOOSE
 exit /b 2
 
 :Version
-echo 14 > .\doc\version.txt
+echo 15 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
