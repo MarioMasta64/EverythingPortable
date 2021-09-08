@@ -93,7 +93,7 @@ itchio
 lunascape
 8
 uplay
-3
+4
 wechat
 3
 opera_gx

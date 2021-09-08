@@ -79,7 +79,9 @@ if not exist ".\bin\uplay\UbisoftConnect.exe" set "nag=PLEASE INSTALL UPLAY FIRS
 title DO NOT CLOSE
 cls
 echo UPLAY IS RUNNING
-start .\bin\uplay\UbisoftConnect.exe
+pushd .\bin\uplay\
+start "" "UbisoftConnect.exe"
+popd
 exit
 
 :3
@@ -165,7 +167,9 @@ echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_la
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo start .\bin\uplay\UbisoftConnect.exe>>!quick_launcher!
+echo pushd .\bin\uplay\>>!quick_launcher!
+echo start "" "UbisoftConnect.exe">>!quick_launcher!
+echo popd>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
@@ -315,7 +319,7 @@ if not exist .\data\Users\MarioMasta64\Pictures\UbisoftConnect\ mkdir .\data\Use
 exit /b 2
 
 :Version
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
