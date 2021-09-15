@@ -108,3 +108,5 @@ openshot
 4
 retroarch
 3
+krita
+1
