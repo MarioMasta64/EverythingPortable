@@ -109,4 +109,4 @@ openshot
 retroarch
 3
 krita
-1
+2

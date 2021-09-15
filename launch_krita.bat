@@ -222,11 +222,11 @@ move "!krita_zip!" ".\extra\!krita_zip!"
 :ExtractKrita
 if exist .\bin\krita\bin\ rmdir /s /q .\bin\krita\bin\
 call :HelperExtract "!folder!\extra\!krita_zip!" "!folder!\temp\"
-:ProcessKrita
 pushd .\temp\krita*
 echo %CD%
 xcopy *.* "!folder!\bin\krita\" /e /i /y
 popd
+if exist .\temp\ rmdir /s /q .\temp\
 exit /b 2
 
 :e
@@ -301,7 +301,7 @@ if not exist ".\bin\krita\bin\krita.exe" set nag=KRITA IS NOT INSTALLED CHOOSE "
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
