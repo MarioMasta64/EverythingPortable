@@ -110,3 +110,5 @@ retroarch
 3
 krita
 2
+sai2
+1
