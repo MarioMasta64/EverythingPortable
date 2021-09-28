@@ -359,7 +359,7 @@ if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta6
 exit /b 2
 
 :Version
-echo 41 > .\doc\version.txt
+echo 42 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -739,6 +739,7 @@ cls
 title Portable Everything Launcher - Helper Edition - Download Launcher
 echo %NAG%
 set nag=Selection Time!
+if "!counter!" EQU "0" set "nag=There Is Nothing Else To Download (For Now)" & exit /b 2
 :: first number is which line to start second number is how many lines to count by
 For /L %%C in (1,1,!counter!) Do (echo %%C. !Line_%%C!)
 echo type menu to return to the main menu
@@ -757,11 +758,12 @@ if not exist "launch_!launchername!.bat" call :UpdateChoiceNow
 exit /b 2
 
 :Launch
+call :GetLaunchers
 cls
 title Portable Everything Launcher - Helper Edition - Select Launcher
 echo %NAG%
 set nag=Selection Time!
-call :GetLaunchers
+if "!counter!" EQU "0" set "nag=There Is Nothing To Launch (Try Using ^"F^" To Download Something)" & exit /b 2
 For /L %%C in (1,1,!counter!) Do (echo %%C. !Line_%%C!)
 echo type menu to return to the main menu
 :: typing "]" here opens cmd prompt. spoopy.
@@ -772,11 +774,12 @@ start !launcher!
 exit
 
 :Delete
+call :GetLaunchers
 cls
 title Portable Everything Launcher - Helper Edition - Delete Launcher
 echo %NAG%
 set nag=Selection Time!
-call :GetLaunchers
+if "!counter!" EQU "0" set "nag=There Is Nothing To Delete (Try Using ^"F^" To Download Something)" & exit /b 2
 For /L %%C in (1,1,!counter!) Do (echo %%C. !Line_%%C!)
 echo type menu to return to the main menu
 set /p choice="launcher to delete: "
@@ -786,11 +789,12 @@ del "!launcher!" >nul
 exit /b 2
 
 :Update
+call :GetLaunchers
 cls
 title Portable Everything Launcher - Helper Edition - Update Launcher
 echo %NAG%
 set nag=Selection Time!
-call :GetLaunchers
+if "!counter!" EQU "0" set "nag=There Is Nothing To Update (Try Using ^"F^" To Download Something)" & exit /b 2
 For /L %%C in (1,1,!counter!) Do (echo %%C. !Line_%%C!)
 echo type menu to return to the main menu
 set /p choice="launcher to update: "
@@ -822,8 +826,8 @@ if "!choice!"=="menu" exit /b 2
 goto Info
 
 :MoreInfo
-cls
 call :GetInfo
+cls
 title Portable "!launchername!" Launcher - More Info
 pause
 goto Info
