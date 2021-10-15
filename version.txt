@@ -116,3 +116,5 @@ revolt
 1
 guilded
 1
+yuzu
+1
