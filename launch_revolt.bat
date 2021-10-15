@@ -28,13 +28,13 @@ call :DataUpgrade
 
 :Menu
 cls
-title Portable OBS Classic Launcher - Helper Edition - Main Menu
+title Portable Revolt Launcher - Helper Edition - Main Menu
 echo %NAG%
 set nag="Selection Time!"
-echo 1. reinstall obs classic [will remove obs classic entirely]
-echo 2. launch obs classic [launches obs classic]
-echo 3. reset obs classic [will remove everything obs classic except the binary]
-echo 4. uninstall obs classic [finally ready to switch to obs studio?]
+echo 1. reinstall revolt [will remove revolt entirely]
+echo 2. launch revolt [launches revolt]
+echo 3. reset revolt [will remove everything revolt except the binary]
+echo 4. uninstall revolt [none of your friends even heard of revolt?]
 echo 5. update script [check for updates]
 echo 6. credits [credits]
 echo 7. exit [EXIT]
@@ -45,14 +45,9 @@ echo b. download other projects [check out my other stuff]
 echo.
 echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo.
-echo d. check for new telegram version [automatically check for a new version]
+echo d. check for new revolt version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
-echo.
-echo f. Backup OBS Folder [Just In Case]
-echo g. Restore OBS Folder [Fucked Up(?)]
-echo.
-echo h. download obs studio launcher
 echo.
 echo z. purge current install [ reset, uninstall, and delete launcher]
 echo.
@@ -70,20 +65,19 @@ set nag="NOT A FEATURE YET!"
 exit /b 2
 
 :1
-:ReinstallOBSClassic
+:ReinstallRevolt
 cls
-call :UninstallOBSClassic
-call :UpgradeOBSClassic
+call :UninstallRevolt
+call :UpgradeRevolt
 exit /b 2
 
 :2
-:LaunchOBSClassic
-if not exist ".\bin\obs_classic\!arch!bit\OBS.exe" set "nag=PLEASE INSTALL OBS CLASSIC FIRST" & exit /b 2
+:LaunchRevolt
+if not exist ".\bin\revolt\revolt.exe" set "nag=PLEASE INSTALL REVOLT FIRST" & exit /b 2
 title DO NOT CLOSE
 cls
-echo OBS CLASSIC IS RUNNING
-echo set "path=!path!;!folder!\dll\!arch!\;"
-start .\bin\obs_classic\!arch!bit\OBS.exe -portable
+echo REVOLT IS RUNNING
+start .\bin\revolt\revolt.exe
 exit
 
 :3
@@ -93,9 +87,10 @@ echo DO YOU REALLY WANT TO RESET?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
-:ResetOBSClassic
+:ResetRevolt
 cls
-call :Null
+taskkill /f /im revolt.exe
+if exist .\data\Users\MarioMasta64\AppData\Roaming\revolt-desktop\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\revolt-desktop\
 exit /b 2
 
 :4
@@ -105,20 +100,23 @@ echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
-:UninstallOBSClassic
+:UninstallRevolt
 cls
-call :Null
+taskkill /f /im revolt.exe
+if exist .\bin\revolt\ rmdir /s /q .\bin\revolt\
+if exist .\extra\*Revolt*.exe del .\extra\*Revolt*.exe >nul
+pause
 exit /b 2
 
 :5
 :UpdateCheck
 if exist version.txt del version.txt >nul
 cls
-title Portable OBS Classic Launcher - Helper Edition - Checking For Update
+title Portable Revolt Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt >nul
-set new_version=%Line_38%
+set new_version=%Line_116%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & exit /b 2
 if %current_version% EQU %new_version% call :LatestBuild & exit /b 2
 if %current_version% LSS %new_version% call :NewUpdate & exit /b 2
@@ -138,7 +136,7 @@ exit
 
 :a
 :DLLDownloaderCheck
-cls & title Portable OBS Classic Launcher - Helper Edition - Download Dll Downloader
+cls & title Portable Revolt Launcher - Helper Edition - Download Dll Downloader
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
 cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
@@ -146,7 +144,7 @@ exit /b 2
 
 :b
 :PortableEverything
-cls & title Portable OBS Classic Launcher - Helper Edition - Download Suite
+cls & title Portable Revolt Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
 cls & if exist launch_everything.bat.1 del launch_everything.bat >nul & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
@@ -155,103 +153,62 @@ exit /b 2
 :c
 :QuicklauncherCheck
 if not exist .\doc\everything_quicklaunch.txt cls
-title Portable OBS Classic Launcher - Helper Edition - Quicklauncher Writer
+title Portable Revolt Launcher - Helper Edition - Quicklauncher Writer
 echo @echo off>!quick_launcher!
 echo Color 0A>>!quick_launcher!
 echo cls>>!quick_launcher!
-echo set arch=32>>!quick_launcher!
-echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64">>!quick_launcher!
 echo set "folder=%%CD%%">>!quick_launcher!
 echo set "folder=%%folder:~0,-1%%">>!quick_launcher!
 echo set "UserProfile=%%folder%%\data\Users\MarioMasta64">>!quick_launcher!
 echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
-echo set "path=%%PATH%%;%%folder%%\dll\%%arch%%\;">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo start .\bin\obs_classic\%%arch%%bit\OBS.exe>>!quick_launcher!
+echo start .\bin\revolt\revolt.exe>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
 exit /b 2
 
 :d
-:UpgradeOBSClassic
-title Portable OBS Classic Launcher - Helper Edition - OBS Classic Update Check
-if exist latest del latest >nul
-call :HelperDownload "https://api.github.com/repos/jp9000/obs/releases/latest" "latest"
-:: create file or wont work (do not run on same file)
-:: create file or wont work (do not run on same file)
-echo.> latest.txt
-TYPE latest | MORE /P > latest.txt
-for /f tokens^=4delims^=^" %%A in (
-  'findstr /i /c:"_With_Browser.zip" latest.txt'
-) Do > .\doc\obs_classic_link.txt Echo:%%A
-if exist latest del latest >nul
-if exist latest.txt del latest.txt >nul
-set /p obs_classic_link=<.\doc\obs_classic_link.txt
-set "tempstr=!obs_classic_link!"
+:UpgradeRevolt
+title Portable Revolt Launcher - Helper Edition - Revolt Update Check
+if exist index.html del index.html >nul
+call :HelperDownload "https://github.com/revoltchat/desktop/releases/" "index.html"
+for /f tokens^=2delims^=^" %%A in (
+  'findstr /i /c:".exe" index.html'
+) Do > .\doc\revolt_link.txt Echo:%%A & goto :stop_search
+:stop_search
+set /p revolt_link=<.\doc\revolt_link.txt
+set "revolt_link=!revolt_link:-Setup=!"
+set "revolt_link=https://github.com!revolt_link:~0,-1!"
+set "tempstr=!revolt_link!"
 set "result=%tempstr:/=" & set "result=%"
-set "obs_classic_zip=!result!"
+set "revolt_exe=!result!"
+if exist index.html del index.html >nul
 cls
-echo "!obs_classic_link!"
-echo "!obs_classic_zip!"
-if exist "!obs_classic_zip!" del "!obs_classic_zip!" >nul
-if exist ".\extra\!obs_classic_zip!" (
-  echo obs classic is updated.
+echo "!revolt_link!"
+echo "!revolt_exe!"
+pause
+if exist "!revolt_exe!" del "!revolt_exe!" >nul
+if exist ".\extra\!revolt_exe!" (
+  echo revolt is updated.
   pause
   exit /b
 )
-pause
-call :HelperDownload "!obs_classic_link!" "!obs_classic_zip!"
-:MoveOBSClassic
-move "!obs_classic_zip!" ".\extra\!obs_classic_zip!"
-:ExtractOBSClassic
-call :HelperExtract "!folder!\extra\!obs_classic_zip!" "!folder!\bin\obs_classic\"
+call :HelperDownload "!revolt_link!" "!revolt_exe!"
+:MoveRevolt
+move "!revolt_exe!" ".\extra\!revolt_exe!"
+:CopyRevolt
+echo f | xcopy ".\extra\!revolt_exe!" ".\bin\revolt\revolt.exe" /e /i /y
 exit /b 2
 
 :e
-title Portable OBS Classic Launcher - Helper Edition - Text-Reader Update Check
+title Portable Revolt Launcher - Helper Edition - Text-Reader Update Check
 cls
 call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
 start "" "update-text-reader.bat"
 exit /b 2
-
-:f
-:BackupOBSFolder
-:: title Portable OBS Launcher - Expiremental Edition - Backing Up OBS Folder...
-echo make sure
-echo "!folder!\data\obs_classic\"
-echo contains your data before pressing enter
-pause >nul
-cls
-echo BACKING UP OBS
-if exist .\backup\obs_classic\ rmdir /s /q c.\backup\obs_classic\
-mkdir .\backup\obs_classic\
-xcopy .\data\obs_classic\* .\backup\obs_classic\ /e /i /y
-exit /b 2
-
-:g
-:RestoreOBSFolder
-:: title Portable OBS Launcher - Expiremental Edition - Restoring OBS Folder...
-echo make sure
-echo "!folder!\backup\obs_classic\"
-echo contains your data before pressing enter
-pause >nul
-cls
-echo RESTORING OBS
-if exist .\backup\obs_classic\ rmdir /s /q .\data\obs_classic\
-mkdir .\data\obs_classic\
-xcopy .\backup\obs_classic\* .\data\obs_classic\ /e /i /y
-exit /b 2
-
-:h
-:DownloadOBSLauncher
-cls & title Portable OBS Classic Launcher - Helper Edition - Download OBS Classic Launcher
-call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_obs.bat" "launch_obs.bat.1"
-cls & if exist launch_obs.bat.1 del launch_obs.bat >nul & rename launch_obs.bat.1 launch_obs.bat
-cls & start launch_obs.bat
-exit
 
 :z
 echo %NAG%
@@ -260,9 +217,9 @@ echo DO YOU REALLY WANT TO PURGE?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
-:PurgeOBSClassic
-call :ResetOBSClassic
-call :UninstallOBSClassic
+:PurgeRevolt
+call :ResetRevolt
+call :UninstallRevolt
 start /b "" cmd /c del "%~f0"&exit /b
 exit /b 2
 
@@ -313,11 +270,11 @@ if not exist ".\data\Users\MarioMasta64\Pictures\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioMasta64\Saved Games\"
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
-if not exist ".\bin\obs_classic\!arch!bit\OBS.exe" set nag=OBS CLASSIC IS NOT INSTALLED CHOOSE "D"
+if not exist ".\bin\revolt\revolt.exe" set nag=REVOLT IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 19 > .\doc\version.txt
+echo 1 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -339,7 +296,7 @@ echo =    You may also modify this script without     = >> !license!
 echo =         consent for PERSONAL USE ONLY          = >> !license!
 echo ================================================== >> !license!
 cls
-title Portable OBS Classic Launcher - Helper Edition - About
+title Portable Revolt Launcher - Helper Edition - About
 for /f "DELIMS=" %%i in (!license!) do (echo %%i)
 pause
 call :PingInstall
@@ -349,7 +306,7 @@ REM if a script can be used between files then it can be put here and re-written
 REM stuff here will not be changed between programs
 
 :SetArch
-set arch=32
+set arch=
 if exist "%PROGRAMFILES(X86)%" set "arch=64"
 exit /b 2
 
@@ -506,7 +463,7 @@ exit /b 2
 
 :LatestBuild
 cls
-title Portable OBS Classic Launcher - Helper Edition - Latest Build :D
+title Portable Revolt Launcher - Helper Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
@@ -516,7 +473,7 @@ exit
 
 :NewUpdate
 cls
-title Portable OBS Classic Launcher - Helper Edition - Old Build D:
+title Portable Revolt Launcher - Helper Edition - Old Build D:
 echo %NAG%
 set nag="Selection Time!"
 echo you are using an older version
@@ -530,7 +487,7 @@ set nag="please enter YES or NO"
 goto NewUpdate
 
 :UpdateNow
-cls & title Portable OBS Classic Launcher - Helper Edition - Updating Launcher
+cls & title Portable Revolt Launcher - Helper Edition - Updating Launcher
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/!main_launcher!" "!main_launcher!.1"
 cls & if exist "!main_launcher!.1" goto ReplacerCreate
 cls & call :ErrorOffline
@@ -550,7 +507,7 @@ exit
 
 :PreviewBuild
 cls
-title Portable OBS Classic Launcher - Helper Edition - Test Build :0
+title Portable Revolt Launcher - Helper Edition - Test Build :0
 echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
@@ -607,7 +564,7 @@ exit /b 2
 
 :Cmd
 cls
-title Portable OBS Classic Launcher - Helper Edition - Command Prompt - By MarioMasta64
+title Portable Revolt Launcher - Helper Edition - Command Prompt - By MarioMasta64
 ver
 echo (C) Copyright Microsoft Corporation. All rights reserved
 echo.

@@ -35,7 +35,7 @@ opera
 citra
 14
 obs_classic
-18
+19
 github_desktop
 22
 uwamp
@@ -73,7 +73,7 @@ skype
 bitwarden
 12
 sharex
-13
+14
 streamlabs_obs
 12
 deep_shredder
@@ -111,4 +111,8 @@ retroarch
 krita
 2
 sai2
+1
+revolt
+1
+guilded
 1

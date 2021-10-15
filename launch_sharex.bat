@@ -34,7 +34,7 @@ set nag="Selection Time!"
 echo 1. reinstall sharex [will remove sharex entirely]
 echo 2. launch sharex [launches sharex]
 echo 3. reset sharex [will remove everything sharex except the binary]
-echo 4. uninstall sharex [none of your friends on sharex?]
+echo 4. uninstall sharex [windows snipping tool finally better? (doubt)]
 echo 5. update script [check for updates]
 echo 6. credits [credits]
 echo 7. exit [EXIT]
@@ -175,7 +175,6 @@ exit /b 2
 :UpgradeShareX
 title Portable ShareX Launcher - Helper Edition - ShareX Update Check
 if exist index.html del index.html >nul
-
 call :HelperDownload "https://github.com/ShareX/ShareX/releases/" "index.html"
 for /f tokens^=2delims^=^" %%A in (
   'findstr /i /c:".zip" index.html'
@@ -192,6 +191,11 @@ echo "!sharex_link!"
 echo "!sharex_zip!"
 pause
 if exist "!sharex_zip!" del "!sharex_zip!" >nul
+if exist ".\extra\!sharex_zip!" (
+  echo sharex is updated.
+  pause
+  exit /b
+)
 call :HelperDownload "!sharex_link!" "!sharex_zip!"
 :MoveShareX
 move "!sharex_zip!" ".\extra\!sharex_zip!"
@@ -270,7 +274,7 @@ if not exist ".\bin\sharex\ShareX.exe" set nag=SHAREX IS NOT INSTALLED CHOOSE "D
 exit /b 2
 
 :Version
-echo 13 > .\doc\version.txt
+echo 14 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
