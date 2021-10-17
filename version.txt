@@ -118,3 +118,5 @@ guilded
 1
 yuzu
 1
+parsec
+1
