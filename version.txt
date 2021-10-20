@@ -120,3 +120,5 @@ yuzu
 1
 parsec
 1
+gimp
+1
