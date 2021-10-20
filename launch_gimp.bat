@@ -260,6 +260,7 @@ for /f tokens^=2-6delims^=^" %%A in (
   if "!Source_Original:~0,5!"=="{app}" echo f | xcopy "!Source!" "!Target!" /e /i /y|find /v "File(s) copied"
 )
 REM currently twain does not run without crashing so it is removed, twain is for scanning images into gimp from a scanner
+if exist .\bin\gimp\lib\gimp\2.0\plug-ins\twain\ rmdir /s /q .\bin\gimp\lib\gimp\2.0\plug-ins\twain\
 if exist ".\temp\" rmdir /s /q ".\temp\"
 exit /b 2
 
