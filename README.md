@@ -1,6 +1,6 @@
 # EverythingPortable
 
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40MarioMasta64)](https://twitter.com/MarioMasta64)
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40MARlOMASTA64)](https://twitter.com/MARlOMASTA64)
 
 # this project has been revived
 
