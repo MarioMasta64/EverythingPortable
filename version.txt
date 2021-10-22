@@ -122,3 +122,5 @@ parsec
 1
 gimp
 1
+vlc
+1
