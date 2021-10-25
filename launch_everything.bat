@@ -359,7 +359,7 @@ if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta6
 exit /b 2
 
 :Version
-echo 42 > .\doc\version.txt
+echo 43 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -829,6 +829,16 @@ goto Info
 call :GetInfo
 cls
 title Portable "!launchername!" Launcher - More Info
+if exist "!launchername!.txt" del "!launchername!.txt" >nul
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/info/!launchername!.txt" "!launchername!.txt"
+cls
+if not exist "!launchername!.txt" (
+    set "nag=No Info Found / Info Download Failed"
+    echo "Failed To Download https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/info/"
+    goto Info
+)
+for /f "DELIMS=" %%i in (!launchername!.txt) do (echo %%i)
+if exist "!launchername!.txt" del "!launchername!.txt" >nul
 pause
 goto Info
 
