@@ -124,3 +124,5 @@ gimp
 1
 vlc
 1
+rpcs3
+1
