@@ -172,6 +172,7 @@ exit /b 2
 
 :d
 :UpgradeYuzu
+set "path=!PATH!;!folder!\dll\64\;"
 title Portable Yuzu Launcher - Helper Edition - Yuzu Update Check
 if exist yuzu_install.exe del yuzu_install.exe >nul
 call :HelperDownload "https://github.com/yuzu-emu/liftinstall/releases/download/1.8/yuzu_install.exe" "yuzu_install.exe"
@@ -184,6 +185,7 @@ echo DO NOT CHOOSE EARLY ACCESS
 echo MAKE SURE TO UNCHECK "CREATE SHORTCUT"
 echo ENTER TO CONTINUE & pause >nul
 .\extra\yuzu_install.exe
+set "path=!PATH:%folder%\dll\64\;=!"
 exit /b 2
 
 :e
@@ -258,7 +260,7 @@ if not exist ".\data\Users\MarioMasta64\AppData\Local\yuzu\yuzu-windows-msvc\yuz
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
