@@ -77,6 +77,7 @@ if not exist ".\bin\rpcs3\rpcs3.exe" set "nag=PLEASE INSTALL RPCS3 FIRST" & exit
 title DO NOT CLOSE
 cls
 echo RPCS3 IS RUNNING
+set "path=!PATH!;!folder!\dll\64\;"
 start "" ".\bin\rpcs3\rpcs3.exe"
 exit
 
@@ -156,6 +157,7 @@ title Portable RPCS3 Launcher - Helper Edition - Quicklauncher Writer
 echo @echo off>!quick_launcher!
 echo Color 0A>>!quick_launcher!
 echo cls>>!quick_launcher!
+echo set "path=%%PATH%%;%%folder%%\dll\64\;">>!quick_launcher!
 echo set "folder=%%CD%%">>!quick_launcher!
 echo set "folder=%%folder:~0,-1%%">>!quick_launcher!
 echo set "UserProfile=%%folder%%\data\Users\MarioMasta64">>!quick_launcher!
@@ -285,7 +287,7 @@ if not exist ".\bin\rpcs3\rpcs3.exe" set nag=RPCS3 IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
