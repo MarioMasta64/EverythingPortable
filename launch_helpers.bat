@@ -26,7 +26,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 19 > .\doc\version.txt
+echo 20 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -262,7 +262,7 @@ if not exist .\bin\lessmsi\lessmsi.exe call :DownloadMSI
 .\bin\lessmsi\lessmsi.exe x "!folder!\extra\7z1900.msi" "!folder!\temp\"
 xcopy ".\temp\SourceDir\Files\7-Zip\" ".\bin\7zip\32\" /e /i /y
 if exist .\temp\*duplicate1 del .\temp\*duplicate1 >nul
-pause
+REM pause
 if exist .\temp\ rmdir /s /q .\temp\
 exit /b
 
