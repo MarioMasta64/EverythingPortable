@@ -33,7 +33,7 @@ discord
 opera
 16
 citra
-14
+15
 obs_classic
 19
 github_desktop

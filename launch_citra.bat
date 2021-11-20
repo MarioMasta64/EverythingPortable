@@ -173,25 +173,65 @@ exit /b 2
 :d
 :UpgradeCitra
 title Portable Citra Launcher - Helper Edition - Citra Update Check
-if exist citra-setup-windows.exe del citra-setup-windows.exe >nul
-call :HelperDownload "https://github.com/citra-emu/citra-web/releases/download/1.0/citra-setup-windows.exe" "citra-setup-windows.exe"
+if exist index.html del index.html >nul
+call :HelperDownload "https://github.com/citra-emu/citra-nightly/releases/latest/" "index.html"
+set counter=0
+:UpgradeSearchLoop
+set /a counter+=1
+for /f tokens^=%counter%delims^=^" %%A in (
+  'findstr /i /c:"/citra-emu/citra-nightly/releases/download/" index.html'
+) Do > .\doc\citra_link.txt Echo:%%A
+set /p citra_link=<.\doc\citra_link.txt
+echo !citra_link!
+echo !counter!
+set "tempstr=!citra_link!"
+set "result=%tempstr:/=" & set "result=%"
+set "citra_7z=!result!"
+if "!citra_7z:~0,20!"=="citra-windows-mingw-" echo hit & goto ExitUpgradeSearchLoop
+goto UpgradeSearchLoop
+:ExitUpgradeSearchLoop
+if exist index.html del index.html >nul
+cls
+set "citra_link=https://github.com!citra_link:.tar.gz=.7z!"
+set "citra_7z=!citra_7z:.tar.gz=.7z!"
+echo "!citra_link!"
+echo "!citra_7z!"
+echo PRESS ENTER TO CONTINUE & pause >nul
+cls
+set broke=0
+if exist ".\extra\!citra_7z!" (
+  echo citra is updated.
+  pause
+  exit /b 2
+)
+cls
+echo upgrading to citra v!citra_7z:~20,-3!
+call :HelperDownload "!citra_link!" "!citra_7z!"
 :MoveCitra
-move citra-setup-windows.exe .\extra\citra-setup-windows.exe
-:InstallCitra
-cls
-echo continue with installation,
-echo when prompted for location enter,
-echo do not choose canary
-echo "!folder!\bin\citra"
-echo ENTER TO CONTINUE & pause >nul
-.\extra\citra-setup-windows.exe
-:CleanupCitra
-cls
-for /d %%i in (".\bin\citra\*") do if /i not "%%i"==".\bin\citra\nightly-mingw" rmdir /s /q "%%i"
-for /R %%i in (.\bin\citra\*) do del "%%i" >nul
-xcopy .\bin\citra\nightly-mingw\* .\bin\citra\ /e /i /y
-if exist .\bin\citra\nightly-mingw\ rmdir /s /q .\bin\citra\nightly-mingw\
-if exist "!AppData!\Microsoft\Windows\Start Menu\Programs\Citra\" rmdir /s /q "!AppData!\Microsoft\Windows\Start Menu\Programs\Citra\"
+move "!citra_7z!" ".\extra\!citra_7z!"
+:ExtractCitra
+call :HelperExtract7zip "!folder!\extra\!citra_7z!" "!folder!\temp\"
+xcopy .\temp\nightly-mingw\* .\bin\citra\ /e /i /y
+if exist .\temp\ rmdir /s /q .\temp\
+REM if exist citra-setup-windows.exe del citra-setup-windows.exe >nul
+REM call :HelperDownload "https://github.com/citra-emu/citra-web/releases/download/1.0/citra-setup-windows.exe" "citra-setup-windows.exe"
+REM :MoveCitra
+REM move citra-setup-windows.exe .\extra\citra-setup-windows.exe
+REM :InstallCitra
+REM cls
+REM echo continue with installation,
+REM echo when prompted for location enter,
+REM echo do not choose canary
+REM echo "!folder!\bin\citra"
+REM echo ENTER TO CONTINUE & pause >nul
+REM .\extra\citra-setup-windows.exe
+REM :CleanupCitra
+REM cls
+REM for /d %%i in (".\bin\citra\*") do if /i not "%%i"==".\bin\citra\nightly-mingw" rmdir /s /q "%%i"
+REM for /R %%i in (.\bin\citra\*) do del "%%i" >nul
+REM xcopy .\bin\citra\nightly-mingw\* .\bin\citra\ /e /i /y
+REM if exist .\bin\citra\nightly-mingw\ rmdir /s /q .\bin\citra\nightly-mingw\
+REM if exist "!AppData!\Microsoft\Windows\Start Menu\Programs\Citra\" rmdir /s /q "!AppData!\Microsoft\Windows\Start Menu\Programs\Citra\"
 exit /b 2
 
 :e
@@ -266,7 +306,7 @@ if not exist ".\bin\citra\citra-qt.exe" set nag=CITRA IS NOT INSTALLED CHOOSE "D
 exit /b 2
 
 :Version
-echo 14 > .\doc\version.txt
+echo 15 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
