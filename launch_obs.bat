@@ -51,6 +51,8 @@ echo e. install text-reader [update if had]
 echo.
 echo f. relink source paths
 echo.
+echo g. import from streamlabs launcher
+echo.
 echo z. purge current install [ reset, uninstall, and delete launcher]
 echo.
 set /p choice="enter your choice and press enter to confirm: "
@@ -94,7 +96,7 @@ if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetOBS
 cls
 taskkill /f /im obs!arch!.exe
-for /d %%i in (".\bin\obs\*") do if /i not "%%i"==".\bin\obs\bin" if exist "%%i" rmdir /s /q "%%i"
+if exist .\bin\obs\config\ rmdir /s /q .\bin\obs\config\
 exit /b 2
 
 :4
@@ -311,6 +313,20 @@ for %%A in (.\bin\obs\config\obs-studio\basic\scenes\*.json) do (
 pause
 exit /b 2
 
+:g
+cls
+title Portable OBS Launcher - Helper Edition - Streamlabs Import
+xcopy ".\data\Users\MarioMasta64\AppData\Roaming\slobs-plugins\*" ".\bin\obs\" /e /i /y
+xcopy ".\data\Users\MarioMasta64\AppData\Roaming\slobs-client\basic\*" ".\bin\obs\config\obs-studio\basic\" /e /i /y
+xcopy ".\data\Users\MarioMasta64\AppData\Roaming\slobs-client\plugin_config\*" ".\bin\obs\config\obs-studio\plugin_config\" /e /i /y
+xcopy ".\data\Users\MarioMasta64\AppData\Roaming\slobs-client\profiler_data\*" ".\bin\obs\config\obs-studio\profiler_data\" /e /i /y
+xcopy ".\data\Users\MarioMasta64\AppData\Roaming\slobs-client\SceneCollections\*" ".\bin\obs\config\obs-studio\SceneCollections\" /e /i /y
+xcopy ".\data\Users\MarioMasta64\AppData\Roaming\slobs-client\Media\*" ".\bin\obs\config\obs-studio\Media\" /e /i /y
+xcopy ".\data\Users\MarioMasta64\AppData\Roaming\slobs-client\Session Storage\*" ".\bin\obs\config\obs-studio\Session Storage\" /e /i /y
+xcopy ".\data\Users\MarioMasta64\AppData\Roaming\slobs-client\global.ini" ".\bin\obs\config\obs-studio\" /e /i /y
+pause
+exit /b 2
+
 :z
 echo %NAG%
 set nag=SELECTION TIME!
@@ -376,7 +392,7 @@ if not exist ".\bin\obs\bin\!arch!Bit\obs!arch!.exe" set nag=OBS IS NOT INSTALLE
 exit /b 2
 
 :Version
-echo 42 > .\doc\version.txt
+echo 43 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
