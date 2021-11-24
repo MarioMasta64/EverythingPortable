@@ -554,6 +554,7 @@ echo Color 0A >> replacer.bat
 echo del "!main_launcher!" >> replacer.bat
 echo rename "!main_launcher!.1" "!main_launcher!" >> replacer.bat
 echo start "" "!main_launcher!" >> replacer.bat
+echo Powershell.exe -ExecutionPolicy Bypass -Command '(Get-Content "!folder!\!main_launcher!" -Raw).Replace("`r`n","`n") ^| Set-Content "!folder!\!main_launcher!" -Force' >> replacer.bat
 :: launcher exits, deletes itself, and then exits again. yes. its magic.
 echo (goto) 2^ >nul ^& del "%%~f0" ^& exit >> replacer.bat
 call :HelperHide "replacer.bat"
