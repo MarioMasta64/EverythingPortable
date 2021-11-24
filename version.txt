@@ -117,7 +117,7 @@ revolt
 guilded
 1
 yuzu
-3
+4
 parsec
 1
 gimp

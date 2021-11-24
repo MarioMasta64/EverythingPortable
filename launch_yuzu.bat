@@ -173,20 +173,67 @@ exit /b 2
 
 :d
 :UpgradeYuzu
-set "path=!PATH!;!folder!\dll\64\;"
 title Portable Yuzu Launcher - Helper Edition - Yuzu Update Check
-if exist yuzu_install.exe del yuzu_install.exe >nul
-call :HelperDownload "https://github.com/yuzu-emu/liftinstall/releases/download/1.8/yuzu_install.exe" "yuzu_install.exe"
-:MoveYuzu
-move yuzu_install.exe .\extra\yuzu_install.exe
-:InstallYuzu
+if exist index.html del index.html >nul
+call :HelperDownload "https://github.com/yuzu-emu/yuzu-mainline/releases/latest/" "index.html"
+set counter=0
+:UpgradeSearchLoop
+set /a counter+=1
+for /f tokens^=%counter%delims^=^" %%A in (
+  'findstr /i /c:"/yuzu-emu/yuzu-mainline/releases/download/" index.html'
+) Do > .\doc\yuzu_link.txt Echo:%%A
+set /p yuzu_link=<.\doc\yuzu_link.txt
+echo !yuzu_link!
+echo !counter!
+set "tempstr=!yuzu_link!"
+set "result=%tempstr:/=" & set "result=%"
+set "yuzu_7z=!result!"
+if "!yuzu_7z:~0,18!"=="yuzu-windows-msvc-" echo hit & goto ExitUpgradeSearchLoop
+goto UpgradeSearchLoop
+:ExitUpgradeSearchLoop
+if exist index.html del index.html >nul
 cls
-echo continue with installation,
-echo DO NOT CHOOSE EARLY ACCESS
-echo MAKE SURE TO UNCHECK "CREATE SHORTCUT"
-echo ENTER TO CONTINUE & pause >nul
-.\extra\yuzu_install.exe
-set "path=!PATH:%folder%\dll\64\;=!"
+set "yuzu_link=https://github.com!yuzu_link:.zip=.7z!"
+set "yuzu_link=!yuzu_link:-debugsymbols.zip=.7z!"
+set "yuzu_link=!yuzu_link:.tar.xz=.7z!"
+set "yuzu_link=!yuzu_link:-source=!"
+set "tempstr=!yuzu_link!"
+set "result=%tempstr:/=" & set "result=%"
+set "yuzu_7z=!result!"
+echo "!yuzu_link!"
+echo "!yuzu_7z!"
+echo PRESS ENTER TO CONTINUE & pause >nul
+cls
+set broke=0
+if exist ".\extra\!yuzu_7z!" (
+  echo yuzu is updated.
+  pause
+  exit /b 2
+)
+cls
+echo upgrading to yuzu v!yuzu_7z:~18,-3!
+call :HelperDownload "!yuzu_link!" "!yuzu_7z!"
+:MoveYuzu
+move "!yuzu_7z!" ".\extra\!yuzu_7z!"
+:ExtractYuzu
+call :HelperExtract7zip "!folder!\extra\!yuzu_7z!" "!folder!\temp\"
+xcopy .\temp\yuzu-windows-msvc\* .\data\Users\MarioMasta64\AppData\Local\yuzu\yuzu-windows-msvc\ /e /i /y
+if exist .\temp\ rmdir /s /q .\temp\
+REM :UpgradeYuzu
+REM set "path=!PATH!;!folder!\dll\64\;"
+REM title Portable Yuzu Launcher - Helper Edition - Yuzu Update Check
+REM if exist yuzu_install.exe del yuzu_install.exe >nul
+REM call :HelperDownload "https://github.com/yuzu-emu/liftinstall/releases/download/1.8/yuzu_install.exe" "yuzu_install.exe"
+REM :MoveYuzu
+REM move yuzu_install.exe .\extra\yuzu_install.exe
+REM :InstallYuzu
+REM cls
+REM echo continue with installation,
+REM echo DO NOT CHOOSE EARLY ACCESS
+REM echo MAKE SURE TO UNCHECK "CREATE SHORTCUT"
+REM echo ENTER TO CONTINUE & pause >nul
+REM .\extra\yuzu_install.exe
+REM set "path=!PATH:%folder%\dll\64\;=!"
 exit /b 2
 
 :e
@@ -261,7 +308,7 @@ if not exist ".\data\Users\MarioMasta64\AppData\Local\yuzu\yuzu-windows-msvc\yuz
 exit /b 2
 
 :Version
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
