@@ -163,6 +163,7 @@ echo set "UserProfile=%%folder%%\data\Users\MarioMasta64">>!quick_launcher!
 echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
+echo set "path=%%PATH%%;%%folder%%\dll\64\;">>!quick_launcher!
 echo cls>>!quick_launcher!
 echo start .\data\Users\MarioMasta64\AppData\Local\yuzu\yuzu-windows-msvc\yuzu.exe>>!quick_launcher!
 echo exit>>!quick_launcher!
@@ -260,7 +261,7 @@ if not exist ".\data\Users\MarioMasta64\AppData\Local\yuzu\yuzu-windows-msvc\yuz
 exit /b 2
 
 :Version
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
