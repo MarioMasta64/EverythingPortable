@@ -25,6 +25,7 @@ call :Version
 call :Credits
 call :HelperCheck
 call :DataUpgrade
+call :v30UpgradeCheck
 
 :Menu
 cls
@@ -89,9 +90,15 @@ if exist .\ini\steam.ini (
     if "!a:~1,5!"=="User:" set "user=!a:~6,-1!" 
     if "!a:~1,5!"=="Pass:" set "pass=!a:~6,-1!" 
   ) 
-  start .\bin\steam\steam.exe -login "!user!" "!pass!" 
-) 
-if not exist .\ini\steam.ini start .\bin\steam\steam.exe
+  pushd .\bin\steam\
+  start steam.exe -login "!user!" "!pass!"
+  popd
+)
+if not exist .\ini\steam.ini (
+  pushd .\bin\steam\
+  start steam.exe
+  popd
+)
 REM xcopy /q "%UserProfile%\data\AppData\LocalLow\*" .\data\AppData\LocalLow /e /i /y
 REM if exist "%UserProfile%\data\AppData\LocalLow" rmdir /s /q "%UserProfile%\data\AppData\LocalLow"
 exit
@@ -189,9 +196,15 @@ echo     set "a=%%%%a">>!quick_launcher!
 echo     if "^!a:~1,5^!"=="User:" set "user=^!a:~6,-1^!">>!quick_launcher!
 echo     if "^!a:~1,5^!"=="Pass:" set "pass=^!a:~6,-1^!">>!quick_launcher!
 echo   )>>!quick_launcher!
-echo   start .\bin\steam\steam.exe -login "^!user^!" "^!pass^!">>!quick_launcher!
+echo   pushd .\bin\steam\>>!quick_launcher!
+echo   start steam.exe -login "^!user^!" "^!pass^!">>!quick_launcher!
+echo   popd>>!quick_launcher!
 echo )>>!quick_launcher!
-echo if not exist .\ini\steam.ini start .\bin\steam\steam.exe>>!quick_launcher!
+echo if not exist .\ini\steam.ini (>>!quick_launcher!
+echo   pushd .\bin\steam\>>!quick_launcher!
+echo   start steam.exe>>!quick_launcher!
+echo   popd>>!quick_launcher!
+echo )>>!quick_launcher!
 REM echo xcopy /q "%%UserProfile%%\data\data\AppData\LocalLow\*" .\data\AppData\locallow /e /i /y>>!quick_launcher!
 REM echo if exist "%%UserProfile%%\data\AppData\LocalLow" rmdir /s /q "%%UserProfile%%\data\AppData\LocalLow">>!quick_launcher!
 echo exit>>!quick_launcher!
@@ -296,7 +309,7 @@ if not exist ".\bin\steam\steam.exe" set nag=STEAM IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 30 > .\doc\version.txt
+echo 31 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -610,6 +623,175 @@ echo start %~f0 >> relaunch.bat
 echo (goto) 2^ >nul ^& del "%%~f0" ^& exit >> relaunch.bat
 call :HelperHide "relaunch.bat"
 exit
+
+:: scripts that are made to cleanup or move directories and files between releases are below
+
+:v30UpgradeCheck
+if exist "crashhandler.dll" ( xcopy "crashhandler.dll" ".\bin\steam\" /e /i /y & del "crashhandler.dll" >nul )
+if exist "crashhandler.dll.old" ( xcopy "crashhandler.dll.old" ".\bin\steam\" /e /i /y & del "crashhandler.dll.old" >nul )
+if exist "CSERHelper.dll" ( xcopy "CSERHelper.dll" ".\bin\steam\" /e /i /y & del "CSERHelper.dll" >nul )
+if exist "steam.exe.old" ( xcopy "steam.exe.old" ".\bin\steam\" /e /i /y & del "steam.exe.old" >nul )
+if exist ".\appcache\" ( xcopy ".\appcache\*" ".\bin\steam\" /e /i /y & rmdir /s /q ".\appcache\" >nul )
+if exist "DLLInjector.ini" ( xcopy "DLLInjector.ini" ".\bin\steam\" /e /i /y & del "DLLInjector.ini" >nul )
+if exist "fossilize_engine_filters.json" ( xcopy "fossilize_engine_filters.json" ".\bin\steam\" /e /i /y & del "fossilize_engine_filters.json" >nul )
+if exist "ThirdPartyLegalNotices.css" ( xcopy "ThirdPartyLegalNotices.css" ".\bin\steam\" /e /i /y & del "ThirdPartyLegalNotices.css" >nul )
+if exist ".\depotcache\" ( xcopy ".\depotcache\*" ".\bin\steam\" /e /i /y & rmdir /s /q ".\depotcache\" >nul )
+if exist "steamclient.dll" ( xcopy "steamclient.dll" ".\bin\steam\" /e /i /y & del "steamclient.dll" >nul )
+if exist "ThirdPartyLegalNotices.doc" ( xcopy "ThirdPartyLegalNotices.doc" ".\bin\steam\" /e /i /y & del "ThirdPartyLegalNotices.doc" >nul )
+if exist "vstdlib_s.dll" ( xcopy "vstdlib_s.dll" ".\bin\steam\" /e /i /y & del "vstdlib_s.dll" >nul )
+if exist "SDL2_ttf.dll" ( xcopy "SDL2_ttf.dll" ".\bin\steam\" /e /i /y & del "SDL2_ttf.dll" >nul )
+if exist "GreenLuma_Reborn.log" ( xcopy "GreenLuma_Reborn.log" ".\bin\steam\" /e /i /y & del "GreenLuma_Reborn.log" >nul )
+if exist "GreenLuma_Reborn_x64.dll" ( xcopy "GreenLuma_Reborn_x64.dll" ".\bin\steam\" /e /i /y & del "GreenLuma_Reborn_x64.dll" >nul )
+if exist "ThirdPartyLegalNotices.html" ( xcopy "ThirdPartyLegalNotices.html" ".\bin\steam\" /e /i /y & del "ThirdPartyLegalNotices.html" >nul )
+if exist ".ntfs_transaction_failed" ( xcopy ".ntfs_transaction_failed" ".\bin\steam\" /e /i /y & del ".ntfs_transaction_failed" >nul )
+if exist ".\package\" ( xcopy ".\package\*" ".\bin\steam\" /e /i /y & rmdir /s /q ".\package\" >nul )
+if exist "ThirdPartyLegalNotices.css.old" ( xcopy "ThirdPartyLegalNotices.css.old" ".\bin\steam\" /e /i /y & del "ThirdPartyLegalNotices.css.old" >nul )
+if exist "ThirdPartyLegalNotices.doc.old" ( xcopy "ThirdPartyLegalNotices.doc.old" ".\bin\steam\" /e /i /y & del "ThirdPartyLegalNotices.doc.old" >nul )
+if exist "GameOverlayUI.exe.log.last" ( xcopy "GameOverlayUI.exe.log.last" ".\bin\steam\" /e /i /y & del "GameOverlayUI.exe.log.last" >nul )
+if exist "ThirdPartyLegalNotices.html.old" ( xcopy "ThirdPartyLegalNotices.html.old" ".\bin\steam\" /e /i /y & del "ThirdPartyLegalNotices.html.old" >nul )
+if exist "libavcodec-58.dll" ( xcopy "libavcodec-58.dll" ".\bin\steam\" /e /i /y & del "libavcodec-58.dll" >nul )
+if exist "libx264-142.dll" ( xcopy "libx264-142.dll" ".\bin\steam\" /e /i /y & del "libx264-142.dll" >nul )
+if exist "libavcodec-58.dll.old" ( xcopy "libavcodec-58.dll.old" ".\bin\steam\" /e /i /y & del "libavcodec-58.dll.old" >nul )
+if exist "Steam2.dll.old" ( xcopy "Steam2.dll.old" ".\bin\steam\" /e /i /y & del "Steam2.dll.old" >nul )
+if exist "NoHook.bin" ( xcopy "NoHook.bin" ".\bin\steam\" /e /i /y & del "NoHook.bin" >nul )
+if exist "openvr_api.dll" ( xcopy "openvr_api.dll" ".\bin\steam\" /e /i /y & del "openvr_api.dll" >nul )
+if exist "steamwebrtc.dll" ( xcopy "steamwebrtc.dll" ".\bin\steam\" /e /i /y & del "steamwebrtc.dll" >nul )
+if exist "icui18n.dll.old" ( xcopy "icui18n.dll.old" ".\bin\steam\" /e /i /y & del "icui18n.dll.old" >nul )
+if exist "ssfn32150490844543315" ( xcopy "ssfn32150490844543315" ".\bin\steam\" /e /i /y & del "ssfn32150490844543315" >nul )
+if exist "icuuc.dll.old" ( xcopy "icuuc.dll.old" ".\bin\steam\" /e /i /y & del "icuuc.dll.old" >nul )
+if exist "steam.exe" ( xcopy "steam.exe" ".\bin\steam\" /e /i /y & del "steam.exe" >nul )
+if exist "v8.dll.old" ( xcopy "v8.dll.old" ".\bin\steam\" /e /i /y & del "v8.dll.old" >nul )
+if exist "VkLayer_steam_fossilize.dll" ( xcopy "VkLayer_steam_fossilize.dll" ".\bin\steam\" /e /i /y & del "VkLayer_steam_fossilize.dll" >nul )
+if exist "SteamOverlayVulkanLayer.dll" ( xcopy "SteamOverlayVulkanLayer.dll" ".\bin\steam\" /e /i /y & del "SteamOverlayVulkanLayer.dll" >nul )
+if exist "libavformat-58.dll.old" ( xcopy "libavformat-58.dll.old" ".\bin\steam\" /e /i /y & del "libavformat-58.dll.old" >nul )
+if exist "SteamFossilizeVulkanLayer.json" ( xcopy "SteamFossilizeVulkanLayer.json" ".\bin\steam\" /e /i /y & del "SteamFossilizeVulkanLayer.json" >nul )
+if exist "zlib1.dll.old" ( xcopy "zlib1.dll.old" ".\bin\steam\" /e /i /y & del "zlib1.dll.old" >nul )
+if exist "SteamOverlayVulkanLayer64.dll" ( xcopy "SteamOverlayVulkanLayer64.dll" ".\bin\steam\" /e /i /y & del "SteamOverlayVulkanLayer64.dll" >nul )
+if exist "libavresample-4.dll.old" ( xcopy "libavresample-4.dll.old" ".\bin\steam\" /e /i /y & del "libavresample-4.dll.old" >nul )
+if exist "SteamOverlayVulkanLayer.json" ( xcopy "SteamOverlayVulkanLayer.json" ".\bin\steam\" /e /i /y & del "SteamOverlayVulkanLayer.json" >nul )
+if exist "VkLayer_steam_fossilize64.dll" ( xcopy "VkLayer_steam_fossilize64.dll" ".\bin\steam\" /e /i /y & del "VkLayer_steam_fossilize64.dll" >nul )
+if exist "SteamOverlayVulkanLayer64.json" ( xcopy "SteamOverlayVulkanLayer64.json" ".\bin\steam\" /e /i /y & del "SteamOverlayVulkanLayer64.json" >nul )
+if exist "libavutil-56.dll.old" ( xcopy "libavutil-56.dll.old" ".\bin\steam\" /e /i /y & del "libavutil-56.dll.old" >nul )
+if exist "libswscale-5.dll.old" ( xcopy "libswscale-5.dll.old" ".\bin\steam\" /e /i /y & del "libswscale-5.dll.old" >nul )
+if exist "libx264-142.dll.crypt.old" ( xcopy "libx264-142.dll.crypt.old" ".\bin\steam\" /e /i /y & del "libx264-142.dll.crypt.old" >nul )
+if exist "libx264-142.dll.md5.old" ( xcopy "libx264-142.dll.md5.old" ".\bin\steam\" /e /i /y & del "libx264-142.dll.md5.old" >nul )
+if exist "libavformat-58.dll" ( xcopy "libavformat-58.dll" ".\bin\steam\" /e /i /y & del "libavformat-58.dll" >nul )
+if exist "streaming_client.exe.log" ( xcopy "streaming_client.exe.log" ".\bin\steam\" /e /i /y & del "streaming_client.exe.log" >nul )
+if exist "streaming_client.exe.log.last" ( xcopy "streaming_client.exe.log.last" ".\bin\steam\" /e /i /y & del "streaming_client.exe.log.last" >nul )
+if exist "libavresample-4.dll" ( xcopy "libavresample-4.dll" ".\bin\steam\" /e /i /y & del "libavresample-4.dll" >nul )
+if exist "libavutil-56.dll" ( xcopy "libavutil-56.dll" ".\bin\steam\" /e /i /y & del "libavutil-56.dll" >nul )
+if exist "tier0_s64.dll" ( xcopy "tier0_s64.dll" ".\bin\steam\" /e /i /y & del "tier0_s64.dll" >nul )
+if exist "libswscale-5.dll" ( xcopy "libswscale-5.dll" ".\bin\steam\" /e /i /y & del "libswscale-5.dll" >nul )
+if exist "libx264-142.dll.crypt" ( xcopy "libx264-142.dll.crypt" ".\bin\steam\" /e /i /y & del "libx264-142.dll.crypt" >nul )
+if exist "update_hosts_cached.vdf" ( xcopy "update_hosts_cached.vdf" ".\bin\steam\" /e /i /y & del "update_hosts_cached.vdf" >nul )
+if exist "libx264-142.dll.md5" ( xcopy "libx264-142.dll.md5" ".\bin\steam\" /e /i /y & del "libx264-142.dll.md5" >nul )
+if exist "CSERHelper.dll.old" ( xcopy "CSERHelper.dll.old" ".\bin\steam\" /e /i /y & del "CSERHelper.dll.old" >nul )
+if exist "GfnRuntimeSdk.dll" ( xcopy "GfnRuntimeSdk.dll" ".\bin\steam\" /e /i /y & del "GfnRuntimeSdk.dll" >nul )
+if exist "vstdlib_s64.dll" ( xcopy "vstdlib_s64.dll" ".\bin\steam\" /e /i /y & del "vstdlib_s64.dll" >nul )
+if exist "GfnRuntimeSdk.dll.old" ( xcopy "GfnRuntimeSdk.dll.old" ".\bin\steam\" /e /i /y & del "GfnRuntimeSdk.dll.old" >nul )
+if exist "SDL2_ttf.dll.old" ( xcopy "SDL2_ttf.dll.old" ".\bin\steam\" /e /i /y & del "SDL2_ttf.dll.old" >nul )
+if exist "Steam2.dll" ( xcopy "Steam2.dll" ".\bin\steam\" /e /i /y & del "Steam2.dll" >nul )
+if exist "SDL2.dll.old" ( xcopy "SDL2.dll.old" ".\bin\steam\" /e /i /y & del "SDL2.dll.old" >nul )
+if exist ".\AppList\" ( xcopy ".\AppList\*" ".\bin\steam\" /e /i /y & rmdir /s /q ".\AppList\" >nul )
+if exist ".\bin\cef\" ( xcopy ".\bin\cef\*" ".\bin\steam\bin\" /e /i /y & rmdir /s /q ".\bin\cef\" >nul )
+if exist ".\bin\panorama\" ( xcopy ".\bin\panorama\*" ".\bin\steam\bin\" /e /i /y & rmdir /s /q ".\bin\panorama\" >nul )
+if exist ".\bin\shaders\" ( xcopy ".\bin\shaders\*" ".\bin\steam\bin\" /e /i /y & rmdir /s /q ".\bin\shaders\" >nul )
+if exist ".\bin\audio.dll" ( xcopy ".\bin\audio.dll" ".\bin\steam\bin\" /e /i /y & del ".\bin\audio.dll" >nul )
+if exist ".\bin\chromehtml.dll" ( xcopy ".\bin\chromehtml.dll" ".\bin\steam\bin\" /e /i /y & del ".\bin\chromehtml.dll" >nul )
+if exist ".\bin\drivers.exe" ( xcopy ".\bin\drivers.exe" ".\bin\steam\bin\" /e /i /y & del ".\bin\drivers.exe" >nul )
+if exist ".\bin\filesystem_stdio.dll" ( xcopy ".\bin\filesystem_stdio.dll" ".\bin\steam\bin\" /e /i /y & del ".\bin\filesystem_stdio.dll" >nul )
+if exist ".\bin\fossilize-replay.exe" ( xcopy ".\bin\fossilize-replay.exe" ".\bin\steam\bin\" /e /i /y & del ".\bin\fossilize-replay.exe" >nul )
+if exist ".\bin\fossilize-replay64.exe" ( xcopy ".\bin\fossilize-replay64.exe" ".\bin\steam\bin\" /e /i /y & del ".\bin\fossilize-replay64.exe" >nul )
+if exist ".\bin\friendsui.dll" ( xcopy ".\bin\friendsui.dll" ".\bin\steam\bin\" /e /i /y & del ".\bin\friendsui.dll" >nul )
+if exist ".\bin\gameoverlayui.dll" ( xcopy ".\bin\gameoverlayui.dll" ".\bin\steam\bin\" /e /i /y & del ".\bin\gameoverlayui.dll" >nul )
+if exist ".\bin\gldriverquery.exe" ( xcopy ".\bin\gldriverquery.exe" ".\bin\steam\bin\" /e /i /y & del ".\bin\gldriverquery.exe" >nul )
+if exist ".\bin\gldriverquery64.exe" ( xcopy ".\bin\gldriverquery64.exe" ".\bin\steam\bin\" /e /i /y & del ".\bin\gldriverquery64.exe" >nul )
+if exist ".\bin\mss32.dll" ( xcopy ".\bin\mss32.dll" ".\bin\steam\bin\" /e /i /y & del ".\bin\mss32.dll" >nul )
+if exist ".\bin\mssdsp.flt" ( xcopy ".\bin\mssdsp.flt" ".\bin\steam\bin\" /e /i /y & del ".\bin\mssdsp.flt" >nul )
+if exist ".\bin\mssmp3.asi" ( xcopy ".\bin\mssmp3.asi" ".\bin\steam\bin\" /e /i /y & del ".\bin\mssmp3.asi" >nul )
+if exist ".\bin\mssvoice.asi" ( xcopy ".\bin\mssvoice.asi" ".\bin\steam\bin\" /e /i /y & del ".\bin\mssvoice.asi" >nul )
+if exist ".\bin\nattypeprobe.dll" ( xcopy ".\bin\nattypeprobe.dll" ".\bin\steam\bin\" /e /i /y & del ".\bin\nattypeprobe.dll" >nul )
+if exist ".\bin\secure_desktop_capture.exe" ( xcopy ".\bin\secure_desktop_capture.exe" ".\bin\steam\bin\" /e /i /y & del ".\bin\secure_desktop_capture.exe" >nul )
+if exist ".\bin\serverbrowser.dll" ( xcopy ".\bin\serverbrowser.dll" ".\bin\steam\bin\" /e /i /y & del ".\bin\serverbrowser.dll" >nul )
+if exist ".\bin\service_current_versions.vdf" ( xcopy ".\bin\service_current_versions.vdf" ".\bin\steam\bin\" /e /i /y & del ".\bin\service_current_versions.vdf" >nul )
+if exist ".\bin\service_log.txt" ( xcopy ".\bin\service_log.txt" ".\bin\steam\bin\" /e /i /y & del ".\bin\service_log.txt" >nul )
+if exist ".\bin\service_minimum_versions.vdf" ( xcopy ".\bin\service_minimum_versions.vdf" ".\bin\steam\bin\" /e /i /y & del ".\bin\service_minimum_versions.vdf" >nul )
+if exist ".\bin\steam_monitor.exe" ( xcopy ".\bin\steam_monitor.exe" ".\bin\steam\bin\" /e /i /y & del ".\bin\steam_monitor.exe" >nul )
+if exist ".\bin\steamservice.dll" ( xcopy ".\bin\steamservice.dll" ".\bin\steam\bin\" /e /i /y & del ".\bin\steamservice.dll" >nul )
+if exist ".\bin\steamservice.exe" ( xcopy ".\bin\steamservice.exe" ".\bin\steam\bin\" /e /i /y & del ".\bin\steamservice.exe" >nul )
+if exist ".\bin\steamxboxutil.exe" ( xcopy ".\bin\steamxboxutil.exe" ".\bin\steam\bin\" /e /i /y & del ".\bin\steamxboxutil.exe" >nul )
+if exist ".\bin\steamxboxutil64.exe" ( xcopy ".\bin\steamxboxutil64.exe" ".\bin\steam\bin\" /e /i /y & del ".\bin\steamxboxutil64.exe" >nul )
+if exist ".\bin\vgui2_s.dll" ( xcopy ".\bin\vgui2_s.dll" ".\bin\steam\bin\" /e /i /y & del ".\bin\vgui2_s.dll" >nul )
+if exist ".\bin\vulkandriverquery.exe" ( xcopy ".\bin\vulkandriverquery.exe" ".\bin\steam\bin\" /e /i /y & del ".\bin\vulkandriverquery.exe" >nul )
+if exist ".\bin\vulkandriverquery64.exe" ( xcopy ".\bin\vulkandriverquery64.exe" ".\bin\steam\bin\" /e /i /y & del ".\bin\vulkandriverquery64.exe" >nul )
+if exist ".\bin\x64launcher.exe" ( xcopy ".\bin\x64launcher.exe" ".\bin\steam\bin\" /e /i /y & del ".\bin\x64launcher.exe" >nul )
+if exist ".\bin\x86launcher.exe" ( xcopy ".\bin\x86launcher.exe" ".\bin\steam\bin\" /e /i /y & del ".\bin\x86launcher.exe" >nul )
+if exist ".\bin\xinput1_3.dll" ( xcopy ".\bin\xinput1_3.dll" ".\bin\steam\bin\" /e /i /y & del ".\bin\xinput1_3.dll" >nul )
+if exist ".\bin\xpad.dll" ( xcopy ".\bin\xpad.dll" ".\bin\steam\bin\" /e /i /y & del ".\bin\xpad.dll" >nul )
+if exist ".\clientui\" ( xcopy ".\clientui\*" ".\bin\steam\clientui\" /e /i /y & rmdir /s /q ".\clientui\" >nul )
+if exist ".\config\" ( xcopy ".\config\*" ".\bin\steam\config\" /e /i /y & rmdir /s /q ".\config\" >nul )
+if exist ".\controller_base\" ( xcopy ".\controller_base\*" ".\bin\steam\controller_base\" /e /i /y & rmdir /s /q ".\controller_base\" >nul )
+if exist "Steam.dll.old" ( xcopy "Steam.dll.old" ".\bin\steam\" /e /i /y & del "Steam.dll.old" >nul )
+if exist ".\dumps\" ( xcopy ".\dumps\*" ".\bin\steam\dumps\" /e /i /y & rmdir /s /q ".\dumps\" >nul )
+if exist ".\friends\" ( xcopy ".\friends\*" ".\bin\steam\friends\" /e /i /y & rmdir /s /q ".\friends\" >nul )
+if exist ".\GameLogs\" ( xcopy ".\GameLogs\*" ".\bin\steam\GameLogs\" /e /i /y & rmdir /s /q ".\GameLogs\" >nul )
+if exist ".\graphics\" ( xcopy ".\graphics\*" ".\bin\steam\graphics\" /e /i /y & rmdir /s /q ".\graphics\" >nul )
+if exist ".\logs\" ( xcopy ".\logs\*" ".\bin\steam\logs\" /e /i /y & rmdir /s /q ".\logs\" >nul )
+if exist "SteamUI.dll.old" ( xcopy "SteamUI.dll.old" ".\bin\steam\" /e /i /y & del "crashhandler.dll" >nul )
+if exist ".\public\" ( xcopy ".\public\*" ".\bin\steam\public\" /e /i /y & rmdir /s /q ".\public\" >nul )
+if exist ".\resource\" ( xcopy ".\resource\*" ".\bin\steam\resource\" /e /i /y & rmdir /s /q ".\resource\" >nul )
+if exist ".\servers\" ( xcopy ".\servers\*" ".\bin\steam\servers\" /e /i /y & rmdir /s /q ".\servers\" >nul )
+if exist ".\steam\" ( xcopy ".\steam\*" ".\bin\steam\steam\" /e /i /y & rmdir /s /q ".\steam\" >nul )
+if exist ".\steamapps\" ( xcopy ".\steamapps\*" ".\bin\steam\steamapps\" /e /i /y & rmdir /s /q ".\steamapps\" >nul )
+if exist ".\steamchina\" ( xcopy ".\steamchina\*" ".\bin\steam\steamchina\" /e /i /y & rmdir /s /q ".\steamchina\" >nul )
+if exist ".\steamui\" ( xcopy ".\steamui\*" ".\bin\steam\steamui\" /e /i /y & rmdir /s /q ".\steamui\" >nul )
+if exist ".\tenfoot\" ( xcopy ".\tenfoot\*" ".\bin\steam\tenfoot\" /e /i /y & rmdir /s /q ".\tenfoot\" >nul )
+if exist ".\ubuntu12_64\" ( xcopy ".\ubuntu12_64\*" ".\bin\steam\ubuntu12_64\" /e /i /y & rmdir /s /q ".\ubuntu12_64\" >nul )
+if exist ".\userdata\" ( xcopy ".\userdata\*" ".\bin\steam\userdata\" /e /i /y & rmdir /s /q ".\userdata\" >nul )
+if exist ".\x64ForDedicatedServers\" ( xcopy ".\x64ForDedicatedServers\*" ".\bin\steam\x64ForDedicatedServers\" /e /i /y & rmdir /s /q ".\x64ForDedicatedServers\" >nul )
+if exist "SteamFossilizeVulkanLayer.json.old" ( xcopy "SteamFossilizeVulkanLayer.json.old" ".\bin\steam\" /e /i /y & del "SteamFossilizeVulkanLayer.json.old" >nul )
+if exist "icui18n.dll" ( xcopy "icui18n.dll" ".\bin\steam\" /e /i /y & del "icui18n.dll" >nul )
+if exist "SteamFossilizeVulkanLayer64.json.old" ( xcopy "SteamFossilizeVulkanLayer64.json.old" ".\bin\steam\" /e /i /y & del "SteamFossilizeVulkanLayer64.json.old" >nul )
+if exist "d3dcompiler_46.dll.old" ( xcopy "d3dcompiler_46.dll.old" ".\bin\steam\" /e /i /y & del "d3dcompiler_46.dll.old" >nul )
+if exist "SteamFossilizeVulkanLayer64.json" ( xcopy "SteamFossilizeVulkanLayer64.json" ".\bin\steam\" /e /i /y & del "SteamFossilizeVulkanLayer64.json" >nul )
+if exist "WriteMiniDump.exe" ( xcopy "WriteMiniDump.exe" ".\bin\steam\" /e /i /y & del "WriteMiniDump.exe" >nul )
+if exist "tier0_s.dll" ( xcopy "tier0_s.dll" ".\bin\steam\" /e /i /y & del "tier0_s.dll" >nul )
+if exist "SteamOverlayVulkanLayer.json.old" ( xcopy "SteamOverlayVulkanLayer.json.old" ".\bin\steam\" /e /i /y & del "SteamOverlayVulkanLayer.json.old" >nul )
+if exist "SteamOverlayVulkanLayer64.json.old" ( xcopy "SteamOverlayVulkanLayer64.json.old" ".\bin\steam\" /e /i /y & del "SteamOverlayVulkanLayer64.json.old" >nul )
+if exist "icuuc.dll" ( xcopy "icuuc.dll" ".\bin\steam\" /e /i /y & del "icuuc.dll" >nul )
+if exist "d3dcompiler_46_64.dll.old" ( xcopy "d3dcompiler_46_64.dll.old" ".\bin\steam\" /e /i /y & del "d3dcompiler_46_64.dll.old" >nul )
+if exist "d3dcompiler_46.dll" ( xcopy "d3dcompiler_46.dll" ".\bin\steam\" /e /i /y & del "d3dcompiler_46.dll" >nul )
+if exist "libfreetype-6.dll.old" ( xcopy "libfreetype-6.dll.old" ".\bin\steam\" /e /i /y & del "libfreetype-6.dll.old" >nul )
+if exist "v8.dll" ( xcopy "v8.dll" ".\bin\steam\" /e /i /y & del "v8.dll" >nul )
+if exist "libharfbuzz-0.dll.old" ( xcopy "libharfbuzz-0.dll.old" ".\bin\steam\" /e /i /y & del "libharfbuzz-0.dll.old" >nul )
+if exist "d3dcompiler_46_64.dll" ( xcopy "d3dcompiler_46_64.dll" ".\bin\steam\" /e /i /y & del "d3dcompiler_46_64.dll" >nul )
+if exist "fossilize_engine_filters.json.old" ( xcopy "fossilize_engine_filters.json.old" ".\bin\steam\" /e /i /y & del "fossilize_engine_filters.json.old" >nul )
+if exist "libfreetype-6.dll" ( xcopy "libfreetype-6.dll" ".\bin\steam\" /e /i /y & del "libfreetype-6.dll" >nul )
+if exist "zlib1.dll" ( xcopy "zlib1.dll" ".\bin\steam\" /e /i /y & del "zlib1.dll" >nul )
+if exist "steamwebrtc64.dll.old" ( xcopy "steamwebrtc64.dll.old" ".\bin\steam\" /e /i /y & del "steamwebrtc64.dll.old" >nul )
+if exist "GameOverlayRenderer.dll.old" ( xcopy "GameOverlayRenderer.dll.old" ".\bin\steam\" /e /i /y & del "GameOverlayRenderer.dll.old" >nul )
+if exist "libharfbuzz-0.dll" ( xcopy "libharfbuzz-0.dll" ".\bin\steam\" /e /i /y & del "libharfbuzz-0.dll" >nul )
+if exist "openvr_api.dll.old" ( xcopy "openvr_api.dll.old" ".\bin\steam\" /e /i /y & del "openvr_api.dll.old" >nul )
+if exist "steamwebrtc.dll.old" ( xcopy "steamwebrtc.dll.old" ".\bin\steam\" /e /i /y & del "steamwebrtc.dll.old" >nul )
+if exist "GameOverlayRenderer64.dll.old" ( xcopy "GameOverlayRenderer64.dll.old" ".\bin\steam\" /e /i /y & del "GameOverlayRenderer64.dll.old" >nul )
+if exist "steamwebrtc64.dll" ( xcopy "steamwebrtc64.dll" ".\bin\steam\" /e /i /y & del "steamwebrtc64.dll" >nul )
+if exist "video.dll" ( xcopy "video.dll" ".\bin\steam\" /e /i /y & del "video.dll" >nul )
+if exist "GameOverlayRenderer.dll" ( xcopy "GameOverlayRenderer.dll" ".\bin\steam\" /e /i /y & del "GameOverlayRenderer.dll" >nul )
+if exist "GameOverlayRenderer64.dll" ( xcopy "GameOverlayRenderer64.dll" ".\bin\steam\" /e /i /y & del "GameOverlayRenderer64.dll" >nul )
+if exist "GameOverlayUI.exe" ( xcopy "GameOverlayUI.exe" ".\bin\steam\" /e /i /y & del "GameOverlayUI.exe" >nul )
+if exist "SDL2.dll" ( xcopy "SDL2.dll" ".\bin\steam\" /e /i /y & del "SDL2.dll" >nul )
+if exist "Steam.dll" ( xcopy "Steam.dll" ".\bin\steam\" /e /i /y & del "Steam.dll" >nul )
+if exist "SteamOverlayVulkanLayer.dll.old" ( xcopy "SteamOverlayVulkanLayer.dll.old" ".\bin\steam\" /e /i /y & del "SteamOverlayVulkanLayer.dll.old" >nul )
+if exist "SteamOverlayVulkanLayer64.dll.old" ( xcopy "SteamOverlayVulkanLayer64.dll.old" ".\bin\steam\" /e /i /y & del "SteamOverlayVulkanLayer64.dll.old" >nul )
+if exist "SteamUI.dll" ( xcopy "SteamUI.dll" ".\bin\steam\" /e /i /y & del "SteamUI.dll" >nul )
+if exist "VkLayer_steam_fossilize.dll.old" ( xcopy "VkLayer_steam_fossilize.dll.old" ".\bin\steam\" /e /i /y & del "VkLayer_steam_fossilize.dll.old" >nul )
+if exist "VkLayer_steam_fossilize64.dll.old" ( xcopy "VkLayer_steam_fossilize64.dll.old" ".\bin\steam\" /e /i /y & del "VkLayer_steam_fossilize64.dll.old" >nul )
+if exist "crashhandler64.dll" ( xcopy "crashhandler64.dll" ".\bin\steam\" /e /i /y & del "crashhandler64.dll" >nul )
+if exist "steam.signatures" ( xcopy "steam.signatures" ".\bin\steam\" /e /i /y & del "steam.signatures" >nul )
+if exist "steamclient64.dll" ( xcopy "steamclient64.dll" ".\bin\steam\" /e /i /y & del "steamclient64.dll" >nul )
+if exist "steamerrorreporter.exe" ( xcopy "steamerrorreporter.exe" ".\bin\steam\" /e /i /y & del "steamerrorreporter.exe" >nul )
+if exist "steamerrorreporter64.exe" ( xcopy "steamerrorreporter64.exe" ".\bin\steam\" /e /i /y & del "steamerrorreporter64.exe" >nul )
+exit /b 2
 
 :DataUpgrade
 cls

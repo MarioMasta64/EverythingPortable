@@ -3,7 +3,7 @@ everything
 minecraft
 31
 steam
-30
+31
 obs
 43
 kaerusetup
