@@ -166,6 +166,7 @@ echo set arch=32>>!quick_launcher!
 echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64">>!quick_launcher!
 echo set "folder=%%CD%%">>!quick_launcher!
 echo set "folder=%%folder:~0,-1%%">>!quick_launcher!
+echo set "Path=%%PATH%%;%%folder%%\dll\%%arch%%\;">>!quick_launcher!
 echo set "UserProfile=%%folder%%\data\Users\MarioMasta64">>!quick_launcher!
 echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
@@ -392,7 +393,7 @@ if not exist ".\bin\obs\bin\!arch!Bit\obs!arch!.exe" set nag=OBS IS NOT INSTALLE
 exit /b 2
 
 :Version
-echo 43 > .\doc\version.txt
+echo 44 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
