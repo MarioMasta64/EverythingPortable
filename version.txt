@@ -123,6 +123,6 @@ parsec
 gimp
 1
 vlc
-1
+2
 rpcs3
 2
