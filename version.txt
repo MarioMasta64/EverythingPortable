@@ -126,3 +126,5 @@ vlc
 2
 rpcs3
 2
+notepad_plus_plus
+1
