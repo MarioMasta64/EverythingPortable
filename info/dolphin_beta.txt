@@ -1,0 +1,7 @@
+===============================================================================
+=                          https://dolphin-emu.org/                           =
+===============================================================================
+=  Beta versions are released every month, usually accompanied by a Progress  =
+=   Report article. Use the latest beta version if you prefer stability over  =
+=               the newest features in the development versions.              =
+===============================================================================
