@@ -149,7 +149,7 @@ cls & start launch_everything.bat
 exit /b 2
 
 :c
-:QuicklauncherCheck
+:QuicklauncherCheckQuicklauncherCheck
 if not exist .\doc\everything_quicklaunch.txt cls
 title Portable itch.io Launcher - Helper Edition - Quicklauncher Writer
 echo @echo off>!quick_launcher!
