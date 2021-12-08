@@ -73,11 +73,11 @@ exit /b 2
 
 :2
 :Launchitchio
-if not exist ".\data\Users\MarioMasta64\AppData\Local\itch\itch-setup.exe" set "nag=PLEASE INSTALL ITCH.IO FIRST" & exit /b 2
+if not exist ".\bin\itchio\!arch!\itch.exe" set "nag=PLEASE INSTALL ITCH.IO FIRST" & exit /b 2
 title DO NOT CLOSE
 cls
 echo ITCH.IO IS RUNNING
-start "" "!folder!\data\Users\MarioMasta64\AppData\Local\itch\itch-setup.exe" --prefer-launch --appname itch
+start "" "!folder!\bin\itchio\!arch!\itch.exe"
 exit
 
 :3
@@ -155,6 +155,8 @@ title Portable itch.io Launcher - Helper Edition - Quicklauncher Writer
 echo @echo off>!quick_launcher!
 echo Color 0A>>!quick_launcher!
 echo cls>>!quick_launcher!
+echo set arch=32>>!quick_launcher!
+echo if exist "%%PROGRAMFILES(X86)%%" set "arch=64">>!quick_launcher!
 echo set "folder=%%CD%%">>!quick_launcher!
 echo set "folder=%%folder:~0,-1%%">>!quick_launcher!
 echo set "UserProfile=%%folder%%\data\Users\MarioMasta64">>!quick_launcher!
@@ -162,7 +164,7 @@ echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_la
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo start "" "%%folder%%\data\Users\MarioMasta64\AppData\Local\itch\itch-setup.exe" --prefer-launch --appname itch>>!quick_launcher!
+echo start "" "!folder!\bin\itchio\%%arch%%\itch.exe">>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
@@ -171,15 +173,87 @@ exit /b 2
 :d
 :Upgradeitchio
 title Portable itch.io Launcher - Helper Edition - itch.io Update Check
-if exist "download@platform=windows" del "download@platform=windows" >nul
-call :HelperDownload "https://itch.io/app/download?platform=windows" "download@platform=windows"
-:Moveitchio
-move "download@platform=windows" ".\extra\itch-setup.exe"
-:Installitchio
-.\extra\itch-setup.exe
-taskkill /f /im itch.exe
-:Cleanupitchio
-echo y | reg delete HKEY_USERS\S-1-5-21-1589965034-2326289270-2253047584-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\itch\
+if exist windows-386 del windows-386 >nul
+if exist windows-amd64 del windows-amd64 >nul
+call :HelperDownload "https://broth.itch.ovh/itch/windows-386" "windows-386"
+call :HelperDownload "https://broth.itch.ovh/itch/windows-amd64" "windows-amd64"
+set counter=0
+:UpgradeSearchLoop32
+set /a counter+=1
+for /f tokens^=%counter%delims^=^" %%A in (
+  'findstr /i /c:"/itch/windows-386/" windows-386'
+) Do > .\doc\itchio_link32.txt Echo:%%A
+:ContinueSearch32
+set /p itchio_link32=<.\doc\itchio_link32.txt
+echo !itchio_link32!
+echo !counter!
+if "!itchio_link32:~0,18!"=="/itch/windows-386/" echo hit & goto ExitUpgradeSearchLoop32
+goto UpgradeSearchLoop32
+:ExitUpgradeSearchLoop32
+if exist windows-386 del windows-386 >nul
+cls
+set counter=0
+:UpgradeSearchLoop64
+set /a counter+=1
+for /f tokens^=%counter%delims^=^" %%A in (
+  'findstr /i /c:"/itch/windows-amd64/" windows-amd64'
+) Do > .\doc\itchio_link64.txt Echo:%%A
+:ContinueSearch32
+set /p itchio_link64=<.\doc\itchio_link64.txt
+echo !itchio_link64!
+echo !counter!
+if "!itchio_link64:~0,20!"=="/itch/windows-amd64/" echo hit & goto ExitUpgradeSearchLoop64
+goto UpgradeSearchLoop64
+:ExitUpgradeSearchLoop64
+if exist windows-amd64 del windows-amd64 >nul
+cls
+set "tempstr=!itchio_link32!"
+set "result=%tempstr:/=" & set "result=%"
+set "itchio_version32=!result!"
+set "itchio_link32=https://broth.itch.ovh!itchio_link32!/archive/default"
+set "tempstr=!itchio_link64!"
+set "result=%tempstr:/=" & set "result=%"
+set "itchio_version64=!result!"
+set "itchio_link64=https://broth.itch.ovh!itchio_link64!/archive/default"
+echo "!itchio_link32!"
+echo "!itchio_version32!"
+echo "!itchio_link64!"
+echo "!itchio_version64!"
+echo PRESS ENTER TO CONTINUE & pause >nul
+cls
+set broke=0
+if exist ".\extra\itch-windows-386-!itchio_version32!.zip" (
+  if exist ".\extra\itch-windows-amd64-!itchio_version64!.zip" (
+    echo itchio is updated.
+    pause
+    exit /b 2
+  )
+)
+cls
+if exist default del default >nul
+:Downloaditchio32
+echo upgrading to itchio v!itchio_version32! (32-Bit)
+call :HelperDownload "!itchio_link32!" "itch-windows-386-!itchio_version32!.zip"
+:Moveitchio32
+move "default" ".\extra\itch-windows-386-!itchio_version32!.zip"
+:Downloaditchio64
+echo upgrading to itchio v!itchio_version64! (64-Bit)
+call :HelperDownload "!itchio_link64!" "itch-windows-amd64-!itchio_version64!.zip"
+:Moveitchio32
+move "default" ".\extra\itch-windows-amd64-!itchio_version64!.zip"
+:Extractitchio
+if not exist .\bin\itchio\ mkdir .\bin\itchio\
+call :HelperExtract "!folder!\extra\itch-windows-386-!itchio_version32!.zip" "!folder!\bin\itchio\32\"
+call :HelperExtract "!folder!\extra\itch-windows-amd64-!itchio_version64!.zip" "!folder!\bin\itchio\64\"
+REM if exist "download@platform=windows" del "download@platform=windows" >nul
+REM call :HelperDownload "https://itch.io/app/download?platform=windows" "download@platform=windows"
+REM :Moveitchio
+REM move "download@platform=windows" ".\extra\itch-setup.exe"
+REM :Installitchio
+REM .\extra\itch-setup.exe
+REM taskkill /f /im itch.exe
+REM :Cleanupitchio
+REM echo y | reg delete HKEY_USERS\S-1-5-21-1589965034-2326289270-2253047584-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\itch\
 :Extractitchio
 exit /b 2
 
@@ -250,7 +324,8 @@ if not exist ".\data\Users\MarioMasta64\Pictures\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioMasta64\Saved Games\"
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
-if not exist ".\data\Users\MarioMasta64\AppData\Local\itch\itch-setup.exe" set nag=ITCH.IO IS NOT INSTALLED CHOOSE "D"
+if not exist "".\bin\itchio\!arch!\itch.exe" set nag=ITCH.IO IS NOT INSTALLED CHOOSE "D"
+if exist ".\data\Users\MarioMasta64\AppData\Local\itch\" rmdir /s /q ".\data\Users\MarioMasta64\AppData\Local\itch\"
 exit /b 2
 
 :Version

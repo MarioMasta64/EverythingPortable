@@ -89,7 +89,7 @@ tightvnc_viewer
 amazon_games
 9
 itchio
-5
+6
 lunascape
 8
 uplay
