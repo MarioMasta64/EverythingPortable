@@ -1,0 +1,7 @@
+===============================================================================
+=                       https://dev.deluge-torrent.org                        =
+===============================================================================
+=   Deluge is a fully-featured cross-platform ​BitTorrent client. It is ​Free   =
+=      Software, licensed under the ​GNU GPLv3+ and adheres to ​freedesktop     =
+=        standards enabling it to work across many desktop environments       =
+===============================================================================

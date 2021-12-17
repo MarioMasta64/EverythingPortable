@@ -1,0 +1,8 @@
+===============================================================================
+=                              https://rpcs3.net                              =
+===============================================================================
+=     RPCS3 is the first ever emulator to implement AMD's FidelityFX Super    =
+=  Resolution upscaling technology. We use AMD FSR to computationally upscale =
+= PlayStation 3 titles for maximum clarity, and for select titles that do not =
+=                     work with native resolution scaling.                    =
+===============================================================================

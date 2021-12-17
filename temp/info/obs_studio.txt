@@ -1,0 +1,7 @@
+===============================================================================
+=                        https://github.com/jp9000/obs                        =
+===============================================================================
+=   OBS Classic is no longer supported or maintained; please use OBS Studio   =
+= for new projects. The original Open Broadcaster Software bundle comes with  =
+=      both 32-bit and 64-bit versions and is available only for Windows.     =
+===============================================================================

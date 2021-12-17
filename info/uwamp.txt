@@ -1,6 +1,0 @@
-===============================================================================
-=                         https://www.uwamp.com/en/                           =
-===============================================================================
-= UwAmp is a Wamp Server with Apache MySQL PHP and SQLite It is provided with =
-=   a management interface lets you start or stop the server with one click.  =
-===============================================================================

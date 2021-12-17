@@ -1,0 +1,7 @@
+===============================================================================
+=                           https://www.tightvnc.com                          =
+===============================================================================
+=  TightVNC is a free remote desktop application. With TightVNC, you can see  =
+=  the desktop of a remote machine and control it with your local mouse and   =
+=  keyboard, just like you would do it sitting in the front of that computer. =
+===============================================================================

@@ -1,0 +1,8 @@
+===============================================================================
+=                            https://qtemu.org/                               =
+===============================================================================
+=        QtEmu is a graphical user interface for QEMU written in Qt4.         =
+=    It has the ability to run virtual operating systems on native systems.   =
+=             This way you can easily test a new operating system             =
+=      or try a Live CD on your system without any troubles and dangers.      =
+===============================================================================

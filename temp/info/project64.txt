@@ -1,0 +1,8 @@
+===============================================================================
+=                        https://www.pj64-emu.com/                            =
+===============================================================================
+= Project64 is a completely free and open-source emulator for the Nintendo 64 =
+= and 64DD written in C++. Capable of playing your favorite N64 games on your =
+=   PC with high definition graphics, excellent compatibility, save states,   =
+=                     built-in cheat codes, and more.                         =
+===============================================================================

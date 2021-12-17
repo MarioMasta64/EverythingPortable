@@ -1,0 +1,7 @@
+===============================================================================
+=                   https://www.yoyogames.com/en/gamemaker                    =
+===============================================================================
+=     Everything you need to take your idea from concept to finished game.    =
+=   With no barriers to entry and powerful functionality, GameMaker Studio 2  =
+=               is the ultimate 2D development environment!                   =
+===============================================================================

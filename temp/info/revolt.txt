@@ -1,0 +1,9 @@
+===================================================================================
+=                               https://revolt.chat/                              =
+===================================================================================
+= Revolt is built on the same technologies as other popular chat applications, so =
+=     there won’t be any need to re-learn how to use it. If you don't like the    =
+=           default look, you can customize it to your heart’s content.           =
+=                                                                                 =
+=         If asked for a referral code see: https://revolt.chat/publicbeta        =
+===================================================================================
