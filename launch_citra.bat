@@ -306,7 +306,7 @@ if not exist ".\bin\citra\citra-qt.exe" set nag=CITRA IS NOT INSTALLED CHOOSE "D
 exit /b 2
 
 :Version
-echo 15 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

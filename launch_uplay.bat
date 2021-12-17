@@ -319,7 +319,7 @@ if not exist .\data\Users\MarioMasta64\Pictures\UbisoftConnect\ mkdir .\data\Use
 exit /b 2
 
 :Version
-echo 4 > .\doc\version.txt
+echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

@@ -258,7 +258,7 @@ if not exist ".\bin\virtualdj\virtualdj.exe" set nag=VIRTUAL DJ IS NOT INSTALLED
 exit /b 2
 
 :Version
-echo 14 > .\doc\version.txt
+echo 15 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

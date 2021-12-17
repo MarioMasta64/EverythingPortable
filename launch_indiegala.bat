@@ -256,7 +256,7 @@ if not exist ".\bin\indiegala\IGClient.exe" set nag=INDIEGALA IS NOT INSTALLED C
 exit /b 2
 
 :Version
-echo 7 > .\doc\version.txt
+echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

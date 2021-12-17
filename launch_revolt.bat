@@ -274,7 +274,7 @@ if not exist ".\bin\revolt\revolt.exe" set nag=REVOLT IS NOT INSTALLED CHOOSE "D
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

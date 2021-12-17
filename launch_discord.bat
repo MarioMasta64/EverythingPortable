@@ -299,7 +299,7 @@ if exist .\bin\discord\ call :Releasev15Upgrade
 exit /b 2
 
 :Version
-echo 25 > .\doc\version.txt
+echo 26 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

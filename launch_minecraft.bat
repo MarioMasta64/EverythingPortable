@@ -387,7 +387,7 @@ if exist .\bin\minecraft\minecraft.jar call :LegacyReleasev18Upgrade
 exit /b 2
 
 :Version
-echo 31 > .\doc\version.txt
+echo 32 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

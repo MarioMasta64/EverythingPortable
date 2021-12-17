@@ -273,7 +273,7 @@ if not exist ".\bin\project64\Project64.exe" set nag=PROJECT46 IS NOT INSTALLED 
 exit /b 2
 
 :Version
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

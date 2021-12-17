@@ -304,7 +304,7 @@ if not exist ".\bin\cemu\Cemu.exe" set nag=CEMU IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 51 > .\doc\version.txt
+echo 52 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

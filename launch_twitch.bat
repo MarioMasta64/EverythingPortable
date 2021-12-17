@@ -275,7 +275,7 @@ if not exist "start .\data\Users\MarioMasta64\AppData\Roaming\Twitch\Bin\twitch.
 exit /b 2
 
 :Version
-echo 15 > .\doc\version.txt
+echo 16 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

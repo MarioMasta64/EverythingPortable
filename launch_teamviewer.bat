@@ -253,7 +253,7 @@ if not exist ".\bin\teamviewer\TeamViewer.exe" set nag=TEAMVIEWER IS NOT INSTALL
 exit /b 2
 
 :Version
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

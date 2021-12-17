@@ -250,7 +250,7 @@ if not exist ".\bin\deep_shredder\Shredder.exe" set nag=DEEP SHREDDER IS NOT INS
 exit /b 2
 
 :Version
-echo 9 > .\doc\version.txt
+echo 10 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

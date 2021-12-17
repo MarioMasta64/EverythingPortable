@@ -18,15 +18,15 @@ setlocal enabledelayedexpansion
 
 REM Check For Helper Updates
 if exist .\helpers\version.txt (
-	set /p version_needed=<.\helpers\version.txt
-	Call :Version
-	if !current_version! LSS !version_needed! Call :Update
+  set /p version_needed=<.\helpers\version.txt
+  Call :Version
+  if !current_version! LSS !version_needed! Call :Update
 )
 
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 20 > .\doc\version.txt
+echo 21 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b

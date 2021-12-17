@@ -263,7 +263,7 @@ if not exist ".\bin\opera_gx\launcher.exe" set nag=OPERA GX IS NOT INSTALLED CHO
 exit /b 2
 
 :Version
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

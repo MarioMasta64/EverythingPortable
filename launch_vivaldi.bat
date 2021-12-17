@@ -278,7 +278,7 @@ if not exist ".\bin\vivaldi\Vivaldi.exe" set nag=VIVALDI IS NOT INSTALLED CHOOSE
 exit /b 2
 
 :Version
-echo 20 > .\doc\version.txt
+echo 21 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

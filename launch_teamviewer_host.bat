@@ -253,7 +253,7 @@ if not exist ".\bin\teamviewer_host\TeamViewer.exe" set nag=TEAMVIEWER HOST IS N
 exit /b 2
 
 :Version
-echo 18 > .\doc\version.txt
+echo 19 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
