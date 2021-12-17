@@ -33,7 +33,7 @@ discord
 opera
 17
 citra
-16
+17
 obs_classic
 20
 github_desktop
@@ -87,7 +87,7 @@ minecraft_legacy
 tightvnc_viewer
 11
 amazon_games
-10
+11
 itchio
 7
 lunascape
