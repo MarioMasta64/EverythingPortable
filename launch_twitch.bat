@@ -345,7 +345,7 @@ if not exist ".\data\Users\MarioMasta64\Pictures\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioMasta64\Saved Games\"
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
-if not exist "start .\data\Users\MarioMasta64\AppData\Roaming\Twitch\Bin\twitch.exe" set nag=TWITCH IS NOT INSTALLED CHOOSE "D"
+if not exist ".\data\Users\MarioMasta64\AppData\Roaming\Twitch\Bin\twitch.exe" set nag=TWITCH IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
