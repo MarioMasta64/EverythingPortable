@@ -171,6 +171,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeGuilded
 title Portable Guilded Launcher - Helper Edition - Guilded Update Check
 if exist Guilded-Win.exe del Guilded-Win.exe >nul

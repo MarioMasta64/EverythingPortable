@@ -177,6 +177,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeVirtualDJ
 title Portable Virtual DJ Launcher - Helper Edition - Virtual DJ Update Check
 if exist pc del pc >nul

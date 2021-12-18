@@ -170,6 +170,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeTelegram
 title Portable Telegram Launcher - Helper Edition - Telegram Update Check
 if exist win!arch!_portable.zip del win!arch!_portable.zip >nul

@@ -171,6 +171,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeBitwarden
 title Portable Bitwarden Launcher - Helper Edition - Bitwarden Update Check
 if exist "index.html@app=desktop&platform=windows&variant=portable" del "index.html@app=desktop&platform=windows&variant=portable" >nul

@@ -170,6 +170,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeTightVNCViewer
 title Portable TightVNC Viewer Launcher - Helper Edition - TightVNC Viewer Update Check
 if exist latest del latest >nul

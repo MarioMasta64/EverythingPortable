@@ -173,6 +173,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeMega
 title Portable Mega Launcher - Helper Edition - Mega Update Check
 if exist MEGAsyncSetup* del MEGAsyncSetup* >nul

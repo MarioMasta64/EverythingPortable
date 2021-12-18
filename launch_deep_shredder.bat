@@ -165,6 +165,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeDeepShredder
 title Portable Deep Shredder Launcher - Helper Edition - Deep Shredder Update Check
 if exist SetupDeepShredder12.exe del SetupDeepShredder12.exe >nul

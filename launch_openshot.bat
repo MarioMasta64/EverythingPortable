@@ -172,6 +172,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeOpenShot
 title Portable OpenShot Launcher - Helper Edition - OpenShot Update Check
 if exist index.html del index.html >nul

@@ -173,6 +173,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeNotePad++
 title Portable NotePad++ Launcher - Helper Edition - NotePad++ Update Check
 if exist index.html del index.html >nul

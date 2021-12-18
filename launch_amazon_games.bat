@@ -169,6 +169,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeAmazonGames
 title Portable Amazon Games Launcher - Helper Edition - Amazon Games Update Check
 if exist AmazonGamesSetup.exe del AmazonGamesSetup.exe >nul

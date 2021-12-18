@@ -171,6 +171,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeFirefox
 if exist index.html del index.html >nul
 call :HelperDownload "http://ftp.mozilla.org/pub/firefox/nightly/latest-mozilla-central/" "index.html"

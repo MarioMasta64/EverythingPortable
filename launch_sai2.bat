@@ -173,6 +173,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeSAI2
 title Portable SAI2 Launcher - Helper Edition - SAI2 Update Check
 if exist devdept.html del devdept.html >nul

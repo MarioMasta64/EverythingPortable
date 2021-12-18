@@ -28,15 +28,15 @@ call :DataUpgrade
 
 :Menu
 cls
-title Portable Streamlabs OBS Launcher - Helper Edition - Main Menu
+title Portable Fiddler Launcher - Helper Edition - Main Menu
 echo %NAG%
 set nag="Selection Time!"
-echo 1. reinstall streamlabs obs [will remove streamlabs obs entirely]
-echo 2. launch streamlabs obs [launches streamlabs obs]
-echo 3. reset streamlabs obs [will remove everything streamlabs obs except the binary]
-echo 4. uninstall streamlabs obs [need more codecs?]
+echo 1. reinstall fiddler [will remove fiddler entirely]
+echo 2. launch fiddler [launches fiddler]
+echo 3. reset fiddler [will remove everything fiddler except the binary]
+echo 4. uninstall fiddler [no longer need to intercept traffic?]
 echo 5. update script [check for updates]
-echo 6. credits [credits]
+echo 6. about [shoulda named this credits]
 echo 7. exit [EXIT]
 echo.
 echo a. download dll's [dll errors anyone?]
@@ -45,11 +45,9 @@ echo b. download other projects [check out my other stuff]
 echo.
 echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo.
-echo d. check for new streamlabs obs version [automatically check for a new version]
+echo d. check for new fiddler version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
-echo.
-echo f. relink source paths
 echo.
 echo z. purge current install [ reset, uninstall, and delete launcher]
 echo.
@@ -67,19 +65,19 @@ set nag="NOT A FEATURE YET!"
 exit /b 2
 
 :1
-:ReinstallStreamlabsOBS
+:ReinstallFiddler
 cls
-call :UninstallStreamlabsOBS
-call :UpgradeStreamlabsOBS
+call :UninstallFiddler
+call :UpgradeFiddler
 exit /b 2
 
 :2
-:LaunchStreamlabsOBS
-if not exist ".\bin\streamlabs_obs\Streamlabs OBS.exe" set "nag=PLEASE INSTALL STREAMLABS OBS FIRST" & exit /b 2
+:LaunchFiddler
+if not exist ".\bin\fiddler\Fiddler.exe" set "nag=PLEASE INSTALL FIDDLER FIRST" & exit /b 2
 title DO NOT CLOSE
 cls
-echo STREAMLABS OBS IS RUNNING
-start "" ".\bin\streamlabs_obs\Streamlabs OBS.exe"
+echo FIDDLER IS RUNNING
+start .\bin\fiddler\Fiddler.exe
 exit
 
 :3
@@ -89,13 +87,10 @@ echo DO YOU REALLY WANT TO RESET?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
-:ResetStreamlabsOBS
+:ResetFiddler
 cls
-taskkill /f /im "Streamlabs OBS.exe"
-if exist .\data\Users\MarioMasta64\AppData\Roaming\obs-studio-node-server\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\obs-studio-node-server\
-if exist .\data\Users\MarioMasta64\AppData\Roaming\slobs-client\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\slobs-client\
-if exist .\data\Users\MarioMasta64\AppData\Roaming\slobs-plugins\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\slobs-plugins\
-if exist ".\data\Users\MarioMasta64\AppData\Roaming\Streamlabs OBS\" rmdir /s /q ".\data\Users\MarioMasta64\AppData\Roaming\Streamlabs OBS\"
+taskkill /f /im fiddler.exe
+if exist .\data\Users\MarioMasta64\AppData\Roaming\fiddler\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\fiddler\
 exit /b 2
 
 :4
@@ -105,22 +100,22 @@ echo DO YOU REALLY WANT TO UNINSTALL?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
-:UninstallStreamlabsOBS
+:UninstallFiddler
 cls
-taskkill /f /im "Streamlabs OBS.exe"
-if exist .\bin\streamlabs_obs\ rmdir /s /q .\bin\streamlabs_obs\
-if exist .\data\StreamlabsOBSSetup.exe del .\data\StreamlabsOBSSetup.exe >nul
+taskkill /f /im fiddler.exe
+if exist .\data\Users\MarioMasta64\AppData\Local\fiddler\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Local\fiddler\
+if exist .\extra\fiddler_install.exe del .\extra\fiddler_install.exe >nul
 exit /b 2
 
 :5
 :UpdateCheck
 if exist version.txt del version.txt >nul
 cls
-title Portable Streamlabs OBS Launcher - Helper Edition - Checking For Update
+title Portable Fiddler Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt >nul
-set new_version=%Line_78%
+set new_version=%Line_120%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & exit /b 2
 if %current_version% EQU %new_version% call :LatestBuild & exit /b 2
 if %current_version% LSS %new_version% call :NewUpdate & exit /b 2
@@ -140,7 +135,7 @@ exit
 
 :a
 :DLLDownloaderCheck
-cls & title Portable Streamlabs OBS Launcher - Helper Edition - Download Dll Downloader
+cls & title Portable Fiddler Launcher - Helper Edition - Download Dll Downloader
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/DLLDownloaderPortable/master/launch_dlldownloader.bat" "launch_dlldownloader.bat.1"
 cls & if exist launch_dlldownloader.bat.1 del launch_dlldownloader.bat >nul & rename launch_dlldownloader.bat.1 launch_dlldownloader.bat
 cls & start launch_dlldownloader.bat
@@ -148,7 +143,7 @@ exit /b 2
 
 :b
 :PortableEverything
-cls & title Portable Streamlabs OBS Launcher - Helper Edition - Download Suite
+cls & title Portable Fiddler Launcher - Helper Edition - Download Suite
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_everything.bat" "launch_everything.bat.1"
 cls & if exist launch_everything.bat.1 del launch_everything.bat >nul & rename launch_everything.bat.1 launch_everything.bat
 cls & start launch_everything.bat
@@ -157,7 +152,7 @@ exit /b 2
 :c
 :QuicklauncherCheck
 if not exist .\doc\everything_quicklaunch.txt cls
-title Portable Streamlabs OBS Launcher - Helper Edition - Quicklauncher Writer
+title Portable Fiddler Launcher - Helper Edition - Quicklauncher Writer
 echo @echo off>!quick_launcher!
 echo Color 0A>>!quick_launcher!
 echo cls>>!quick_launcher!
@@ -168,7 +163,7 @@ echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_la
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo start "" ".\bin\streamlabs_obs\Streamlabs OBS.exe">>!quick_launcher!
+echo start .\bin\fiddler\Fiddler.exe>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
@@ -176,72 +171,31 @@ exit /b 2
 
 :d
 cls
-:UpgradeStreamlabsOBS
-title Portable Streamlabs OBS Launcher - Helper Edition - Streamlabs OBS Update Check
-if exist download del download >nul
-call :HelperDownload "https://streamlabs.com/slobs/download" "download"
-:MoveStreamlabsOBS
-move download .\extra\StreamlabsOBSSetup.exe
-:ExtractStreamlabsOBS
-call :HelperExtract7Zip "!folder!\extra\StreamlabsOBSSetup.exe" "!folder!\temp\"
-call :HelperExtract7Zip "!folder!\temp\$PLUGINSDIR\app-64.7z" "!folder!\bin\streamlabs_obs\"
+:DownloadFiddler
+echo %NAG%
+set nag=SELECTION TIME!
+echo DO YOU AGREE TO THE TERMS AND CONDITIONS
+echo https://www.telerik.com/purchase/license-agreement/fiddler
+echo type yes if you want this
+set /p choice="choice: "
+if "%CHOICE%" NEQ "yes" exit /b 2
+call :HelperDownload "https://telerik-fiddler.s3.amazonaws.com/fiddler/FiddlerSetup.exe" "FiddlerSetup.exe"
+:MoveFiddler
+move "FiddlerSetup.exe" ".\extra\FiddlerSetup.exe"
+:ExtractFiddler
+call :HelperExtract7Zip "!folder!\extra\FiddlerSetup.exe" "!folder!\temp\"
+call :HelperExtract7Zip "!folder!\temp\$PLUGINSDIR\FiddlerSetup.exe" "!folder!\temp\$PLUGINSDIR\temp\"
+xcopy ".\temp\$PLUGINSDIR\temp\*.*" ".\bin\fiddler\" /e /i /y
 if exist .\temp\ rmdir /s /q .\temp\
+if exist .\bin\fiddler\$PLUGINSDIR\ rmdir /s /q .\bin\fiddler\$PLUGINSDIR\
 exit /b 2
 
 :e
-title Portable Streamlabs OBS Launcher - Helper Edition - Text-Reader Update Check
+cls
+title Portable Fiddler Launcher - Helper Edition - Text-Reader Update Check
 cls
 call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
 start "" "update-text-reader.bat"
-exit /b 2
-
-:f
-cls
-for %%A in (.\data\Users\MarioMasta64\AppData\Roaming\slobs-client\SceneCollections\*.json) do (
-  set "A=%%A"
-  for /f "DELIMS=" %%B in (%%A) do (
-    set "B=%%B"
-    if "!B:~11,4!" EQU "file" (
-      set "C=!B:~19,-1!"
-      set "C=!C:\\=\!"
-      set "C=!C:~0,-1!"
-      if "!C:~0,1!" NEQ "C" (
-        if "!C:~0,1!" NEQ "A" (
-          if "!C:~0,1!" NEQ "B" (
-            set "D=!C:~0,1!"
-            set "E=!C:~2!"
-            set "K=!E:/=\!"
-            for /F "tokens=1*" %%G in ('fsutil fsinfo drives') do (
-              for %%I in (%%H) do (
-                for /F "tokens=3" %%J in ('fsutil fsinfo drivetype %%I') do (
-                  if "%%J" neq "CD-Rom Drive" (
-                  if "%%J" neq "Remote/Network Drive" (
-                  if "%%J" neq "Ram Disk" (
-                  if "%%J" neq "Unknown Drive" (
-                  if "%%J" neq "No such Root Directory" (
-                    set "I=%%I"
-                    if "!D:~0,1!" NEQ "!I:~0,1!" (
-                      if exist "!I!!K:~1!" (
-                        echo "!D!:\ moved to !I! relinking..."
-                        call :HelperReplaceText "!A!" "!D:\=\\!:!E:\=\\!" "!I:~0,2!!E:\=\\!"
-                        call :HelperReplaceText "!A!.bak" "!D:\=\\!:!E:\=\\!" "!I:~0,2!!E:\=\\!"
-                      )
-                    )
-                  )
-                  )
-                  )
-                  )
-                  )
-                )
-              )
-            )
-          )
-        )
-      )
-    )
-  )
-)
-pause
 exit /b 2
 
 :z
@@ -251,9 +205,9 @@ echo DO YOU REALLY WANT TO PURGE?
 echo type yes if you want this
 set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
-:PurgeStreamlabsOBS
-call :ResetStreamlabsOBS
-call :UninstallStreamlabsOBS
+:PurgeFiddler
+call :ResetFiddler
+call :UninstallFiddler
 start /b "" cmd /c del "%~f0"&exit /b
 exit /b 2
 
@@ -304,11 +258,11 @@ if not exist ".\data\Users\MarioMasta64\Pictures\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioMasta64\Saved Games\"
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
-if not exist ".\bin\streamlabs_obs\Streamlabs OBS.exe" set nag=STREAMLABS OBS IS NOT INSTALLED CHOOSE "D"
+if not exist ".\bin\fiddler\Fiddler.exe" set nag=FIDDLER IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :Version
-echo 13 > .\doc\version.txt
+echo 1 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -330,7 +284,7 @@ echo =    You may also modify this script without     = >> !license!
 echo =         consent for PERSONAL USE ONLY          = >> !license!
 echo ================================================== >> !license!
 cls
-title Portable Streamlabs OBS Launcher - Helper Edition - About
+title Portable Fiddler Launcher - Helper Edition - About
 for /f "DELIMS=" %%i in (!license!) do (echo %%i)
 pause
 call :PingInstall
@@ -340,7 +294,7 @@ REM if a script can be used between files then it can be put here and re-written
 REM stuff here will not be changed between programs
 
 :SetArch
-set arch=
+set arch=32
 if exist "%PROGRAMFILES(X86)%" set "arch=64"
 exit /b 2
 
@@ -497,7 +451,7 @@ exit /b 2
 
 :LatestBuild
 cls
-title Portable Streamlabs OBS Launcher - Helper Edition - Latest Build :D
+title Portable Fiddler Launcher - Helper Edition - Latest Build :D
 echo you are using the latest version!!
 echo Current Version: v%current_version%
 echo New Version: v%new_version%
@@ -507,7 +461,7 @@ exit
 
 :NewUpdate
 cls
-title Portable Streamlabs OBS Launcher - Helper Edition - Old Build D:
+title Portable Fiddler Launcher - Helper Edition - Old Build D:
 echo %NAG%
 set nag="Selection Time!"
 echo you are using an older version
@@ -521,7 +475,7 @@ set nag="please enter YES or NO"
 goto NewUpdate
 
 :UpdateNow
-cls & title Portable Streamlabs OBS Launcher - Helper Edition - Updating Launcher
+cls & title Portable Fiddler Launcher - Helper Edition - Updating Launcher
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/!main_launcher!" "!main_launcher!.1"
 cls & if exist "!main_launcher!.1" goto ReplacerCreate
 cls & call :ErrorOffline
@@ -541,7 +495,7 @@ exit
 
 :PreviewBuild
 cls
-title Portable Streamlabs OBS Launcher - Helper Edition - Test Build :0
+title Portable Fiddler Launcher - Helper Edition - Test Build :0
 echo YOURE USING A TEST BUILD MEANING YOURE EITHER
 echo CLOSE TO ME OR YOURE SOME SORT OF PIRATE
 echo Current Version: v%current_version%
@@ -598,7 +552,7 @@ exit /b 2
 
 :Cmd
 cls
-title Portable Streamlabs OBS Launcher - Helper Edition - Command Prompt - By MarioMasta64
+title Portable Fiddler Launcher - Helper Edition - Command Prompt - By MarioMasta64
 ver
 echo (C) Copyright Microsoft Corporation. All rights reserved
 echo.
@@ -622,6 +576,17 @@ echo start %~f0 >> relaunch.bat
 echo (goto) 2^ >nul ^& del "%%~f0" ^& exit >> relaunch.bat
 call :HelperHide "relaunch.bat"
 exit
+
+REM extra stuff ill remove one day
+
+replace %~n0 with %~f0
+because i use the call command. you can edit the file add a label and goto the label by typing it in the menu without even having to close the program cause youre worried about it glitching (put your code on the bottom)
+add raw before raw/master in everything
+maybe add option to open mod folder?
+add new launchers to update check in everything portable
+the better link: https://raw.githubusercontent.com/MarioMasta64/ModDownloaderPortable/master/mod_list.txt
+apparently raw is bad before master but only sometimes?
+raw is perfect for text links tho
 
 :DataUpgrade
 cls

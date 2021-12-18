@@ -168,6 +168,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeSkype
 title Portable Skype Launcher - Helper Edition - Skype Update Check
 if exist windows.desktop.download del windows.desktop.download >nul

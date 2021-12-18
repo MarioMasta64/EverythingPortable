@@ -171,6 +171,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeWeChat
 title Portable WeChat Launcher - Helper Edition - WeChat Update Check
 if exist WeChatSetup.exe del WeChatSetup.exe >nul

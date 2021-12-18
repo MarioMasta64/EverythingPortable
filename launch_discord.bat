@@ -173,6 +173,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeDiscord
 if exist "download?platform=win" del "download?platform=win" >nul
 call :HelperDownload "https://discordapp.com/api/download?platform=win" "download?platform=win"

@@ -184,6 +184,7 @@ pause
 exit /b 2
 
 :d
+cls
 :UpgradeEverything
 set "nag=use the legacy option UPDATE EVERYTHING or FORCE UPDATE EVERYTHING"
 exit /b 2

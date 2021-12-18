@@ -172,6 +172,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeNTLite
 title Portable NTLite Launcher - Helper Edition - NTLite Update Check
 if exist NTLite_setup_x64.exe del NTLite_setup_x64.exe >nul

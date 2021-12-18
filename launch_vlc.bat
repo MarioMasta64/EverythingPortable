@@ -174,6 +174,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeVLC
 title Portable VLC Launcher - Helper Edition - VLC Update Check
 if exist index.html del index.html >nul

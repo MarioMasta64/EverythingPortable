@@ -177,6 +177,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeVscode
 REM if "!arch!"=="32" set "LinkID=623231"
 REM if "!arch!"=="64" set "LinkID=852157"

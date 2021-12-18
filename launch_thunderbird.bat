@@ -172,6 +172,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeThunderbird
 title Portable Thunderbird Launcher - Helper Edition - Thunderbird Update Check
 if exist "index.html@product=thunderbird-latest-SSL&os=win&lang=en-US" del "index.html@product=thunderbird-latest-SSL&os=win&lang=en-US" >nul

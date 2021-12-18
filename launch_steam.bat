@@ -213,6 +213,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeSteam
 title Portable Steam Launcher - Helper Edition - Steam Update Check
 if exist SteamSetup.exe del SteamSetup.exe >nul

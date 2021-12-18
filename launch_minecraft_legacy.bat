@@ -176,6 +176,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeMinecraft
 title Portable Minecraft Legacy Launcher - Helper Edition - Minecraft Legacy Update Check
 if exist Minecraft.jar del Minecraft.jar >nul

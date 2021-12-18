@@ -170,6 +170,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeLightshot
 title Portable Lightshot Launcher - Helper Edition - Lightshot Update Check
 if exist setup-lightshot.exe del setup-lightshot.exe >nul

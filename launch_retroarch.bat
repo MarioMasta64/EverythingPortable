@@ -172,6 +172,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeRetroarch
 title Portable Retroarch Launcher - Helper Edition - Retroarch Update Check
 if exist "index.html@page=platforms" del "index.html@page=platforms" >nul

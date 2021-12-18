@@ -173,6 +173,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeRPCS3
 title Portable RPCS3 Launcher - Helper Edition - RPCS3 Update Check
 if exist index.html del index.html >nul

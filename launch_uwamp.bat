@@ -173,6 +173,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeUwAmp
 title Portable UwAmp Launcher - Helper Edition - UwAmp Update Check
 if exist UwAmp.zip del UwAmp.zip >nul

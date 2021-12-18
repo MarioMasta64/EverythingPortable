@@ -174,6 +174,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeProject64
 cls
 title Portable Project64 Launcher - Helper Edition - Project64 Update Check

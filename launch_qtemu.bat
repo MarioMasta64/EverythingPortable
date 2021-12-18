@@ -169,6 +169,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeQTEmu
 title Portable QTEmu Launcher - Helper Edition - QTEmu Update Check
 if exist qtemu-1.0.5.exe del qtemu-1.0.5.exe >nul

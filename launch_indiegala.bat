@@ -173,6 +173,7 @@ if not exist .\doc\everything_quicklaunch.txt call :Null
 exit /b 2
 
 :d
+cls
 :UpgradeIndieGala
 title Portable IndieGala Launcher - Helper Edition - IndieGala Update Check
 if exist IGClientSetup.exe del IGClientSetup.exe >nul

@@ -172,6 +172,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeDolphinBeta
 title Portable Dolphin Beta Launcher - Helper Edition - DolphinBeta Update Check
 if exist index.html del index.html >nul

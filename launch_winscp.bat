@@ -181,6 +181,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeWinSCP
 if exist history del history >nul
 if exist winscp_release.txt del winscp_release.txt >nul

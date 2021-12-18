@@ -178,6 +178,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeMinecraft
 title Portable Minecraft Launcher - Helper Edition - Minecraft Update Check
 if exist MinecraftInstaller.msi del MinecraftInstaller.msi >nul

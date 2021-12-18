@@ -171,6 +171,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeLunascape
 title Portable Lunascape Launcher - Helper Edition - Lunascape Update Checkz
 if exist latest del latest >nul

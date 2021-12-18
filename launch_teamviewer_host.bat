@@ -169,6 +169,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeTeamViewerHost
 cls
 title Portable TeamViewer Host Launcher - Helper Edition - TeamViewer Host Update Check

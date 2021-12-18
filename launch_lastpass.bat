@@ -171,6 +171,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeLastPass
 title Portable LastPass Launcher - Helper Edition - LastPass Update Check
 if exist lastappinstall.exe del lastappinstall.exe >nul

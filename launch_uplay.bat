@@ -176,6 +176,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeUPlay
 title Portable UPlay Launcher - Helper Edition - UPlay Update Check
 if exist 4vxt9 del 4vxt9 >nul

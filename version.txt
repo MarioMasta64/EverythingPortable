@@ -130,3 +130,5 @@ notepad_plus_plus
 2
 dolphin_beta
 2
+fiddler
+1

@@ -173,6 +173,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeKodi
 if exist index.html del index.html >nul
 call :HelperDownload "https://mirrors.kodi.tv/releases/windows/win32/" "index.html"

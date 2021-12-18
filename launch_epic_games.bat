@@ -201,6 +201,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeEpicGames
 title Portable Epic Games Launcher - Helper Edition - Epic Games Update Check
 if exist EpicGamesLauncherInstaller.msi del EpicGamesLauncherInstaller.msi >nul

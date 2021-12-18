@@ -171,6 +171,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :Upgradeitchio
 title Portable itch.io Launcher - Helper Edition - itch.io Update Check
 if exist windows-386 del windows-386 >nul

@@ -177,6 +177,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeOperaGX
 if exist "windows@utm_tryagain=yes&utm_source=bing_via_opera_com&utm_medium=ose&utm_campaign=(none)_via_opera_com_https&http_referrer=httpsAFFwww.bing.comF&utm_site=opera_com&&utm_lastpage=opera.com%%2F" del "windows@utm_tryagain=yes&utm_source=bing_via_opera_com&utm_medium=ose&utm_campaign=(none)_via_opera_com_https&http_referrer=httpsAFFwww.bing.comF&utm_site=opera_com&&utm_lastpage=opera.com%%2F" >nul
 call :HelperDownload "https://net.geo.opera.com/opera_gx/stable/windows?utm_tryagain=yes&utm_source=bing_via_opera_com&utm_medium=ose&utm_campaign=(none)_via_opera_com_https&http_referrer=https%%3A%%2F%%2Fwww.bing.com%%2F&utm_site=opera_com&&utm_lastpage=opera.com/" "thanks@ni=eapgx&os=windows"

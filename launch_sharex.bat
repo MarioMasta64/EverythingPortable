@@ -172,6 +172,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeShareX
 title Portable ShareX Launcher - Helper Edition - ShareX Update Check
 if exist index.html del index.html >nul

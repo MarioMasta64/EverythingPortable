@@ -1,0 +1,8 @@
+===================================================================================
+=                         https://www.telerik.com/fiddler/                        =
+===================================================================================
+=  Fiddler is a debugging proxy server tool used to log, inspect, and alter HTTP  =
+=  and HTTPS traffic between a computer and a web server or servers. Fiddler was  =
+=   originally written by Eric Lawrence while a Program Manager on the Internet   =
+=                      Explorer development team at Microsoft                     =
+===================================================================================

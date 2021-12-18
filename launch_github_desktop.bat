@@ -175,6 +175,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeGitHubDesktop
 title Portable Github Desktop Launcher - Helper Edition - Github Desktop Update Check
 if exist win32 del win32 >nul

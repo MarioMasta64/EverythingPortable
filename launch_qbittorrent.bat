@@ -170,6 +170,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeqBittorrent
 if exist download.php del download.php >nul
 call :HelperDownload "https://www.qbittorrent.org/download.php" "download.php"

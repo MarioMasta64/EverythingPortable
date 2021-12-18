@@ -174,6 +174,7 @@ if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nu
 exit /b 2
 
 :d
+cls
 :UpgradeTor
 title Portable Tor Launcher - Helper Edition - Tor Update Check
 if exist index.html del index.html >nul
