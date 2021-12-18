@@ -94,7 +94,8 @@ cls
 taskkill /f /im Twitch.exe
 taskkill /f /im TwitchAgent.exe
 taskkill /f /im TwitchUI.exe
-call :Null
+for /d %%i in (".\data\Users\MarioMasta64\AppData\Roaming\Twitch\Bin\*") do if /i not "%%i"==".\data\Users\MarioMasta64\AppData\Roaming\Twitch\Bin" if exist "%%i" rmdir /s /q "%%i"
+echo y | if exist .\data\Users\MarioMasta64\AppData\Roaming\Twitch\Bin\*.* del .\data\Users\MarioMasta64\AppData\Roaming\Twitch\Bin\*.* >nul
 exit /b 2
 
 :4
@@ -109,7 +110,7 @@ cls
 taskkill /f /im Twitch.exe
 taskkill /f /im TwitchAgent.exe
 taskkill /f /im TwitchUI.exe
-call :Null
+if exist .\data\Users\MarioMasta64\AppData\Roaming\Twitch\Bin\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\Twitch\Bin\
 exit /b 2
 
 :5
@@ -349,7 +350,7 @@ if not exist ".\data\Users\MarioMasta64\AppData\Roaming\Twitch\Bin\twitch.exe" s
 exit /b 2
 
 :Version
-echo 17 > .\doc\version.txt
+echo 18 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
