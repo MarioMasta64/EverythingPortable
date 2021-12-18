@@ -49,6 +49,8 @@ echo d. check for new twitch version [automatically check for a new version]
 echo.
 echo e. install text-reader [update if had]
 echo.
+echo f. super-manual twitch install [if install entries are worth 10 minutes of your time]
+echo.
 echo z. purge current install [ reset, uninstall, and delete launcher]
 echo.
 set /p choice="enter your choice and press enter to confirm: "
@@ -89,6 +91,9 @@ set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :ResetTwitch
 cls
+taskkill /f /im Twitch.exe
+taskkill /f /im TwitchAgent.exe
+taskkill /f /im TwitchUI.exe
 call :Null
 exit /b 2
 
@@ -101,6 +106,9 @@ set /p choice="choice: "
 if "%CHOICE%" NEQ "yes" exit /b 2
 :UninstallTwitch
 cls
+taskkill /f /im Twitch.exe
+taskkill /f /im TwitchAgent.exe
+taskkill /f /im TwitchUI.exe
 call :Null
 exit /b 2
 
@@ -212,6 +220,71 @@ call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-read
 start "" "update-text-reader.bat"
 exit /b 2
 
+:f
+:UpgradeTwitch
+title Portable Twitch Launcher - Helper Edition - Manual And Long Twitch Update Check
+cls
+echo Twitch Stable vs. Twitch Beta
+echo 1. Twitch Stable
+echo 2. Twitch Beta
+echo 3. exit
+set /p twitchver="Your Choice: "
+if "%twitchver%"=="1" (
+  set version=10
+  set edition=Beta
+)
+if "%twitchver%"=="2" (
+  set version=6
+  set edition=Alpha
+)
+if "%twitchver%"=="3" (
+  exit /b 2
+)
+taskkill /f /im Twitch.exe
+taskkill /f /im TwitchAgent.exe
+taskkill /f /im TwitchUI.exe
+if exist !twitch! del !twitch! >nul
+if exist Manifest.xml del Manifest.xml >nul
+if exist Update.xml del Update.xml >nul
+REM call :HelperDownload "https://updates.twitchapp.net/windows/installer/!twitch!" "!twitch!"
+call :HelperDownload "https://updates.curseapp.net/windows/Manifest.xml" "Manifest.xml"
+(for /L %%i in (1,1,!version!) do set /P "result=") < Manifest.xml
+if exist Manifest.xml del Manifest.xml >nul
+set twitchversion=!result:~15,-10!
+echo https://updates.curseapp.net/windows/!edition!/!twitchversion!/Update.xml
+call :HelperDownload "https://updates.curseapp.net/windows/!edition!/!twitchversion!/Update.xml" "Update.xml"
+for /F "usebackq tokens=*" %%A in ("Update.xml") do (
+set "A=%%A"
+if "!A:~1,9!"=="File Name" (
+  set "fullfilename=!A:~12,-52!.zip"
+  set "url=https://updates.curseapp.net/windows/!edition!/!twitchversion!/!fullfilename!"
+  set "url=!url:\=/!"
+  call :OutsideTheLoop
+REM  echo.
+REM  echo "!url!"
+REM  echo "!fullpath!"
+REM  echo "!filename!"
+  if exist "!filename!" del "!filename!" >nul
+  call :HelperDownload "!url!" "!filename!"
+  if exist "!filename!" (
+REM    echo call :HelperExtract7Zip "!folder!\!filename!" "!folder!\data\Users\MarioMasta64\AppData\Roaming\Twitch\Bin\!fullpath!\"
+    call :HelperExtract7Zip "!folder!\!filename!" "!extractto!"
+    del "!filename!" >nul
+  )
+)
+)
+if exist Update.xml del Update.xml >nul
+exit /b 2
+:OutsideTheLoop
+  set "tempstr=!url!"
+  set "result=%tempstr:/=" & set "result=%"
+  set "filename=!result!"
+  set "fullpath=!fullfilename:%filename%=!"
+  set "extractto=!folder!\data\Users\MarioMasta64\AppData\Roaming\Twitch\Bin\!fullpath!\"
+  set "extractto=!extractto:\\=\!"
+  exit /b 2
+exit /b 2
+
 :z
 echo %NAG%
 set nag=SELECTION TIME!
@@ -276,7 +349,7 @@ if not exist "start .\data\Users\MarioMasta64\AppData\Roaming\Twitch\Bin\twitch.
 exit /b 2
 
 :Version
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
