@@ -25,6 +25,7 @@ call :Version
 call :Credits
 call :HelperCheck
 call :DataUpgrade
+call :SettingsCheck
 
 :Menu
 cls
@@ -82,12 +83,15 @@ start "" ".\bin\sai2\!arch!Bit\sai2.exe"
 exit
 
 :3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
+if "!NoPrompt!" NEQ "1" (
+  cls
+  echo %NAG%
+  set nag=SELECTION TIME!
+  echo DO YOU REALLY WANT TO RESET?
+  echo type yes if you want this
+  set /p choice="choice: "
+  if "%CHOICE%" NEQ "yes" exit /b 2
+)
 :ResetSAI2
 cls
 taskkill /f /im sai2.exe
@@ -95,12 +99,14 @@ if exist ".\data\Users\MarioMasta64\AppData\Local\SYSTEMAX Software Development\
 exit /b 2
 
 :4
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO UNINSTALL?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
+if "!NoPrompt!" NEQ "1" (
+  echo %NAG%
+  set nag=SELECTION TIME!
+  echo DO YOU REALLY WANT TO UNINSTALL?
+  echo type yes if you want this
+  set /p choice="choice: "
+  if "%CHOICE%" NEQ "yes" exit /b 2
+)
 :UninstallSAI2
 cls
 taskkill /f /im sai2.exe
@@ -185,15 +191,20 @@ for /f tokens^=%counter%delims^=^" %%A in (
   'findstr /i /c:"-64bit-en.zip" devdept.html'
 ) Do > .\doc\sai2_link.txt Echo:%%A
 set /p sai2_link=<.\doc\sai2_link.txt
-echo !sai2_link!
-echo !counter!
-if "!sai2_link:~0,5!"=="/bin/" echo hit & goto ExitUpgradeSearchLoop
+if "!Debug!" EQU "1" (
+  echo !sai2_link!
+  echo !counter!
+)
+if "!sai2_link:~0,5!"=="/bin/" ( if "!Debug!" EQU "1" ( echo hit ) ) & goto ExitUpgradeSearchLoop
 goto UpgradeSearchLoop
 :ExitUpgradeSearchLoop
 if exist devdept.html del devdept.html >nul
 set "sai2_link=https://www.systemax.jp!sai2_link!"
-echo "!sai2_link!"
-echo PRESS ENTER TO CONTINUE & pause >nul
+if "!Debug!" EQU "1" (
+  cls
+  echo "!sai2_link!"
+  echo PRESS ENTER TO CONTINUE & pause >nul
+)
 set "tempstr=!sai2_link!"
 set "result=%tempstr:/=" & set "result=%"
 set "sai2_zip=!result!"
@@ -202,14 +213,15 @@ set "sai2_link64=!sai2_link!"
 set "sai2_link32=!sai2_link:-64=-32!"
 set "sai2_zip64=!sai2_zip!"
 set "sai2_zip32=!sai2_zip:-64=-32!"
-cls
-echo "!sai2_zip:~5,-13!"
-echo "!sai2_zip32!"
-echo "!sai2_zip64!"
-echo "!sai2_link32!"
-echo "!sai2_link64!"
-echo PRESS ENTER TO CONTINUE & pause >nul
-cls
+if "!Debug!" EQU "1" (
+  cls
+  echo "!sai2_zip:~5,-13!"
+  echo "!sai2_zip32!"
+  echo "!sai2_zip64!"
+  echo "!sai2_link32!"
+  echo "!sai2_link64!"
+  echo PRESS ENTER TO CONTINUE & pause >nul
+)
 set broke=0
 if exist ".\extra\!sai2_zip!" (
   echo sai2 is updated.
@@ -227,6 +239,8 @@ move "!sai2_zip64!" ".\extra\!sai2_zip64!"
 if not exist .\bin\sai2\ mkdir .\bin\sai2\
 call :HelperExtract "!folder!\extra\!sai2_zip32!" "!folder!\bin\sai2\32Bit\"
 call :HelperExtract "!folder!\extra\!sai2_zip64!" "!folder!\bin\sai2\64Bit\"
+:NullExtra
+if "!NullExtra!" EQU "1" ( echo.>".\extra\!sai2_zip32!" & echo.>".\extra\!sai2_zip64!")
 exit /b 2
 
 :e
@@ -237,12 +251,15 @@ start "" "update-text-reader.bat"
 exit /b 2
 
 :z
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO PURGE?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
+if "!NoPrompt!" NEQ "1" (
+  cls
+  echo %NAG%
+  set nag=SELECTION TIME!
+  echo DO YOU REALLY WANT TO PURGE?
+  echo type yes if you want this
+  set /p choice="choice: "
+  if "%CHOICE%" NEQ "yes" exit /b 2
+)
 :PurgeSAI2
 call :ResetSAI2
 call :UninstallSAI2
@@ -298,6 +315,34 @@ if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
 if exist .\data\sai2\ call :Release-v21-Upgrade
 if not exist ".\bin\sai2\!arch!Bit\sai2.exe" set nag=SAI2 IS NOT INSTALLED CHOOSE "D"
+exit /b 2
+
+:SettingsCheck
+if exist .\ini\settings.ini (
+  for /f %%C in ('Find /v /c "" ^< .\ini\settings.ini') do set Count=%%C
+  for /F "delims=" %%i in (.\ini\settings.ini) do set "lastline=%%i"
+) else (
+  set Count=0
+)
+:Setting1
+if "!Count!" LSS "2" (
+>.\ini\settings.ini (echo // Nulls Future Items Put In .\extra\ To Save Space)
+>>.\ini\settings.ini (echo "NullExtra", 0)
+)
+set "NullExtra=" & for /F "skip=1 delims=" %%k in (.\ini\settings.ini) do ( set "NullExtra=%%k" & set "NullExtra=!NullExtra:~-1!" & goto :Setting2 )
+:Setting2
+if "!Count!" LSS "4" (
+>>.\ini\settings.ini (echo // Debug)
+>>.\ini\settings.ini (echo "Debug", 0)
+)
+set "Debug=" & for /F "skip=3 delims=" %%k in (.\ini\settings.ini) do ( set "Debug=%%k" & set "Debug=!Debug:~-1!" & goto :Setting3 )
+:Setting3
+if "!Count!" LSS "6" (
+>>.\ini\settings.ini (echo // Do Not Prompt For Confirmation [DANGEROUS])
+>>.\ini\settings.ini (echo "NoPrompt", 0)
+)
+set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "NoPrompt=%%l" & set "NoPrompt=!NoPrompt:~-1!" & goto :Setting4 )
+:Setting4
 exit /b 2
 
 :Version
@@ -501,17 +546,19 @@ exit
 :NewUpdate
 cls
 title Portable SAI2 Launcher - Helper Edition - Old Build D:
-echo %NAG%
-set nag="Selection Time!"
-echo you are using an older version
-echo enter yes or no
-echo Current Version: v%current_version%
-echo New Version: v%new_version%
-set /p choice="Update?: "
-if "%choice%"=="yes" call :UpdateNow & exit /b 2
-if "%choice%"=="no" exit /b 2
-set nag="please enter YES or NO"
-goto NewUpdate
+if "!NoPrompt!" NEQ "1" (
+  echo %NAG%
+  set nag="Selection Time!"
+  echo you are using an older version
+  echo enter yes or no
+  echo Current Version: v%current_version%
+  echo New Version: v%new_version%
+  set /p choice="Update?: "
+  if "%choice%"=="yes" call :UpdateNow & exit /b 2
+  if "%choice%"=="no" exit /b 2
+  set nag="please enter YES or NO"
+  goto NewUpdate
+)
 
 :UpdateNow
 cls & title Portable SAI2 Launcher - Helper Edition - Updating Launcher

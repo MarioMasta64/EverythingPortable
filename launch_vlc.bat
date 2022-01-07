@@ -25,6 +25,7 @@ call :Version
 call :Credits
 call :HelperCheck
 call :DataUpgrade
+call :SettingsCheck
 
 :Menu
 cls
@@ -83,12 +84,15 @@ start "" ".\bin\vlc\!arch!\vlc.exe"
 exit
 
 :3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
+if "!NoPrompt!" NEQ "1" (
+  cls
+  echo %NAG%
+  set nag=SELECTION TIME!
+  echo DO YOU REALLY WANT TO RESET?
+  echo type yes if you want this
+  set /p choice="choice: "
+  if "%CHOICE%" NEQ "yes" exit /b 2
+)
 :ResetVLC
 cls
 taskkill /f /im vlc.exe
@@ -96,12 +100,14 @@ if exist .\data\Users\MarioMasta64\AppData\Roaming\vlc\ rmdir /s /q .\data\Users
 exit /b 2
 
 :4
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO UNINSTALL?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
+if "!NoPrompt!" NEQ "1" (
+  echo %NAG%
+  set nag=SELECTION TIME!
+  echo DO YOU REALLY WANT TO UNINSTALL?
+  echo type yes if you want this
+  set /p choice="choice: "
+  if "%CHOICE%" NEQ "yes" exit /b 2
+)
 :UninstallVLC
 cls
 taskkill /f /im vlc.exe
@@ -186,9 +192,11 @@ for /f tokens^=%counter%delims^=^" %%A in (
   'findstr /i /c:".exe" index.html'
 ) Do > .\doc\vlc_link.txt Echo:%%A
 set /p vlc_link=<.\doc\vlc_link.txt
-echo !vlc_link!
-echo !counter!
-if "!vlc_link:~0,27!"=="\/\/get.videolan.org\/vlc\/" echo hit & goto ExitUpgradeSearchLoop
+if "!Debug!" EQU "1" (
+  echo !vlc_link!
+  echo !counter!
+)
+if "!vlc_link:~0,27!"=="\/\/get.videolan.org\/vlc\/" ( if "!Debug!" EQU "1" ( echo hit ) ) & goto ExitUpgradeSearchLoop
 goto UpgradeSearchLoop
 :ExitUpgradeSearchLoop
 if exist index.html del index.html >nul
@@ -200,12 +208,14 @@ set "result=%tempstr:/=" & set "result=%"
 set "vlc_exe=!result!"
 set "vlc_exe32=!vlc_exe:win64=win32!"
 set "vlc_exe64=!vlc_exe:win32=win64!"
-cls
-echo !vlc_link32!
-echo !vlc_link64!
-echo !vlc_exe32!
-echo !vlc_exe64!
-echo PRESS ENTER TO CONTINUE & pause >nul
+if "!Debug!" EQU "1" (
+  cls
+  echo !vlc_link32!
+  echo !vlc_link64!
+  echo !vlc_exe32!
+  echo !vlc_exe64!
+  echo PRESS ENTER TO CONTINUE & pause >nul
+)
 cls
 if exist .\extra\!vlc_exe32! (
   if exist .\extra\!vlc_exe64! (
@@ -226,6 +236,8 @@ call :HelperExtract7Zip "!folder!\extra\!vlc_exe32!" "!folder!\bin\vlc\32\"
 call :HelperExtract7Zip "!folder!\extra\!vlc_exe64!" "!folder!\bin\vlc\64\"
 if exist .\bin\vlc\32\$PLUGINSDIR\ rmdir /s /q .\bin\vlc\32\$PLUGINSDIR\
 if exist .\bin\vlc\64\$PLUGINSDIR\ rmdir /s /q .\bin\vlc\64\$PLUGINSDIR\
+:NullExtra
+if "!NullExtra!" EQU "1" ( echo.>".\extra\!vlc_exe32!" & echo.>".\extra\!vlc_exe64!")
 exit /b 2
 
 :e
@@ -283,12 +295,15 @@ if exist .\temp\ rmdir /s /q .\temp\
 exit /b 2
 
 :z
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO PURGE?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
+if "!NoPrompt!" NEQ "1" (
+  cls
+  echo %NAG%
+  set nag=SELECTION TIME!
+  echo DO YOU REALLY WANT TO PURGE?
+  echo type yes if you want this
+  set /p choice="choice: "
+  if "%CHOICE%" NEQ "yes" exit /b 2
+)
 :PurgeVLC
 call :ResetVLC
 call :UninstallVLC
@@ -345,8 +360,36 @@ if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta6
 if not exist ".\bin\vlc\!arch!\vlc.exe" set nag=VLC IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
+:SettingsCheck
+if exist .\ini\settings.ini (
+  for /f %%C in ('Find /v /c "" ^< .\ini\settings.ini') do set Count=%%C
+  for /F "delims=" %%i in (.\ini\settings.ini) do set "lastline=%%i"
+) else (
+  set Count=0
+)
+:Setting1
+if "!Count!" LSS "2" (
+>.\ini\settings.ini (echo // Nulls Future Items Put In .\extra\ To Save Space)
+>>.\ini\settings.ini (echo "NullExtra", 0)
+)
+set "NullExtra=" & for /F "skip=1 delims=" %%k in (.\ini\settings.ini) do ( set "NullExtra=%%k" & set "NullExtra=!NullExtra:~-1!" & goto :Setting2 )
+:Setting2
+if "!Count!" LSS "4" (
+>>.\ini\settings.ini (echo // Debug)
+>>.\ini\settings.ini (echo "Debug", 0)
+)
+set "Debug=" & for /F "skip=3 delims=" %%k in (.\ini\settings.ini) do ( set "Debug=%%k" & set "Debug=!Debug:~-1!" & goto :Setting3 )
+:Setting3
+if "!Count!" LSS "6" (
+>>.\ini\settings.ini (echo // Do Not Prompt For Confirmation [DANGEROUS])
+>>.\ini\settings.ini (echo "NoPrompt", 0)
+)
+set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "NoPrompt=%%l" & set "NoPrompt=!NoPrompt:~-1!" & goto :Setting4 )
+:Setting4
+exit /b 2
+
 :Version
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -546,17 +589,19 @@ exit
 :NewUpdate
 cls
 title Portable VLC Launcher - Helper Edition - Old Build D:
-echo %NAG%
-set nag="Selection Time!"
-echo you are using an older version
-echo enter yes or no
-echo Current Version: v%current_version%
-echo New Version: v%new_version%
-set /p choice="Update?: "
-if "%choice%"=="yes" call :UpdateNow & exit /b 2
-if "%choice%"=="no" exit /b 2
-set nag="please enter YES or NO"
-goto NewUpdate
+if "!NoPrompt!" NEQ "1" (
+  echo %NAG%
+  set nag="Selection Time!"
+  echo you are using an older version
+  echo enter yes or no
+  echo Current Version: v%current_version%
+  echo New Version: v%new_version%
+  set /p choice="Update?: "
+  if "%choice%"=="yes" call :UpdateNow & exit /b 2
+  if "%choice%"=="no" exit /b 2
+  set nag="please enter YES or NO"
+  goto NewUpdate
+)
 
 :UpdateNow
 cls & title Portable VLC Launcher - Helper Edition - Updating Launcher

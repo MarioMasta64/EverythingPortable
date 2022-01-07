@@ -25,6 +25,7 @@ call :Version
 call :Credits
 call :HelperCheck
 call :DataUpgrade
+call :SettingsCheck
 
 :Menu
 cls
@@ -82,24 +83,29 @@ start "" ".\bin\rpcs3\rpcs3.exe"
 exit
 
 :3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
+if "!NoPrompt!" NEQ "1" (
+  cls
+  echo %NAG%
+  set nag=SELECTION TIME!
+  echo DO YOU REALLY WANT TO RESET?
+  echo type yes if you want this
+  set /p choice="choice: "
+  if "%CHOICE%" NEQ "yes" exit /b 2
+)
 :ResetRPCS3
 cls
 call :Null
 exit /b 2
 
 :4
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO UNINSTALL?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
+if "!NoPrompt!" NEQ "1" (
+  echo %NAG%
+  set nag=SELECTION TIME!
+  echo DO YOU REALLY WANT TO UNINSTALL?
+  echo type yes if you want this
+  set /p choice="choice: "
+  if "%CHOICE%" NEQ "yes" exit /b 2
+)
 :UninstallRPCS3
 cls
 set /p rpcs3_version=<.\doc\rpcs3_version.txt
@@ -186,29 +192,35 @@ for /f tokens^=%counter%delims^=^" %%A in (
 ) Do > .\doc\rpcs3_link.txt Echo:%%A& goto ExitSearch
 :ExitSearch
 set /p rpcs3_link=<.\doc\rpcs3_link.txt
-echo !rpcs3_link!
-echo !counter!
-if "!rpcs3_link:~0,44!"=="/RPCS3/rpcs3-binaries-win/releases/download/" echo hit & goto ExitUpgradeSearchLoop
+if "!Debug!" EQU "1" (
+  echo !rpcs3_link!
+  echo !counter!
+)
+if "!rpcs3_link:~0,44!"=="/RPCS3/rpcs3-binaries-win/releases/download/" ( if "!Debug!" EQU "1" ( echo hit ) ) & goto ExitUpgradeSearchLoop
 goto UpgradeSearchLoop
 :ExitUpgradeSearchLoop
 if exist index.html del index.html >nul
 set "rpcs3_link=https://github.com!rpcs3_link!"
-echo "!rpcs3_link!"
-echo PRESS ENTER TO CONTINUE & pause >nul
+if "!Debug!" EQU "1" (
+  cls
+  echo "!rpcs3_link!"
+  echo PRESS ENTER TO CONTINUE & pause >nul
+)
 set "rpcs3_temp=!rpcs3_link!"
 set /a counter=0
 :LoopSlashCheck
 set "tempstr=!rpcs3_link!"
 set "result=%tempstr:/=" & set "result=%"
 set "rpcs3_7z=!result!"
-cls
-echo "!rpcs3_7z:~7,-9!"
-echo "!rpcs3_7z!"
-echo "!rpcs3_link!"
-echo PRESS ENTER TO CONTINUE & pause >nul
+if "!Debug!" EQU "1" (
+  cls
+  echo "!rpcs3_7z:~7,-9!"
+  echo "!rpcs3_7z!"
+  echo "!rpcs3_link!"
+  echo PRESS ENTER TO CONTINUE & pause >nul
+)
 if exist download del download >nul
 if exist latest.txt del latest.txt >nul
-cls
 set broke=0
 if exist ".\extra\!rpcs3_7z!" (
   echo rpcs3 is updated.
@@ -222,15 +234,27 @@ call :HelperDownload "!rpcs3_link!" "!rpcs3_7z!"
 move "!rpcs3_7z!" ".\extra\!rpcs3_7z!"
 :ExtractRPCS3
 call :HelperExtract7zip "!folder!\extra\!rpcs3_7z!" "!folder!\bin\rpcs3\"
+:NullExtra
+if "!NullExtra!" EQU "1" ( echo.>".\extra\!rpcs3_7z!")
+exit /b 2
+
+:e
+title Portable Revolt Launcher - Helper Edition - Text-Reader Update Check
+cls
+call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-reader.bat" "update-text-reader.bat"
+start "" "update-text-reader.bat"
 exit /b 2
 
 :z
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO PURGE?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
+if "!NoPrompt!" NEQ "1" (
+  cls
+  echo %NAG%
+  set nag=SELECTION TIME!
+  echo DO YOU REALLY WANT TO PURGE?
+  echo type yes if you want this
+  set /p choice="choice: "
+  if "%CHOICE%" NEQ "yes" exit /b 2
+)
 :PurgeRPCS3
 call :ResetRPCS3
 call :UninstallRPCS3
@@ -285,6 +309,34 @@ if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioM
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
 if not exist ".\bin\rpcs3\rpcs3.exe" set nag=RPCS3 IS NOT INSTALLED CHOOSE "D"
+exit /b 2
+
+:SettingsCheck
+if exist .\ini\settings.ini (
+  for /f %%C in ('Find /v /c "" ^< .\ini\settings.ini') do set Count=%%C
+  for /F "delims=" %%i in (.\ini\settings.ini) do set "lastline=%%i"
+) else (
+  set Count=0
+)
+:Setting1
+if "!Count!" LSS "2" (
+>.\ini\settings.ini (echo // Nulls Future Items Put In .\extra\ To Save Space)
+>>.\ini\settings.ini (echo "NullExtra", 0)
+)
+set "NullExtra=" & for /F "skip=1 delims=" %%k in (.\ini\settings.ini) do ( set "NullExtra=%%k" & set "NullExtra=!NullExtra:~-1!" & goto :Setting2 )
+:Setting2
+if "!Count!" LSS "4" (
+>>.\ini\settings.ini (echo // Debug)
+>>.\ini\settings.ini (echo "Debug", 0)
+)
+set "Debug=" & for /F "skip=3 delims=" %%k in (.\ini\settings.ini) do ( set "Debug=%%k" & set "Debug=!Debug:~-1!" & goto :Setting3 )
+:Setting3
+if "!Count!" LSS "6" (
+>>.\ini\settings.ini (echo // Do Not Prompt For Confirmation [DANGEROUS])
+>>.\ini\settings.ini (echo "NoPrompt", 0)
+)
+set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "NoPrompt=%%l" & set "NoPrompt=!NoPrompt:~-1!" & goto :Setting4 )
+:Setting4
 exit /b 2
 
 :Version
@@ -488,17 +540,19 @@ exit
 :NewUpdate
 cls
 title Portable RPCS3 Launcher - Helper Edition - Old Build D:
-echo %NAG%
-set nag="Selection Time!"
-echo you are using an older version
-echo enter yes or no
-echo Current Version: v%current_version%
-echo New Version: v%new_version%
-set /p choice="Update?: "
-if "%choice%"=="yes" call :UpdateNow & exit /b 2
-if "%choice%"=="no" exit /b 2
-set nag="please enter YES or NO"
-goto NewUpdate
+if "!NoPrompt!" NEQ "1" (
+  echo %NAG%
+  set nag="Selection Time!"
+  echo you are using an older version
+  echo enter yes or no
+  echo Current Version: v%current_version%
+  echo New Version: v%new_version%
+  set /p choice="Update?: "
+  if "%choice%"=="yes" call :UpdateNow & exit /b 2
+  if "%choice%"=="no" exit /b 2
+  set nag="please enter YES or NO"
+  goto NewUpdate
+)
 
 :UpdateNow
 cls & title Portable RPCS3 Launcher - Helper Edition - Updating Launcher

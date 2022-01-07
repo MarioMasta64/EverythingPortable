@@ -25,6 +25,7 @@ call :Version
 call :Credits
 call :HelperCheck
 call :DataUpgrade
+call :SettingsCheck
 
 :Menu
 cls
@@ -81,12 +82,15 @@ start .\bin\sharex\ShareX.exe
 exit
 
 :3
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO RESET?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
+if "!NoPrompt!" NEQ "1" (
+  cls
+  echo %NAG%
+  set nag=SELECTION TIME!
+  echo DO YOU REALLY WANT TO RESET?
+  echo type yes if you want this
+  set /p choice="choice: "
+  if "%CHOICE%" NEQ "yes" exit /b 2
+)
 :ResetShareX
 cls
 taskkill /f /im ShareX.exe
@@ -94,12 +98,14 @@ if exist .\bin\sharex\ShareX.exe.config del .\bin\sharex\ShareX.exe.config >nul
 exit /b 2
 
 :4
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO UNINSTALL?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
+if "!NoPrompt!" NEQ "1" (
+  echo %NAG%
+  set nag=SELECTION TIME!
+  echo DO YOU REALLY WANT TO UNINSTALL?
+  echo type yes if you want this
+  set /p choice="choice: "
+  if "%CHOICE%" NEQ "yes" exit /b 2
+)
 :UninstallShareX
 cls
 taskkill /f /im ShareX.exe
@@ -187,10 +193,12 @@ set "tempstr=!sharex_link!"
 set "result=%tempstr:/=" & set "result=%"
 set "sharex_zip=!result!"
 if exist index.html del index.html >nul
-cls
-echo "!sharex_link!"
-echo "!sharex_zip!"
-pause
+if "!Debug!" EQU "1" (
+  cls
+  echo "!sharex_link!"
+  echo "!sharex_zip!"
+  echo PRESS ENTER TO CONTINUE & pause >nul
+)
 if exist "!sharex_zip!" del "!sharex_zip!" >nul
 if exist ".\extra\!sharex_zip!" (
   echo sharex is updated.
@@ -202,6 +210,8 @@ call :HelperDownload "!sharex_link!" "!sharex_zip!"
 move "!sharex_zip!" ".\extra\!sharex_zip!"
 :ExtractShareX
 call :HelperExtract "!folder!\extra\!sharex_zip!" "!folder!\bin\sharex\"
+:NullExtra
+if "!NullExtra!" EQU "1" ( echo.>".\extra\!sharex_zip!")
 exit /b 2
 
 :e
@@ -212,12 +222,15 @@ start "" "update-text-reader.bat"
 exit /b 2
 
 :z
-echo %NAG%
-set nag=SELECTION TIME!
-echo DO YOU REALLY WANT TO PURGE?
-echo type yes if you want this
-set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
+if "!NoPrompt!" NEQ "1" (
+  cls
+  echo %NAG%
+  set nag=SELECTION TIME!
+  echo DO YOU REALLY WANT TO PURGE?
+  echo type yes if you want this
+  set /p choice="choice: "
+  if "%CHOICE%" NEQ "yes" exit /b 2
+)
 :PurgeShareX
 call :ResetShareX
 call :UninstallShareX
@@ -272,6 +285,34 @@ if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioM
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
 if not exist ".\bin\sharex\ShareX.exe" set nag=SHAREX IS NOT INSTALLED CHOOSE "D"
+exit /b 2
+
+:SettingsCheck
+if exist .\ini\settings.ini (
+  for /f %%C in ('Find /v /c "" ^< .\ini\settings.ini') do set Count=%%C
+  for /F "delims=" %%i in (.\ini\settings.ini) do set "lastline=%%i"
+) else (
+  set Count=0
+)
+:Setting1
+if "!Count!" LSS "2" (
+>.\ini\settings.ini (echo // Nulls Future Items Put In .\extra\ To Save Space)
+>>.\ini\settings.ini (echo "NullExtra", 0)
+)
+set "NullExtra=" & for /F "skip=1 delims=" %%k in (.\ini\settings.ini) do ( set "NullExtra=%%k" & set "NullExtra=!NullExtra:~-1!" & goto :Setting2 )
+:Setting2
+if "!Count!" LSS "4" (
+>>.\ini\settings.ini (echo // Debug)
+>>.\ini\settings.ini (echo "Debug", 0)
+)
+set "Debug=" & for /F "skip=3 delims=" %%k in (.\ini\settings.ini) do ( set "Debug=%%k" & set "Debug=!Debug:~-1!" & goto :Setting3 )
+:Setting3
+if "!Count!" LSS "6" (
+>>.\ini\settings.ini (echo // Do Not Prompt For Confirmation [DANGEROUS])
+>>.\ini\settings.ini (echo "NoPrompt", 0)
+)
+set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "NoPrompt=%%l" & set "NoPrompt=!NoPrompt:~-1!" & goto :Setting4 )
+:Setting4
 exit /b 2
 
 :Version
@@ -475,17 +516,19 @@ exit
 :NewUpdate
 cls
 title Portable ShareX Launcher - Helper Edition - Old Build D:
-echo %NAG%
-set nag="Selection Time!"
-echo you are using an older version
-echo enter yes or no
-echo Current Version: v%current_version%
-echo New Version: v%new_version%
-set /p choice="Update?: "
-if "%choice%"=="yes" call :UpdateNow & exit /b 2
-if "%choice%"=="no" exit /b 2
-set nag="please enter YES or NO"
-goto NewUpdate
+if "!NoPrompt!" NEQ "1" (
+  echo %NAG%
+  set nag="Selection Time!"
+  echo you are using an older version
+  echo enter yes or no
+  echo Current Version: v%current_version%
+  echo New Version: v%new_version%
+  set /p choice="Update?: "
+  if "%choice%"=="yes" call :UpdateNow & exit /b 2
+  if "%choice%"=="no" exit /b 2
+  set nag="please enter YES or NO"
+  goto NewUpdate
+)
 
 :UpdateNow
 cls & title Portable ShareX Launcher - Helper Edition - Updating Launcher
