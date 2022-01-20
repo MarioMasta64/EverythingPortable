@@ -121,7 +121,7 @@ title Portable Fiddler Launcher - Helper Edition - Checking For Update
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
 set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!Counter!=%%i")
 if exist version.txt del version.txt >nul
-set new_version=%Line_120%
+set new_version=%Line_134%
 if "%new_version%"=="OFFLINE" call :ErrorOffline & exit /b 2
 if %current_version% EQU %new_version% call :LatestBuild & exit /b 2
 if %current_version% LSS %new_version% call :NewUpdate & exit /b 2
@@ -304,7 +304,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
