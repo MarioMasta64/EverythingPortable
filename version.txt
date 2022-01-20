@@ -132,3 +132,5 @@ dolphin_beta
 4
 fiddler
 3
+osu
+1
