@@ -2,6 +2,26 @@
 
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40MARlOMASTA64)](https://twitter.com/MARlOMASTA64)
 
+# about the project
+
+i created this back in the day because i didnt use to have my own pc only a usb drive what i had back then was essentially the quicklaunchers dumbed down because i couldnt install stuff on the library computers
+
+back then the only projects were: minecraft, steam, and obs because thats what i used (back then portableapps didnt have most of these)
+
+one day my drive died so i decided to pretty them up and make them basically the equivalent of the "poc" launchers with all the automation to install and launch
+
+nowadays it delves further and im always looking for new things to tinker around with
+
+now as for the project
+
+**pros:** software that has licenses or requires logins or cannot be repackaged due to licenses can be there, you can see the entire setup process in plaintext and recreate it if you want to
+
+**cons:** its very likely to break since its a script and this is mostly only a hobby project i do to familiarize myself with different programs and how to make them portable and is a very amateur project that may work but is held together by bandages and shouldnt be taken seriously but if you find any of it helpful then thats nice
+
+**again this project was never meant to be taken seriously**
+
+however i still try to make it somewhat nice for those who find it and want to use it and i still use this stuff to the day so that i can keep up with my own project better
+
 # this project has been revived
 
 **i finally started working on the project again after many years and everything works again aside whats notes in the issues below**
