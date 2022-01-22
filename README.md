@@ -18,7 +18,13 @@ now as for the project
 
 **cons:** its very likely to break since its a script and this is mostly only a hobby project i do to familiarize myself with different programs and how to make them portable and is a very amateur project that may work but is held together by bandages and shouldnt be taken seriously but if you find any of it helpful then thats nice
 
-**again this project was never meant to be taken seriously**
+# nowadays why do i maintain the project?
+
+ive always had a fascination with doing things in limiting circumstances from old / weird tech to languages ive made checkers in a nsis installer a text reader in batch converted c code to batch and so on
+
+original this was batch as a limitation of it being one of the few things i could run on a library computer without antivirus and rules getting in the way but nowadays it is me having fun testing the limits of what a limited and ridiculed language can do
+
+# this project was never meant to be taken seriously
 
 however i still try to make it somewhat nice for those who find it and want to use it and i still use this stuff to the day so that i can keep up with my own project better
 
