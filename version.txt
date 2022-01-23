@@ -134,3 +134,5 @@ fiddler
 3
 osu
 1
+ryujinx
+1
