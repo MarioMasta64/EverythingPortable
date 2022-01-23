@@ -30,7 +30,7 @@ call :SettingsCheck
 :Menu
 cls
 title Portable NTLite Launcher - Helper Edition - Main Menu
-echo %NAG%
+echo !NAG!
 set nag="Selection Time!"
 echo 1. reinstall ntlite [will remove ntlite entirely]
 echo 2. launch ntlite [launches ntlite]
@@ -85,12 +85,12 @@ exit
 :3
 if "!NoPrompt!" NEQ "1" (
   cls
-  echo %NAG%
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO RESET?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :ResetNTLite
 cls
@@ -99,12 +99,13 @@ exit /b 2
 
 :4
 if "!NoPrompt!" NEQ "1" (
-  echo %NAG%
+  cls
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO UNINSTALL?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :UninstallNTLite
 cls
@@ -208,12 +209,12 @@ exit /b 2
 :z
 if "!NoPrompt!" NEQ "1" (
   cls
-  echo %NAG%
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO PURGE?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :PurgeNTLite
 call :ResetNTLite
@@ -501,7 +502,8 @@ exit
 cls
 title Portable NTLite Launcher - Helper Edition - Old Build D:
 if "!NoPrompt!" NEQ "1" (
-  echo %NAG%
+  cls
+  echo !NAG!
   set nag="Selection Time!"
   echo you are using an older version
   echo enter yes or no

@@ -30,7 +30,7 @@ call :SettingsCheck
 :Menu
 cls
 title Portable Fiddler Launcher - Helper Edition - Main Menu
-echo %NAG%
+echo !NAG!
 set nag="Selection Time!"
 echo 1. reinstall fiddler [will remove fiddler entirely]
 echo 2. launch fiddler [launches fiddler]
@@ -84,12 +84,12 @@ exit
 :3
 if "!NoPrompt!" NEQ "1" (
   cls
-  echo %NAG%
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO RESET?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :ResetFiddler
 cls
@@ -99,12 +99,13 @@ exit /b 2
 
 :4
 if "!NoPrompt!" NEQ "1" (
-  echo %NAG%
+  cls
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO UNINSTALL?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :UninstallFiddler
 cls
@@ -180,13 +181,13 @@ cls
 :DownloadFiddler
 if "!NoPrompt!" NEQ "1" (
   cls
-  echo %NAG%
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU AGREE TO THE TERMS AND CONDITIONS
   echo https://www.telerik.com/purchase/license-agreement/fiddler
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 call :HelperDownload "https://telerik-fiddler.s3.amazonaws.com/fiddler/FiddlerSetup.exe" "FiddlerSetup.exe"
 :MoveFiddler
@@ -212,12 +213,12 @@ exit /b 2
 :z
 if "!NoPrompt!" NEQ "1" (
   cls
-  echo %NAG%
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO PURGE?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :PurgeFiddler
 call :ResetFiddler
@@ -505,7 +506,8 @@ exit
 cls
 title Portable Fiddler Launcher - Helper Edition - Old Build D:
 if "!NoPrompt!" NEQ "1" (
-  echo %NAG%
+  cls
+  echo !NAG!
   set nag="Selection Time!"
   echo you are using an older version
   echo enter yes or no

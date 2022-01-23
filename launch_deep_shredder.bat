@@ -30,7 +30,7 @@ call :SettingsCheck
 :Menu
 cls
 title Portable Deep Shredder Launcher - Helper Edition - Main Menu
-echo %NAG%
+echo !NAG!
 set nag="Selection Time!"
 echo 1. reinstall deep shredder [will remove deep shredder entirely]
 echo 2. launch deep shredder [launches deep shredder]
@@ -84,12 +84,12 @@ exit
 :3
 if "!NoPrompt!" NEQ "1" (
   cls
-  echo %NAG%
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO RESET?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :ResetDeepShredder
 call :Null
@@ -97,12 +97,13 @@ exit /b 2
 
 :4
 if "!NoPrompt!" NEQ "1" (
-  echo %NAG%
+  cls
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO UNINSTALL?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :UninstallDeepShredder
 call :Null
@@ -198,12 +199,12 @@ exit /b 2
 :z
 if "!NoPrompt!" NEQ "1" (
   cls
-  echo %NAG%
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO PURGE?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :PurgeDeepShredder
 call :ResetDeepShredder
@@ -491,7 +492,8 @@ exit
 cls
 title Portable Deep Shredder Launcher - Helper Edition - Old Build D:
 if "!NoPrompt!" NEQ "1" (
-  echo %NAG%
+  cls
+  echo !NAG!
   set nag="Selection Time!"
   echo you are using an older version
   echo enter yes or no

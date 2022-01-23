@@ -30,7 +30,7 @@ call :SettingsCheck
 :Menu
 cls
 title Portable Minecraft Legacy Launcher - Helper Edition - Main Menu
-echo %NAG%
+echo !NAG!
 set nag="Selection Time!"
 echo 1. reinstall minecraft legacy [will remove minecraft legacy entirely]
 echo 2. launch minecraft legacy [launches minecraft legacy]
@@ -90,12 +90,12 @@ exit
 :3
 if "!NoPrompt!" NEQ "1" (
   cls
-  echo %NAG%
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO RESET?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :ResetMinecraft
 cls
@@ -104,12 +104,13 @@ exit /b 2
 
 :4
 if "!NoPrompt!" NEQ "1" (
-  echo %NAG%
+  cls
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO UNINSTALL?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :UninstallMinecraft
 cls
@@ -207,7 +208,7 @@ exit /b 2
 :New
 cls
 title PORTABLE MINECRAFT LEGACY LAUNCHER - NEW PROFILE
-echo %NAG%
+echo !NAG!
 set nag=SELECTION TIME!
 echo type the name of the profile
 echo only use letters and numbers
@@ -219,13 +220,13 @@ goto Create
 :Create
 cls
 title PORTABLE MINECRAFT LEGACY LAUNCHER - CREATE PROFILE
-echo %NAG%
+echo !NAG!
 set nag=SELECTION TIME!
 echo create profile "!Profile!"?
 echo type yes or no and press enter
 set /p choice="choice: "
-if "%CHOICE%"=="no" goto NewTitle
-if "%CHOICE%"=="yes" goto NowCreating
+if "!CHOICE!"=="no" goto NewTitle
+if "!CHOICE!"=="yes" goto NowCreating
 set nag="please enter YES or NO"
 goto Create
 :NowCreating
@@ -238,14 +239,14 @@ goto New
 :Exists
 cls
 title PORTABLE MINECRAFT LEGACY LAUNCHER - LAUNCH PROFILE
-echo %NAG%
+echo !NAG!
 set nag=SELECTION TIME!
 echo PROFILE "!Profile!" EXISTS
 echo launch it?
 echo type yes or no and press enter
 set /p choice="choice: "
-if "%CHOICE%"=="no" goto NewTitle
-if "%CHOICE%"=="yes" goto Launch
+if "!CHOICE!"=="no" goto NewTitle
+if "!CHOICE!"=="yes" goto Launch
 set nag="please enter YES or NO"
 goto Exists
 :NewTitle
@@ -257,21 +258,21 @@ goto New
 :Select
 cls
 title PORTABLE MINECRAFT LEGACY LAUNCHER - SELECT PROFILE
-echo %NAG%
+echo !NAG!
 set nag=SELECTION TIME!
 echo type default for default profile
 call :GetProfiles
 For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
 echo type menu to return to the main menu
 set /p choice="profile to launch: "
-set profile=!Line_%CHOICE%!
-if "%CHOICE%"=="menu" goto Menu
-if "%CHOICE%"=="default" goto Default
+set profile=!Line_!CHOICE!!
+if "!CHOICE!"=="menu" goto Menu
+if "!CHOICE!"=="default" goto Default
 if "!folder!\data\minecraft\profiles\!Profile!\"==".\data\minecraft\profiles\" goto set_create
 if exist "!folder!\data\minecraft\profiles\!Profile!\" goto Launch
 :set_create
 cls
-set "profile=%CHOICE%"
+set "profile=!CHOICE!"
 if exist "!folder!\data\minecraft\profiles\!Profile!\" goto Launch
 set nag=PROFILE "!Profile!" DOES NOT EXIST
 goto Create
@@ -290,22 +291,22 @@ goto 2
 :Delete
 cls
 title PORTABLE MINECRAFT LEGACY LAUNCHER - DELETE PROFILE
-echo %NAG%
+echo !NAG!
 set nag=SELECTION TIME!
 echo type default for default profile
 call :GetProfiles
 For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
 echo type menu to return to the main menu
 set /p choice="profile to delete: "
-set profile=!Line_%CHOICE%!
-if "%CHOICE%"=="menu" goto Menu
-if "%CHOICE%"=="default" goto DeleteMain
+set profile=!Line_!CHOICE!!
+if "!CHOICE!"=="menu" goto Menu
+if "!CHOICE!"=="default" goto DeleteMain
 if "!folder!\data\minecraft\profiles\!Profile!\"==".\data\minecraft\profiles\" goto SetDelete
 if exist "!folder!\data\minecraft\profiles\!Profile!\" goto NowDeleting
 goto :h
 :SetDelete
 cls
-set "profile=%CHOICE%"
+set "profile=!CHOICE!"
 if exist "!folder!\data\minecraft\profiles\!Profile!\" goto NowDeleting
 set nag=PROFILE "!Profile!" DOES NOT EXIST
 goto Delete
@@ -322,12 +323,12 @@ goto Delete
 :z
 if "!NoPrompt!" NEQ "1" (
   cls
-  echo %NAG%
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO PURGE?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :PurgeMinecraft
 call :ResetMinecraft
@@ -616,7 +617,8 @@ exit
 cls
 title Portable Minecraft Legacy Launcher - Helper Edition - Old Build D:
 if "!NoPrompt!" NEQ "1" (
-  echo %NAG%
+  cls
+  echo !NAG!
   set nag="Selection Time!"
   echo you are using an older version
   echo enter yes or no

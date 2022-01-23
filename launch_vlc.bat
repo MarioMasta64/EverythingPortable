@@ -30,7 +30,7 @@ call :SettingsCheck
 :Menu
 cls
 title Portable VLC Launcher - Helper Edition - Main Menu
-echo %NAG%
+echo !NAG!
 set nag="Selection Time!"
 echo 1. reinstall vlc [will remove vlc entirely]
 echo 2. launch vlc [launches vlc]
@@ -86,12 +86,12 @@ exit
 :3
 if "!NoPrompt!" NEQ "1" (
   cls
-  echo %NAG%
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO RESET?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :ResetVLC
 cls
@@ -101,12 +101,13 @@ exit /b 2
 
 :4
 if "!NoPrompt!" NEQ "1" (
-  echo %NAG%
+  cls
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO UNINSTALL?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :UninstallVLC
 cls
@@ -249,12 +250,12 @@ start "" "update-text-reader.bat"
 exit /b 2
 
 :f
-echo %NAG%
+echo !NAG!
 set nag=SELECTION TIME!
 echo you accept the legal responsibility for this
 echo type yes if you want this
 set /p choice="choice: "
-if "%CHOICE%" NEQ "yes" exit /b 2
+if "!CHOICE!" NEQ "yes" exit /b 2
 :DownloadLibDVDCSS
 if exist .\bin\vlc\32\libdvdcss-2.dll goto :DownloadKEYDB
 call :HelperDownload "https://download.videolan.org/libdvdcss/1.2.11/win32/libdvdcss-2.dll" "libdvdcss-2.dll"
@@ -297,12 +298,12 @@ exit /b 2
 :z
 if "!NoPrompt!" NEQ "1" (
   cls
-  echo %NAG%
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO PURGE?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :PurgeVLC
 call :ResetVLC
@@ -590,7 +591,8 @@ exit
 cls
 title Portable VLC Launcher - Helper Edition - Old Build D:
 if "!NoPrompt!" NEQ "1" (
-  echo %NAG%
+  cls
+  echo !NAG!
   set nag="Selection Time!"
   echo you are using an older version
   echo enter yes or no

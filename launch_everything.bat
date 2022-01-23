@@ -30,7 +30,7 @@ call :SettingsCheck
 :Menu
 cls
 title Portable Everything Launcher - Helper Edition - Main Menu
-echo %NAG%
+echo !NAG!
 set nag="Selection Time!"
 echo 1. reinstall everything [will remove everything entirely]
 echo 2. launch everything [launches everything]
@@ -86,12 +86,12 @@ exit /b 2
 :3
 if "!NoPrompt!" NEQ "1" (
   cls
-  echo %NAG%
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO RESET?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :ResetEverything
 cls
@@ -100,12 +100,13 @@ exit /b 2
 
 :4
 if "!NoPrompt!" NEQ "1" (
-  echo %NAG%
+  cls
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO UNINSTALL?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :UninstallEverything
 call :Null
@@ -597,7 +598,8 @@ exit
 cls
 title Portable Everything Launcher - Helper Edition - Old Build D:
 if "!NoPrompt!" NEQ "1" (
-  echo %NAG%
+  cls
+  echo !NAG!
   set nag="Selection Time!"
   echo you are using an older version
   echo enter yes or no
@@ -776,7 +778,7 @@ exit /b
 call :GetNewDownloads
 cls
 title Portable Everything Launcher - Helper Edition - Download Launcher
-echo %NAG%
+echo !NAG!
 set nag=Selection Time!
 if "!counter!" EQU "0" set "nag=There Is Nothing Else To Download (For Now)" & exit /b 2
 :: first number is which line to start second number is how many lines to count by
@@ -800,7 +802,7 @@ exit /b 2
 call :GetLaunchers
 cls
 title Portable Everything Launcher - Helper Edition - Select Launcher
-echo %NAG%
+echo !NAG!
 set nag=Selection Time!
 if "!counter!" EQU "0" set "nag=There Is Nothing To Launch (Try Using ^"F^" To Download Something)" & exit /b 2
 For /L %%C in (1,1,!counter!) Do (echo %%C. !Line_%%C!)
@@ -816,7 +818,7 @@ exit
 call :GetLaunchers
 cls
 title Portable Everything Launcher - Helper Edition - Delete Launcher
-echo %NAG%
+echo !NAG!
 set nag=Selection Time!
 if "!counter!" EQU "0" set "nag=There Is Nothing To Delete (Try Using ^"F^" To Download Something)" & exit /b 2
 For /L %%C in (1,1,!counter!) Do (echo %%C. !Line_%%C!)
@@ -831,7 +833,7 @@ exit /b 2
 call :GetLaunchers
 cls
 title Portable Everything Launcher - Helper Edition - Update Launcher
-echo %NAG%
+echo !NAG!
 set nag=Selection Time!
 if "!counter!" EQU "0" set "nag=There Is Nothing To Update (Try Using ^"F^" To Download Something)" & exit /b 2
 For /L %%C in (1,1,!counter!) Do (echo %%C. !Line_%%C!)
@@ -851,7 +853,7 @@ exit /b 2
 :Info
 cls
 title Portable Everything Launcher - Helper Edition - "!launchername!" Menu
-echo %NAG%
+echo !NAG!
 set nag=Selection Time!
 echo what would you like to do?
 echo 1. Download Launcher

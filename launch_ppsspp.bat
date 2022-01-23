@@ -30,7 +30,7 @@ call :SettingsCheck
 :Menu
 cls
 title Portable PPSSPP Launcher - Helper Edition - Main Menu
-echo %NAG%
+echo !NAG!
 set nag="Selection Time!"
 echo 1. reinstall ppsspp [will remove ppsspp entirely]
 echo 2. launch ppsspp [launches ppsspp]
@@ -113,9 +113,9 @@ for /f "DELIMS=" %%i in ('type .\temp\memsticks.txt') do (
 if exist .\temp\memsticks.txt del .\temp\memsticks.txt >nul
 For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
 set /p choice="use memstick in drive: "
-set drive=!Line_%CHOICE%!
+set drive=!Line_!CHOICE!!
 echo %drive%> .\bin\ppsspp\installed.txt
-if "%CHOICE%"=="default" goto LaunchDefault
+if "!CHOICE!"=="default" goto LaunchDefault
 :Launch
 if exist .\temp\ rmdir /s /q .\temp\
 start .\bin\ppsspp\PPSSPPWindows!arch!.exe
@@ -124,12 +124,12 @@ exit
 :3
 if "!NoPrompt!" NEQ "1" (
   cls
-  echo %NAG%
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO RESET?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :ResetPPSSPP
 cls
@@ -140,12 +140,13 @@ exit /b 2
 
 :4
 if "!NoPrompt!" NEQ "1" (
-  echo %NAG%
+  cls
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO UNINSTALL?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :UninstallPPSSPP
 cls
@@ -278,12 +279,12 @@ exit /b 2
 :z
 if "!NoPrompt!" NEQ "1" (
   cls
-  echo %NAG%
+  echo !NAG!
   set nag=SELECTION TIME!
   echo DO YOU REALLY WANT TO PURGE?
   echo type yes if you want this
   set /p choice="choice: "
-  if "%CHOICE%" NEQ "yes" exit /b 2
+  if "!CHOICE!" NEQ "yes" exit /b 2
 )
 :PurgePPSSPP
 call :ResetPPSSPP
@@ -571,7 +572,8 @@ exit
 cls
 title Portable PPSSPP Launcher - Helper Edition - Old Build D:
 if "!NoPrompt!" NEQ "1" (
-  echo %NAG%
+  cls
+  echo !NAG!
   set nag="Selection Time!"
   echo you are using an older version
   echo enter yes or no

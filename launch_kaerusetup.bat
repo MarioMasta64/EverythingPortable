@@ -109,7 +109,7 @@ exit /b
 cls
 set "nag=this project has been long since abandoned please visit https://kaeru.world/go/gallerysetup"
 title PORTABLE KAERU SETUP - JOIN TYPE
-echo %NAG%
+echo !NAG!
 set nag=SELECTION TIME!
 echo 1. CIA (Not recommended anymore, use another method)
 echo 2. HANS (Choose this if you dont have CFW or are unsure)
@@ -177,7 +177,7 @@ goto KAERUMENU
 :KAERUMENU
 cls
 title PORTABLE KAERU SETUP - %type% SETUP
-echo %NAG%
+echo !NAG!
 set nag=SELECTION TIME!
 echo USA (for all USA versions)
 echo EUR (for all EURope versions)
