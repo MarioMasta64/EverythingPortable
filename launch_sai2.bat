@@ -41,15 +41,12 @@ echo 6. credits [credits]
 echo 7. exit [EXIT]
 echo.
 echo a. download dll's [dll errors anyone?]
-echo.
 echo b. download other projects [check out my other stuff]
-echo.
 echo c. write a quicklauncher [MAKE IT EVEN FASTER]
-echo.
 echo d. check for new sai2 version [automatically check for a new version]
-echo.
 echo e. install text-reader [update if had]
 echo.
+echo y. open explorer [open windows explorer to user directory]
 echo z. purge current install [ reset, uninstall, and delete launcher]
 echo.
 set /p choice="enter your choice and press enter to confirm: "
@@ -251,6 +248,13 @@ call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-read
 start "" "update-text-reader.bat"
 exit /b 2
 
+:y
+cls
+pushd "!Folder!\data\Users\MarioMasta64\"
+start cmd /c "explorer.exe !CD!"
+popd
+exit /b 2
+
 :z
 if "!NoPrompt!" NEQ "1" (
   cls
@@ -314,7 +318,7 @@ if not exist ".\data\Users\MarioMasta64\Pictures\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioMasta64\Saved Games\"
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
-if exist .\data\sai2\ call :Release-v21-Upgrade
+if not exist ".\data\Users\MarioMasta64\AppData\Roaming\Microsoft\Windows\Recent\" mkdir ".\data\Users\MarioMasta64\AppData\Roaming\Microsoft\Windows\Recent\"
 if not exist ".\bin\sai2\!arch!Bit\sai2.exe" set nag=SAI2 IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
@@ -347,7 +351,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 3 > .\doc\version.txt
+echo 4 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -664,12 +668,6 @@ echo start %~f0 >> relaunch.bat
 echo (goto) 2^ >nul ^& del "%%~f0" ^& exit >> relaunch.bat
 call :HelperHide "relaunch.bat"
 exit
-
-:Release-v21-Upgrade
-if exist .\bin\sai2\config\sai2-studio\ rmdir /s /q .\bin\sai2\config\sai2-studio\
-xcopy .\data\sai2\* .\bin\sai2\config\sai2-studio\ /e /i /y
-if exist .\data\sai2\ rmdir /s /q .\data\sai2\
-exit /b 2
 
 :DataUpgrade
 cls

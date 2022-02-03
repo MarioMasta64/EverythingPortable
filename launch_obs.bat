@@ -41,19 +41,16 @@ echo 6. credits [credits]
 echo 7. exit [EXIT]
 echo.
 echo a. download dll's [dll errors anyone?]
-echo.
 echo b. download other projects [check out my other stuff]
-echo.
 echo c. write a quicklauncher [MAKE IT EVEN FASTER]
-echo.
 echo d. check for new obs version [automatically check for a new version]
-echo.
 echo e. install text-reader [update if had]
 echo.
 echo f. relink source paths
 echo.
 echo g. import from streamlabs launcher
 echo.
+echo y. open explorer [open windows explorer to user directory]
 echo z. purge current install [ reset, uninstall, and delete launcher]
 echo.
 set /p choice="enter your choice and press enter to confirm: "
@@ -345,6 +342,13 @@ xcopy ".\data\Users\MarioMasta64\AppData\Roaming\slobs-client\global.ini" ".\bin
 pause
 exit /b 2
 
+:y
+cls
+pushd "!Folder!\data\Users\MarioMasta64\"
+start cmd /c "explorer.exe !CD!"
+popd
+exit /b 2
+
 :z
 if "!NoPrompt!" NEQ "1" (
   cls
@@ -408,6 +412,7 @@ if not exist ".\data\Users\MarioMasta64\Pictures\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioMasta64\Saved Games\"
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
+if not exist ".\data\Users\MarioMasta64\AppData\Roaming\Microsoft\Windows\Recent\" mkdir ".\data\Users\MarioMasta64\AppData\Roaming\Microsoft\Windows\Recent\"
 if exist .\data\obs\ call :Release-v21-Upgrade
 if not exist ".\bin\obs\bin\!arch!Bit\obs!arch!.exe" set nag=OBS IS NOT INSTALLED CHOOSE "D"
 exit /b 2
@@ -441,7 +446,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 46 > .\doc\version.txt
+echo 47 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

@@ -41,13 +41,9 @@ echo 6. credits [credits]
 echo 7. exit [EXIT]
 echo.
 echo a. download dll's [dll errors anyone?]
-echo.
 echo b. download other projects [check out my other stuff]
-echo.
 echo c. write a quicklauncher [MAKE IT EVEN FASTER]
-echo.
 echo d. check for new epic games version [automatically check for a new version]
-echo.
 echo e. install text-reader [update if had]
 echo.
 if exist ".\bin\epic_games\Launcher\Portal\Extras\Redist\LauncherPrereqSetup_x!arch!.exe" (
@@ -58,6 +54,7 @@ if exist ".\bin\epic_games\Launcher\Portal\Extras\Redist\LauncherPrereqSetup_x!a
 echo.
 echo g. relink game paths
 echo.
+echo y. open explorer [open windows explorer to user directory]
 echo z. purge current install [ reset, uninstall, and delete launcher]
 echo.
 set /p choice="enter your choice and press enter to confirm: "
@@ -301,6 +298,13 @@ for %%A in (.\data\ProgramData\Epic\EpicGamesLauncher\Data\Manifests\*.item) do 
 pause
 exit /b 2
 
+:y
+cls
+pushd "!Folder!\data\Users\MarioMasta64\"
+start cmd /c "explorer.exe !CD!"
+popd
+exit /b 2
+
 :z
 if "!NoPrompt!" NEQ "1" (
   cls
@@ -364,6 +368,7 @@ if not exist ".\data\Users\MarioMasta64\Pictures\" mkdir ".\data\Users\MarioMast
 if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioMasta64\Saved Games\"
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
+if not exist ".\data\Users\MarioMasta64\AppData\Roaming\Microsoft\Windows\Recent\" mkdir ".\data\Users\MarioMasta64\AppData\Roaming\Microsoft\Windows\Recent\"
 if not exist ".\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" set nag=EPIC GAMES IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
@@ -396,7 +401,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

@@ -28,6 +28,7 @@ call :DataUpgrade
 call :SettingsCheck
 
 :Menu
+MODE CON:cols=120 lines=35
 cls
 title Portable Everything Launcher - Helper Edition - Main Menu
 echo !NAG!
@@ -56,6 +57,7 @@ echo l. FORCE UPDATE EVERYTHING
 if exist .\extra\notfirstrun.txt echo m. UPDATE EVERYTHING
 echo n. TROUBLESHOOTING
 echo.
+echo y. open explorer [open windows explorer to user directory]
 echo z. purge current install [ reset, uninstall, and delete launcher]
 echo.
 set /p choice="enter your choice and press enter to confirm: "
@@ -313,7 +315,14 @@ echo otherwise leave an issue on my
 echo github github.com/mariomasta64
 echo.
 echo PRESS ENTER TO CONTINUE & pause >nul
-exit /b
+exit /b 2
+
+:y
+cls
+pushd "!Folder!\data\Users\MarioMasta64\"
+start cmd /c "explorer.exe !CD!"
+popd
+exit /b 2
 
 :z
 call :Null
@@ -397,7 +406,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 44 > .\doc\version.txt
+echo 45 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -782,7 +791,19 @@ echo !NAG!
 set nag=Selection Time!
 if "!counter!" EQU "0" set "nag=There Is Nothing Else To Download (For Now)" & exit /b 2
 :: first number is which line to start second number is how many lines to count by
-For /L %%C in (1,1,!counter!) Do (echo %%C. !Line_%%C!)
+echo.
+For /L %%C in (1,1,!counter!) Do (
+	set "numberstr=%%C"
+	call :strlen numberstr numberlength
+	set "launcherstr=!Line_%%C!"
+	call :strlen launcherstr launcherlength
+	set /a "linelength=!numberlength!+!launcherlength!+2"
+	set /a "paddinglength=39-!linelength!"
+	call :GeneratePadding
+	set /p "=%%C. !Line_%%C!!spaces! " <nul
+)
+echo.
+echo.
 echo type menu to return to the main menu
 set /p choice="launcher to download: "
 set "launchername=!Line_%choice%!"
@@ -805,7 +826,19 @@ title Portable Everything Launcher - Helper Edition - Select Launcher
 echo !NAG!
 set nag=Selection Time!
 if "!counter!" EQU "0" set "nag=There Is Nothing To Launch (Try Using ^"F^" To Download Something)" & exit /b 2
-For /L %%C in (1,1,!counter!) Do (echo %%C. !Line_%%C!)
+echo.
+For /L %%C in (1,1,!counter!) Do (
+	set "numberstr=%%C"
+	call :strlen numberstr numberlength
+	set "launcherstr=!Line_%%C!"
+	call :strlen launcherstr launcherlength
+	set /a "linelength=!numberlength!+!launcherlength!+2"
+	set /a "paddinglength=39-!linelength!"
+	call :GeneratePadding
+	set /p "=%%C. !Line_%%C!!spaces! " <nul
+)
+echo.
+echo.
 echo type menu to return to the main menu
 :: typing "]" here opens cmd prompt. spoopy.
 set /p choice="launcher to launch: "
@@ -821,7 +854,19 @@ title Portable Everything Launcher - Helper Edition - Delete Launcher
 echo !NAG!
 set nag=Selection Time!
 if "!counter!" EQU "0" set "nag=There Is Nothing To Delete (Try Using ^"F^" To Download Something)" & exit /b 2
-For /L %%C in (1,1,!counter!) Do (echo %%C. !Line_%%C!)
+echo.
+For /L %%C in (1,1,!counter!) Do (
+	set "numberstr=%%C"
+	call :strlen numberstr numberlength
+	set "launcherstr=!Line_%%C!"
+	call :strlen launcherstr launcherlength
+	set /a "linelength=!numberlength!+!launcherlength!+2"
+	set /a "paddinglength=39-!linelength!"
+	call :GeneratePadding
+	set /p "=%%C. !Line_%%C!!spaces! " <nul
+)
+echo.
+echo.
 echo type menu to return to the main menu
 set /p choice="launcher to delete: "
 set "launcher=!Line_%choice%!"
@@ -836,7 +881,19 @@ title Portable Everything Launcher - Helper Edition - Update Launcher
 echo !NAG!
 set nag=Selection Time!
 if "!counter!" EQU "0" set "nag=There Is Nothing To Update (Try Using ^"F^" To Download Something)" & exit /b 2
-For /L %%C in (1,1,!counter!) Do (echo %%C. !Line_%%C!)
+echo.
+For /L %%C in (1,1,!counter!) Do (
+	set "numberstr=%%C"
+	call :strlen numberstr numberlength
+	set "launcherstr=!Line_%%C!"
+	call :strlen launcherstr launcherlength
+	set /a "linelength=!numberlength!+!launcherlength!+2"
+	set /a "paddinglength=39-!linelength!"
+	call :GeneratePadding
+	set /p "=%%C. !Line_%%C!!spaces! " <nul
+)
+echo.
+echo.
 echo type menu to return to the main menu
 set /p choice="launcher to update: "
 set "launcher=!Line_%choice%!"
@@ -950,3 +1007,24 @@ if exist ".\data\Videos\" xcopy ".\data\Videos\" ".\data\Users\MarioMasta64\Vide
 if exist ".\Users\" move ".\Users" ".\data"
 if exist ".\Users\" xcopy ".\Users\" ".\data\Users\" /e /i /y & rmdir /s /q ".\Users\"
 exit /b 2
+
+REM must be at bottom
+
+:GeneratePadding
+set "padding=                                                                                                                             "
+set "spaces=!padding:~0,%paddinglength%!"
+exit /b 2
+
+goto:eof
+:strlen  StrVar  [RtnVar]
+  setlocal EnableDelayedExpansion
+  set "s=#!%~1!"
+  set "len=0"
+  for %%N in (4096 2048 1024 512 256 128 64 32 16 8 4 2 1) do (
+    if "!s:~%%N,1!" neq "" (
+      set /a "len+=%%N"
+      set "s=!s:~%%N!"
+    )
+  )
+  endlocal&if "%~2" neq "" (set %~2=%len%) else echo %len%
+exit /b
