@@ -55,7 +55,7 @@ authy
 lightshot
 18
 winscp
-20
+21
 twitch
 20
 firefox
@@ -85,7 +85,7 @@ deluge
 minecraft_legacy
 34
 tightvnc_viewer
-13
+14
 amazon_games
 13
 itchio
@@ -127,7 +127,7 @@ vlc
 rpcs3
 5
 notepad_plus_plus
-5
+6
 dolphin_beta
 5
 fiddler

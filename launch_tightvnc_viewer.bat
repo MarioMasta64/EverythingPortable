@@ -46,6 +46,8 @@ echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo d. check for new tightvnc viewer version [automatically check for a new version]
 echo e. install text-reader [update if had]
 echo.
+echo f. launch tighvnc server [launches tightvnc server]
+echo.
 echo y. open explorer [open windows explorer to user directory]
 echo z. purge current install [ reset, uninstall, and delete launcher]
 echo.
@@ -250,6 +252,13 @@ call :HelperDownload "https://mariomasta64.me/batch/text-reader/update-text-read
 start "" "update-text-reader.bat"
 exit /b 2
 
+:f
+:LaunchTightVNCServer
+cls
+echo TIGHTVNC SERVER IS RUNNING
+start .\bin\tightvnc_viewer\tvnserver.exe
+exit
+
 :y
 cls
 pushd "!Folder!\data\Users\MarioMasta64\"
@@ -353,7 +362,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 13 > .\doc\version.txt
+echo 14 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

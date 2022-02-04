@@ -50,9 +50,10 @@ echo f. update putty [update if had]
 echo g. update winscppwd [update if had]
 echo.
 echo h. launch putty [launches putty]
+echo i. launch puttygen [launches puttygen]
 echo i. launch winscppwd [launches winscppwd]
 echo.
-echo j. relink paths [assumes everything is on one drive]
+echo k. relink paths [assumes everything is on one drive]
 echo.
 echo y. open explorer [open windows explorer to user directory]
 echo z. purge current install [ reset, uninstall, and delete launcher]
@@ -318,11 +319,21 @@ exit /b 2
 :LaunchPutty
 cls
 echo PUTTY IS RUNNING
-cd .\bin\WinSCP\
-start Putty.exe
+pushd ".\data\Program Files\Putty\"
+start putty.exe
+popd
 exit
 
 :i
+:LaunchPuttyGen
+cls
+echo PUTTY GEN IS RUNNING
+pushd ".\data\Program Files\Putty\"
+start puttygen.exe
+popd
+exit
+
+:j
 :LaunchWinSCPPWD
 call :Null & exit /b 2
 cls
@@ -335,7 +346,7 @@ notepad.exe "!folder!\password.txt"
 if exist password.txt del password.txt >nul
 exit /b 2
 
-:j
+:k
 for %%A in (.\bin\winscp\winscp.ini) do (
   set "A=%%A"
   for /f "DELIMS=" %%B in (%%A) do (
@@ -492,7 +503,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 20 > .\doc\version.txt
+echo 21 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

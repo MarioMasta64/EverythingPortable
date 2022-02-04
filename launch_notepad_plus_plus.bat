@@ -372,7 +372,7 @@ if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioM
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
 if not exist ".\data\Users\MarioMasta64\AppData\Roaming\Microsoft\Windows\Recent\" mkdir ".\data\Users\MarioMasta64\AppData\Roaming\Microsoft\Windows\Recent\"
-if not exist ".\bin\notepad++\bin\!arch!Bit\notepad++!arch!.exe" set nag=NotePad++ IS NOT INSTALLED CHOOSE "D"
+if not exist ".\bin\notepad++" set nag=NotePad++ IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :SettingsCheck
@@ -404,7 +404,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 5 > .\doc\version.txt
+echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
