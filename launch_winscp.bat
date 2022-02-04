@@ -51,7 +51,7 @@ echo g. update winscppwd [update if had]
 echo.
 echo h. launch putty [launches putty]
 echo i. launch puttygen [launches puttygen]
-echo i. launch winscppwd [launches winscppwd]
+echo j. launch winscppwd [launches winscppwd]
 echo.
 echo k. relink paths [assumes everything is on one drive]
 echo.
