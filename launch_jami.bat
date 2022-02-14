@@ -176,7 +176,7 @@ echo set "path=%%PATH%%;%%folder%%\dll\64\;">>!quick_launcher!
 echo cls>>!quick_launcher!
 echo pushd .\bin\Jami\>>!quick_launcher!
 echo if exist ".\data\Users\MarioMasta64\AppData\Local\jami\" move ".\data\Users\MarioMasta64\AppData\Local\jami\" "%%RealUserProfile%%\AppData\Local\"
-echo start Jami.exe>>!quick_launcher!
+echo Jami.exe>>!quick_launcher!
 echo if exist "%%RealUserProfile%%\AppData\Local\jami\" move "%%RealUserProfile%%\AppData\Local\jami\" ".\data\Users\MarioMasta64\AppData\Local\"
 echo popd>>!quick_launcher!
 echo exit>>!quick_launcher!
