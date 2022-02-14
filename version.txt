@@ -136,3 +136,5 @@ osu
 2
 ryujinx
 2
+jami
+1

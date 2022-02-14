@@ -1,0 +1,11 @@
+===============================================================================
+=                              https://jami.net/                              =
+===============================================================================
+= Jami is a universal communication system, meaning it can be used by anyone, =
+=   anywhere. Jami plugin system provides to our community of developers the  =
+=  tools to contribute to the rise of Jami by transforming any ideas to real  =
+=  features. Plugins can be used to modify a video stream or an audio without =
+=     having to be familiar with the complexity of Jami. What makes Jami’s    =
+= plugins unique is that all processing is done directly on the users’ device =
+=     removing the need to rely and share users data with any third-party.    =
+===============================================================================
