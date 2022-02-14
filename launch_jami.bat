@@ -77,9 +77,11 @@ set "path=!PATH!;!folder!\dll\64\;"
 cls
 echo JAMI IS RUNNING
 pushd .\bin\Jami\
-if exist ".\data\Users\MarioMasta64\AppData\Local\jami\" move ".\data\Users\MarioMasta64\AppData\Local\jami\" "!RealUserProfile!\AppData\Local\"
+if exist "!RealUserProfile!\AppData\Local\jami\" rmdir /s /q "!RealUserProfile!\AppData\Local\jami\"
+if exist ".\data\Users\MarioMasta64\AppData\Local\jami\" xcopy ".\data\Users\MarioMasta64\AppData\Local\jami\*" "!RealUserProfile!\AppData\Local\jami\" /e /i /y & rmdir /s /q ".\data\Users\MarioMasta64\AppData\Local\jami\"
 Jami.exe
-if exist "!RealUserProfile!\AppData\Local\jami\" move "!RealUserProfile!\AppData\Local\jami\" ".\data\Users\MarioMasta64\AppData\Local\"
+if exist ".\data\Users\MarioMasta64\AppData\Local\jami\" rmdir /s /q ".\data\Users\MarioMasta64\AppData\Local\jami\"
+if exist "!RealUserProfile!\AppData\Local\jami\" xcopy "!RealUserProfile!\AppData\Local\jami\*" ".\data\Users\MarioMasta64\AppData\Local\jami\" /e /i /y & rmdir /s /q "!RealUserProfile!\AppData\Local\jami\"
 popd
 exit
 
@@ -175,9 +177,11 @@ echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo set "path=%%PATH%%;%%folder%%\dll\64\;">>!quick_launcher!
 echo cls>>!quick_launcher!
 echo pushd .\bin\Jami\>>!quick_launcher!
-echo if exist ".\data\Users\MarioMasta64\AppData\Local\jami\" move ".\data\Users\MarioMasta64\AppData\Local\jami\" "%%RealUserProfile%%\AppData\Local\"
+echo if exist "%%RealUserProfile%%\AppData\Local\jami\" rmdir /s /q "%%RealUserProfile%%\AppData\Local\jami\">>!quick_launcher!
+echo if exist ".\data\Users\MarioMasta64\AppData\Local\jami\" xcopy ".\data\Users\MarioMasta64\AppData\Local\jami\*" "%%RealUserProfile%%\AppData\Local\" /e /i /y ^& rmdir /s /q ".\data\Users\MarioMasta64\AppData\Local\jami\">>!quick_launcher!
 echo Jami.exe>>!quick_launcher!
-echo if exist "%%RealUserProfile%%\AppData\Local\jami\" move "%%RealUserProfile%%\AppData\Local\jami\" ".\data\Users\MarioMasta64\AppData\Local\"
+echo if exist ".\data\Users\MarioMasta64\AppData\Local\jami\" rmdir /s /q ".\data\Users\MarioMasta64\AppData\Local\jami\">>!quick_launcher!
+echo if exist "%%RealUserProfile%%\AppData\Local\jami\" xcopy "%%RealUserProfile%%\AppData\Local\jami\*" ".\data\Users\MarioMasta64\AppData\Local\" /e /i /y ^& rmdir /s /q "%%RealUserProfile%%\AppData\Local\jami\">>!quick_launcher!
 echo popd>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
@@ -313,7 +317,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
