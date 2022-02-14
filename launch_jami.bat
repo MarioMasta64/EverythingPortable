@@ -77,7 +77,9 @@ set "path=!PATH!;!folder!\dll\64\;"
 cls
 echo JAMI IS RUNNING
 pushd .\bin\Jami\
-start Jami.exe
+if exist ".\data\Users\MarioMasta64\AppData\Local\jami\" move ".\data\Users\MarioMasta64\AppData\Local\jami\" "!RealUserProfile!\AppData\Local\"
+Jami.exe
+if exist "!RealUserProfile!\AppData\Local\jami\" move "!RealUserProfile!\AppData\Local\jami\" ".\data\Users\MarioMasta64\AppData\Local\"
 popd
 exit
 
@@ -94,7 +96,6 @@ if "!NoPrompt!" NEQ "1" (
 :ResetJami
 cls
 taskkill /f /im Jami.exe
-timeout -t 5
 if exist .\data\Users\MarioMasta64\AppData\Local\jami\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Local\jami\
 exit /b 2
 
@@ -166,6 +167,7 @@ echo Color 0A>>!quick_launcher!
 echo cls>>!quick_launcher!
 echo set "folder=%%CD%%">>!quick_launcher!
 echo set "folder=%%folder:~0,-1%%">>!quick_launcher!
+echo set "RealUserProfile=%%UserProfile%%">>!quick_launcher!
 echo set "UserProfile=%%folder%%\data\Users\MarioMasta64">>!quick_launcher!
 echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
@@ -173,7 +175,9 @@ echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo set "path=%%PATH%%;%%folder%%\dll\64\;">>!quick_launcher!
 echo cls>>!quick_launcher!
 echo pushd .\bin\Jami\>>!quick_launcher!
+echo if exist ".\data\Users\MarioMasta64\AppData\Local\jami\" move ".\data\Users\MarioMasta64\AppData\Local\jami\" "%%RealUserProfile%%\AppData\Local\"
 echo start Jami.exe>>!quick_launcher!
+echo if exist "%%RealUserProfile%%\AppData\Local\jami\" move "%%RealUserProfile%%\AppData\Local\jami\" ".\data\Users\MarioMasta64\AppData\Local\"
 echo popd>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
@@ -309,7 +313,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 1 > .\doc\version.txt
+echo 2 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
