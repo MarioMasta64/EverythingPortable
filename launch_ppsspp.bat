@@ -110,7 +110,7 @@ for /f "DELIMS=" %%i in ('type .\temp\memsticks.txt') do (
 if exist .\temp\memsticks.txt del .\temp\memsticks.txt >nul
 For /L %%C in (1,1,%Counter%) Do (echo %%C. !Line_%%C!)
 set /p choice="use memstick in drive: "
-set drive=!Line_!CHOICE!!
+set drive=!Line_%CHOICE%!
 echo %drive%> .\bin\ppsspp\installed.txt
 if "!CHOICE!"=="default" goto LaunchDefault
 :Launch
@@ -376,7 +376,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 29 > .\doc\version.txt
+echo 30 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
