@@ -50,6 +50,10 @@ echo.
 echo f. type your steam login [to automatically login between pc]
 echo g. remove steam login [to not login automatically]
 echo.
+echo h. set steam to normal ui
+echo i. set steam to big picture ui
+echo j. set steam to steamdeck ui
+echo.
 echo y. open explorer [open windows explorer to user directory]
 echo z. purge current install [ reset, uninstall, and delete launcher]
 echo.
@@ -82,19 +86,20 @@ title DO NOT CLOSE
 set "Path=!PATH!;!folder!\dll\32\;"
 cls
 echo STEAM IS RUNNING
-if exist .\ini\steam.ini ( 
+if exist .\ini\steam_params.ini set /p steamparams=<.\ini\steam_params.ini
+if exist .\ini\steam.ini (
   for /f "delims=" %%a in (.\ini\steam.ini) do ( 
     set "a=%%a" 
     if "!a:~1,5!"=="User:" set "user=!a:~6,-1!" 
     if "!a:~1,5!"=="Pass:" set "pass=!a:~6,-1!" 
   ) 
   pushd .\bin\steam\
-  start steam.exe -login "!user!" "!pass!"
+  start steam.exe -login "!user!" "!pass!" !steamparams!
   popd
 )
 if not exist .\ini\steam.ini (
   pushd .\bin\steam\
-  start steam.exe
+  start steam.exe !steamparams!
   popd
 )
 REM xcopy /q "%UserProfile%\data\AppData\LocalLow\*" .\data\AppData\LocalLow /e /i /y
@@ -194,6 +199,7 @@ echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick
 echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo setlocal enabledelayedexpansion>>!quick_launcher!
+echo >>!quick_launcher!
 echo if exist .\ini\steam.ini (>>!quick_launcher!
 echo   for /f "delims=" %%%%a in (.\ini\steam.ini) do (>>!quick_launcher!
 echo     set "a=%%%%a">>!quick_launcher!
@@ -201,12 +207,12 @@ echo     if "^!a:~1,5^!"=="User:" set "user=^!a:~6,-1^!">>!quick_launcher!
 echo     if "^!a:~1,5^!"=="Pass:" set "pass=^!a:~6,-1^!">>!quick_launcher!
 echo   )>>!quick_launcher!
 echo   pushd .\bin\steam\>>!quick_launcher!
-echo   start steam.exe -login "^!user^!" "^!pass^!">>!quick_launcher!
+echo   start steam.exe !steamparams! -login "^!user^!" "^!pass^!">>!quick_launcher!
 echo   popd>>!quick_launcher!
 echo )>>!quick_launcher!
 echo if not exist .\ini\steam.ini (>>!quick_launcher!
 echo   pushd .\bin\steam\>>!quick_launcher!
-echo   start steam.exe>>!quick_launcher!
+echo   start steam.exe !steamparams!>>!quick_launcher!
 echo   popd>>!quick_launcher!
 echo )>>!quick_launcher!
 REM echo xcopy /q "%%UserProfile%%\data\data\AppData\LocalLow\*" .\data\AppData\locallow /e /i /y>>!quick_launcher!
@@ -250,6 +256,21 @@ exit /b 2
 
 :g
 if exist .\ini\steam.ini del .\ini\steam.ini >nul
+exit /b 2
+
+:h
+if exist .\ini\steam_params.ini del .\ini\steam_params.ini >nul
+if exist .\bin\steam\package\beta del .\bin\steam\package\beta >nul
+exit /b 2
+
+:i
+echo|>.\ini\steam_params.ini set /p="-bigpicture"
+if exist .\bin\steam\package\beta del .\bin\steam\package\beta >nul
+exit /b 2
+
+:j
+echo|>.\bin\steam\package\beta set /p="steampal_stable_9a24a2bf68596b860cb6710d9ea307a76c29a04d"
+echo|>.\ini\steam_params.ini set /p="-gamepadui"
 exit /b 2
 
 :y
@@ -355,7 +376,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 34 > .\doc\version.txt
+echo 35 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
