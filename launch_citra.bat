@@ -179,48 +179,23 @@ exit /b 2
 cls
 :UpgradeCitra
 title Portable Citra Launcher - Helper Edition - Citra Update Check
-if exist index.html del index.html >nul
-call :HelperDownload "https://github.com/citra-emu/citra-nightly/releases/latest/" "index.html"
-set counter=0
-:UpgradeSearchLoop
-set /a counter+=1
-for /f tokens^=%counter%delims^=^" %%A in (
-  'findstr /i /c:"/citra-emu/citra-nightly/releases/download/" index.html'
-) Do > .\doc\citra_link.txt Echo:%%A
-set /p citra_link=<.\doc\citra_link.txt
-if "!Debug!" EQU "1" (
-  echo !citra_link!
-  echo !counter!
-)
-set "tempstr=!citra_link!"
-set "result=%tempstr:/=" & set "result=%"
-set "citra_7z=!result!"
-if "!citra_7z:~0,20!"=="citra-windows-mingw-" ( if "!Debug!" EQU "1" ( echo hit ) ) & goto ExitUpgradeSearchLoop
-goto UpgradeSearchLoop
-:ExitUpgradeSearchLoop
-if exist index.html del index.html >nul
+REM call :HelperURLScraper URL URLFILE SEARCHPATTERN FILEPATTERN FILEPATTERNSTART FILEPATTERNEND ADDSTART ENDSTART VERSIONSTART VERSIONEND FILEORLINK REPLACE1 REPLACED1
+call :HelperURLScraper https://github.com/citra-emu/citra-nightly/releases/latest/ index.html /citra-emu/citra-nightly/releases/download/ citra-windows-mingw- 0 20 https://github.com XX 20 -3 file .tar.gz .7z
+set /p link=<.\doc\link.txt
+set /p file=<.\doc\file.txt
+set /p fileversion=<.\doc\fileversion.txt
 cls
-set "citra_link=https://github.com!citra_link:.tar.gz=.7z!"
-set "citra_7z=!citra_7z:.tar.gz=.7z!"
-if "!Debug!" EQU "1" (
-  cls
-  echo "!citra_link!"
-  echo "!citra_7z!"
-  echo PRESS ENTER TO CONTINUE & pause >nul
-)
-set broke=0
-if exist ".\extra\!citra_7z!" (
+if exist ".\extra\!file!" (
   echo citra is updated.
-  pause
+  echo PRESS ENTER TO CONTINUE & pause >nul
   exit /b 2
 )
-cls
-echo upgrading to citra v!citra_7z:~20,-3!
-call :HelperDownload "!citra_link!" "!citra_7z!"
+echo upgrading to citra v!fileversion!
+call :HelperDownload "!link!" "!file!"
 :MoveCitra
-move "!citra_7z!" ".\extra\!citra_7z!"
+move "!file!" ".\extra\!file!"
 :ExtractCitra
-call :HelperExtract7zip "!folder!\extra\!citra_7z!" "!folder!\temp\"
+call :HelperExtract7zip "!folder!\extra\!file!" "!folder!\temp\"
 xcopy .\temp\nightly-mingw\* .\bin\citra\ /e /i /y
 if exist .\temp\ rmdir /s /q .\temp\
 REM if exist citra-setup-windows.exe del citra-setup-windows.exe >nul
@@ -243,7 +218,8 @@ REM xcopy .\bin\citra\nightly-mingw\* .\bin\citra\ /e /i /y
 REM if exist .\bin\citra\nightly-mingw\ rmdir /s /q .\bin\citra\nightly-mingw\
 REM if exist "!AppData!\Microsoft\Windows\Start Menu\Programs\Citra\" rmdir /s /q "!AppData!\Microsoft\Windows\Start Menu\Programs\Citra\"
 :NullExtra
-if "!NullExtra!" EQU "1" ( echo.>".\extra\!citra_7z!")
+if "!NullExtra!" EQU "1" ( echo.>".\extra\!file!")
+pause
 exit /b 2
 
 :e
@@ -357,7 +333,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 19 > .\doc\version.txt
+echo 20 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -502,6 +478,28 @@ echo 11> .\helpers\version.txt
 echo %1> .\helpers\file.txt
 echo %2> .\helpers\folder.txt
 call "!folder!\launch_helpers.bat" ExtractWix
+exit /b 2
+
+:HelperURLScraper
+REM v22+ Required
+echo 22> .\helpers\version.txt
+echo %1> .\helpers\url.txt
+echo %2> .\helpers\urlfile.txt
+echo %3> .\helpers\searchpattern.txt
+echo %4> .\helpers\filepattern.txt
+echo %5> .\helpers\filepatternstart.txt
+echo %6> .\helpers\filepatternend.txt
+echo %7> .\helpers\addstart.txt
+echo %9> .\helpers\versionstart.txt
+shift
+echo %9> .\helpers\versionend.txt
+shift
+echo %9> .\helpers\fileorlink.txt
+shift
+echo %9> .\helpers\replace1.txt
+shift
+echo %9> .\helpers\replaced1.txt
+call "!folder!\launch_helpers.bat" URLScraper
 exit /b 2
 
 :Test

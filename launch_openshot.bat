@@ -217,7 +217,6 @@ if "!Debug!" EQU "1" (
   echo "!openshot_link64!"
   echo PRESS ENTER TO CONTINUE & pause >nul
 )
-set broke=0
 if exist ".\extra\!openshot_exe64!" (
   if exist ".\extra\!openshot_exe32!" (
     echo openshot is updated.
@@ -499,6 +498,28 @@ echo 11> .\helpers\version.txt
 echo %1> .\helpers\file.txt
 echo %2> .\helpers\folder.txt
 call "!folder!\launch_helpers.bat" ExtractWix
+exit /b 2
+
+:HelperURLScraper
+REM v22+ Required
+echo 22> .\helpers\version.txt
+echo %1> .\helpers\url.txt
+echo %2> .\helpers\urlfile.txt
+echo %3> .\helpers\searchpattern.txt
+echo %4> .\helpers\filepattern.txt
+echo%> .\helpers\filepatternstart.txt
+echo %6>.\helpers\filepatternend.txt
+echo %7> .\helpers\addstart.txt
+echo %9> .\helpers\versionstart.txt
+shift
+echo %9> .\helpers\versionend.txt
+shift
+echo %9>.\helpers\fileorlink.txt
+shift
+echo %9> .\helpers\replace1.txt
+shift
+echo %9> .\helpers\replaced1.txt
+call "!folder!\launch_helpers.bat" URLScraper
 exit /b 2
 
 :Test

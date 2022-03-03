@@ -26,9 +26,79 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 21 > .\doc\version.txt
+echo 22 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
+exit /b
+
+:URLScraper
+set /p url=<.\helpers\url.txt
+if "!url!"=="XX" set "url="
+set /p urlfile=<.\helpers\urlfile.txt
+if "!urlfile!"=="XX" set "urlfile="
+set /p searchpattern=<.\helpers\searchpattern.txt
+if "!searchpattern!"=="XX" set "searchpattern="
+set /p filepattern=<.\helpers\filepattern.txt
+if "!filepattern!"=="XX" set "filepattern="
+set /p filepatternstart=<.\helpers\filepatternstart.txt
+if "!filepatternstart!"=="XX" set "filepatternstart="
+set /p filepatternend=<.\helpers\filepatternend.txt
+if "!filepatternend!"=="XX" set "filepatternend="
+set /p addstart=<.\helpers\addstart.txt
+if "!addstart!"=="XX" set "addstart="
+set /p versionstart=<.\helpers\versionstart.txt
+if "!versionstart!"=="XX" set "versionstart="
+set /p versionend=<.\helpers\versionend.txt
+if "!versionend!"=="XX" set "versionend="
+set /p fileorlink=<.\helpers\fileorlink.txt
+if "!fileorlink!"=="XX" set "fileorlink="
+set /p replace1=<.\helpers\replace1.txt
+if "!replace1!"=="XX" set "replace1="
+set /p replaced1=<.\helpers\replaced1.txt
+if "!replaced1!"=="XX" set "replaced1="
+if "!Debug!" EQU "1" (
+  echo "%url%"
+  echo "%urlfile%"
+  echo "%searchpattern%"
+)
+:DownloadURL
+if exist "!urlfile!" del "!urlfile!">nul
+if not exist .\bin\wget.exe call :DownloadWget
+.\bin\wget.exe -q --show-progress "!url!" "!urlfile!"
+set counter=0
+:UpgradeSearchLoop
+set /a counter+=1
+for /f tokens^=%counter%delims^=^" %%A in (
+  'findstr /i /c:"!searchpattern!" !urlfile!'
+) Do > .\doc\link.txt Echo:%%A
+set /p link=<.\doc\link.txt
+if "!replace1!" NEQ "!replaced1!" ( set "link=!link:%replace1%=%replaced1%!" )
+set "link=!addstart!!link!"
+if "!Debug!" EQU "1" (
+  echo !link!
+  echo !file!
+  echo !counter!
+)
+set "tempstr=!link!"
+set "result=%tempstr:/=" & set "result=%"
+set "file=!result!"
+if "!fileorlink!"=="file" ( if "!file:~%filepatternstart%,%filepatternend%!"=="!filepattern!" ( if "!Debug!" EQU "1" ( echo hit ) ) & goto ExitUpgradeSearchLoop )
+if "!fileorlink!"=="link" ( if "!link:~%filepatternstart%,%filepatternend%!"=="!filepattern!" ( if "!Debug!" EQU "1" ( echo hit ) ) & goto ExitUpgradeSearchLoop )
+goto UpgradeSearchLoop
+:ExitUpgradeSearchLoop
+set "file=!file!"
+set "link=!link!"
+set "fileversion=!file:~%versionstart%,%versionend%!"
+if "!Debug!" EQU "1" (
+  echo !link!
+  echo !file!
+  echo !fileversion!
+  echo PRESS ENTER TO CONTINUE & pause >nul
+)
+echo !link!>.\doc\link.txt
+echo !file!>.\doc\file.txt
+echo !fileversion!>.\doc\fileversion.txt
+if exist .\helpers\*.txt del .\helpers\*.txt >nul
 exit /b
 
 :ReplaceText

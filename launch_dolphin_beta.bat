@@ -178,52 +178,28 @@ exit /b 2
 :d
 cls
 :UpgradeDolphinBeta
-title Portable Dolphin Beta Launcher - Helper Edition - DolphinBeta Update Check
-if exist index.html del index.html >nul
-call :HelperDownload "https://dolphin-emu.org/download/" "index.html"
-set counter=0
-:UpgradeSearchLoop
-set /a counter+=1
-for /f tokens^=%counter%delims^=^" %%A in (
-  'findstr /i /c:"-x64.7z" index.html'
-) Do > .\doc\dolphin_beta_link.txt Echo:%%A& goto :ContinueSearch
-:ContinueSearch
-set /p dolphin_beta_link=<.\doc\dolphin_beta_link.txt
-if "!Debug!" EQU "1" (
-  echo !dolphin_beta_link!
-  echo !counter!
-)
-if "!dolphin_beta_link:~0,34!"=="https://dl.dolphin-emu.org/builds/" ( if "!Debug!" EQU "1" ( echo hit ) ) & goto ExitUpgradeSearchLoop
-goto UpgradeSearchLoop
-:ExitUpgradeSearchLoop
-if exist index.html del index.html >nul
+title Portable Dolphin Beta Launcher - Helper Edition - Dolphin Beta Update Check
+REM call :HelperURLScraper URL URLFILE SEARCHPATTERN FILEPATTERN FILEPATTERNSTART FILEPATTERNEND ADDSTART ENDSTART VERSIONSTART VERSIONEND FILEORLINK REPLACE1 REPLACED1
+call :HelperURLScraper https://dolphin-emu.org/download/ index.html -x64.7z dolphin-master- 0 15 XX XX 15 -7 file XX XX
+set /p link=<.\doc\link.txt
+set /p file=<.\doc\file.txt
+set /p fileversion=<.\doc\fileversion.txt
 cls
-set "tempstr=!dolphin_beta_link!"
-set "result=%tempstr:/=" & set "result=%"
-set "dolphin_beta_7z=!result!"
-if "!Debug!" EQU "1" (
-  cls
-  echo "!dolphin_beta_link!"
-  echo "!dolphin_beta_7z!"
+if exist ".\extra\!file!" (
+  echo dolphin beta is updated.
   echo PRESS ENTER TO CONTINUE & pause >nul
-)
-set broke=0
-if exist ".\extra\!dolphin_beta_7z!" (
-  echo dolphin_beta is updated.
-  pause
   exit /b 2
 )
-cls
-echo upgrading to dolphin_beta v!dolphin_beta_7z:~15,-7!
-call :HelperDownload "!dolphin_beta_link!" "!dolphin_beta_7z!"
+echo upgrading to citra v!fileversion!
+call :HelperDownload "!link!" "!file!"
 :MoveDolphinBeta
-move "!dolphin_beta_7z!" ".\extra\!dolphin_beta_7z!"
+move "!file!" ".\extra\!file!"
 :ExtractDolphinBeta
-call :HelperExtract7zip "!folder!\extra\!dolphin_beta_7z!" "!folder!\temp\"
+call :HelperExtract7zip "!folder!\extra\!file!" "!folder!\temp\"
 xcopy .\temp\Dolphin-x64\* .\bin\dolphin_beta\ /e /i /y
 if exist .\temp\ rmdir /s /q .\temp\
 :NullExtra
-if "!NullExtra!" EQU "1" ( echo.>".\extra\!dolphin_beta_7z!")
+if "!NullExtra!" EQU "1" ( echo.>".\extra\!file!")
 exit /b 2
 
 :e
@@ -336,7 +312,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 5 > .\doc\version.txt
+echo 6 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -481,6 +457,28 @@ echo 11> .\helpers\version.txt
 echo %1> .\helpers\file.txt
 echo %2> .\helpers\folder.txt
 call "!folder!\launch_helpers.bat" ExtractWix
+exit /b 2
+
+:HelperURLScraper
+REM v22+ Required
+echo 22> .\helpers\version.txt
+echo %1> .\helpers\url.txt
+echo %2> .\helpers\urlfile.txt
+echo %3> .\helpers\searchpattern.txt
+echo %4> .\helpers\filepattern.txt
+echo %5> .\helpers\filepatternstart.txt
+echo %6> .\helpers\filepatternend.txt
+echo %7> .\helpers\addstart.txt
+echo %9> .\helpers\versionstart.txt
+shift
+echo %9> .\helpers\versionend.txt
+shift
+echo %9> .\helpers\fileorlink.txt
+shift
+echo %9> .\helpers\replace1.txt
+shift
+echo %9> .\helpers\replaced1.txt
+call "!folder!\launch_helpers.bat" URLScraper
 exit /b 2
 
 :Test

@@ -33,7 +33,7 @@ discord
 opera
 19
 citra
-19
+20
 obs_classic
 22
 github_desktop
@@ -129,7 +129,7 @@ rpcs3
 notepad_plus_plus
 6
 dolphin_beta
-5
+6
 fiddler
 4
 osu
