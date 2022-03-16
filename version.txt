@@ -23,7 +23,7 @@ teamviewer
 vscode
 25
 kodi
-22
+23
 ppsspp
 30
 discord_canary

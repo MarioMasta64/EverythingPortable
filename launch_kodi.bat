@@ -180,11 +180,12 @@ exit /b 2
 cls
 :UpgradeKodi
 if exist index.html del index.html >nul
-call :HelperDownload "https://mirrors.kodi.tv/releases/windows/win32/" "index.html"
+call :HelperDownload "https://mirrors.kodi.tv/releases/windows/win32/?C=N&O=A" "index.html@C=N&O=A"
+if exist "index.html@C=N&O=A" move "index.html@C=N&O=A" "index.html" >nul
 for /f tokens^=2delims^=^" %%A in (
   'findstr /i /c:"-x86.exe" index.html'
 ) Do > .\doc\kodi_link.txt Echo:%%A
-if exist index.html del index.html >nul
+if exist "index.html" del "index.html" >nul
 set /p kodi_exe=<.\doc\kodi_link.txt
 set "kodi_link=https://mirrors.kodi.tv/releases/windows/win32/!kodi_exe!"
 if "!Debug!" EQU "1" (
@@ -318,7 +319,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 22 > .\doc\version.txt
+echo 23 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -463,28 +464,6 @@ echo 11> .\helpers\version.txt
 echo %1> .\helpers\file.txt
 echo %2> .\helpers\folder.txt
 call "!folder!\launch_helpers.bat" ExtractWix
-exit /b 2
-
-:HelperURLScraper
-REM v22+ Required
-echo 22> .\helpers\version.txt
-echo %1> .\helpers\url.txt
-echo %2> .\helpers\urlfile.txt
-echo %3> .\helpers\searchpattern.txt
-echo %4> .\helpers\filepattern.txt
-echo%> .\helpers\filepatternstart.txt
-echo %6>.\helpers\filepatternend.txt
-echo %7> .\helpers\addstart.txt
-echo %9> .\helpers\versionstart.txt
-shift
-echo %9> .\helpers\versionend.txt
-shift
-echo %9>.\helpers\fileorlink.txt
-shift
-echo %9> .\helpers\replace1.txt
-shift
-echo %9> .\helpers\replaced1.txt
-call "!folder!\launch_helpers.bat" URLScraper
 exit /b 2
 
 :Test
