@@ -26,6 +26,7 @@ call :Credits
 call :HelperCheck
 call :DataUpgrade
 call :SettingsCheck
+call :v2UpgradeCheck
 
 :Menu
 cls
@@ -95,8 +96,7 @@ if "!NoPrompt!" NEQ "1" (
 cls
 taskkill /f /im Ryujinx.exe
 timeout -t 5
-if exist .\data\Users\MarioMasta64\AppData\Roaming\Ryujinx\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\Ryujinx\
-if exist .\bin\ryujinx\Ryujinx\ rmdir /s /q .\bin\ryujinx\Ryujinx\
+if exist .\bin\ryujinx\portable\ rmdir /s /q .\bin\ryujinx\portable\
 exit /b 2
 
 :4
@@ -113,7 +113,7 @@ if "!NoPrompt!" NEQ "1" (
 cls
 taskkill /f /im Ryujinx.exe
 timeout -t 5
-for /d %%i in (".\bin\ryujinx\*") do if /i not "%%i"==".\bin\ryujinx\Ryujinx" if exist "%%i" rmdir /s /q "%%i"
+for /d %%i in (".\bin\ryujinx\*") do if /i not "%%i"==".\bin\ryujinx\portable" if exist "%%i" rmdir /s /q "%%i"
 if exist .\bin\ryujinx\*.* echo y | del .\bin\ryujinx\*.* >nul
 if exist .\extra\ryujinx-*-win_x64.zip del .\extra\ryujinx-*-win_x64.zip >nul
 exit /b 2
@@ -169,7 +169,7 @@ echo Color 0A>>!quick_launcher!
 echo cls>>!quick_launcher!
 echo set "folder=%%CD%%">>!quick_launcher!
 echo set "folder=%%folder:~0,-1%%">>!quick_launcher!
-echo set "UserProfile=%%folder%%\data\Users\MarioMasta64">>!quick_launcher!
+echo REM set "UserProfile=%%folder%%\data\Users\MarioMasta64">>!quick_launcher!
 echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_launcher!
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
@@ -219,6 +219,7 @@ if "!Debug!" EQU "1" (
   echo "!ryujinx_zip!"
   echo PRESS ENTER TO CONTINUE & pause >nul
 )
+set broke=0
 if exist ".\extra\!ryujinx_zip!" (
   echo ryujinx is updated.
   pause
@@ -234,6 +235,7 @@ call :HelperExtract "!folder!\extra\!ryujinx_zip!" "!folder!\temp\"
 :CopyRyujinx
 xcopy ".\temp\publish\*" ".\bin\ryujinx\" /e /i /y
 if exist .\temp\ rmdir /s /q .\temp\
+if not exist .\bin\ryujinx\portable\ mkdir .\bin\ryujinx\portable\
 :NullExtra
 if "!NullExtra!" EQU "1" ( echo.>".\extra\!ryujinx_zip!")
 exit /b 2
@@ -289,7 +291,7 @@ REM set "SystemDrive=!folder!\data"
 REM set "SystemRoot=!folder!\Windows"
 set "UserName=MarioMasta64"
 if "!UserProfile!" neq "!folder!\data\Users\MarioMasta64" set "RealUserProfile=!UserProfile!"
-set "UserProfile=!folder!\data\Users\MarioMasta64"
+REM set "UserProfile=!folder!\data\Users\MarioMasta64"
 if not exist .\bin\ mkdir .\bin\
 if not exist .\data\ mkdir .\data\
 if not exist .\doc\ mkdir .\doc\
@@ -349,7 +351,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 2 > .\doc\version.txt
+echo 3 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -690,6 +692,12 @@ call :HelperHide "relaunch.bat"
 exit
 
 REM extra stuff ill remove one day
+
+:v2UpgradeCheck
+if not exist .\bin\ryujinx\ mkdir .\bin\ryujinx\
+if exist .\data\Users\MarioMasta64\AppData\Roaming\Ryujinx\ xcopy .\data\Users\MarioMasta64\AppData\Roaming\Ryujinx\* .\bin\ryujinx\portable\ /e /i /y
+if exist .\data\Users\MarioMasta64\AppData\Roaming\Ryujinx\ rmdir /s /q .\data\Users\MarioMasta64\AppData\Roaming\Ryujinx\
+exit /b 2
 
 replace %~n0 with %~f0
 because i use the call command. you can edit the file add a label and goto the label by typing it in the menu without even having to close the program cause youre worried about it glitching (put your code on the bottom)
