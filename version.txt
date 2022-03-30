@@ -138,3 +138,5 @@ ryujinx
 3
 jami
 4
+keyspersecond
+1
