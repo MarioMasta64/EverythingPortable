@@ -26,7 +26,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 22 > .\doc\version.txt
+echo 23 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -78,6 +78,8 @@ if "!Debug!" EQU "1" (
   echo !link!
   echo !file!
   echo !counter!
+  echo !file:~%filepatternstart%,%filepatternend%!
+  echo !filepattern!
 )
 set "tempstr=!link!"
 set "result=%tempstr:/=" & set "result=%"
@@ -289,17 +291,17 @@ exit /b
 set "arch="
 if exist "%PROGRAMFILES(X86)%" set "arch=64"
 if not exist .\bin\wget.exe call :DownloadWget
-if exist .\extra\jPortable%arch%_8_Update_291_online.paf.exe exit /b
-.\bin\wget.exe -q --show-progress "https://downloads.sourceforge.net/portableapps/jPortable%arch%_8_Update_291_online.paf.exe"
-if not exist jPortable%arch%_8_Update_291_online.paf.exe goto :DownloadJava
-move jPortable%arch%_8_Update_291_online.paf.exe .\extra\jPortable%arch%_8_Update_291_online.paf.exe
+if exist .\extra\jPortable%arch%_8_Update_321_online.paf.exe exit /b
+.\bin\wget.exe -q --show-progress "https://downloads.sourceforge.net/portableapps/jPortable%arch%_8_Update_321_online.paf.exe"
+if not exist jPortable%arch%_8_Update_321_online.paf.exe goto :DownloadJava
+move jPortable%arch%_8_Update_321_online.paf.exe .\extra\jPortable%arch%_8_Update_321_online.paf.exe
 cls
 echo README README README README
 echo PLEASE PROCEED THROUGH ALL DIALOGUE OPTIONS
 echo DO NOT HIT RUN
 echo PRESS ENTER WHEN READ
 pause >nul
-.\extra\jPortable%arch%_8_Update_291_online.paf.exe /destination="!folder!\bin\"
+.\extra\jPortable%arch%_8_Update_321_online.paf.exe /destination="!folder!\bin\"
 exit /b
 
 :Extract7zip
