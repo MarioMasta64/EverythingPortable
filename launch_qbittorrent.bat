@@ -182,7 +182,8 @@ if exist download.php del download.php >nul
 call :HelperDownload "https://www.qbittorrent.org/download.php" "download.php"
 for /f tokens^=2delims^=^" %%A in (
   'findstr /i /c:"_setup.exe/download" download.php'
-) Do > .\doc\qbittorrent_link.txt Echo:%%A
+) Do > .\doc\qbittorrent_link.txt Echo:%%A&goto :ExitSearch
+:ExitSearch
 if exist download.php del download.php >nul
 set /p qbittorrent_link=<.\doc\qbittorrent_link.txt
 REM no 64bit yet, lazy
@@ -324,7 +325,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 21 > .\doc\version.txt
+echo 22 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
