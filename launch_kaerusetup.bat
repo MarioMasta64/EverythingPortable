@@ -1,4 +1,5 @@
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
+chcp 437
 @echo off
 setlocal enabledelayedexpansion
 Color 0A
@@ -18,7 +19,7 @@ call :VERSION
 goto CREDITS
 
 :Version
-echo 14 > .\doc\version.txt
+echo 15 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b

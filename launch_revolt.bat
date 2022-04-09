@@ -1,4 +1,5 @@
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
+chcp 437
 @echo off
 setlocal enabledelayedexpansion
 setlocal enableextensions
@@ -324,7 +325,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 4 > .\doc\version.txt
+echo 5 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

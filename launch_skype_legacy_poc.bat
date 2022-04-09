@@ -1,6 +1,7 @@
 @echo off
 cls
 Color 0A
+chcp 437
 
 set "folder=%~dp0"
 set "folder=!folder:~0,-1!"
