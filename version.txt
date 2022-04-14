@@ -83,7 +83,7 @@ epic_games
 deluge
 13
 minecraft_legacy
-35
+36
 tightvnc_viewer
 15
 amazon_games
@@ -139,4 +139,4 @@ ryujinx
 jami
 5
 keyspersecond
-2
+3

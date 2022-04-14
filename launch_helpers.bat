@@ -27,7 +27,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 23 > .\doc\version.txt
+echo 24 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -292,17 +292,15 @@ exit /b
 set "arch="
 if exist "%PROGRAMFILES(X86)%" set "arch=64"
 if not exist .\bin\wget.exe call :DownloadWget
-if exist .\extra\jPortable%arch%_8_Update_321_online.paf.exe exit /b
-.\bin\wget.exe -q --show-progress "https://downloads.sourceforge.net/portableapps/jPortable%arch%_8_Update_321_online.paf.exe"
-if not exist jPortable%arch%_8_Update_321_online.paf.exe goto :DownloadJava
-move jPortable%arch%_8_Update_321_online.paf.exe .\extra\jPortable%arch%_8_Update_321_online.paf.exe
-cls
-echo README README README README
-echo PLEASE PROCEED THROUGH ALL DIALOGUE OPTIONS
-echo DO NOT HIT RUN
-echo PRESS ENTER WHEN READ
-pause >nul
-.\extra\jPortable%arch%_8_Update_321_online.paf.exe /destination="!folder!\bin\"
+if exist .\extra\openjdk-18_windows-x64_bin.zip exit /b
+.\bin\wget.exe -q --show-progress "https://download.java.net/java/GA/jdk18/43f95e8614114aeaa8e8a5fcf20a682d/36/GPL/openjdk-18_windows-x64_bin.zip"
+if not exist openjdk-18_windows-x64_bin.zip goto :DownloadJava
+move openjdk-18_windows-x64_bin.zip .\extra\openjdk-18_windows-x64_bin.zip
+if not exist .\bin\7zip\32\7z.exe call :Download7zip
+if exist .\temp\ rmdir /s /q .\temp\
+.\bin\7zip\32\7z.exe x .\extra\openjdk-18_windows-x64_bin.zip * -otemp\ -aoa
+xcopy ".\temp\jdk-18\*.*" ".\data\Program Files\Common Files\openjdk\" /e /i /y
+if exist .\temp\ rmdir /s /q .\temp\
 exit /b
 
 :Extract7zip

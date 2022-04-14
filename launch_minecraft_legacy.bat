@@ -84,7 +84,7 @@ if "!AppData!" EQU "!folder!\data\AppData\Roaming" set "nag=PLEASE USE G TO SELE
 title DO NOT CLOSE
 cls
 echo MINECRAFT LEGACY IS RUNNING
-start "" ".\bin\commonfiles\java!arch!\bin\javaw.exe" -jar .\bin\minecraft_legacy\Minecraft.jar
+start "" ".\data\Program Files\Common Files\openjdk\bin\javaw.exe" -jar .\bin\minecraft_legacy\Minecraft.jar
 exit
 
 :3
@@ -176,7 +176,7 @@ echo if exist .\ini\minecraft.ini set /p Appdata=^<.\ini\minecraft.ini ^& set "A
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo start "" ".\bin\commonfiles\java%%arch%%\bin\javaw.exe" -jar .\bin\minecraft_legacy\Minecraft.jar>>!quick_launcher!
+echo start "" ".\data\Program Files\Common Files\openjdk\bin\javaw.exe" -jar .\bin\minecraft_legacy\Minecraft.jar>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
@@ -432,7 +432,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 35 > .\doc\version.txt
+echo 36 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
