@@ -77,7 +77,7 @@ title DO NOT CLOSE
 set "path=!PATH!;!folder!\dll\64\;"
 cls
 echo KEYS PER SECOND IS RUNNING
-start ".\data\Program Files\Common Files\openjdk\bin\javaw.exe" -jar .\bin\keyspersecond\keyspersecond.jar
+start "" ".\data\Program Files\Common Files\openjdk\bin\javaw.exe" -jar .\bin\keyspersecond\keyspersecond.jar
 exit
 
 :3
@@ -169,7 +169,7 @@ echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_la
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo start ".\data\Program Files\Common Files\openjdk\bin\javaw.exe" -jar .\bin\keyspersecond\keyspersecond.jar>>!quick_launcher!
+echo start "" ".\data\Program Files\Common Files\openjdk\bin\javaw.exe" -jar .\bin\keyspersecond\keyspersecond.jar>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
