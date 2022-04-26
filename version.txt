@@ -138,5 +138,5 @@ ryujinx
 4
 jami
 5
-keyspersecond
+keys_per_second
 4
