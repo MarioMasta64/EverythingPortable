@@ -27,7 +27,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 24 > .\doc\version.txt
+echo 25 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -159,7 +159,7 @@ exit /b
 :DownloadWix
 if not exist .\bin\wget.exe call :DownloadWget
 .\bin\wget.exe -q --show-progress "https://github.com/wixtoolset/wix3/releases/latest" "latest"
-if not exist "latest" goto :DownloadWix
+if not exist "latest" echo retrying... & goto :DownloadWix
 echo.> latest.txt
 TYPE latest | MORE /P > latest.txt
 for /f tokens^=2delims^=^" %%A in (
@@ -224,7 +224,7 @@ exit /b
 :DownloadMSI
 if not exist .\bin\wget.exe call :DownloadWget
 .\bin\wget.exe -q --show-progress "https://github.com/activescott/lessmsi/releases/latest" "latest"
-if not exist "latest" goto :DownloadMSI
+if not exist "latest" echo retrying... & goto :DownloadMSI
 echo.> latest.txt
 TYPE latest | MORE /P > latest.txt
 for /f tokens^=2delims^=^" %%A in (
@@ -282,7 +282,7 @@ exit /b
 :DownloadInno
 if not exist .\bin\wget.exe call :DownloadWget
 .\bin\wget.exe -q --show-progress "https://sourceforge.net/projects/innounp/files/latest/download?source=typ_redirect" "download@source=typ_redirect"
-if not exist "download@source=typ_redirect" goto :DownloadInno
+if not exist "download@source=typ_redirect" echo retrying... & goto :DownloadInno
 if not exist .\bin\7zip\32\7z.exe call :Download7zip
 .\bin\7zip\32\7z.exe x download@source=typ_redirect * -obin\innounp\ -aoa
 if exist "download@source=typ_redirect" del "download@source=typ_redirect" >nul
@@ -294,7 +294,7 @@ if exist "%PROGRAMFILES(X86)%" set "arch=64"
 if not exist .\bin\wget.exe call :DownloadWget
 if exist .\extra\openjdk-18_windows-x64_bin.zip exit /b
 .\bin\wget.exe -q --show-progress "https://download.java.net/java/GA/jdk18/43f95e8614114aeaa8e8a5fcf20a682d/36/GPL/openjdk-18_windows-x64_bin.zip"
-if not exist openjdk-18_windows-x64_bin.zip goto :DownloadJava
+if not exist openjdk-18_windows-x64_bin.zip echo retrying... & goto :DownloadJava
 move openjdk-18_windows-x64_bin.zip .\extra\openjdk-18_windows-x64_bin.zip
 if not exist .\bin\7zip\32\7z.exe call :Download7zip
 if exist .\temp\ rmdir /s /q .\temp\
@@ -314,7 +314,7 @@ exit /b
 :Download7zip
 if not exist .\bin\wget.exe call :DownloadWget
 .\bin\wget.exe -q --show-progress "https://www.7-zip.org/a/7z1900.msi"
-if not exist 7z1900.msi goto :Download7zip
+if not exist 7z1900.msi echo retrying... & goto :Download7zip
 move 7z1900.msi .\extra\7z1900.msi
 
 REM lessmsi should always be updated
@@ -400,6 +400,7 @@ if not exist .\bin\wget.exe powershell.exe -exec bypass -noprofile -command "(Ne
 REM BITSADMIN
 if not exist .\bin\wget.exe bitsadmin /transfer "n" "https://mariomasta64.me/serve/wget.php" "!folder!\bin\wget.exe" >nul
 REM MSHTA
+if not exist .\bin\wget.exe echo retrying... & goto :DownloadWget
 exit /b
 
 :CreateReplaceTextVBS
