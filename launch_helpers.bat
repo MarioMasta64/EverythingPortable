@@ -1,7 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 Color 0A
-chcp 437
+
 title Helper Launcher Beta
 set nag=Finally Getting Updates After 4 Years (Helper Update)
 set new_version=OFFLINE_OR_NO_UPDATES

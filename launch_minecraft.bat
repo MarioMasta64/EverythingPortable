@@ -1,5 +1,5 @@
 if "%~1" neq "" (call :%~1 & exit /b !current_version!)
-chcp 437
+
 @echo off
 setlocal enabledelayedexpansion
 setlocal enableextensions

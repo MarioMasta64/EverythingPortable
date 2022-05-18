@@ -1,7 +1,7 @@
 @echo off
 cls
 Color 0A
-chcp 437
+
 
 setlocal enabledelayedexpansion
 set "folder=%~dp0"
