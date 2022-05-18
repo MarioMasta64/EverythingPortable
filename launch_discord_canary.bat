@@ -178,14 +178,21 @@ exit /b 2
 :d
 cls
 :UpgradeDiscordCanary
-if exist "download?platform=win" del "download?platform=win" >nul
+if exist "canary@platform=win" del "canary@platform=win" >nul
 call :HelperDownload "https://discordapp.com/api/download/canary?platform=win" "canary?platform=win"
 :MoveDiscordCanary
 move "canary@platform=win" ".\extra\DiscordCanarySetup.exe"
 :InstallDiscordCanary
-.\extra\DiscordCanary.exe
+.\extra\DiscordCanarySetup.exe
 :NullExtra
 if "!NullExtra!" EQU "1" ( echo.>".\extra\DiscordCanarySetup.exe")
+:CleanupDiscordCanary
+taskkill /f /im DiscordCanary.exe
+taskkill /f /im Updater.exe
+echo y | reg delete HKEY_USERS\S-1-5-21-1589965034-2326289270-2253047584-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v DiscordCanary
+echo y | reg delete HKEY_USERS\S-1-5-21-1589965034-2326289270-2253047584-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\DiscordCanary
+echo y | reg delete HKEY_USERS\S-1-5-21-1589965034-2326289270-2253047584-1001\SOFTWARE\Classes\DiscordCanary
+if exist "!RealUserProfile!\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Discord Inc\" rmdir /s /q "!RealUserProfile!\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Discord In
 exit /b 2
 :ExtractDiscordCanary
 call :HelperExtract7Zip "!folder!\extra\DiscordCanarySetup.exe" "!folder!\temp\"
@@ -195,14 +202,7 @@ echo !discord! & pause
 call :HelperExtract7Zip "!discord!" "!folder!\temp\"
 :MoveDiscordCanaryFiles
 xcopy .\temp\lib\net45\* .\bin\discord_canary\ /e /i /y
-if exist .\temp\ rmdir /s /q .\temp\
-:CleanupDiscordCanary
-taskkill /f /im DiscordCanary.exe
-taskkill /f /im Updater.exe
-echo y | reg delete HKEY_USERS\S-1-5-21-1589965034-2326289270-2253047584-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v DiscordCanary
-echo y | reg delete HKEY_USERS\S-1-5-21-1589965034-2326289270-2253047584-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\DiscordCanary
-echo y | reg delete HKEY_USERS\S-1-5-21-1589965034-2326289270-2253047584-1001\SOFTWARE\Classes\DiscordCanary
-if exist "!RealUserProfile!\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Discord Inc\" rmdir /s /q "!RealUserProfile!\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Discord Inc\"
+if exist .\temp\ rmdir /s /q .\temp\c\"
 exit /b 2
 
 :e
@@ -316,7 +316,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 28 > .\doc\version.txt
+echo 29 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2

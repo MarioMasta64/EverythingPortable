@@ -27,7 +27,7 @@ kodi
 ppsspp
 31
 discord_canary
-28
+29
 discord
 29
 opera
