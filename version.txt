@@ -135,7 +135,7 @@ fiddler
 osu
 3
 ryujinx
-4
+5
 jami
 5
 keys_per_second
