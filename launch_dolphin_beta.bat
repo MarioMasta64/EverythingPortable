@@ -191,7 +191,7 @@ if exist ".\extra\!file!" (
   echo PRESS ENTER TO CONTINUE & pause >nul
   exit /b 2
 )
-echo upgrading to citra v!fileversion!
+echo upgrading to dolphin v!fileversion!
 call :HelperDownload "!link!" "!file!"
 :MoveDolphinBeta
 move "!file!" ".\extra\!file!"
