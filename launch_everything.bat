@@ -58,6 +58,8 @@ echo l. FORCE UPDATE EVERYTHING
 if exist .\extra\notfirstrun.txt echo m. UPDATE EVERYTHING
 echo n. TROUBLESHOOTING
 echo.
+if "!Debug!" EQU "1" echo w. testing mode [all]
+if "!Debug!" EQU "1" echo x. testing mode [single]
 echo y. open explorer [open windows explorer to user directory]
 echo z. purge current install [ reset, uninstall, and delete launcher]
 echo.
@@ -318,6 +320,30 @@ echo.
 echo PRESS ENTER TO CONTINUE & pause >nul
 exit /b 2
 
+:w
+set "launch_now=yes"
+:x
+if exist .\testing\ rmdir /s /q .\testing\
+mkdir .\testing\
+call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
+set Counter=0 & for /f "DELIMS=" %%i in ('type version.txt') do (set /a Counter+=1 & set "Line_!counter!=%%i")
+set Max_Lines=!Counter!
+cls
+set "launcher_counter=1"
+:loop_file_2
+if !launcher_counter! GEQ !Max_Lines! goto :exit_loop_2
+REM set /a launcher_counter+=2
+set "launcher=!Line_%launcher_counter%!"
+if not exist "launch_!launcher!.bat" call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/launch_!launcher!.bat" "launch_!launcher!.bat"
+if exist "launch_!launcher!.bat" mkdir ".\testing\!launcher!\" & copy "launch_!launcher!.bat" ".\testing\!launcher!\" >nul
+if "!launch_now!" EQU "yes" start "" ".\testing\!launcher!\launch_!launcher!.bat"
+set /a launcher_counter+=2
+goto :loop_file_2
+:exit_loop_2
+if not exist .\extra\notfirstrun.txt echo.>.\extra\notfirstrun.txt
+if exist version.txt del version.txt >nul
+exit /b 2
+
 :y
 cls
 pushd "!Folder!\data\Users\MarioMasta64\"
@@ -407,7 +433,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 46 > .\doc\version.txt
+echo 47 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
