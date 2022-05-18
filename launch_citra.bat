@@ -220,7 +220,7 @@ REM if exist .\bin\citra\nightly-mingw\ rmdir /s /q .\bin\citra\nightly-mingw\
 REM if exist "!AppData!\Microsoft\Windows\Start Menu\Programs\Citra\" rmdir /s /q "!AppData!\Microsoft\Windows\Start Menu\Programs\Citra\"
 :NullExtra
 if "!NullExtra!" EQU "1" ( echo.>".\extra\!file!")
-pause
+if "!Debug!" EQU "1" ( pause )
 exit /b 2
 
 :e
