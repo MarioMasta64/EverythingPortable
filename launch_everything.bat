@@ -342,7 +342,7 @@ goto :loop_file_2
 :exit_loop_2
 if not exist .\extra\notfirstrun.txt echo.>.\extra\notfirstrun.txt
 if exist version.txt del version.txt >nul
-exit /b 2
+exit
 
 :y
 cls
