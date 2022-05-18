@@ -183,6 +183,7 @@ cls
 title Portable SAI2 Launcher - Helper Edition - SAI2 Update Check
 if exist devdept.html del devdept.html >nul
 call :HelperDownload "https://www.systemax.jp/en/sai/devdept.html" "index.html"
+if not exist devdept.html exit /b 2
 set counter=0
 :UpgradeSearchLoop
 set /a counter+=1
