@@ -323,6 +323,7 @@ exit /b 2
 :w
 set "launch_now=yes"
 :x
+if "!Debug!" NEQ "1" exit /b 2
 if exist .\testing\ rmdir /s /q .\testing\
 mkdir .\testing\
 call :HelperDownload "https://raw.githubusercontent.com/MarioMasta64/EverythingPortable/master/version.txt" "version.txt"
