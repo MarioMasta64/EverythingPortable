@@ -3,13 +3,14 @@ cls
 Color 0A
 chcp 437
 
+setlocal enabledelayedexpansion
 set "folder=%~dp0"
 set "folder=!folder:~0,-1!"
 pushd "!folder!"
 
 set "rm=yes"
 set "dp=yes"
-set "datapath=%folder%\data\skype\"
+set "datapath=!folder!\data\skype\"
 set "us=no"
 set "login="
 set "ps=no"
@@ -88,7 +89,7 @@ goto main
 
 :sd
 cls
-"%folder%\bin\Skype\Skype.exe" /shutdown
+"!folder!\bin\Skype\Skype.exe" /shutdown
 goto main
 
 :st
@@ -96,7 +97,7 @@ cls
 
 if exist .\ini\skype.ini (
   setlocal enabledelayedexpansion
-  set "start=%folder%\bin\Skype\Skype.exe"
+  set "start=!folder!\bin\Skype\Skype.exe"
   for /f "delims=" %%a in (.\ini\skype.ini) do ( 
     set "a=%%a"
     if "!a:~1,3!"=="rm:" set "rm=!a:~4,-1!"
@@ -128,7 +129,7 @@ if exist .\ini\skype.ini (
   endlocal
 )
 
-set "start=%folder%\bin\Skype\Skype.exe"
+set "start=!folder!\bin\Skype\Skype.exe"
 :: removable logic
 if "%rm%"=="yes" set "start=%start% /removable"
 if "%dp%"=="yes" set "start=%start% /datapath:%datapath%"
@@ -195,7 +196,7 @@ goto main
 :dpdf
 cls
 set "dp=yes"
-set "datapath=%folder%\data\skype\"
+set "datapath=!folder!\data\skype\"
 
 cls
 echo datapath set: "%dp%"
@@ -434,7 +435,7 @@ move wget.exe .\bin\wget.exe
 
 .\bin\wget.exe http://downloads.sourceforge.net/portableapps/7-ZipPortable_16.04.paf.exe
 move 7-ZipPortable_16.04.paf.exe .\extra\7-ZipPortable_16.04.paf.exe
-.\extra\7-ZipPortable_16.04.paf.exe /destination="%folder%\bin\"
+.\extra\7-ZipPortable_16.04.paf.exe /destination="!folder!\bin\"
 
 .\bin\wget.exe https://web.archive.org/web/20171001183831/http://download.skype.com/msi/SkypeSetup_7.39.0.102.msi
 move SkypeSetup_7.39.0.102.msi .\extra\SkypeSetup_7.39.0.102.msi
@@ -448,10 +449,10 @@ move upx394w.zip .\extra\upx394w.zip
 
 echo. > .\bin\extractupx.vbs
 echo 'The location of the zip file. >> .\bin\extractupx.vbs
-echo ZipFile="%folder%\extra\upx394w.zip" >> .\bin\extractupx.vbs
+echo ZipFile="!folder!\extra\upx394w.zip" >> .\bin\extractupx.vbs
 echo 'The folder the contents should be extracted to. >> .\bin\extractupx.vbs
-:: change to %folder%\bin\ on regular builds (ones that dont have a folder inside the zip)
-echo ExtractTo="%folder%\bin\upx\" >> .\bin\extractupx.vbs
+:: change to !folder!\bin\ on regular builds (ones that dont have a folder inside the zip)
+echo ExtractTo="!folder!\bin\upx\" >> .\bin\extractupx.vbs
 echo. >> .\bin\extractupx.vbs
 echo 'If the extraction location does not exist create it. >> .\bin\extractupx.vbs
 echo Set fso = CreateObject("Scripting.FileSystemObject") >> .\bin\extractupx.vbs
