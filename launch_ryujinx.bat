@@ -73,7 +73,7 @@ exit /b 2
 
 :2
 :LaunchRyujinx
-if not exist ".\bin\ryujinx\Ryujinx.exe" set "nag=PLEASE INSTALL RYUJINX FIRST" & exit /b 2
+if not exist ".\bin\ryujinx\Ryujinx.Ava.exe" set "nag=PLEASE INSTALL RYUJINX FIRST" & exit /b 2
 title DO NOT CLOSE
 set "path=!PATH!;!folder!\dll\64\;"
 cls
@@ -95,7 +95,7 @@ if "!NoPrompt!" NEQ "1" (
 )
 :ResetRyujinx
 cls
-taskkill /f /im Ryujinx.exe
+taskkill /f /im Ryujinx.Ava.exe
 timeout -t 5
 if exist .\bin\ryujinx\portable\ rmdir /s /q .\bin\ryujinx\portable\
 exit /b 2
@@ -112,7 +112,7 @@ if "!NoPrompt!" NEQ "1" (
 )
 :UninstallRyujinx
 cls
-taskkill /f /im Ryujinx.exe
+taskkill /f /im Ryujinx.Ava.exe
 timeout -t 5
 for /d %%i in (".\bin\ryujinx\*") do if /i not "%%i"==".\bin\ryujinx\portable" if exist "%%i" rmdir /s /q "%%i"
 if exist .\bin\ryujinx\*.* echo y | del .\bin\ryujinx\*.* >nul
@@ -320,7 +320,7 @@ if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioM
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
 if not exist ".\data\Users\MarioMasta64\AppData\Roaming\Microsoft\Windows\Recent\" mkdir ".\data\Users\MarioMasta64\AppData\Roaming\Microsoft\Windows\Recent\"
-if not exist ".\bin\ryujinx\Ryujinx.exe" set nag=RYUJINX IS NOT INSTALLED CHOOSE "D"
+if not exist ".\bin\ryujinx\Ryujinx.Ava.exe" set nag=RYUJINX IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :SettingsCheck
