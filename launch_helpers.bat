@@ -27,7 +27,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 25 > .\doc\version.txt
+echo 26 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -63,9 +63,11 @@ if "!Debug!" EQU "1" (
   echo "%searchpattern%"
 )
 :DownloadURL
-if exist "!urlfile!" del "!urlfile!">nul
-if not exist .\bin\wget.exe call :DownloadWget
-.\bin\wget.exe -q --show-progress "!url!" "!urlfile!"
+if "!url!" NEQ "" (
+  if exist "!urlfile!" del "!urlfile!">nul
+  if not exist .\bin\wget.exe call :DownloadWget
+  .\bin\wget.exe -q --show-progress "!url!" "!urlfile!"
+)
 set counter=0
 :UpgradeSearchLoop
 set /a counter+=1

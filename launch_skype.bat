@@ -446,8 +446,8 @@ call "!folder!\launch_helpers.bat" ExtractWix
 exit /b 2
 
 :HelperURLScraper
-REM v22+ Required
-echo 22> .\helpers\version.txt
+REM v26+ Required
+echo 26> .\helpers\version.txt
 echo %1> .\helpers\url.txt
 echo %2> .\helpers\urlfile.txt
 echo %3> .\helpers\searchpattern.txt
