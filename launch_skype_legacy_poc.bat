@@ -96,7 +96,6 @@ goto main
 cls
 
 if exist .\ini\skype.ini (
-  setlocal enabledelayedexpansion
   set "start=!folder!\bin\Skype\Skype.exe"
   for /f "delims=" %%a in (.\ini\skype.ini) do ( 
     set "a=%%a"
@@ -126,7 +125,6 @@ if exist .\ini\skype.ini (
   pause
   start !start!
   exit
-  endlocal
 )
 
 set "start=!folder!\bin\Skype\Skype.exe"
