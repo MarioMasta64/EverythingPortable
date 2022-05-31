@@ -177,6 +177,9 @@ cls
 title Portable Game Maker Studio 2 Launcher - Helper Edition - Game Maker Studio 2 Update Check
 REM add more browser choices later
 REM sorry this one is required.
+if exist 2 del 2 >nul
+call :HelperDownload "https://www.yoyogames.com/download/studio/2" "2"
+if exist 2 move 2 .\extra\gms2.exe
 if exist .\extra\gms2.exe goto :ExtractGameMakerStudio2
 cls
 echo please download game maker studio 2 and save it as "!Folder!\extra\gms2.exe"
@@ -305,7 +308,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
