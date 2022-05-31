@@ -492,7 +492,7 @@ echo %1> .\helpers\url.txt
 echo %2> .\helpers\urlfile.txt
 echo %3> .\helpers\searchpattern.txt
 echo %4> .\helpers\filepattern.txt
-echo%> .\helpers\filepatternstart.txt
+echo %5> .\helpers\filepatternstart.txt
 echo %6>.\helpers\filepatternend.txt
 echo %7> .\helpers\addstart.txt
 echo %9> .\helpers\versionstart.txt
