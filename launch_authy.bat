@@ -186,6 +186,11 @@ if !cycle1!==-1 set /a cycle1=9 & echo nothing found?
 title checking v!cycle1!.!cycle2!.!cycle3!
 REM .\bin\wget.exe -q --show-progress --tries=1 https://s3.amazonaws.com/authy-electron-repository-production/stable/!cycle1!.!cycle2!.!cycle3!/win32/x64/authy-installer.exe
 if not exist .\bin\wget.exe call :HelperDownloadWget
+if exist ".\extra\Authy Desktop Setup !cycle1!.!cycle2!.!cycle3!.exe" (
+  echo authy is updated
+  echo PRESS ENTER TO CONTINUE & pause >nul
+  exit /b 2
+)
 .\bin\wget.exe -q --show-progress --tries=1 "https://s3.amazonaws.com/authy-electron-repository-production/authy/stable/!cycle1!.!cycle2!.!cycle3!/win32/x64/Authy Desktop Setup !cycle1!.!cycle2!.!cycle3!.exe"
 if exist "Authy Desktop Setup !cycle1!.!cycle2!.!cycle3!.exe" goto extract
 goto loop
@@ -310,7 +315,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 21 > .\doc\version.txt
+echo 22 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
