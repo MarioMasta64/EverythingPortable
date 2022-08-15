@@ -273,6 +273,11 @@ if "!Debug!" EQU "1" (
 )
 cls
 :ReadWinSCP
+if exist ".\extra\!release_zip_file!" (
+  echo winscp is updated
+  echo PRESS ENTER TO CONTINUE & pause >nul
+  exit /b 2
+)
 call :HelperDownload "!release_txt_link!" "!release_txt_file!"
 move "!release_txt_file!" ".\doc\!release_txt_file!"
 if "!NoPrompt!" NEQ "1" (
@@ -504,7 +509,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 22 > .\doc\version.txt
+echo 23 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
