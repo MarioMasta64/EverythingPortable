@@ -215,31 +215,44 @@ if "!Debug!" EQU "1" (
   REM echo "!retroarch_7zip:~11,-13!"
   echo "!retroarch_7zip32!"
   echo "!retroarch_link32!"
+  echo ".\extra\32Bit-!retroarch_link32:~37,-25!-!retroarch_7zip32!"
   echo "!retroarch_7zip64!"
   echo "!retroarch_link64!"
+  echo ".\extra\64Bit-!retroarch_link64:~37,-28!-!retroarch_7zip64!"
   echo PRESS ENTER TO CONTINUE & pause >nul
 )
 if exist "index.html@page=platforms" del "index.html@page=platforms" >nul
-if exist ".\extra\!retroarch_7zip!" (
-  REM echo retroarch is updated.
-  REM pause
-  REM exit /b 2
+if exist ".\extra\32Bit-!retroarch_link32:~37,-25!-!retroarch_7zip32!" (
+  if exist ".\extra\64Bit-!retroarch_link64:~37,-28!-!retroarch_7zip64!" (
+    echo retroarch is updated.
+    pause
+    exit /b 2
+  )
 )
 cls
 echo upgrading to retroarch v!retroarch_link64:~37,-28!
+if exist Retroarch.7z del Retroarch.7z >nul
 call :HelperDownload "!retroarch_link32!" "!retroarch_7zip32!"
 :MoveRetroarch32
-move "!retroarch_7zip32!" ".\extra\32Bit-!retroarch_7zip32!"
+if not exist ".\extra\32Bit-!retroarch_link32:~37,-25!-!retroarch_7zip32!" (
+  move "!retroarch_7zip32!" ".\extra\32Bit-!retroarch_link32:~37,-25!-!retroarch_7zip32!"
+)
 :ExtractRetroarch32
-call :HelperExtract7Zip "!folder!\extra\32Bit-!retroarch_7zip32!" "!folder!\bin\retroarch\"
+if not exist ".\extra\32Bit-!retroarch_link32:~37,-25!-!retroarch_7zip32!" (
+  call :HelperExtract7Zip "!folder!\extra\32Bit-!retroarch_link32:~37,-25!-!retroarch_7zip32!" "!folder!\bin\retroarch\"
+)
 :DownloadRetroarch64
-call :HelperDownload "!retroarch_link64!" "!retroarch_7zip64!"
+if not exist ".\extra\32Bit-!retroarch_link32:~37,-25!-!retroarch_7zip!" (
+  call :HelperDownload "!retroarch_link64!" "!retroarch_7zip64!"
+)
 :MoveRetroarch32
-move "!retroarch_7zip64!" ".\extra\64Bit-!retroarch_7zip64!"
+if not exist ".\extra\32Bit-!retroarch_link32:~37,-25!-!retroarch_7zip!" (
+  move "!retroarch_7zip64!" ".\extra\64Bit-!retroarch_link64:~37,-28!-!retroarch_7zip64!"
+)
 :ExtractRetroarch32
-call :HelperExtract7Zip "!folder!\extra\64Bit-!retroarch_7zip64!" "!folder!\bin\retroarch\"
+call :HelperExtract7Zip "!folder!\extra\64Bit-!retroarch_link64:~37,-28!-!retroarch_7zip64!" "!folder!\bin\retroarch\"
 :NullExtra
-if "!NullExtra!" EQU "1" ( echo.>".\extra\32Bit-!retroarch_7zip32!" & echo.>".\extra\64Bit-!retroarch_7zip64!")
+if "!NullExtra!" EQU "1" ( echo.>".\extra\32Bit-!retroarch_link32:~37,-25!-!retroarch_7zip32!" & echo.>".\extra\64Bit-!retroarch_link64:~37,-28!-!retroarch_7zip64!")
 exit /b 2
 
 :e
@@ -352,7 +365,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 7 > .\doc\version.txt
+echo 8 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
