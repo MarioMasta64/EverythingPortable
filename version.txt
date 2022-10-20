@@ -139,4 +139,4 @@ ryujinx
 jami
 5
 keys_per_second
-4
+3
