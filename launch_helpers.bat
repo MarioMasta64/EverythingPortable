@@ -27,7 +27,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 26 > .\doc\version.txt
+echo 27 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -225,18 +225,19 @@ exit /b
 
 :DownloadMSI
 if not exist .\bin\wget.exe call :DownloadWget
-.\bin\wget.exe -q --show-progress "https://github.com/activescott/lessmsi/releases/latest" "latest"
+.\bin\wget.exe -q --show-progress "https://api.github.com/repos/activescott/lessmsi/releases/latest" "latest"
 if not exist "latest" echo retrying... & goto :DownloadMSI
 echo.> latest.txt
 TYPE latest | MORE /P > latest.txt
-for /f tokens^=2delims^=^" %%A in (
+for /f tokens^=4delims^=^" %%A in (
   'findstr /i /c:".zip" latest.txt'
 ) Do > .\doc\lessmsi_link.txt Echo:%%A& goto ContinueMSI
 :ContinueMSI
 if exist latest del latest >nul
 if exist latest.txt del latest.txt >nul
 set /p lessmsi_link=<.\doc\lessmsi_link.txt
-set "lessmsi_link=https://github.com!lessmsi_link!"
+set "lessmsi_version=!lessmsi_link:~9,-4!
+set "lessmsi_link=https://github.com/activescott/lessmsi/releases/download/v!lessmsi_version!/lessmsi-v!lessmsi_version!.zip"
 set "tempstr=!lessmsi_link!"
 set "result=%tempstr:/=" & set "result=%"
 set "lessmsi_zip=!result!"

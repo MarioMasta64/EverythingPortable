@@ -389,8 +389,8 @@ call "!folder!\launch_helpers.bat" Extract
 exit /b 2
 
 :HelperExtract7Zip
-REM v3+ Required
-echo 3> .\helpers\version.txt
+REM v27+ Required
+echo 27> .\helpers\version.txt
 echo %1> .\helpers\file.txt
 echo %2> .\helpers\folder.txt
 call "!folder!\launch_helpers.bat" Extract7Zip

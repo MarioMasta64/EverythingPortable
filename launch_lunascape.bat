@@ -351,7 +351,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 12 > .\doc\version.txt
+echo 13 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -437,8 +437,8 @@ call "!folder!\launch_helpers.bat" Extract
 exit /b 2
 
 :HelperExtract7Zip
-REM v3+ Required
-echo 3> .\helpers\version.txt
+REM v27+ Required
+echo 27> .\helpers\version.txt
 echo %1> .\helpers\file.txt
 echo %2> .\helpers\folder.txt
 call "!folder!\launch_helpers.bat" Extract7Zip
