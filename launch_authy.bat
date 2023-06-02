@@ -176,7 +176,7 @@ cls
 :UpgradeAuthy
 cls
 set /a cycle1=2
-set /a cycle2=2
+set /a cycle2=5
 set /a cycle3=0
 :loop
 set /a cycle3-=1
@@ -184,14 +184,14 @@ if !cycle3!==-1 set /a cycle3=9 & set /a cycle2-=1
 if !cycle2!==-1 set /a cycle2=9 & set /a cycle1-=1
 if !cycle1!==-1 set /a cycle1=9 & echo nothing found?
 title checking v!cycle1!.!cycle2!.!cycle3!
-REM .\bin\wget.exe -q --show-progress --tries=1 https://s3.amazonaws.com/authy-electron-repository-production/stable/!cycle1!.!cycle2!.!cycle3!/win32/x64/authy-installer.exe
+REM .\bin\wget.exe -q --show-progress --tries=1 https://pkg.authy.com/authy/stable/!cycle1!.!cycle2!.!cycle3!/win32/x64/Authy%%20Desktop%%20Setup%%20!cycle1!.!cycle2!.!cycle3!.exe
 if not exist .\bin\wget.exe call :HelperDownloadWget
 if exist ".\extra\Authy Desktop Setup !cycle1!.!cycle2!.!cycle3!.exe" (
   echo authy is updated
   echo PRESS ENTER TO CONTINUE & pause >nul
   exit /b 2
 )
-.\bin\wget.exe -q --show-progress --tries=1 "https://s3.amazonaws.com/authy-electron-repository-production/authy/stable/!cycle1!.!cycle2!.!cycle3!/win32/x64/Authy Desktop Setup !cycle1!.!cycle2!.!cycle3!.exe"
+.\bin\wget.exe -q --show-progress --tries=1 "https://pkg.authy.com/authy/stable/!cycle1!.!cycle2!.!cycle3!/win32/x64/Authy%%20Desktop%%20Setup%%20!cycle1!.!cycle2!.!cycle3!.exe"
 if exist "Authy Desktop Setup !cycle1!.!cycle2!.!cycle3!.exe" goto extract
 goto loop
 :extract
@@ -315,7 +315,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 23 > .\doc\version.txt
+echo 24 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
