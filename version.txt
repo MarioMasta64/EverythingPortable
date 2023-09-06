@@ -69,7 +69,7 @@ game_maker_studio_2
 telegram
 21
 skype
-16
+17
 bitwarden
 17
 sharex

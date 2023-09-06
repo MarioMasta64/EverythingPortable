@@ -176,7 +176,17 @@ exit /b 2
 :UpgradeSkype
 title Portable Skype Launcher - Helper Edition - Skype Update Check
 if exist windows.desktop.download del windows.desktop.download >nul
-call :HelperDownload "https://go.skype.com/windows.desktop.download" "windows.desktop.download"
+:CheckSkypeEXE
+cls
+title README README README README README README README README README
+echo "YOU NEED TO SAVE THIS FILE AS !folder!\extra\SkypeSetup.exe"
+echo "PRESS ANY KEY TO CONTINUE" & pause >nul
+start "" "https://go.skype.com/windows.desktop.download"
+echo "ONCE YOU DO THIS PRESS ANY KEY TO CONTINUE" & pause >nul
+if exist ".\extra\SkypeSetup.exe" goto :ExtractSkype
+goto :CheckSkypeEXE
+
+call :HelperDownload "http://go.skype.com/windows.desktop.download" "windows.desktop.download"
 :MoveSkype
 move windows.desktop.download .\extra\SkypeSetup.exe
 :ExtractSkype
@@ -298,7 +308,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 16 > .\doc\version.txt
+echo 17 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
