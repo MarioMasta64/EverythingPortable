@@ -84,7 +84,7 @@ if not exist ".\bin\steam\steam.exe" set "nag=PLEASE INSTALL STEAM FIRST" & exit
 :: title DO NOT CLOSE - Steam is Running
 :: xcopy /q ".\data\Users\MarioMasta64\AppData\LocalLow\*" "%UserProfile%\data\AppData\LocalLow" /e /i /y
 title DO NOT CLOSE
-set "Path=!PATH!;!folder!\dll\32\;"
+set "Path=!PATH!;!folder!\dll\%arch%\;"
 cls
 echo STEAM IS RUNNING
 if exist .\ini\steam_params.ini set /p steamparams=<.\ini\steam_params.ini
@@ -302,7 +302,7 @@ REM STUFF THAT IS ALMOST IDENTICAL BETWEEN STUFF
 
 :FolderCheck
 cls
-set "AllUsersProfile=!folder!\data\ProgramData"
+REM set "AllUsersProfile=!folder!\data\ProgramData"
 set "AppData=!folder!\data\Users\MarioMasta64\AppData\Roaming"
 set "CommonProgramFiles=!folder!\data\Program Files\Common Files"
 set "CommonProgramFiles(x86)=!folder!\data\Program Files (x86)\Common Files"
@@ -377,7 +377,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 37 > .\doc\version.txt
+echo 38 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -409,7 +409,7 @@ REM if a script can be used between files then it can be put here and re-written
 REM stuff here will not be changed between programs
 
 :SetArch
-set arch=
+set arch=32
 if exist "%PROGRAMFILES(X86)%" set "arch=64"
 exit /b 2
 
