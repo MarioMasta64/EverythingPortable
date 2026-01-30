@@ -64,19 +64,19 @@ set nag="NOT A FEATURE YET!"
 exit /b 2
 
 :1
-:ReinstallGameMakerStudio2
+:ReinstallGameMakerStudio
 cls
-call :UninstallGameMakerStudio2
-call :UpgradeGameMakerStudio2
+call :UninstallGameMakerStudio
+call :UpgradeGameMakerStudio
 exit /b 2
 
 :2
-:LaunchGameMakerStudio2
-if not exist ".\bin\game_maker_studio_2\GameMaker.exe" set "nag=PLEASE INSTALL GAME MAKER STUDIO 2 FIRST" & exit /b 2
+:LaunchGameMakerStudio
+if not exist ".\bin\game_maker_studio\GameMaker.exe" set "nag=PLEASE INSTALL GAME MAKER STUDIO 2 FIRST" & exit /b 2
 title DO NOT CLOSE
 cls
 echo GAME MAKER STUDIO 2 IS RUNNING
-start .\bin\game_maker_studio_2\GameMaker.exe
+start .\bin\game_maker_studio\GameMaker.exe
 exit
 
 :3
@@ -89,7 +89,7 @@ if "!NoPrompt!" NEQ "1" (
   set /p choice="choice: "
   if "!CHOICE!" NEQ "yes" exit /b 2
 )
-:ResetGameMakerStudio2
+:ResetGameMakerStudio
 cls
 call :Null
 exit /b 2
@@ -104,7 +104,7 @@ if "!NoPrompt!" NEQ "1" (
   set /p choice="choice: "
   if "!CHOICE!" NEQ "yes" exit /b 2
 )
-:UninstallGameMakerStudio2
+:UninstallGameMakerStudio
 cls
 call :Null
 exit /b 2
@@ -165,7 +165,7 @@ echo set "AppData=%%folder%%\data\Users\MarioMasta64\AppData\Roaming">>!quick_la
 echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick_launcher!
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo start .\bin\game_maker_studio_2\GameMaker.exe>>!quick_launcher!
+echo start .\bin\game_maker_studio\GameMaker.exe>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
@@ -173,29 +173,29 @@ exit /b 2
 
 :d
 cls
-:UpgradeGameMakerStudio2
+:UpgradeGameMakerStudio
 title Portable Game Maker Studio 2 Launcher - Helper Edition - Game Maker Studio 2 Update Check
 REM add more browser choices later
 REM sorry this one is required.
 if exist 2 del 2 >nul
-call :HelperDownload "https://www.yoyogames.com/download/studio/2" "2"
-if exist 2 move 2 .\extra\gms2.exe
-if exist .\extra\gms2.exe goto :ExtractGameMakerStudio2
+call :HelperDownload "https://gamemaker.io/en/download/windows/monthly/GameMaker.exe" "GameMaker.exe"
+if exist GameMaker.exe move GameMaker.exe .\extra\GameMaker.exe
+if exist .\extra\GameMaker.exe goto :ExtractGameMakerStudio
 cls
-echo please download game maker studio 2 and save it as "!Folder!\extra\gms2.exe"
+echo please download game maker studio and save it as "!Folder!\extra\GameMaker.exe"
 echo press enter to continue
 pause >nul
 set "Browser=Default"
 if exist .\bin\opera\launcher.exe set "Browser=Opera"
 if "!Browser!"=="Opera" start ".\bin\opera\launcher.exe" "https://account.yoyogames.com/downloads"
 if "!Browser!"=="Default" start "" "https://account.yoyogames.com/downloads"
-if not exist .\extra\gms2.exe goto :UpgradeGameMakerStudio2
-:ExtractGameMakerStudio2
-call :HelperExtract7Zip "!folder!\extra\gms2.exe" "!folder!\bin\game_maker_studio_2\"
-if exist .\bin\game_maker_studio_2\$PLUGINSDIR\ rmdir .\bin\game_maker_studio_2\$PLUGINSDIR\
-if exist .\bin\game_maker_studio_2\$TEMP\ rmdir .\bin\game_maker_studio_2\$TEMP\
+if not exist .\extra\GameMaker.exe goto :UpgradeGameMakerStudio
+:ExtractGameMakerStudio
+call :HelperExtract7Zip "!folder!\extra\GameMaker.exe" "!folder!\bin\game_maker_studio\"
+if exist .\bin\game_maker_studio\$PLUGINSDIR\ rmdir .\bin\game_maker_studio\$PLUGINSDIR\
+if exist .\bin\game_maker_studio\$TEMP\ rmdir .\bin\game_maker_studio\$TEMP\
 :NullExtra
-if "!NullExtra!" EQU "1" ( echo.>".\extra\gms2.exe")
+if "!NullExtra!" EQU "1" ( echo.>".\extra\GameMaker.exe")
 exit /b 2
 
 :e
@@ -222,9 +222,9 @@ if "!NoPrompt!" NEQ "1" (
   set /p choice="choice: "
   if "!CHOICE!" NEQ "yes" exit /b 2
 )
-:PurgeGameMakerStudio2
-call :ResetGameMakerStudio2
-call :UninstallGameMakerStudio2
+:PurgeGameMakerStudio
+call :ResetGameMakerStudio
+call :UninstallGameMakerStudio
 start /b "" cmd /c del "%~f0"&exit /b
 exit /b 2
 
@@ -276,7 +276,8 @@ if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioM
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
 if not exist ".\data\Users\MarioMasta64\AppData\Roaming\Microsoft\Windows\Recent\" mkdir ".\data\Users\MarioMasta64\AppData\Roaming\Microsoft\Windows\Recent\"
-if not exist ".\bin\game_maker_studio_2\GameMaker.exe" set nag=GAME MAKER STUDIO 2 IS NOT INSTALLED CHOOSE "D"
+if exist .\bin\game_maker_studio_2\ call :Releasev19Upgrade
+if not exist ".\bin\game_maker_studio\GameMaker.exe" set nag=GAME MAKER STUDIO 2 IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :SettingsCheck
@@ -308,7 +309,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 19 > .\doc\version.txt
+echo 20 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -647,6 +648,11 @@ echo start %~f0 >> relaunch.bat
 echo (goto) 2^ >nul ^& del "%%~f0" ^& exit >> relaunch.bat
 call :HelperHide "relaunch.bat"
 exit
+
+:Releasev19Upgrade
+taskkill /f /im GameMaker.exe
+move .\bin\game_maker_studio_2 .\bin\game_maker_studio
+exit /b 2
 
 :DataUpgrade
 cls
