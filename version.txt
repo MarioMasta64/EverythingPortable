@@ -109,7 +109,7 @@ openshot
 retroarch
 9
 krita
-6
+7
 sai2
 5
 revolt
@@ -140,3 +140,4 @@ jami
 5
 keys_per_second
 3
+
