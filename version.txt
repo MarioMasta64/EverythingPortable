@@ -65,7 +65,7 @@ vivaldi
 virtual_dj
 20
 game_maker_studio_2
-19
+20
 telegram
 21
 skype
