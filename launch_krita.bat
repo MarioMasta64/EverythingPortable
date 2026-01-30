@@ -188,7 +188,7 @@ cls
 :UpgradeKrita
 title Portable Krita Launcher - Helper Edition - Krita Update Check
 if exist index.html del index.html >nul
-call :HelperDownload "https://krita.org/en/download/krita-desktop/" "index.html"
+call :HelperDownload "https://krita.org/en/download/" "index.html"
 set counter=0
 :UpgradeSearchLoop
 set /a counter+=1
@@ -200,11 +200,12 @@ if "!Debug!" EQU "1" (
   echo !krita_link!
   echo !counter!
 )
-if "!krita_link:~5,38!"=="https://download.kde.org/stable/krita/" ( if "!Debug!" EQU "1" ( echo hit ) ) & goto ExitUpgradeSearchLoop
+if "!krita_link:~8,38!"=="https://download.kde.org/stable/krita/" ( if "!Debug!" EQU "1" ( echo hit ) ) & goto ExitUpgradeSearchLoop
 goto UpgradeSearchLoop
 :ExitUpgradeSearchLoop
 if exist index.html del index.html >nul
-set "krita_link=!krita_link:~5,-2!"
+set "krita_link=!krita_link:~8,-2!"
+call :ExtractKritaLink "!krita_link!"
 if "!Debug!" EQU "1" (
   cls
 echo "!krita_link!"
@@ -241,6 +242,10 @@ if exist .\temp\ rmdir /s /q .\temp\
 :NullExtra
 if "!NullExtra!" EQU "1" ( echo.>".\extra\!krita_zip!")
 exit /b 2
+:ExtractKritaLink
+set "krita_link=%~1"
+for /f %%i in ("!krita_link!") do set "krita_link=%%i"
+exit /b
 
 :e
 title Portable Krita Launcher - Helper Edition - Text-Reader Update Check
@@ -352,7 +357,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
