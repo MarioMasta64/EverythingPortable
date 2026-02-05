@@ -221,7 +221,7 @@ call :HelperDownload "!tor_link!" "!tor_exe!"
 :MoveTor
 move "!tor_exe!" ".\extra\!tor_exe!"
 :ExtractTor
-call :HelperExtract7Zip "!folder!\extra\!tor_exe!" "!folder!\temp\"
+call :HelperExtract7Zip64 "!folder!\extra\!tor_exe!" "!folder!\temp\"
 xcopy /q .\temp\Browser\* .\bin\tor\ /e /i /y
 if exist .\temp\ rmdir /s /q .\temp\
 :NullExtra
@@ -338,7 +338,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 33 > .\doc\version.txt
+echo 34 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -429,6 +429,14 @@ echo 27> .\helpers\version.txt
 echo %1> .\helpers\file.txt
 echo %2> .\helpers\folder.txt
 call "!folder!\launch_helpers.bat" Extract7Zip
+exit /b 2
+
+:HelperExtract7Zip64
+REM v29+ Required
+echo 29> .\helpers\version.txt
+echo %1> .\helpers\file.txt
+echo %2> .\helpers\folder.txt
+call "!folder!\launch_helpers.bat" Extract7Zip64
 exit /b 2
 
 :HelperHide

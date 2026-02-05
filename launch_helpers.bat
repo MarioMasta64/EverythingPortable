@@ -27,7 +27,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 28 > .\doc\version.txt
+echo 29 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -336,6 +336,40 @@ REM lessmsi should always be updated
 if not exist .\bin\lessmsi\lessmsi.exe call :DownloadMSI
 .\bin\lessmsi\lessmsi.exe x "!folder!\extra\7z1900.msi" "!folder!\temp\"
 xcopy ".\temp\SourceDir\Files\7-Zip\" ".\bin\7zip\32\" /e /i /y
+if exist .\temp\*duplicate1 del .\temp\*duplicate1 >nul
+REM pause
+if exist .\temp\ rmdir /s /q .\temp\
+exit /b
+
+:Extract7zip64
+set /p filetxt=<.\helpers\file.txt
+set /p foldertxt=<.\helpers\folder.txt
+if not exist .\bin\7zip\64\7z.exe call :Download7zip64
+.\bin\7zip\64\7z.exe x !filetxt! * -o!foldertxt! -aoa
+if exist .\helpers\*.txt del .\helpers\*.txt >nul
+exit /b
+
+:Download7zip64
+if not exist .\bin\wget.exe call :DownloadWget
+.\bin\wget.exe -q --show-progress "https://7-zip.org/a/7z2501-x64.msi"
+if not exist 7z2501-x64.msi echo retrying... & goto :Download7zip
+move 7z2501-x64.msi .\extra\7z2501-x64.msi
+
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+if exist .\bin\lessmsi\ rmdir /s /q .\bin\lessmsi\
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+REM lessmsi should always be updated
+
+if not exist .\bin\lessmsi\lessmsi.exe call :DownloadMSI
+.\bin\lessmsi\lessmsi.exe x "!folder!\extra\7z2501-x64.msi" "!folder!\temp\"
+xcopy ".\temp\SourceDir\Files\7-Zip\" ".\bin\7zip\64\" /e /i /y
 if exist .\temp\*duplicate1 del .\temp\*duplicate1 >nul
 REM pause
 if exist .\temp\ rmdir /s /q .\temp\
