@@ -113,7 +113,7 @@ krita
 sai2
 5
 revolt
-6
+7
 guilded
 6
 yuzu
@@ -140,3 +140,4 @@ jami
 5
 keys_per_second
 3
+
