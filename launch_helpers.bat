@@ -27,7 +27,7 @@ if exist .\helpers\version.txt (
 if "%~1" neq "" (title Helper Launcher Beta - %~1 & call :%~1 & exit /b !current_version!)
 
 :Version
-echo 27 > .\doc\version.txt
+echo 28 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b
@@ -141,17 +141,17 @@ set /p foldertxt=<.\helpers\folder.txt
 REM WIX WANTS AN ESCAPE CHARACTER IG
 set foldertxt=!foldertxt:\^"=\\^"!
 
-REM wix should always be updated
-REM wix should always be updated
-REM wix should always be updated
-REM wix should always be updated
-REM wix should always be updated
-if exist .\bin\wix\ rmdir /s /q .\bin\wix\
-REM wix should always be updated
-REM wix should always be updated
-REM wix should always be updated
-REM wix should always be updated
-REM wix should always be updated
+REM wix should always be updated but it can't be
+REM wix should always be updated but it can't be
+REM wix should always be updated but it can't be
+REM wix should always be updated but it can't be
+REM wix should always be updated but it can't be
+REM if exist .\bin\wix\ rmdir /s /q .\bin\wix\
+REM wix should always be updated but it can't be
+REM wix should always be updated but it can't be
+REM wix should always be updated but it can't be
+REM wix should always be updated but it can't be
+REM wix should always be updated but it can't be
 
 if not exist .\bin\wix\dark.exe call :DownloadWix
 .\bin\wix\dark.exe -x !foldertxt! !filetxt!
@@ -160,18 +160,19 @@ exit /b
 
 :DownloadWix
 if not exist .\bin\wget.exe call :DownloadWget
-.\bin\wget.exe -q --show-progress "https://github.com/wixtoolset/wix3/releases/latest" "latest"
-if not exist "latest" echo retrying... & goto :DownloadWix
-echo.> latest.txt
-TYPE latest | MORE /P > latest.txt
-for /f tokens^=2delims^=^" %%A in (
-  'findstr /i /c:"-binaries.zip" latest.txt'
-) Do > .\doc\wix_link.txt Echo:%%A& goto ContinueWix
-:ContinueWix
-if exist latest del latest >nul
-if exist latest.txt del latest.txt >nul
-set /p wix_link=<.\doc\wix_link.txt
-set "wix_link=https://github.com!wix_link!"
+REM .\bin\wget.exe -q --show-progress "https://github.com/wixtoolset/wix3/releases/latest" "latest"
+REM if not exist "latest" echo retrying... & goto :DownloadWix
+REM echo.> latest.txt
+REM TYPE latest | MORE /P > latest.txt
+REM for /f tokens^=2delims^=^" %%A in (
+  REM 'findstr /i /c:"-binaries.zip" latest.txt'
+REM ) Do > .\doc\wix_link.txt Echo:%%A& goto ContinueWix
+REM :ContinueWix
+REM if exist latest del latest >nul
+REM if exist latest.txt del latest.txt >nul
+REM set /p wix_link=<.\doc\wix_link.txt
+REM set "wix_link=https://github.com!wix_link!"
+set "wix_link=https://github.com/wixtoolset/wix3/releases/download/wix3141rtm/wix314-binaries.zip"
 set "wix_zip=!wix_link!"
 REM listen, it works, im lazy, let it be, can handle a depth of 8 directories and helps future proof if they change the paths.
 for /f "delims=/" %%A in ("!wix_zip!") do set wix_zip=!wix_zip:%%~nxA/=!
