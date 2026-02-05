@@ -186,30 +186,30 @@ for /f tokens^=2delims^=^" %%A in (
 ) Do > .\doc\revolt_link.txt Echo:%%A & goto :stop_search
 :stop_search
 set /p revolt_link=<.\doc\revolt_link.txt
-set "revolt_link=https://github.com!revolt_link:~0,-1!"
+set "revolt_link=!revolt_link:~0,-1!"
 set "tempstr=!revolt_link!"
 set "result=%tempstr:/=" & set "result=%"
-set "revolt_7z=!result!"
+set "revolt_exe=!result!"
 if exist index.html del index.html >nul
 if "!Debug!" EQU "1" (
   cls
   echo "!revolt_link!"
-  echo "!revolt_7z!"
+  echo "!revolt_exe!"
   echo PRESS ENTER TO CONTINUE & pause >nul
 )
-if exist "!revolt_7z!" del "!revolt_7z!" >nul
-if exist ".\extra\!revolt_7z!" (
+if exist "!revolt_exe!" del "!revolt_exe!" >nul
+if exist ".\extra\!revolt_exe!" (
   echo revolt is updated.
   pause
   exit /b
 )
-call :HelperDownload "!revolt_link!" "!revolt_7z!"
+call :HelperDownload "!revolt_link!" "!revolt_exe!"
 :MoveRevolt
-move "!revolt_7z!" ".\extra\!revolt_7z!"
+move "!revolt_exe!" ".\extra\!revolt_exe!"
 :CopyRevolt
-REM echo f | xcopy ".\extra\!revolt_7z!" ".\bin\revolt\revolt.exe" /e /i /y
+REM echo f | xcopy ".\extra\!revolt_exe!" ".\bin\revolt\revolt.exe" /e /i /y
 :ExtractRevolt
-call :HelperExtract7zip ".\extra\!revolt_7z!" ".\temp\"
+call :HelperExtract7zip ".\extra\!revolt_exe!" ".\temp\"
 call :HelperExtract7Zip ".\temp\$PLUGINSDIR\app-64.7z" ".\bin\revolt\"
 :NullExtra
 if "!NullExtra!" EQU "1" ( echo.>".\extra\!revolt_7z!")
@@ -325,7 +325,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 6 > .\doc\version.txt
+echo 7 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
