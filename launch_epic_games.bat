@@ -47,7 +47,8 @@ echo c. write a quicklauncher [MAKE IT EVEN FASTER]
 echo d. check for new epic games version [automatically check for a new version]
 echo e. install text-reader [update if had]
 echo.
-if exist ".\bin\epic_games\Launcher\Portal\Extras\Redist\LauncherPrereqSetup_x!arch!.exe" (
+REM if exist ".\bin\epic_games\Launcher\Portal\Extras\Redist\LauncherPrereqSetup_x!arch!.exe" (
+if exist ".\bin\epic_games\Launcher\Portal\Extras\Redist\LauncherPrereqSetup_x64.exe" (
   echo f. install prereq
 ) else (
   echo f. unfortunately you must run 2 as admin at least once to download the prereq installer
@@ -80,20 +81,23 @@ exit /b 2
 
 :2
 :LaunchEpicGames
-if not exist ".\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" set "nag=PLEASE INSTALL EPIC GAMES FIRST" & exit /b 2
+REM if not exist ".\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" set "nag=PLEASE INSTALL EPIC GAMES FIRST" & exit /b 2
+if not exist ".\bin\epic_games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe" set "nag=PLEASE INSTALL EPIC GAMES [x64] CLIENT FIRST" & exit /b 2
 title DO NOT CLOSE
 cls
 echo EPIC GAMES IS RUNNING
-if exist ".\bin\epic_games\Launcher\Portal\Extras\Redist\LauncherPrereqSetup_x!arch!.exe" (
-  set "Path=!PATH!;!folder!\dll\!arch!\;"
-) else (
-  set "Path=!PATH!;!folder!\dll\32\;"
-)
+REM if exist ".\bin\epic_games\Launcher\Portal\Extras\Redist\LauncherPrereqSetup_x!arch!.exe" (
+REM   set "Path=!PATH!;!folder!\dll\!arch!\;"
+REM ) else (
+REM   set "Path=!PATH!;!folder!\dll\32\;"
+REM )
+set "Path=!PATH!;!folder!\dll\64\;
 REM if exist C:\ProgramData\Epic\ rmdir /s /q C:\ProgramData\Epic\
 REM xcopy ".\data\ProgramData\Epic\*" "C:\ProgramData\Epic\" /e /i /y
 set "SystemDrive=!folder!\data"
 REM system drive is changed to .\data\ because epic games is epic games removes the rest of the code being needed but i leave it here anyways
-start .\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe
+REM start .\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe
+start .\bin\epic_games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe
 goto :exit_routine
 :program_loop
 tasklist /fi "ImageName eq EpicGamesLauncher.exe" /fo csv 2>NUL | find /I "EpicGamesLauncher.exe">NUL
@@ -199,7 +203,8 @@ echo set "LocalAppData=%%folder%%\data\Users\MarioMasta64\AppData\Local">>!quick
 echo set "ProgramData=%%folder%%\data\ProgramData">>!quick_launcher!
 echo set "SystemDrive=%%folder%%\data">>!quick_launcher!
 echo cls>>!quick_launcher!
-echo start .\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe>>!quick_launcher!
+REM echo start .\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe>>!quick_launcher!
+echo start .\bin\epic_games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe>>!quick_launcher!
 echo exit>>!quick_launcher!
 echo A QUICKLAUNCHER HAS BEEN WRITTEN TO:!quick_launcher!
 if not exist .\doc\everything_quicklaunch.txt echo ENTER TO CONTINUE & pause >nul
@@ -229,6 +234,8 @@ REM echo ONCE YOU HAVE DONE IT THE FIRST TIME YOU MAY BE ON A BLACK SCREEN RIGHT
 REM echo THE EPIC GAMES LAUNCHER IN THE SYSTEM TRAY AND CLICK EXIT THEN RELAUNCH EPIC GAMES
 if "!NoPrompt!" NEQ "1" (
   echo NOTE ADMIN IS REQUIRED THE FIRST TIME YOU RUN OR THE LAUNCHER WILL NOT EVEN TRY TO DOWNLOAD THE PREREQ INSTALLER
+  echo NOTE THAT IF YOU HAVE EPIC GAMES LAUNCHER INSTALLED ON THE SYSTEM IT WILL NOT DOWNLOAD THIS FILE
+  echo AFTER LAUNCHING YOU WILL HAVE TO GOTO UNREAL ENGINE TAB THEN CLICK INSTALL ENGINE AND GIVE IT ADMIN PERMISSIONS
   echo PRESS ENTER TO CONTINUE & pause >nul
 )
 :NullExtra
@@ -244,8 +251,11 @@ exit /b 2
 
 :f
 title Portable Epic Games Launcher - Helper Edition - Install PreReq
-call :HelperExtractWix "!folder!\bin\epic_games\Launcher\Portal\Extras\Redist\LauncherPrereqSetup_x!arch!.exe" "!folder!\temp\"
-call :HelperExtractMSI "!folder!\temp\AttachedContainer\LauncherPrereqSetup_x!arch!.msi" "!folder!\temp\"
+set "nag=THIS STEP SHOULDNT BE NECESSARY ANYMORE[?]" & exit /b 2
+REM call :HelperExtractWix "!folder!\bin\epic_games\Launcher\Portal\Extras\Redist\LauncherPrereqSetup_x!arch!.exe" "!folder!\temp\"
+call :HelperExtractWix "!folder!\bin\epic_games\Launcher\Portal\Extras\Redist\LauncherPrereqSetup_x64.exe" "!folder!\temp\"
+REM call :HelperExtractMSI "!folder!\temp\AttachedContainer\LauncherPrereqSetup_x!arch!.msi" "!folder!\temp\"
+call :HelperExtractMSI "!folder!\temp\AttachedContainer\LauncherPrereqSetup_x64.msi" "!folder!\temp\"
 xcopy ".\temp\SourceDir\System\*" ".\dll\32\" /e /i /y
 xcopy ".\temp\SourceDir\Win\System\*" ".\dll\32\" /e /i /y
 xcopy ".\temp\SourceDir\System64\*" ".\dll\64\" /e /i /y
@@ -370,7 +380,8 @@ if not exist ".\data\Users\MarioMasta64\Saved Games\" mkdir ".\data\Users\MarioM
 if not exist ".\data\Users\MarioMasta64\Searches\" mkdir ".\data\Users\MarioMasta64\Searches\"
 if not exist ".\data\Users\MarioMasta64\Videos\" mkdir ".\data\Users\MarioMasta64\Videos\"
 if not exist ".\data\Users\MarioMasta64\AppData\Roaming\Microsoft\Windows\Recent\" mkdir ".\data\Users\MarioMasta64\AppData\Roaming\Microsoft\Windows\Recent\"
-if not exist ".\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" set nag=EPIC GAMES IS NOT INSTALLED CHOOSE "D"
+REM if not exist ".\bin\epic_games\Launcher\Portal\Binaries\Win32\EpicGamesLauncher.exe" set nag=EPIC GAMES IS NOT INSTALLED CHOOSE "D"
+if not exist ".\bin\epic_games\Launcher\Portal\Binaries\Win64\EpicGamesLauncher.exe" set nag=EPIC GAMES [x64] CLIENT IS NOT INSTALLED CHOOSE "D"
 exit /b 2
 
 :SettingsCheck
@@ -402,7 +413,7 @@ set "NoPrompt=" & for /F "skip=5 delims=" %%l in (.\ini\settings.ini) do ( set "
 exit /b 2
 
 :Version
-echo 18 > .\doc\version.txt
+echo 19 > .\doc\version.txt
 set /p current_version=<.\doc\version.txt
 if exist .\doc\version.txt del .\doc\version.txt >nul
 exit /b 2
@@ -542,8 +553,8 @@ call "!folder!\launch_helpers.bat" ExtractMSI
 exit /b 2
 
 :HelperExtractWix
-REM v11+ Required
-echo 11> .\helpers\version.txt
+REM v28+ Required
+echo 28> .\helpers\version.txt
 echo %1> .\helpers\file.txt
 echo %2> .\helpers\folder.txt
 call "!folder!\launch_helpers.bat" ExtractWix
