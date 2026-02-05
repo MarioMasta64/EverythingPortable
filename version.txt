@@ -79,7 +79,7 @@ streamlabs_obs
 deep_shredder
 13
 epic_games
-18
+19
 deluge
 14
 minecraft_legacy
@@ -140,4 +140,5 @@ jami
 5
 keys_per_second
 3
+
 
